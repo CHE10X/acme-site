@@ -67,26 +67,26 @@ export default function RootLayout({
                   </li>
                   <li>
                     <Link
+                      href="/docs/sentinel/overview"
+                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Sentinel — Overview
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/docs/sphinxgate/overview"
+                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      SphinxGate — Overview
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/docs/agent911/snapshot-explained"
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       Agent911 — Snapshot Explained
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/docs/quickstart/5-minute"
-                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
-                    >
-                      5-Minute Quickstart
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/docs/architecture/reliability-stack"
-                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
-                    >
-                      Reliability Stack Architecture
                     </Link>
                   </li>
                 </ul>

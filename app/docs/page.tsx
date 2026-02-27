@@ -15,22 +15,22 @@ const LAUNCH_DOCS = [
     tag: "RadCheck",
   },
   {
+    href: "/docs/sentinel/overview",
+    title: "Sentinel — Continuous Guardrails",
+    desc: "Always-on detection for silent failures, stalls, and runtime drift.",
+    tag: "Sentinel",
+  },
+  {
+    href: "/docs/sphinxgate/overview",
+    title: "SphinxGate — Policy Enforcement",
+    desc: "Routing guardrails with inspectable policy decisions.",
+    tag: "SphinxGate",
+  },
+  {
     href: "/docs/agent911/snapshot-explained",
     title: "Agent911 Snapshot — What It Reads, What It Doesn't Touch",
-    desc: "Read-only telemetry cockpit: 7 sources, zero config mutations, no autonomous recovery.",
+    desc: "Read-only telemetry cockpit: zero config mutations, operator playbooks only.",
     tag: "Agent911",
-  },
-  {
-    href: "/docs/quickstart/5-minute",
-    title: "5-Minute Quickstart",
-    desc: "Run your first scan and get a stack health snapshot in under 5 minutes.",
-    tag: "Quickstart",
-  },
-  {
-    href: "/docs/architecture/reliability-stack",
-    title: "Reliability Stack Architecture",
-    desc: "How Watchdog, Sentinel, SphinxGate, Lazarus, RadCheck, and Agent911 layer together.",
-    tag: "Architecture",
   },
 ];
 
