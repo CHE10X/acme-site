@@ -28,6 +28,7 @@ type Product = {
   subtitle: string;
   positioning: string;
   bullets: string[];
+  doesNot?: string[];
   optionalOutputs?: string;
   bestFor: string;
   ctaLabel: string;
@@ -43,39 +44,53 @@ const PRODUCTS: Product[] = [
   {
     id: "radcheck",
     title: "RadCheck",
-    unitLabel: "Scan Unit",
+    unitLabel: "RADIATION SCAN UNIT",
     tier: TIER_BY_PRODUCT.RadCheck,
-    subtitle: "Baseline scan for drift exposure.",
+    subtitle: "Early warning for hidden instability.",
     positioning:
-      "RadCheck runs a quick reliability scan to surface drift risk before it leaks into production behavior.",
-    bullets: ["baseline scan", "risk snapshot", "exportable report"],
-    optionalOutputs: "Risk score and remediation prompts.",
+      "RadCheck performs a fast, read-only inspection of your OpenClaw environment to identify early reliability risks. It analyzes runtime signals, recent patterns, and config hygiene to highlight where systems may degrade. RadCheck does not modify your environment — it surfaces evidence and prioritizes what deserves operator attention.",
+    bullets: [
+      "baseline scan across 5 reliability domains",
+      "weighted risk scoring 0–100 with guardrails",
+      "enriched findings with fix prompts",
+    ],
+    doesNot: ["does NOT mutate config — read-only scan only"],
+    optionalOutputs: "Risk score, risk band, and per-finding remediation prompts.",
     bestFor: "Teams validating new agent runs.",
     ctaLabel: "Run scan",
-    docsHref: "#radcheck",
+    docsHref: "/docs/radcheck/score-explained",
     installSnippet: "acme install radcheck",
     codename: "RADCHECK",
-    description: "Rapid scan for runtime drift exposure.",
-    flavor: "Start here when you need a quick signal.",
+    description:
+      "Agents feel flaky or slow? RadCheck scans your OpenClaw runtime and surfaces early risk signals before stalls, drift, or silent failures hit.",
+    flavor: "Something feels off? Run the scan.",
     icon: <Shield className="w-6 h-6" />,
   },
   {
     id: "lazarus",
     title: "Lazarus",
-    unitLabel: "Recovery Check",
+    unitLabel: "REANIMATION UNIT",
     tier: TIER_BY_PRODUCT.Lazarus,
-    subtitle: "Verify recovery readiness.",
+    subtitle: "Backup readiness you can trust.",
     positioning:
-      "Lazarus validates recovery paths and known-good baselines so you know what will come back online.",
-    bullets: ["recovery validation", "baseline checks", "restore readiness"],
-    optionalOutputs: "Recovery readiness checklist.",
-    bestFor: "Operators planning failover drills.",
-    ctaLabel: "Verify recovery",
-    docsHref: "#lazarus",
+      "Lazarus evaluates whether your agent environment can be successfully restored when failures occur. It inspects backup coverage, validates restore assumptions, and highlights gaps that could block recovery. Lazarus produces operator-ready readiness signals and guidance — it does not perform autonomous restoration or modify your live system.",
+    bullets: [
+      "backup coverage mapping",
+      "restore viability checks",
+      "integrity verification",
+      "recovery readiness score",
+    ],
+    doesNot: ["does NOT perform autonomous restoration — operator-driven only"],
+    optionalOutputs:
+      "Generates a resurrection score and flags gaps that could prevent successful recovery.",
+    bestFor: "Teams needing verified recovery confidence",
+    ctaLabel: "Verify Recovery",
+    docsHref: "/docs/lazarus/overview",
     installSnippet: "acme install lazarus",
     codename: "LAZARUS",
-    description: "Recovery readiness verification.",
-    flavor: "Know exactly what comes back.",
+    description:
+      "System feels brittle or exposed? Lazarus verifies backups and restore assumptions so you know recovery will work before an incident forces the test.",
+    flavor: "Backups don’t count until they restore.",
     icon: <Siren className="w-6 h-6" />,
   },
   {
@@ -88,14 +103,14 @@ const PRODUCTS: Product[] = [
       "Sentinel keeps agents inside operational bounds, flagging drift and enforcing expected response shape before it becomes a release risk.",
     bullets: [
       "detects silent failures",
-      "enforces expected outputs",
+      "enforces expected output shape",
       "proof bundle generation",
-      "backward-compatible patch",
     ],
+    doesNot: ["does NOT auto-remediate — operator review required"],
     optionalOutputs: "Drift report, validation bundle, rollback hint.",
     bestFor: "High-stakes workflows and regulated paths.",
     ctaLabel: "Deploy Sentinel",
-    docsHref: "#sentinel",
+    docsHref: "/docs/architecture/reliability-stack",
     installSnippet: "acme install sentinel",
     codename: "SENTINEL",
     description: "Drift detection and reliability guardrails for OpenClaw runs.",
@@ -135,15 +150,15 @@ const PRODUCTS: Product[] = [
     positioning:
       "SphinxGate enforces lane policies so background work cannot starve interactive runs or overrun budgets.",
     bullets: [
-      "interactive vs background lanes",
-      "token accounting",
-      "router visibility",
-      "minimal patch footprint",
+      "interactive vs background lane routing",
+      "token budget enforcement",
+      "routing audit trail",
     ],
+    doesNot: ["does NOT modify provider config — routing policy only"],
     optionalOutputs: "Lane audit trail and budget snapshots.",
     bestFor: "Teams scaling multiple agent lanes.",
     ctaLabel: "Set Gate Rules",
-    docsHref: "#sphinxgate",
+    docsHref: "/docs/architecture/reliability-stack",
     installSnippet: "acme install sphinxgate",
     codename: "SPHINXGATE",
     description: "Token discipline and lane enforcement for model routing.",
@@ -155,23 +170,23 @@ const PRODUCTS: Product[] = [
     title: "Agent911",
     unitLabel: "Recovery Unit",
     tier: TIER_BY_PRODUCT.Agent911,
-    subtitle: "Bring a broken stack back safely.",
+    subtitle: "Read-only stack health snapshot — no auto-heal.",
     positioning:
-      "Agent911 applies controlled recovery playbooks when your agent stack fails, restoring known-good states without collateral damage.",
+      "Agent911 takes a read-only snapshot of your agent stack's health across 7 telemetry sources. It surfaces risk state and provides operator-driven recovery guidance. No config mutations. No autonomous recovery. Human-in-the-loop only.",
     bullets: [
-      "gateway recovery playbooks",
-      "launchd repair + reload",
-      "config rehydration (known-good)",
-      "controlled self-healing actions",
+      "read-only snapshot of stack health",
+      "7-source telemetry across all reliability layers",
+      "0–100 score with risk band",
     ],
+    doesNot: ["does NOT mutate config / no autonomous recovery / human-in-the-loop only"],
     optionalOutputs: "Recovery log and rehydration checklist.",
     bestFor: "Incident response and last-mile fixes.",
-    ctaLabel: "Launch Recovery",
-    docsHref: "#agent911",
+    ctaLabel: "View Snapshot",
+    docsHref: "/docs/agent911/snapshot-explained",
     installSnippet: "acme install agent911",
     codename: "AGENT911",
-    description: "Active recovery when your agent stack breaks.",
-    flavor: "When the system goes feral, AGENT911 brings it back—carefully.",
+    description: "Read-only reliability cockpit. 7-source telemetry, 0–100 score, operator-driven recovery.",
+    flavor: "Know what's broken. Decide what to fix. No autonomous actions.",
     icon: <Siren className="w-6 h-6" />,
   },
 ];
@@ -189,7 +204,7 @@ export default function AcmeSurvivalGearGrid() {
 
   const freeTools = useMemo(
     () =>
-      ["lazarus"].map((id) => getProductById(id)).filter(
+      ["radcheck", "lazarus"].map((id) => getProductById(id)).filter(
         (product): product is Product => Boolean(product)
       ),
     []
@@ -293,6 +308,7 @@ export default function AcmeSurvivalGearGrid() {
                   description={product.description}
                   flavor={product.flavor}
                   bullets={product.bullets}
+                  doesNot={product.doesNot}
                   onOpen={() => setActiveProductId(product.id)}
                   docsHref={product.docsHref}
                 />
@@ -351,6 +367,7 @@ function GearCard({
   description,
   flavor,
   bullets,
+  doesNot,
   onOpen,
   docsHref,
 }: {
@@ -363,6 +380,7 @@ function GearCard({
   description: string;
   flavor: string;
   bullets: string[];
+  doesNot?: string[];
   onOpen: () => void;
   docsHref?: string;
 }) {
@@ -400,18 +418,30 @@ function GearCard({
       {/* Flavor */}
       <p className="text-zinc-500 italic text-sm mb-4">{flavor}</p>
 
-      {/* Bullets */}
-      <ul className="space-y-1 text-sm text-zinc-300 mb-6">
+      {/* Bullets — does */}
+      <ul className="space-y-1 text-sm text-zinc-300 mb-3 flex-1">
         {bullets.map((b, i) => (
           <li key={i} className="flex items-start gap-2">
-            <span className="text-amber-400">•</span>
+            <span className="text-amber-400 mt-[2px]">•</span>
             <span>{b}</span>
           </li>
         ))}
       </ul>
 
-      {/* Buttons (stubbed for now) */}
-      <div className="flex items-center justify-between">
+      {/* Bullets — does NOT */}
+      {doesNot && doesNot.length > 0 && (
+        <ul className="space-y-1 text-sm mb-4">
+          {doesNot.map((b, i) => (
+            <li key={i} className="flex items-start gap-2 text-zinc-500">
+              <span className="text-red-500/60 mt-[2px]">✕</span>
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Actions */}
+      <div className="flex items-center justify-between mt-auto pt-2">
         <button
           onClick={onOpen}
           className="group inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black text-sm font-medium px-4 py-2 rounded-lg transition duration-200 ease-out active:translate-y-[1px] active:shadow-none shadow-md"
@@ -424,15 +454,11 @@ function GearCard({
         {docsHref ? (
           <a
             href={docsHref}
-            className="text-zinc-400 hover:text-zinc-200 text-sm transition duration-200 ease-out active:translate-y-[1px]"
+            className="text-amber-400 hover:text-amber-300 text-sm transition duration-200 ease-out"
           >
-            Docs
+            Learn more →
           </a>
-        ) : (
-          <button className="text-zinc-400 hover:text-zinc-200 text-sm transition duration-200 ease-out active:translate-y-[1px]">
-            Docs
-          </button>
-        )}
+        ) : null}
       </div>
     </article>
   );
@@ -477,15 +503,26 @@ function FreeToolCard({
         <div className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">
           {product.unitLabel}
         </div>
-        <button
-          onClick={(event) => {
-            event.stopPropagation();
-            onOpen();
-          }}
-          className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-200 transition hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
-        >
-          {ctaLabel}
-        </button>
+        <div className="flex items-center gap-3">
+          {product.docsHref && (
+            <a
+              href={product.docsHref}
+              onClick={(e) => e.stopPropagation()}
+              className="text-xs text-amber-400 hover:text-amber-300 transition-colors"
+            >
+              Learn more →
+            </a>
+          )}
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              onOpen();
+            }}
+            className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-3 py-1.5 text-xs text-zinc-200 transition hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+          >
+            {ctaLabel}
+          </button>
+        </div>
       </div>
     </div>
   );
