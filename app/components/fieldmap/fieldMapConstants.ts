@@ -52,10 +52,10 @@ export const FIELD_MAP_ZONES = {
 } as const;
 
 export const FIELD_MAP_HOTSPOTS = [
-  { id: "RAD_CHECK", x: 10, y: 18, w: 34, h: 26 },
-  { id: "SENTINEL", x: 56, y: 18, w: 34, h: 26 },
-  { id: "LAZARUS", x: 10, y: 54, w: 34, h: 26 },
-  { id: "SPHINX_GATE", x: 56, y: 54, w: 34, h: 26 },
+  { id: "RAD_CHECK", x: 8, y: 14, w: 36, h: 30 },
+  { id: "SENTINEL", x: 56, y: 14, w: 36, h: 30 },
+  { id: "LAZARUS", x: 8, y: 50, w: 36, h: 30 },
+  { id: "SPHINX_GATE", x: 56, y: 50, w: 36, h: 30 },
   { id: "AGENT_911", x: 36, y: 74, w: 28, h: 18 },
 ];
 

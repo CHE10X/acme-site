@@ -65,14 +65,14 @@ export default function FieldMap() {
       </button>
 
       <div
-        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900 group max-h-[520px] md:h-[440px] lg:h-[520px] ${
+        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900 group w-full max-h-[520px] md:max-h-[440px] lg:max-h-[520px] aspect-[1280/853] ${
           isMobileCollapsed ? "h-[170px] sm:h-[220px]" : "h-[320px] sm:h-[400px]"
         }`}
       >
         <img
           src="/brand/field-map-v1.png"
           alt="Field map poster"
-          className="absolute inset-0 h-full w-full object-cover opacity-90"
+          className="absolute inset-0 h-full w-full object-contain opacity-90"
         />
 
         <svg
@@ -143,21 +143,21 @@ export default function FieldMap() {
           />
         ))}
 
-        <div className="hidden md:block absolute bottom-4 left-4 rounded-xl border border-zinc-800/80 bg-zinc-900/80 px-4 py-3 text-sm text-zinc-300">
+        <div className="hidden md:block absolute bottom-4 left-4 rounded-2xl border border-amber-400/30 bg-zinc-950/95 px-5 py-4 text-sm text-zinc-200 shadow-[0_0_28px_rgba(0,0,0,0.6)] backdrop-blur-[2px]">
           {activeZone ? (
             <>
-              <div className="text-[11px] uppercase tracking-[0.3em] text-zinc-400">
+              <div className="text-[11px] uppercase tracking-[0.34em] text-amber-300">
                 {activeZone.label}
               </div>
-              <div className="mt-1 text-sm text-zinc-200">
+              <div className="mt-2 text-base font-semibold text-zinc-100">
                 {activeZone.short}
               </div>
-              <div className="mt-2 text-xs text-zinc-500">
+              <div className="mt-2 text-sm text-zinc-400">
                 {activeZone.hoverShort}
               </div>
             </>
           ) : (
-            <div className="text-xs text-zinc-500">
+            <div className="text-sm text-zinc-400">
               Hover a zone to see what it means.
             </div>
           )}
