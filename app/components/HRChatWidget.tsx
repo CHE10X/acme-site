@@ -439,11 +439,11 @@ export default function HRChatWidget({
             onClick={closeConsole}
           />
           <div className="absolute inset-y-0 right-0 w-full md:w-[56vw] md:max-w-[680px] md:my-6 md:mr-6 md:rounded-2xl bg-zinc-900/95 border-l border-zinc-800/80 md:border border-amber-400/20 shadow-2xl shadow-black/60 transition-transform duration-300 ease-out">
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-4 border-l border-zinc-700/80 bg-[linear-gradient(90deg,rgba(9,9,11,0.95)_0%,rgba(24,24,27,0.9)_45%,rgba(24,24,27,0)_100%)] shadow-[inset_-2px_0_6px_rgba(0,0,0,0.5)]" />
+            <div className="pointer-events-none absolute left-0 top-0 h-full w-6 border-l border-amber-400/40 bg-[linear-gradient(90deg,rgba(9,9,11,1)_0%,rgba(24,24,27,0.95)_40%,rgba(24,24,27,0.2)_100%)] shadow-[inset_-3px_0_8px_rgba(0,0,0,0.6)]" />
             <div
               ref={drawerRef}
               tabIndex={-1}
-              className="h-full overflow-y-auto px-6 py-6 pl-8 focus:outline-none"
+              className="h-full overflow-y-auto px-6 py-6 pl-10 focus:outline-none"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>

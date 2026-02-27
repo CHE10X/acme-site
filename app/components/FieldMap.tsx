@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FIELD_MAP_GOATS,
@@ -30,6 +30,8 @@ export default function FieldMap() {
   const router = useRouter();
   const [hoveredId, setHoveredId] = useState<ZoneId | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 12, y: 12 });
+  const mapRef = useRef<HTMLDivElement | null>(null);
 
   const zones = useMemo(
     () =>
@@ -65,9 +67,22 @@ export default function FieldMap() {
       </button>
 
       <div
-        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900 group w-full max-h-[520px] md:max-h-[440px] lg:max-h-[520px] aspect-[1280/853] ${
-          isMobileCollapsed ? "h-[170px] sm:h-[220px]" : "h-[320px] sm:h-[400px]"
-        }`}
+        ref={mapRef}
+        onMouseMove={(event) => {
+          if (!mapRef.current) return;
+          const rect = mapRef.current.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          setTooltipPos({
+            x: Math.max(6, Math.min(94, x)),
+            y: Math.max(8, Math.min(92, y)),
+          });
+        }}
+        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900 group w-full ${
+          isMobileCollapsed
+            ? "h-[220px] sm:h-[280px]"
+            : "h-[360px] sm:h-[460px]"
+        } md:h-[520px] lg:h-[580px]`}
       >
         <img
           src="/brand/field-map-v1.png"
@@ -143,7 +158,16 @@ export default function FieldMap() {
           />
         ))}
 
-        <div className="hidden md:block absolute bottom-4 left-4 rounded-2xl border border-amber-400/30 bg-zinc-950/95 px-5 py-4 text-sm text-zinc-200 shadow-[0_0_28px_rgba(0,0,0,0.6)] backdrop-blur-[2px]">
+        <div
+          className={`hidden md:block absolute max-w-[320px] rounded-2xl border border-amber-400/40 bg-zinc-950/95 px-5 py-4 text-sm text-zinc-200 shadow-[0_0_32px_rgba(0,0,0,0.65)] backdrop-blur-[2px] transition-opacity ${
+            activeZone ? "opacity-100" : "opacity-80"
+          }`}
+          style={{
+            left: `${tooltipPos.x}%`,
+            top: `${tooltipPos.y}%`,
+            transform: "translate(12px, 12px)",
+          }}
+        >
           {activeZone ? (
             <>
               <div className="text-[11px] uppercase tracking-[0.34em] text-amber-300">

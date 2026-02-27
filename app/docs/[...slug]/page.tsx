@@ -106,7 +106,12 @@ export default async function DocsArticlePage({
           ))}
         </nav>
 
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+        <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <img
+            src="/brand/agent911-support-badge.png"
+            alt="Agent911 Support Badge"
+            className="hidden md:block absolute top-4 right-6 h-10 w-auto opacity-80"
+          />
           <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
             ACME Agent Supply Co.
           </div>

@@ -52,11 +52,11 @@ export const FIELD_MAP_ZONES = {
 } as const;
 
 export const FIELD_MAP_HOTSPOTS = [
-  { id: "RAD_CHECK", x: 8, y: 14, w: 36, h: 30 },
-  { id: "SENTINEL", x: 56, y: 14, w: 36, h: 30 },
-  { id: "LAZARUS", x: 8, y: 50, w: 36, h: 30 },
-  { id: "SPHINX_GATE", x: 56, y: 50, w: 36, h: 30 },
-  { id: "AGENT_911", x: 36, y: 74, w: 28, h: 18 },
+  { id: "RAD_CHECK", x: 8, y: 10, w: 36, h: 28 },
+  { id: "SENTINEL", x: 56, y: 10, w: 36, h: 28 },
+  { id: "LAZARUS", x: 8, y: 40, w: 36, h: 28 },
+  { id: "SPHINX_GATE", x: 56, y: 40, w: 36, h: 28 },
+  { id: "AGENT_911", x: 36, y: 62, w: 28, h: 16 },
 ];
 
 export const FIELD_MAP_GOATS = [
