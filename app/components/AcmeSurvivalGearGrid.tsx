@@ -7,6 +7,7 @@ import HRChatWidget from "./HRChatWidget";
 import TierBadge from "./TierBadge";
 import ProductModal from "./ProductModal";
 import NotifyModal from "./NotifyModal";
+import FieldMap from "./FieldMap";
 
 const TIER_BY_PRODUCT = {
   RadCheck: "FREE",
@@ -325,7 +326,7 @@ export default function AcmeSurvivalGearGrid() {
                   Hazard Notice
                 </div>
                 <div className="w-full overflow-hidden rounded">
-                  <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.9)_0,rgba(251,191,36,0.9)_10px,rgba(0,0,0,0.9)_10px,rgba(0,0,0,0.9)_20px)] bg-[length:24px_24px]" />
+                  <span className="hazard-shimmer hazard-stripe block h-1 w-full" />
                 </div>
                 <h1 className="mt-5 max-w-2xl text-left text-3xl md:text-4xl font-bold tracking-[0.04em] leading-tight">
                   Agent Field Survival Gear
@@ -340,12 +341,13 @@ export default function AcmeSurvivalGearGrid() {
                   Built for real-world agent runtimes and OpenClaw-class stacks.
                 </p>
               </div>
-              <div className="mt-6 mb-6">
-                <div className="relative h-[260px] sm:h-[280px] lg:h-[320px] flex items-center justify-center">
+              <div className="mt-8 mb-4">
+                <div className="relative h-[280px] sm:h-[300px] lg:h-[340px] flex items-center justify-center">
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(9,9,11,0.85)_0%,rgba(9,9,11,0.65)_45%,rgba(9,9,11,0)_75%)]" />
                   <img
                     src="/brand/acme-field-goat.png"
                     alt="ACME Field Insignia"
-                    className="opacity-[0.98] h-auto max-h-[220px] sm:max-h-[240px] lg:max-h-[280px] w-auto select-none pointer-events-none translate-y-2"
+                    className="relative z-10 opacity-[0.98] h-auto max-h-[230px] sm:max-h-[250px] lg:max-h-[290px] w-auto select-none pointer-events-none translate-y-6 sm:translate-y-5 lg:translate-y-8"
                   />
                 </div>
               </div>
@@ -395,7 +397,7 @@ export default function AcmeSurvivalGearGrid() {
 
         <div className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-5 py-5">
           <div className="overflow-hidden rounded mb-4 opacity-80">
-            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.8)_0,rgba(251,191,36,0.8)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+            <span className="hazard-shimmer hazard-stripe block h-1 w-full" />
           </div>
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
@@ -418,12 +420,15 @@ export default function AcmeSurvivalGearGrid() {
           </div>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-4 items-start">
+        <section className="mt-4 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-5">
+          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400 mb-3">
+            Operator Beta
+          </div>
+          <div className="grid grid-cols-1 gap-4 items-start">
             <div className="group rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500">
+                  <div className="inline-flex items-center rounded-full border border-zinc-700/80 bg-zinc-900/70 px-2 py-0.5 text-[10px] uppercase tracking-[0.32em] text-zinc-400">
                     Operator Beta
                   </div>
                   <h3 className="text-2xl font-semibold text-zinc-100 mt-2">
@@ -477,7 +482,7 @@ export default function AcmeSurvivalGearGrid() {
           </div>
         </section>
 
-        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
+        <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
           <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
             Field Development
           </div>
@@ -503,6 +508,8 @@ export default function AcmeSurvivalGearGrid() {
             ))}
           </div>
         </section>
+
+        <FieldMap />
 
         {/* Footer line */}
         <div className="mt-14 text-center text-zinc-500 text-sm">

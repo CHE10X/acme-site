@@ -289,7 +289,7 @@ function FeedPanel({
           </div>
         </div>
         <div className="mt-4 overflow-hidden rounded-full opacity-80">
-          <span className="block h-2 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.9)_0,rgba(251,191,36,0.9)_10px,rgba(0,0,0,0.9)_10px,rgba(0,0,0,0.9)_20px)] bg-[length:24px_24px]" />
+          <span className="hazard-shimmer hazard-stripe block h-1 w-full" />
         </div>
       </div>
 

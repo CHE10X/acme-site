@@ -29,6 +29,7 @@ function getGlowClass(level: number, active: boolean) {
 export default function FieldMap() {
   const router = useRouter();
   const [hoveredId, setHoveredId] = useState<ZoneId | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const zones = useMemo(
     () =>
@@ -44,25 +45,39 @@ export default function FieldMap() {
   };
 
   const activeZone = hoveredId ? FIELD_MAP_ZONES[hoveredId] : null;
+  const isMobileCollapsed = !mobileOpen;
 
   return (
-    <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
+    <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-5">
       <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
         Field Map
       </div>
       <p className="mt-2 text-sm text-zinc-500">
         Not sure where to start? Follow the symptom.
       </p>
+      <button
+        type="button"
+        onClick={() => setMobileOpen((prev) => !prev)}
+        className="mt-3 inline-flex md:hidden items-center justify-center rounded-lg border border-zinc-800/80 bg-zinc-900/60 px-3 py-2 text-xs uppercase tracking-[0.32em] text-amber-300 transition hover:border-amber-400/50 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+      >
+        {mobileOpen ? "Collapse Map" : "Open Field Map"}
+      </button>
 
-      <div className="mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900/40 group">
+      <div
+        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900/40 group max-h-[580px] md:h-[480px] lg:h-[560px] ${
+          isMobileCollapsed ? "h-[180px] sm:h-[240px]" : "h-[340px] sm:h-[420px]"
+        }`}
+      >
         <img
           src="/brand/field-map-v1.png"
           alt="Field map poster"
-          className="block h-auto w-full object-contain opacity-90"
+          className="absolute inset-0 h-full w-full object-cover opacity-90"
         />
 
         <svg
-          className="absolute inset-0 h-full w-full"
+          className={`absolute inset-0 h-full w-full ${
+            isMobileCollapsed ? "pointer-events-none" : "pointer-events-auto"
+          } md:pointer-events-auto`}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >
@@ -150,7 +165,7 @@ export default function FieldMap() {
         </div>
       </div>
 
-      <div className="mt-4 space-y-2 md:hidden">
+      <div className={`mt-4 space-y-2 md:hidden ${mobileOpen ? "" : "hidden"}`}>
         {MOBILE_ORDER.map((id) => {
           const zone = FIELD_MAP_ZONES[id];
           return (
