@@ -6,7 +6,7 @@ tier: RECOVERY
 
 # Agent911 — Reliability Snapshot Explained
 
-Agent911 is a **read-only reliability cockpit** and incident surface for agent stacks. It aggregates signals, highlights risk state, and provides operator-driven recovery playbooks. Agent911 v0.1 **does not autonomously heal** your system.
+Agent911 is the **control plane for agent reliability** — a read-only, unified surface for system stability, protection history, and operator visibility. It aggregates signals, highlights risk state, and provides guided triage. Agent911 v0.1 **does not autonomously heal** your system.
 
 ## What a "Snapshot" Means
 

@@ -161,7 +161,7 @@ export default function ProductModal({
               {product.optionalOutputs ? (
                 <div>
                   <div className="text-xs uppercase tracking-[0.3em] text-zinc-500">
-                    Outputs
+                    {product.id === "agent911" ? "Trust line" : "Outputs"}
                   </div>
                   <p className="mt-2 text-[15px] leading-relaxed text-zinc-300">
                     {product.optionalOutputs}
