@@ -110,7 +110,7 @@ export default async function DocsArticlePage({
           <img
             src="/brand/agent911-support-badge.png"
             alt="Agent911 Support Badge"
-            className="hidden md:block absolute top-4 right-6 h-10 w-auto opacity-80"
+            className="hidden md:block absolute top-4 right-6 h-40 w-auto opacity-80"
           />
           <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
             ACME Agent Supply Co.
