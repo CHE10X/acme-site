@@ -7,7 +7,6 @@ import HRChatWidget from "./HRChatWidget";
 import TierBadge from "./TierBadge";
 import ProductModal from "./ProductModal";
 import NotifyModal from "./NotifyModal";
-import FieldMap from "./FieldMap";
 
 const TIER_BY_PRODUCT = {
   RadCheck: "FREE",
@@ -477,8 +476,6 @@ export default function AcmeSurvivalGearGrid() {
             </div>
           </div>
         </section>
-
-        <FieldMap />
 
         <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
           <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">

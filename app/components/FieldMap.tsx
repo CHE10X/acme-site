@@ -1,60 +1,25 @@
-export const FIELD_MAP_ZONES = {
-  RAD_CHECK: {
-    label: "Something Feels Off",
-    short: "Hidden Instability",
-    product: "radcheck",
-    hover:
-      "Early signals suggest something is drifting. Run a scan before small issues compound.",
-    hoverShort: "Quiet instability rarely fixes itself.",
-    glowLevel: 1,
-  },
-  LAZARUS: {
-    label: "Recovery Uncertain",
-    short: "Backup Confidence Gap",
-    product: "lazarus",
-    hover:
-      "Backups exist. Recovery certainty does not. Verify before the day you actually need it.",
-    hoverShort: "Hope is not a restore strategy.",
-    glowLevel: 1,
-  },
-  SENTINEL: {
-    label: "Running Exposed",
-    short: "No Continuous Guardrails",
-    product: "sentinel",
-    hover:
-      "Your agents are running without continuous guardrails. Expose silent failures before users do.",
-    hoverShort: "What runs unattended eventually misbehaves.",
-    glowLevel: 2,
-  },
-  SPHINX_GATE: {
-    label: "Policy Discipline Breaking Down",
-    short: "Uncontrolled Model Routing",
-    product: "sphinxgate",
-    hover:
-      "Model usage is drifting outside intended policy bounds. Restore routing discipline before costs and behavior diverge.",
-    hoverShort: "Loose routing becomes expensive routing.",
-    glowLevel: 2,
-  },
-  AGENT_911: {
-    label: "System in Crisis",
-    short: "Operator Visibility Required",
-    product: "agent911",
-    hover:
-      "Multiple risk signals converging. Operator visibility and guided recovery recommended.",
-    hoverShort: "This is where serious operators switch modes.",
-    glowLevel: 3,
-  },
-} as const;
+"use client";
 
-const DOCS_BY_PRODUCT: Record<string, string> = {
-  radcheck: "/docs/radcheck/score-explained",
-  lazarus: "/docs/lazarus/overview",
-  sentinel: "/docs/sentinel/overview",
-  sphinxgate: "/docs/sphinxgate/overview",
-  agent911: "/docs/agent911/snapshot-explained",
-};
+import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  FIELD_MAP_GOATS,
+  FIELD_MAP_HOTSPOTS,
+  FIELD_MAP_ZONES,
+} from "./fieldmap/fieldMapConstants";
 
-function getGlowClass(level: number) {
+type ZoneId = keyof typeof FIELD_MAP_ZONES;
+
+const MOBILE_ORDER: ZoneId[] = [
+  "RAD_CHECK",
+  "SENTINEL",
+  "LAZARUS",
+  "SPHINX_GATE",
+  "AGENT_911",
+];
+
+function getGlowClass(level: number, active: boolean) {
+  if (!active) return "zone-glow-0";
   if (level >= 3) return "zone-glow-3";
   if (level === 2) return "zone-glow-2";
   if (level === 1) return "zone-glow-1";
@@ -62,10 +27,23 @@ function getGlowClass(level: number) {
 }
 
 export default function FieldMap() {
-  const zones = Object.values(FIELD_MAP_ZONES).map((zone) => ({
-    ...zone,
-    href: DOCS_BY_PRODUCT[zone.product],
-  }));
+  const router = useRouter();
+  const [hoveredId, setHoveredId] = useState<ZoneId | null>(null);
+
+  const zones = useMemo(
+    () =>
+      Object.entries(FIELD_MAP_ZONES).map(([id, zone]) => ({
+        id: id as ZoneId,
+        ...zone,
+      })),
+    []
+  );
+
+  const handleNavigate = (href: string) => {
+    router.push(href);
+  };
+
+  const activeZone = hoveredId ? FIELD_MAP_ZONES[hoveredId] : null;
 
   return (
     <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
@@ -75,38 +53,122 @@ export default function FieldMap() {
       <p className="mt-2 text-sm text-zinc-500">
         Not sure where to start? Follow the symptom.
       </p>
-      <div className="mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.04),transparent_60%)]">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.2] [background-image:linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:24px_24px]" />
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute left-8 top-10 h-px w-32 bg-amber-400/20" />
-          <div className="absolute right-10 top-20 h-px w-40 bg-amber-400/10" />
-          <div className="absolute left-14 bottom-12 h-px w-44 bg-amber-400/15" />
+
+      <div className="mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900/40 group">
+        <img
+          src="/brand/field-map-v1.png"
+          alt="Field map poster"
+          className="h-auto w-full object-cover opacity-80"
+          onError={(event) => {
+            event.currentTarget.style.opacity = "0";
+          }}
+        />
+
+        <svg
+          className="absolute inset-0 h-full w-full"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+        >
+          {FIELD_MAP_HOTSPOTS.map((spot) => {
+            const zone = FIELD_MAP_ZONES[spot.id as ZoneId];
+            const isActive = hoveredId === spot.id;
+            return (
+              <rect
+                key={spot.id}
+                x={spot.x}
+                y={spot.y}
+                width={spot.w}
+                height={spot.h}
+                rx={3}
+                ry={3}
+                role="link"
+                tabIndex={0}
+                aria-label={`${zone.label} → ${zone.product}`}
+                className={getGlowClass(zone.glowLevel, isActive)}
+                style={{
+                  filter: isActive
+                    ? `drop-shadow(var(--zone-glow-${
+                        zone.glowLevel === 3
+                          ? "hot"
+                          : zone.glowLevel === 2
+                          ? "med"
+                          : "soft"
+                      }))`
+                    : "none",
+                }}
+                fill="rgba(0,0,0,0)"
+                stroke="rgba(232,163,23,0.25)"
+                strokeWidth="0.6"
+                onMouseEnter={() => setHoveredId(spot.id as ZoneId)}
+                onMouseLeave={() => setHoveredId(null)}
+                onFocus={() => setHoveredId(spot.id as ZoneId)}
+                onBlur={() => setHoveredId(null)}
+                onClick={() => handleNavigate(zone.docsHref)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    handleNavigate(zone.docsHref);
+                  }
+                }}
+              />
+            );
+          })}
+        </svg>
+
+        {FIELD_MAP_GOATS.map((goat, index) => (
+          <img
+            key={index}
+            src="/brand/acme-field-goat.png"
+            alt=""
+            aria-hidden="true"
+            className="pointer-events-none absolute opacity-35 transition-opacity duration-200 group-hover:opacity-50"
+            style={{
+              width: `${goat.size}px`,
+              height: "auto",
+              left: `${goat.x}%`,
+              top: `${goat.y}%`,
+              transform: `translate(-50%, -50%) rotate(${goat.r}deg)`,
+            }}
+          />
+        ))}
+
+        <div className="hidden md:block absolute bottom-4 left-4 rounded-xl border border-zinc-800/80 bg-zinc-900/80 px-4 py-3 text-sm text-zinc-300">
+          {activeZone ? (
+            <>
+              <div className="text-[11px] uppercase tracking-[0.3em] text-zinc-400">
+                {activeZone.label}
+              </div>
+              <div className="mt-1 text-sm text-zinc-200">
+                {activeZone.short}
+              </div>
+              <div className="mt-2 text-xs text-zinc-500">
+                {activeZone.hoverShort}
+              </div>
+            </>
+          ) : (
+            <div className="text-xs text-zinc-500">
+              Hover a zone to see what it means.
+            </div>
+          )}
         </div>
-        <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
-          {zones.map((zone) => (
-            <a
-              key={zone.label}
-              href={zone.href}
-              aria-label={`${zone.label} — ${zone.short}`}
-              className={`group rounded-xl border border-zinc-800/80 bg-zinc-900/50 px-4 py-4 text-left transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 hover:border-amber-400/40 hover:scale-[1.02] ${getGlowClass(
-                zone.glowLevel
-              )}`}
+      </div>
+
+      <div className="mt-4 space-y-2 md:hidden">
+        {MOBILE_ORDER.map((id) => {
+          const zone = FIELD_MAP_ZONES[id];
+          return (
+            <button
+              key={id}
+              onClick={() => handleNavigate(zone.docsHref)}
+              className="w-full rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-4 py-3 text-left text-sm text-zinc-200 transition hover:border-amber-400/40 hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
             >
-              <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-400 group-hover:text-[var(--acme-amber-200)] transition-colors">
+              <div className="text-[11px] uppercase tracking-[0.3em] text-zinc-500">
                 {zone.label}
               </div>
-              <div className="mt-1 text-sm text-zinc-500 group-hover:text-zinc-300 transition-colors">
-                {zone.short}
-              </div>
-              <div className="mt-3 text-xs text-zinc-500 opacity-0 transition-opacity group-hover:opacity-100">
-                {zone.hover}
-              </div>
-              <div className="mt-2 text-[11px] uppercase tracking-[0.28em] text-zinc-500 opacity-0 transition-opacity group-hover:opacity-100">
-                {zone.hoverShort}
-              </div>
-            </a>
-          ))}
-        </div>
+              <div className="mt-1 text-sm text-zinc-300">{zone.short}</div>
+            </button>
+          );
+        })}
       </div>
     </section>
   );
