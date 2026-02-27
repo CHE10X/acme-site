@@ -32,9 +32,12 @@ export default function SupportPage() {
             bundle and get precise, actionable guidance.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <button className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400">
+            <a
+              href="/docs/support/when-things-feel-off"
+              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+            >
               Run Support Bundle
-            </button>
+            </a>
             <button
               onClick={() =>
                 setSupportMode((prev) => (prev === "ai" ? "human" : "ai"))
