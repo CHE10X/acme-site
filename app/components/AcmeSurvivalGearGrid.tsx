@@ -263,15 +263,12 @@ export default function AcmeSurvivalGearGrid() {
                   Built for real-world agent runtimes and OpenClaw-class stacks.
                 </p>
               </div>
-              <div className="relative mt-6 mb-6 flex justify-center">
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-0 opacity-[0.03] [background-image:linear-gradient(rgba(255,255,255,0.35)_1px,transparent_1px)] [background-size:100%_6px]" />
-                  <div className="absolute left-0 right-0 top-1 h-px bg-white/10" />
-                  <div className="absolute left-0 right-0 top-4 h-px bg-white/5" />
+              <div className="mt-6 mb-6">
+                <div className="relative h-[260px] sm:h-[280px] lg:h-[320px] flex items-center justify-center">
                   <img
                     src="/brand/acme-field-goat.png"
                     alt="ACME Field Insignia"
-                    className="opacity-[0.98] h-auto w-[240px] md:w-[260px] select-none pointer-events-none"
+                    className="opacity-[0.98] h-auto max-h-[220px] sm:max-h-[240px] lg:max-h-[280px] w-auto select-none pointer-events-none translate-y-2"
                   />
                 </div>
               </div>
@@ -415,13 +412,17 @@ function GearCard({
       </div>
 
       {/* Description */}
-      <p className="text-zinc-300 mb-3">{description}</p>
+      <p className="text-zinc-300 mb-3 text-[15px] leading-relaxed">
+        {description}
+      </p>
 
       {/* Flavor */}
-      <p className="text-zinc-500 italic text-sm mb-4">{flavor}</p>
+      <p className="text-zinc-500 italic text-[15px] leading-relaxed mb-4">
+        {flavor}
+      </p>
 
       {/* Bullets — does */}
-      <ul className="space-y-1 text-sm text-zinc-300 mb-3 flex-1">
+      <ul className="space-y-1 text-[15px] text-zinc-300 leading-relaxed mb-3 flex-1">
         {bullets.map((b, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="text-amber-400 mt-[2px]">•</span>
@@ -432,7 +433,7 @@ function GearCard({
 
       {/* Bullets — does NOT */}
       {doesNot && doesNot.length > 0 && (
-        <ul className="space-y-1 text-sm mb-4">
+        <ul className="space-y-1 text-[15px] leading-relaxed mb-4">
           {doesNot.map((b, i) => (
             <li key={i} className="flex items-start gap-2 text-zinc-500">
               <span className="text-red-500/60 mt-[2px]">✕</span>

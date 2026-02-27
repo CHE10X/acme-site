@@ -73,7 +73,7 @@ export default async function DocsArticlePage({
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <main className="max-w-4xl mx-auto px-6 py-12">
+      <main className="max-w-5xl mx-auto px-6 py-12">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm flex-wrap mb-8">
           <Link
@@ -106,28 +106,37 @@ export default async function DocsArticlePage({
           ))}
         </nav>
 
-        {/* Title */}
-        {title && (
-          <h1 className="text-3xl font-bold text-zinc-100 mb-8 leading-tight">
-            {title}
-          </h1>
-        )}
-
-        {/* Content */}
-        <article
-          className="docs-prose"
-          dangerouslySetInnerHTML={{ __html: htmlContent }}
-        />
-
-        {/* Back link */}
-        <div className="mt-12 pt-6 border-t border-zinc-800">
-          <Link
-            href="/docs"
-            className="text-zinc-400 hover:text-zinc-200 text-sm transition-colors"
-          >
-            ← Back to Docs
-          </Link>
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
+            ACME Agent Supply Co.
+          </div>
+          {title && (
+            <h1 className="text-3xl font-bold text-zinc-100 mb-3 leading-tight">
+              {title}
+            </h1>
+          )}
+          <div className="overflow-hidden rounded">
+            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+          </div>
         </div>
+
+        <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
+          {/* Content */}
+          <article
+            className="docs-prose"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
+
+          {/* Back link */}
+          <div className="mt-12 pt-6 border-t border-zinc-800">
+            <Link
+              href="/docs"
+              className="text-zinc-400 hover:text-zinc-200 text-sm transition-colors"
+            >
+              ← Back to Docs
+            </Link>
+          </div>
+        </section>
       </main>
     </div>
   );

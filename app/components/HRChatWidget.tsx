@@ -110,7 +110,7 @@ function FeedPanel({
             <div className="text-zinc-200 font-semibold">
               Field Support Feed
             </div>
-            <div className="text-xs text-zinc-500 mt-1">
+            <div className="text-[13px] text-zinc-500 mt-1">
               Live symptom routing and gear recommendations.
             </div>
           </div>
@@ -123,7 +123,7 @@ function FeedPanel({
                 Close
               </button>
             ) : null}
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-emerald-300 live-pulse live-twitch">
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-emerald-300 live-pulse live-twitch">
               <span className="relative inline-flex live-pulse">
                 <span className="absolute inline-flex h-[10px] w-[10px] animate-ping rounded-full bg-emerald-400 opacity-50" />
                 <span className="relative inline-flex h-[10px] w-[10px] rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.75)] ring-2 ring-emerald-300/40" />
@@ -146,23 +146,23 @@ function FeedPanel({
                 index === 0 ? "acme-feed-in" : ""
               }`}
             >
-              <div className="flex items-center justify-between gap-2 text-[11px] uppercase tracking-[0.3em] text-zinc-300">
+              <div className="flex items-center justify-between gap-2 text-[12px] uppercase tracking-[0.3em] text-zinc-300">
                 <span>{item.kind}</span>
                 <span>{item.id}</span>
               </div>
-              <div className="mt-1 text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+              <div className="mt-1 text-xs uppercase tracking-[0.32em] text-zinc-500">
                 {item.unit} • {item.time}
               </div>
-              <div className="mt-2 text-sm text-zinc-100 leading-relaxed">
+              <div className="mt-2 text-[15px] text-zinc-100 leading-relaxed">
                 {item.text}
               </div>
-              <div className="mt-2 text-xs text-zinc-400">
+              <div className="mt-2 text-sm text-zinc-400">
                 Recommended gear:{" "}
                 <span className="text-amber-300">{item.tool}</span>
               </div>
               <a
                 href={item.anchor}
-                className="mt-2 inline-flex text-xs uppercase tracking-[0.25em] text-amber-300 hover:text-amber-200 transition duration-200 ease-out"
+                className="mt-2 inline-flex text-sm uppercase tracking-[0.25em] text-amber-300 hover:text-amber-200 transition duration-200 ease-out"
               >
                 View Gear →
               </a>

@@ -134,7 +134,7 @@ export default function ProductModal({
               </div>
             </div>
 
-            <p className="mt-3 text-base text-zinc-200">
+            <p className="mt-3 text-[17px] leading-relaxed text-zinc-200">
               {product.subtitle}
             </p>
             <div className="mt-4 h-px w-full bg-zinc-800" />
@@ -144,12 +144,12 @@ export default function ProductModal({
                 <div className="text-xs uppercase tracking-[0.3em] text-zinc-500">
                   What it does
                 </div>
-                <p className="mt-2 text-sm text-zinc-300">
+                <p className="mt-2 text-[15px] leading-relaxed text-zinc-300">
                   {product.positioning}
                 </p>
               </div>
 
-              <ul className="space-y-2 text-sm text-zinc-200">
+              <ul className="space-y-2 text-[15px] leading-relaxed text-zinc-200">
                 {product.bullets.map((bullet) => (
                   <li key={bullet} className="flex items-start gap-2">
                     <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -163,13 +163,13 @@ export default function ProductModal({
                   <div className="text-xs uppercase tracking-[0.3em] text-zinc-500">
                     Outputs
                   </div>
-                  <p className="mt-2 text-sm text-zinc-300">
+                  <p className="mt-2 text-[15px] leading-relaxed text-zinc-300">
                     {product.optionalOutputs}
                   </p>
                 </div>
               ) : null}
 
-              <div className="text-sm text-zinc-300">
+              <div className="text-[15px] leading-relaxed text-zinc-300">
                 <span className="text-zinc-500 uppercase tracking-[0.3em] text-xs">
                   Best for
                 </span>

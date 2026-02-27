@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -18,19 +19,19 @@ export default function RootLayout({
         {/* Site Header */}
         <header className="border-b border-zinc-800/80 bg-zinc-950/95 backdrop-blur-sm sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-            <a
+            <Link
               href="/"
               className="text-sm font-semibold text-zinc-200 hover:text-white transition-colors tracking-wide uppercase"
             >
               ACME
-            </a>
+            </Link>
             <nav className="flex items-center gap-6">
-              <a
+              <Link
                 href="/docs"
                 className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 Docs
-              </a>
+              </Link>
             </nav>
           </div>
         </header>
@@ -57,36 +58,36 @@ export default function RootLayout({
                 </div>
                 <ul className="space-y-2">
                   <li>
-                    <a
+                    <Link
                       href="/docs/radcheck/score-explained"
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       RadCheck — Score Explained
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/docs/agent911/snapshot-explained"
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       Agent911 — Snapshot Explained
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/docs/quickstart/5-minute"
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       5-Minute Quickstart
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       href="/docs/architecture/reliability-stack"
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       Reliability Stack Architecture
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
