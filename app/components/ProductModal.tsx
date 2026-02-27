@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import TierBadge from "./TierBadge";
 
+const SENTINEL_NUDGE_KEY = "acme_sentinel_nudge_shown";
+
 type Product = {
   id: string;
   title: string;
@@ -33,6 +35,7 @@ export default function ProductModal({
   const closeRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
   const closingRef = useRef(false);
+  const [showSentinelNudge, setShowSentinelNudge] = useState(false);
 
   const handleClose = () => {
     if (closingRef.current) return;
@@ -54,6 +57,16 @@ export default function ProductModal({
       lastFocusedRef.current?.focus();
     };
   }, []);
+
+  useEffect(() => {
+    if (product.id !== "radcheck") return;
+    if (typeof window === "undefined") return;
+    const alreadyShown = sessionStorage.getItem(SENTINEL_NUDGE_KEY);
+    if (!alreadyShown) {
+      setShowSentinelNudge(true);
+      sessionStorage.setItem(SENTINEL_NUDGE_KEY, "1");
+    }
+  }, [product.id]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -169,7 +182,7 @@ export default function ProductModal({
                 </div>
               ) : null}
 
-              {product.id === "radcheck" ? (
+              {product.id === "radcheck" && showSentinelNudge ? (
                 <div className="rounded-xl border border-amber-400/20 bg-amber-500/5 px-4 py-3">
                   <div className="text-[11px] uppercase tracking-[0.3em] text-amber-300">
                     Continuous protection recommended

@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+const SENTINEL_NUDGE_KEY = "acme_sentinel_nudge_shown";
+const SENTINEL_DISMISSED_KEY = "acme_sentinel_dismissed";
+
 type Tool = "Sentinel" | "Watchdog" | "SphinxGate" | "Agent911";
 type Kind = "HUMAN REPORT" | "CONTAINMENT LOG" | "SYSTEM NOTE";
 
@@ -385,6 +388,23 @@ export default function HRChatWidget({
     };
   }, [consoleOpen]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const dismissed = sessionStorage.getItem(SENTINEL_DISMISSED_KEY);
+    if (dismissed) {
+      setSentinelNudgeDismissed(true);
+    }
+  }, []);
+
+  const shouldShowSentinelNudge = !sentinelActive && !sentinelNudgeDismissed;
+
+  useEffect(() => {
+    if (!consoleOpen) return;
+    if (!shouldShowSentinelNudge) return;
+    if (typeof window === "undefined") return;
+    sessionStorage.setItem(SENTINEL_NUDGE_KEY, "1");
+  }, [consoleOpen, shouldShowSentinelNudge]);
+
   const panel = useMemo(
     () => (
       <FeedPanel
@@ -464,7 +484,7 @@ export default function HRChatWidget({
                 </button>
               </div>
 
-              {!sentinelActive && !sentinelNudgeDismissed ? (
+              {shouldShowSentinelNudge ? (
                 <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/5 px-4 py-3">
                   <div className="text-[10px] uppercase tracking-[0.3em] text-amber-300">
                     Protection gap
@@ -481,7 +501,12 @@ export default function HRChatWidget({
                       Enable Sentinel
                     </a>
                     <button
-                      onClick={() => setSentinelNudgeDismissed(true)}
+                      onClick={() => {
+                        setSentinelNudgeDismissed(true);
+                        if (typeof window !== "undefined") {
+                          sessionStorage.setItem(SENTINEL_DISMISSED_KEY, "1");
+                        }
+                      }}
                       className="text-xs uppercase tracking-[0.28em] text-zinc-500 hover:text-zinc-300"
                     >
                       Not now
