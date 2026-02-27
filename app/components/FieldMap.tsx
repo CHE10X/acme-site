@@ -58,10 +58,7 @@ export default function FieldMap() {
         <img
           src="/brand/field-map-v1.png"
           alt="Field map poster"
-          className="h-auto w-full object-cover opacity-80"
-          onError={(event) => {
-            event.currentTarget.style.opacity = "0";
-          }}
+          className="block h-auto w-full object-contain opacity-90"
         />
 
         <svg
