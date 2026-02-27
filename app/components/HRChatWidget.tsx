@@ -248,14 +248,6 @@ function FeedPanel({
               <div className="text-[13px] text-amber-400 tracking-[0.36em] uppercase">
                 Human Resources
               </div>
-              <button
-                onClick={onOpenIntel}
-                className={`text-[9px] uppercase tracking-[0.32em] px-2 py-0.5 rounded-full border border-amber-400/30 text-amber-300/90 ${
-                  intelSeen ? "" : "intel-pulse"
-                }`}
-              >
-                New Intel
-              </button>
             </div>
             <div className="text-zinc-200 font-semibold">
               Field Support Feed
@@ -274,8 +266,13 @@ function FeedPanel({
               </button>
             ) : null}
             <button
-              onClick={onOpenConsole}
-              className="rounded-full border border-amber-400/40 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-amber-300 hover:text-amber-200 hover:border-amber-300/60 transition"
+              onClick={() => {
+                onOpenIntel();
+                onOpenConsole();
+              }}
+              className={`rounded-full border border-amber-400/40 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-amber-300 hover:text-amber-200 hover:border-amber-300/60 transition ${
+                intelSeen ? "" : "intel-pulse"
+              }`}
             >
               Open HR Console
             </button>
@@ -288,8 +285,8 @@ function FeedPanel({
             </div>
           </div>
         </div>
-        <div className="mt-4 overflow-hidden rounded-full opacity-80">
-          <span className="hazard-shimmer hazard-stripe block h-1 w-full" />
+        <div className="mt-4 overflow-hidden rounded-full opacity-90">
+          <span className="hr-solid-line block h-1 w-full" />
         </div>
       </div>
 

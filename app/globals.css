@@ -36,16 +36,16 @@ body {
 
 @keyframes hazard-shimmer {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 0;
   }
   100% {
-    background-position: 200% 50%;
+    background-position: 240px 0;
   }
 }
 
 .hazard-shimmer {
-  background-size: 200% 100%;
-  animation: hazard-shimmer 29s linear infinite;
+  background-position: 0 0;
+  animation: hazard-shimmer 26s linear infinite;
 }
 
 .hazard-stripe {
@@ -57,6 +57,24 @@ body {
     rgba(0, 0, 0, 0.9) 20px
   );
   background-size: 24px 24px;
+}
+
+@keyframes hr-line-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.35);
+    opacity: 0.85;
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.6);
+    opacity: 1;
+  }
+}
+
+.hr-solid-line {
+  background-color: rgba(251, 191, 36, 0.95);
+  box-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+  animation: hr-line-pulse 6s ease-in-out infinite;
 }
 
 /* ── Docs prose styles ── */

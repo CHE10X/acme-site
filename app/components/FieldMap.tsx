@@ -48,7 +48,7 @@ export default function FieldMap() {
   const isMobileCollapsed = !mobileOpen;
 
   return (
-    <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-5">
+    <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950 px-5 py-5">
       <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
         Field Map
       </div>
@@ -64,8 +64,8 @@ export default function FieldMap() {
       </button>
 
       <div
-        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900/40 group max-h-[580px] md:h-[480px] lg:h-[560px] ${
-          isMobileCollapsed ? "h-[180px] sm:h-[240px]" : "h-[340px] sm:h-[420px]"
+        className={`mt-4 relative overflow-hidden rounded-2xl border border-zinc-800/70 bg-zinc-900 group max-h-[520px] md:h-[440px] lg:h-[520px] ${
+          isMobileCollapsed ? "h-[170px] sm:h-[220px]" : "h-[320px] sm:h-[400px]"
         }`}
       >
         <img
