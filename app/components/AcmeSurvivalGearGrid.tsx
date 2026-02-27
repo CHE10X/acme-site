@@ -6,6 +6,7 @@ import { Shield, Dog, Landmark, Siren } from "lucide-react";
 import HRChatWidget from "./HRChatWidget";
 import TierBadge from "./TierBadge";
 import ProductModal from "./ProductModal";
+import NotifyModal from "./NotifyModal";
 
 const TIER_BY_PRODUCT = {
   RadCheck: "FREE",
@@ -112,7 +113,7 @@ const PRODUCTS: Product[] = [
       "Produces live alerts and an operator-ready proof bundle with timelines, triggers, and context.",
     bestFor: "Always-on protection for live agents",
     ctaLabel: "Enable Sentinel",
-    docsHref: "/docs/architecture/reliability-stack",
+    docsHref: "/docs/sentinel/overview",
     installSnippet: "acme install sentinel",
     codename: "SENTINEL",
     description: "Continuous detection of silent failures, stalls, and output deviations.",
@@ -160,7 +161,7 @@ const PRODUCTS: Product[] = [
     optionalOutputs: "Lane audit trail and budget snapshots.",
     bestFor: "Teams scaling multiple agent lanes.",
     ctaLabel: "Set Gate Rules",
-    docsHref: "/docs/architecture/reliability-stack",
+    docsHref: "/docs/sphinxgate/overview",
     installSnippet: "acme install sphinxgate",
     codename: "SPHINXGATE",
     description: "Token discipline and lane enforcement for model routing.",
@@ -196,8 +197,60 @@ const PRODUCTS: Product[] = [
 const getProductById = (id: string) =>
   PRODUCTS.find((product) => product.id === id) || null;
 
+type FieldUnit = {
+  id: string;
+  title: string;
+  unitLabel: string;
+  subtitle: string;
+  bullets: string[];
+  icon: React.ReactNode;
+};
+
+const FIELD_UNITS: FieldUnit[] = [
+  {
+    id: "driftguard",
+    title: "DriftGuard",
+    unitLabel: "DRIFT CONTROL UNIT",
+    subtitle: "Monitoring long-horizon drift under live load.",
+    bullets: [
+      "behavioral drift snapshots",
+      "policy deviation flags",
+      "run-to-run delta tracking",
+      "audit-ready traces",
+    ],
+    icon: <Shield className="w-6 h-6" />,
+  },
+  {
+    id: "transmission",
+    title: "Transmission",
+    unitLabel: "SIGNAL ROUTING UNIT",
+    subtitle: "Cross-agent signal routing with guardrails.",
+    bullets: [
+      "signal normalization",
+      "lossy vs lossless lanes",
+      "priority routing rules",
+      "operator override hooks",
+    ],
+    icon: <Landmark className="w-6 h-6" />,
+  },
+  {
+    id: "watchdog",
+    title: "Watchdog",
+    unitLabel: "HEARTBEAT UNIT",
+    subtitle: "Heartbeat supervision across runtimes.",
+    bullets: [
+      "liveness probes",
+      "cron-safe cadence checks",
+      "lock collision alerts",
+      "dead-run detection",
+    ],
+    icon: <Dog className="w-6 h-6" />,
+  },
+];
+
 export default function AcmeSurvivalGearGrid() {
   const [activeProductId, setActiveProductId] = useState<string | null>(null);
+  const [notifyUnitId, setNotifyUnitId] = useState<string | null>(null);
 
   const activeProduct = useMemo(
     () => PRODUCTS.find((product) => product.id === activeProductId) || null,
@@ -341,6 +394,33 @@ export default function AcmeSurvivalGearGrid() {
           </div>
         </div>
 
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
+          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            Field Development
+          </div>
+          <p className="mt-2 text-sm text-zinc-500 max-w-2xl">
+            Units currently in field testing. Capabilities expanding as
+            real-world data accumulates.
+          </p>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+            {FIELD_UNITS.map((unit) => (
+              <GearCard
+                key={unit.id}
+                id={unit.id}
+                icon={unit.icon}
+                badge={unit.unitLabel}
+                title={unit.title}
+                tier="CORE"
+                description={unit.subtitle}
+                flavor=""
+                bullets={unit.bullets}
+                variant="field"
+                onNotify={() => setNotifyUnitId(unit.id)}
+              />
+            ))}
+          </div>
+        </section>
+
         {/* Footer line */}
         <div className="mt-14 text-center text-zinc-500 text-sm">
           Picks. Shovels. Guardrails. Standard issue for autonomous builders.
@@ -351,6 +431,9 @@ export default function AcmeSurvivalGearGrid() {
           product={activeProduct}
           onClose={() => setActiveProductId(null)}
         />
+      ) : null}
+      {notifyUnitId ? (
+        <NotifyModal onClose={() => setNotifyUnitId(null)} />
       ) : null}
     </div>
   );
@@ -369,6 +452,8 @@ function GearCard({
   doesNot,
   onOpen,
   docsHref,
+  variant = "default",
+  onNotify,
 }: {
   id: string;
   icon: React.ReactNode;
@@ -380,18 +465,31 @@ function GearCard({
   flavor: string;
   bullets: string[];
   doesNot?: string[];
-  onOpen: () => void;
+  onOpen?: () => void;
   docsHref?: string;
+  variant?: "default" | "field";
+  onNotify?: () => void;
 }) {
+  const isField = variant === "field";
   return (
     <article
       id={id}
-      className="group relative scroll-mt-24 rounded-xl bg-zinc-900 p-6 flex h-full flex-col transition duration-200 ease-out hover:-translate-y-1 hover:bg-zinc-800 hover:shadow-2xl hover:ring-1 hover:ring-amber-500/30"
+      className={`group relative scroll-mt-24 rounded-xl p-6 flex h-full flex-col transition duration-200 ease-out ${
+        isField
+          ? "bg-zinc-900/50 border border-dashed border-zinc-700/70 opacity-85 hover:opacity-100 hover:bg-zinc-900/60 hover:-translate-y-0.5"
+          : "bg-zinc-900 hover:-translate-y-1 hover:bg-zinc-800 hover:shadow-2xl hover:ring-1 hover:ring-amber-500/30"
+      }`}
     >
       {/* Badge */}
-      <div className="absolute top-4 right-4 text-[11px] tracking-widest uppercase bg-amber-500/10 text-amber-400 px-2 py-1 rounded transition duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100">
-        {badge}
-      </div>
+      {isField ? (
+        <div className="absolute top-4 right-4 text-[10px] tracking-[0.22em] uppercase bg-zinc-800/80 text-zinc-300 px-2 py-1 rounded-full border border-zinc-700/80">
+          Field Testing
+        </div>
+      ) : (
+        <div className="absolute top-4 right-4 text-[11px] tracking-widest uppercase bg-amber-500/10 text-amber-400 px-2 py-1 rounded transition duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100">
+          {badge}
+        </div>
+      )}
 
       {/* Icon */}
       <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 transition duration-150 ease-out group-hover:translate-x-0.5 group-hover:opacity-100">
@@ -402,14 +500,20 @@ function GearCard({
       <div className="flex items-start justify-between gap-3 mb-2">
         <div className="flex items-baseline justify-between gap-3">
           <h3 className="text-2xl font-semibold">{title}</h3>
-          {codename ? (
+          {!isField && codename ? (
             <span className="text-[10px] tracking-widest uppercase text-zinc-500">
               {codename}
             </span>
           ) : null}
         </div>
-        <TierBadge tier={tier} />
+        {!isField ? <TierBadge tier={tier} /> : null}
       </div>
+
+      {isField ? (
+        <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500 mb-2">
+          {badge}
+        </div>
+      ) : null}
 
       {/* Description */}
       <p className="text-zinc-300 mb-3 text-[15px] leading-relaxed">
@@ -417,9 +521,11 @@ function GearCard({
       </p>
 
       {/* Flavor */}
-      <p className="text-zinc-500 italic text-[15px] leading-relaxed mb-4">
-        {flavor}
-      </p>
+      {!isField ? (
+        <p className="text-zinc-500 italic text-[15px] leading-relaxed mb-4">
+          {flavor}
+        </p>
+      ) : null}
 
       {/* Bullets — does */}
       <ul className="space-y-1 text-[15px] text-zinc-300 leading-relaxed mb-3 flex-1">
@@ -432,7 +538,7 @@ function GearCard({
       </ul>
 
       {/* Bullets — does NOT */}
-      {doesNot && doesNot.length > 0 && (
+      {!isField && doesNot && doesNot.length > 0 && (
         <ul className="space-y-1 text-[15px] leading-relaxed mb-4">
           {doesNot.map((b, i) => (
             <li key={i} className="flex items-start gap-2 text-zinc-500">
@@ -444,24 +550,39 @@ function GearCard({
       )}
 
       {/* Actions */}
-      <div className="flex items-center justify-between mt-auto pt-2">
-        <button
-          onClick={onOpen}
-          className="group inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black text-sm font-medium px-4 py-2 rounded-lg transition duration-200 ease-out active:translate-y-[1px] active:shadow-none shadow-md"
-        >
-          View Gear
-          <span className="transition duration-200 ease-out group-hover:translate-x-1">
-            →
-          </span>
-        </button>
-        {docsHref ? (
-          <a
-            href={docsHref}
-            className="text-amber-400 hover:text-amber-300 text-sm transition duration-200 ease-out"
+      <div
+        className={`flex items-center mt-auto pt-2 ${
+          isField ? "justify-end" : "justify-between"
+        }`}
+      >
+        {isField ? (
+          <button
+            onClick={onNotify}
+            className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
           >
-            Learn more →
-          </a>
-        ) : null}
+            Notify When Online
+          </button>
+        ) : (
+          <>
+            <button
+              onClick={onOpen}
+              className="group inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-black text-sm font-medium px-4 py-2 rounded-lg transition duration-200 ease-out active:translate-y-[1px] active:shadow-none shadow-md"
+            >
+              View Gear
+              <span className="transition duration-200 ease-out group-hover:translate-x-1">
+                →
+              </span>
+            </button>
+            {docsHref ? (
+              <a
+                href={docsHref}
+                className="text-amber-400 hover:text-amber-300 text-sm transition duration-200 ease-out"
+              >
+                Learn more →
+              </a>
+            ) : null}
+          </>
+        )}
       </div>
     </article>
   );
