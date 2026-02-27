@@ -73,17 +73,17 @@ const PRODUCTS: Product[] = [
     tier: TIER_BY_PRODUCT.Lazarus,
     subtitle: "Backup readiness you can trust.",
     positioning:
-      "Lazarus evaluates whether your agent environment can be successfully restored when failures occur. It inspects backup coverage, validates restore assumptions, and highlights gaps that could block recovery. Lazarus produces operator-ready readiness signals and guidance — it does not perform autonomous restoration or modify your live system.",
+      "Lazarus verifies whether your agent environment can actually recover when failures occur. It evaluates backup coverage, restore assumptions, and recovery gaps so operators have evidence-based confidence before an incident forces the test. Lazarus is read-only and does not modify your live system.",
     bullets: [
       "backup coverage mapping",
       "restore viability checks",
       "integrity verification",
-      "recovery readiness score",
+      "recovery readiness scoring",
     ],
     doesNot: ["does NOT perform autonomous restoration — operator-driven only"],
     optionalOutputs:
-      "Generates a resurrection score and flags gaps that could prevent successful recovery.",
-    bestFor: "Teams needing verified recovery confidence",
+      "Produces a resurrection readiness score and highlights gaps that could block successful recovery.",
+    bestFor: "Teams that need evidence-based recovery confidence",
     ctaLabel: "Verify Recovery",
     docsHref: "/docs/lazarus/overview",
     installSnippet: "acme install lazarus",
