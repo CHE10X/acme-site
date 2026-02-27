@@ -1,35 +1,89 @@
 ---
 title: FindMyAgent — Agent Presence & Operator Awareness
 product: findmyagent
-tier: CORE
+tier: FREE
 ---
 
 # FindMyAgent — Agent Presence & Operator Awareness
 
-FindMyAgent is a visibility surface for operators who need clear, reliable awareness of their agent fleet. It focuses on presence, progress, and “needs attention” signals so teams can see what is active, what is stalled, and what hasn’t checked in.
+## The Problem
 
-## What FindMyAgent Does
+Modern agent stacks fail quietly. Operators often don’t know:
 
-- Surfaces live agent presence state
-- Highlights stalled or blocked activity
-- Shows last activity timestamp and heartbeat age
-- Flags agents that require operator attention
+- which agents are active
+- which are stalled
+- which are silently drifting
+- which never started correctly
 
-## What FindMyAgent Does NOT Do
+FindMyAgent provides a continuous operator view of agent presence and recent activity so issues surface early.
 
-- No autonomous control
-- No automated recovery
-- No self-healing actions
-- No orchestration authority
+---
 
-## Positioning Boundaries
+## What FindMyAgent Shows
 
-- RadCheck is scan-time detection
-- Sentinel is continuous runtime guardrails
-- SphinxGate is policy enforcement
-- Agent911 is the unified control plane
-- FindMyAgent is operator awareness only
+### Presence State
 
-## Included With Agent911
+Each agent is classified:
 
-FindMyAgent is included with the Agent911 operator surface to provide immediate, trustworthy visibility without changing your runtime.
+- **ACTIVE** — recent progress observed
+- **IDLE** — healthy but quiet
+- **BLOCKED** — known blocker detected
+- **STALLED** — heartbeat present but no progress
+- **UNKNOWN** — insufficient signal
+
+### Activity Signals
+
+FindMyAgent surfaces:
+
+- last heartbeat age
+- last observed action
+- recent progress signals
+- "needs attention" flag
+
+### Operator Delta
+
+The system highlights what changed since the last scan:
+
+- newly blocked agents
+- recovered agents
+- stability movement
+
+---
+
+## How It Fits the Reliability Stack
+
+FindMyAgent is the operator awareness layer.
+
+| Tool | Role |
+|---|---|
+| RadCheck | Detects systemic risk |
+| Sentinel | Actively protects |
+| SphinxGate | Governs routing |
+| Agent911 | Unified control plane |
+| **FindMyAgent** | **Shows what agents are actually doing** |
+
+This keeps positioning clean and non-overlapping.
+
+---
+
+## When to Use It
+
+FindMyAgent is most valuable when:
+
+- running multiple agents
+- testing new orchestration flows
+- validating automation reliability
+- monitoring overnight runs
+- preparing incident reviews
+
+---
+
+## Availability
+
+FindMyAgent is included in the Agent911 operator surface. Free tier provides real-time visibility. Advanced history and reporting expand with Agent911 capabilities.
+
+---
+
+> **Operator insight**
+>
+> Most reliability failures are first visible as "nothing happened." FindMyAgent is designed to surface that silence early.
