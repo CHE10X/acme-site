@@ -509,6 +509,57 @@ export default function AcmeSurvivalGearGrid() {
           </div>
         </section>
 
+        <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+                Install in minutes
+              </div>
+              <p className="mt-2 text-[15px] text-zinc-300 leading-relaxed">
+                Bring the ACME reliability stack online with a single command.
+                The installer enables RadCheck, Sentinel, and Agent911 in
+                observational mode — without modifying your existing
+                configuration.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href="/docs/quickstart/5-minute"
+                  className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+                >
+                  Get started in 5 minutes
+                </a>
+                <div className="text-xs uppercase tracking-[0.28em] text-zinc-500">
+                  Idempotent. Read-safe. No gateway changes.
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+                Something feel off?
+              </div>
+              <p className="mt-2 text-[15px] text-zinc-300 leading-relaxed">
+                Generate a secure support bundle and we’ll help you triage what’s
+                happening inside your agent system. No guesswork. No screenshots.
+              </p>
+              <div className="mt-3 text-sm text-amber-200 font-mono">
+                acme_support_bundle.py --zip
+              </div>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <a
+                  href="/docs/support/when-things-feel-off"
+                  className="inline-flex items-center gap-2 rounded-lg border border-amber-400/50 px-4 py-2 text-sm text-amber-200 transition hover:border-amber-400 hover:text-amber-100"
+                >
+                  Generate support bundle
+                </a>
+                <div className="text-xs uppercase tracking-[0.28em] text-zinc-500">
+                  Redaction applied automatically. Secrets are never included.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <FieldMap />
 
         {/* Footer line */}
