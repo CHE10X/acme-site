@@ -335,6 +335,8 @@ export default function HRChatWidget({
   const [intelSeen, setIntelSeen] = useState(false);
   const [briefingOpen, setBriefingOpen] = useState(true);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [sentinelActive] = useState(false);
+  const [sentinelNudgeDismissed, setSentinelNudgeDismissed] = useState(false);
   const counter = useRef(776);
   const cursor = useRef(5);
   const drawerRef = useRef<HTMLDivElement | null>(null);
@@ -461,6 +463,32 @@ export default function HRChatWidget({
                   Close
                 </button>
               </div>
+
+              {!sentinelActive && !sentinelNudgeDismissed ? (
+                <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/5 px-4 py-3">
+                  <div className="text-[10px] uppercase tracking-[0.3em] text-amber-300">
+                    Protection gap
+                  </div>
+                  <p className="mt-2 text-sm text-zinc-300">
+                    Sentinel is not currently active. Continuous guardrails
+                    would catch issues earlier.
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <a
+                      href="/docs/sentinel/overview"
+                      className="inline-flex items-center gap-2 rounded-lg border border-amber-400/40 px-3 py-1.5 text-sm text-amber-200 transition hover:border-amber-400 hover:text-amber-100"
+                    >
+                      Enable Sentinel
+                    </a>
+                    <button
+                      onClick={() => setSentinelNudgeDismissed(true)}
+                      className="text-xs uppercase tracking-[0.28em] text-zinc-500 hover:text-zinc-300"
+                    >
+                      Not now
+                    </button>
+                  </div>
+                </div>
+              ) : null}
 
               <div className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-4">
                 <button

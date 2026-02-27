@@ -169,6 +169,29 @@ export default function ProductModal({
                 </div>
               ) : null}
 
+              {product.id === "radcheck" ? (
+                <div className="rounded-xl border border-amber-400/20 bg-amber-500/5 px-4 py-3">
+                  <div className="text-[11px] uppercase tracking-[0.3em] text-amber-300">
+                    Continuous protection recommended
+                  </div>
+                  <p className="mt-2 text-sm text-zinc-300">
+                    RadCheck found signals worth watching. Sentinel adds
+                    always-on guardrails so small failures don’t grow quietly.
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <a
+                      href="/docs/sentinel/overview"
+                      className="inline-flex items-center gap-2 rounded-lg border border-amber-400/40 px-3 py-1.5 text-sm text-amber-200 transition hover:border-amber-400 hover:text-amber-100"
+                    >
+                      Enable Sentinel
+                    </a>
+                    <div className="text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+                      Runs safely alongside your current setup.
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
               <div className="text-[15px] leading-relaxed text-zinc-300">
                 <span className="text-zinc-500 uppercase tracking-[0.3em] text-xs">
                   Best for

@@ -6,7 +6,7 @@ tier: RECOVERY
 
 # Agent911 — Reliability Snapshot Explained
 
-Agent911 is the **control plane for agent reliability** — a read-only, unified surface for system stability, protection history, and operator visibility. It aggregates signals, highlights risk state, and provides guided triage. Agent911 v0.1 **does not autonomously heal** your system.
+Agent911 is the **control plane for agent reliability** — a read-only, unified surface for system stability, protection history, and operator visibility. It aggregates signals, highlights risk state, and provides guided triage. Agent911 v0.1 **does not perform recovery on its own**.
 
 ## What a "Snapshot" Means
 
@@ -30,8 +30,8 @@ It is designed to answer:
 
 ## What Agent911 Does NOT Do (v0.1 Truth)
 
-- No autonomous recovery
-- No self-healing
+- No automatic recovery
+- No automatic repairs
 - No config mutation by default
 - No "magic fixes" without operator intent
 
