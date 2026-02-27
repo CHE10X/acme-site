@@ -133,3 +133,23 @@ body {
 .live-twitch {
   animation: live-twitch 3.4s steps(1, end) infinite;
 }
+
+@keyframes intel-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(251, 191, 36, 0);
+    opacity: 0.8;
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.25);
+    opacity: 1;
+  }
+}
+
+.intel-pulse {
+  animation: intel-pulse 4.2s ease-in-out infinite;
+}
+
+.intel-pulse:hover {
+  animation-play-state: paused;
+}

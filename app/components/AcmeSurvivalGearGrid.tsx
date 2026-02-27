@@ -327,7 +327,7 @@ export default function AcmeSurvivalGearGrid() {
               </div>
             </div>
             <div className="hidden lg:block lg:sticky lg:top-20 w-full">
-              <HRChatWidget />
+              <HRChatWidget onOpenGear={(id) => setActiveProductId(id)} />
             </div>
           </div>
         </header>
