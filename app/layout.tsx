@@ -27,6 +27,18 @@ export default function RootLayout({
             </Link>
             <nav className="flex items-center gap-6">
               <Link
+                href="/pricing"
+                className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/support"
+                className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Support
+              </Link>
+              <Link
                 href="/docs"
                 className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
               >
@@ -87,6 +99,29 @@ export default function RootLayout({
                       className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
                     >
                       Agent911 — Snapshot Explained
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <div className="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-4">
+                  Support
+                </div>
+                <ul className="space-y-2">
+                  <li>
+                    <Link
+                      href="/pricing"
+                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Pricing
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/support"
+                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Support
                     </Link>
                   </li>
                 </ul>

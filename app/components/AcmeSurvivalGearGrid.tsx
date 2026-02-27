@@ -348,7 +348,7 @@ export default function AcmeSurvivalGearGrid() {
                   <img
                     src="/brand/acme-field-goat.png"
                     alt="ACME Field Insignia"
-                    className="relative z-10 opacity-[0.98] h-auto max-h-[230px] sm:max-h-[250px] lg:max-h-[290px] w-auto select-none pointer-events-none translate-y-6 sm:translate-y-5 lg:translate-y-8"
+                    className="relative z-10 opacity-[0.98] h-auto max-h-[230px] sm:max-h-[250px] lg:max-h-[290px] w-auto select-none pointer-events-none translate-y-6 sm:translate-y-5 lg:translate-y-8 -translate-x-2 sm:-translate-x-3"
                   />
                 </div>
               </div>
