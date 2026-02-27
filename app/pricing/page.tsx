@@ -1,0 +1,203 @@
+export default function PricingPage() {
+  return (
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      <main className="max-w-6xl mx-auto px-6 py-12">
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
+            ACME Agent Supply Co.
+          </div>
+          <h1 className="text-3xl font-bold text-zinc-100 mb-3">Modules</h1>
+          <p className="text-zinc-400">
+            A clear path from scan-time evidence to continuous protection.
+          </p>
+        </div>
+
+        {/* Section A — Start Free */}
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6">
+          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            Start Free
+          </div>
+          <p className="mt-2 text-sm text-zinc-500">
+            Read-only evidence tools to understand system risk before enabling
+            continuous protection.
+          </p>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { title: "RadCheck", unit: "RADIATION SCAN UNIT", tier: "FREE" },
+              { title: "Lazarus Lite", unit: "REANIMATION UNIT", tier: "FREE" },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                      {item.unit}
+                    </div>
+                    <div className="mt-2 text-xl font-semibold text-zinc-100">
+                      {item.title}
+                    </div>
+                  </div>
+                  <div className="text-[10px] uppercase tracking-[0.28em] text-emerald-200/80 border border-white/10 bg-white/5 px-2 py-1 rounded-full">
+                    {item.tier}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section B — Standard Issue Modules */}
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+                Standard Issue Modules
+              </div>
+              <p className="mt-2 text-sm text-zinc-500">
+                Runtime ={" "}
+                <span
+                  className="text-zinc-400"
+                  title="Runtime means one active OpenClaw agent host."
+                >
+                  one active OpenClaw agent host
+                </span>
+                .
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="relative rounded-xl border border-amber-400/40 bg-zinc-900/70 px-5 py-5 shadow-[0_0_24px_rgba(251,191,36,0.12)] scale-[1.03]">
+              <div className="absolute top-4 right-4 text-[10px] tracking-[0.28em] uppercase bg-amber-500/20 text-amber-300 px-2 py-1 rounded-full">
+                Most Popular
+              </div>
+              <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                Continuous Guardrails
+              </div>
+              <div className="mt-2 text-2xl font-semibold text-zinc-100">
+                Sentinel
+              </div>
+              <p className="mt-2 text-sm text-zinc-300">
+                Always-on protection that flags trouble early and keeps
+                instability from growing quietly.
+              </p>
+              <button className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400">
+                Enable Sentinel
+              </button>
+            </div>
+
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                Policy Enforcement
+              </div>
+              <div className="mt-2 text-xl font-semibold text-zinc-100">
+                SphinxGate
+              </div>
+              <p className="mt-2 text-sm text-zinc-300">
+                Token discipline and lane enforcement with audit-friendly
+                routing history.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                    Drift Monitoring
+                  </div>
+                  <div className="mt-2 text-xl font-semibold text-zinc-100">
+                    DriftGuard
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-zinc-400 border border-zinc-700/80 bg-zinc-900/70 px-2 py-1 rounded-full">
+                  Advanced
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-zinc-300">
+                Long-horizon drift signals and audit-ready traces.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                    Signal Routing
+                  </div>
+                  <div className="mt-2 text-xl font-semibold text-zinc-100">
+                    Transmission
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-zinc-400 border border-zinc-700/80 bg-zinc-900/70 px-2 py-1 rounded-full">
+                  Advanced / multi-agent
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-zinc-300">
+                Multi-agent routing guardrails and priority rules.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section C — Operator Kit */}
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6">
+          <div className="flex items-center justify-between gap-4">
+            <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+              Operator Kit
+            </div>
+            <div className="text-[10px] uppercase tracking-[0.28em] text-amber-300 border border-amber-400/30 bg-amber-500/10 px-2 py-1 rounded-full">
+              Most Common Loadout
+            </div>
+          </div>
+          <div className="mt-4 rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-zinc-300">
+              <div>• Sentinel</div>
+              <div>• Watchdog — Included as part of the reliability foundation.</div>
+              <div>• SphinxGate</div>
+              <div>• DriftGuard</div>
+              <div>• Transmission</div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section D — Agent911 */}
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6">
+          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            Agent911
+          </div>
+          <h2 className="mt-2 text-2xl font-semibold text-zinc-100">
+            The control plane for agent reliability.
+          </h2>
+          <p className="mt-3 text-[15px] text-zinc-300 leading-relaxed">
+            Agent911 unifies system stability, Sentinel protection activity, and
+            FindMyAgent visibility into one operational surface — so you know
+            what your agents are doing, and when to act.
+          </p>
+          <ul className="mt-4 space-y-2 text-[15px] text-zinc-200">
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span>unified reliability snapshot</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span>FindMyAgent visibility</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span>protection proofs and history</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
+              <span>guided triage workflows</span>
+            </li>
+          </ul>
+          <div className="mt-4 text-xs uppercase tracking-[0.28em] text-zinc-500">
+            Observational by design. No autonomous changes.
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
