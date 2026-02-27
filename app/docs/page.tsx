@@ -87,6 +87,15 @@ export default function DocsPage() {
             </div>
             <div className="space-y-2">
               <Link
+                href="/docs/findmyagent/overview"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                FindMyAgent — Agent Presence &amp; Operator Awareness
+              </Link>
+              <Link
                 href="/docs/lazarus/overview"
                 className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
               >
