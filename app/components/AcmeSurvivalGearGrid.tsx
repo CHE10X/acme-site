@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import React, { useMemo, useState } from "react";
-import { Shield, Dog, Landmark, Siren } from "lucide-react";
+import { Shield, Dog, Landmark, Siren, LocateFixed } from "lucide-react";
 import HRChatWidget from "./HRChatWidget";
 import TierBadge from "./TierBadge";
 import ProductModal from "./ProductModal";
 import NotifyModal from "./NotifyModal";
+import FieldMap from "./FieldMap";
 
 const TIER_BY_PRODUCT = {
   RadCheck: "FREE",
@@ -42,6 +43,30 @@ type Product = {
 };
 
 const PRODUCTS: Product[] = [
+  {
+    id: "findmyagent",
+    title: "FindMyAgent",
+    unitLabel: "Operator Beta",
+    tier: "CORE",
+    subtitle: "Know what your agents are doing — and what they aren’t.",
+    positioning:
+      "Real-time presence, progress signals, and “needs attention” flags for your agent fleet. Built into Agent911 for operators who need confidence, not guesswork.",
+    bullets: [
+      "live agent presence state",
+      "clear stalled / blocked signals",
+      "last activity + heartbeat age",
+    ],
+    optionalOutputs: "Included with Agent911 operator surface.",
+    bestFor: "Operators needing fast fleet awareness.",
+    ctaLabel: "View in Agent911",
+    docsHref: "/docs/findmyagent/overview",
+    installSnippet: "Included with Agent911",
+    codename: "FINDMYAGENT",
+    description:
+      "Real-time presence, progress signals, and “needs attention” flags for your agent fleet. Built into Agent911 for operators who need confidence, not guesswork.",
+    flavor: "Included with Agent911 operator surface.",
+    icon: <LocateFixed className="w-6 h-6" />,
+  },
   {
     id: "radcheck",
     title: "RadCheck",
@@ -393,6 +418,67 @@ export default function AcmeSurvivalGearGrid() {
             ))}
           </div>
         </div>
+
+        <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-4 items-start">
+            <div className="group rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.32em] text-zinc-500">
+                    Operator Beta
+                  </div>
+                  <h3 className="text-2xl font-semibold text-zinc-100 mt-2">
+                    FindMyAgent
+                  </h3>
+                  <p className="mt-2 text-[15px] text-zinc-300 leading-relaxed">
+                    Know what your agents are doing — and what they aren’t.
+                  </p>
+                </div>
+                <div className="w-10 h-10 rounded-xl bg-zinc-800/70 flex items-center justify-center text-zinc-300 transition duration-150 ease-out group-hover:text-amber-300">
+                  <LocateFixed className="w-6 h-6" />
+                </div>
+              </div>
+              <p className="mt-3 text-[15px] text-zinc-300 leading-relaxed">
+                Real-time presence, progress signals, and “needs attention”
+                flags for your agent fleet. Built into Agent911 for operators
+                who need confidence, not guesswork.
+              </p>
+              <ul className="mt-3 space-y-1 text-[15px] text-zinc-300 leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-[2px]">•</span>
+                  <span>Live agent presence state</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-[2px]">•</span>
+                  <span>Clear stalled / blocked signals</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-amber-400 mt-[2px]">•</span>
+                  <span>Last activity + heartbeat age</span>
+                </li>
+              </ul>
+              <div className="mt-4 flex items-center justify-between">
+                <button
+                  onClick={() => setActiveProductId("agent911")}
+                  className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+                >
+                  View in Agent911
+                </button>
+                <a
+                  href="/docs/findmyagent/overview"
+                  className="text-sm text-amber-300 hover:text-amber-200 transition"
+                >
+                  Learn more →
+                </a>
+              </div>
+              <div className="mt-3 text-xs text-zinc-500">
+                Included with Agent911 operator surface.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <FieldMap />
 
         <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-5 py-6">
           <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
