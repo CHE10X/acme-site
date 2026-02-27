@@ -3,6 +3,13 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --acme-amber-50: #fff6db;
+  --acme-amber-200: #f6c453;
+  --acme-amber-400: #e8a317;
+  --acme-amber-500: #c9850c;
+  --zone-glow-soft: 0 0 10px rgba(232, 163, 23, 0.18);
+  --zone-glow-med: 0 0 18px rgba(232, 163, 23, 0.28);
+  --zone-glow-hot: 0 0 26px rgba(232, 163, 23, 0.42);
 }
 
 @theme inline {
@@ -132,6 +139,37 @@ body {
 
 .live-twitch {
   animation: live-twitch 3.4s steps(1, end) infinite;
+}
+
+@keyframes acme-pulse-slow {
+  0%,
+  100% {
+    box-shadow: var(--zone-glow-med);
+  }
+  50% {
+    box-shadow: var(--zone-glow-hot);
+  }
+}
+
+.zone-glow-0 {
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.zone-glow-1 {
+  opacity: 0.75;
+  box-shadow: var(--zone-glow-soft);
+}
+
+.zone-glow-2 {
+  opacity: 0.9;
+  box-shadow: var(--zone-glow-med);
+}
+
+.zone-glow-3 {
+  opacity: 1;
+  box-shadow: var(--zone-glow-hot);
+  animation: acme-pulse-slow 5.5s ease-in-out infinite;
 }
 
 @keyframes intel-pulse {
