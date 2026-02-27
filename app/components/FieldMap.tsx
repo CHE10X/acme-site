@@ -48,7 +48,7 @@ export default function FieldMap() {
   const isMobileCollapsed = !mobileOpen;
 
   return (
-    <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950 px-5 py-5">
+    <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950 px-5 py-5 pb-4">
       <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
         Field Map
       </div>

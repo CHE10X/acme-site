@@ -512,7 +512,7 @@ export default function AcmeSurvivalGearGrid() {
         <FieldMap />
 
         {/* Footer line */}
-        <div className="mt-14 text-center text-zinc-500 text-sm">
+        <div className="mt-8 text-center text-zinc-500 text-sm">
           Picks. Shovels. Guardrails. Standard issue for autonomous builders.
         </div>
       </div>

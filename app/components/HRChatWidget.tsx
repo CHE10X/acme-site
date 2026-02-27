@@ -266,15 +266,10 @@ function FeedPanel({
               </button>
             ) : null}
             <button
-              onClick={() => {
-                onOpenIntel();
-                onOpenConsole();
-              }}
-              className={`rounded-full border border-amber-400/40 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-amber-300 hover:text-amber-200 hover:border-amber-300/60 transition ${
-                intelSeen ? "" : "intel-pulse"
-              }`}
+              onClick={onOpenIntel}
+              className="rounded-full border border-amber-300/60 bg-amber-400/10 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-amber-200 transition hover:text-amber-100 hover:border-amber-300/80 intel-alert"
             >
-              Open HR Console
+              New Intel
             </button>
             <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-emerald-300 live-pulse live-twitch">
               <span className="relative inline-flex live-pulse">
