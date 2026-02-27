@@ -267,11 +267,11 @@ function FeedPanel({
             ) : null}
             <button
               onClick={onOpenIntel}
-              className="rounded-full border border-amber-300/60 bg-amber-400/10 px-3 py-1 text-[10px] uppercase tracking-[0.26em] text-amber-200 transition hover:text-amber-100 hover:border-amber-300/80 intel-alert"
+              className="rounded-full border border-amber-300/70 bg-amber-400/15 px-3.5 py-1.5 text-[11px] font-semibold leading-none uppercase tracking-[0.28em] text-amber-200 transition hover:text-amber-100 hover:border-amber-300/90 intel-alert"
             >
               New Intel
             </button>
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-emerald-300 live-pulse live-twitch">
+            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-emerald-300">
               <span className="relative inline-flex live-pulse">
                 <span className="absolute inline-flex h-[10px] w-[10px] animate-ping rounded-full bg-emerald-400 opacity-50" />
                 <span className="relative inline-flex h-[10px] w-[10px] rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.75)] ring-2 ring-emerald-300/40" />
@@ -434,11 +434,11 @@ export default function HRChatWidget({
       {consoleOpen ? (
         <div className="fixed inset-0 z-[10080]">
           <button
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"
             aria-label="Close HR Console"
             onClick={closeConsole}
           />
-          <div className="absolute inset-y-0 right-0 w-full md:w-[60vw] bg-zinc-950 border-l border-zinc-800 shadow-2xl transition-transform duration-300 ease-out">
+          <div className="absolute inset-y-0 right-0 w-full md:w-[60vw] md:max-w-[720px] md:my-6 md:mr-6 md:rounded-2xl bg-zinc-900/95 border-l border-zinc-800/80 md:border border-amber-400/20 shadow-2xl shadow-black/60 transition-transform duration-300 ease-out">
             <div
               ref={drawerRef}
               tabIndex={-1}

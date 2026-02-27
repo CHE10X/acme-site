@@ -46,6 +46,7 @@ export default function FieldMap() {
 
   const activeZone = hoveredId ? FIELD_MAP_ZONES[hoveredId] : null;
   const isMobileCollapsed = !mobileOpen;
+  const showHotspots = mobileOpen;
 
   return (
     <section className="mt-6 rounded-2xl border border-zinc-800/70 bg-zinc-950 px-5 py-5 pb-4">
@@ -75,9 +76,7 @@ export default function FieldMap() {
         />
 
         <svg
-          className={`absolute inset-0 h-full w-full ${
-            isMobileCollapsed ? "pointer-events-none" : "pointer-events-auto"
-          } md:pointer-events-auto`}
+          className={`absolute inset-0 h-full w-full ${showHotspots ? "block" : "hidden"} md:block`}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
         >

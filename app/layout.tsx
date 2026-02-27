@@ -40,7 +40,7 @@ export default function RootLayout({
         {children}
 
         {/* Site Footer */}
-        <footer className="border-t border-zinc-800/80 bg-zinc-950 px-6 py-10 mt-8">
+        <footer className="border-t border-zinc-800/80 bg-zinc-950 px-6 py-10 mt-0">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col gap-8 md:flex-row md:justify-between">
               <div>
