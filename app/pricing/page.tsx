@@ -23,8 +23,18 @@ export default function PricingPage() {
           </p>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              { title: "RadCheck", unit: "RADIATION SCAN UNIT", tier: "FREE" },
-              { title: "Lazarus Lite", unit: "REANIMATION UNIT", tier: "FREE" },
+              {
+                title: "RadCheck",
+                unit: "RADIATION SCAN UNIT",
+                tier: "FREE",
+                price: "$0",
+              },
+              {
+                title: "Lazarus Lite",
+                unit: "REANIMATION UNIT",
+                tier: "FREE",
+                price: "$0",
+              },
             ].map((item) => (
               <div
                 key={item.title}
@@ -37,6 +47,9 @@ export default function PricingPage() {
                     </div>
                     <div className="mt-2 text-xl font-semibold text-zinc-100">
                       {item.title}
+                    </div>
+                    <div className="mt-2 text-sm text-zinc-400">
+                      {item.price} / runtime / month
                     </div>
                   </div>
                   <div className="text-[10px] uppercase tracking-[0.28em] text-emerald-200/80 border border-white/10 bg-white/5 px-2 py-1 rounded-full">
@@ -68,8 +81,20 @@ export default function PricingPage() {
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="relative rounded-xl border border-amber-400/40 bg-zinc-900/70 px-5 py-5 shadow-[0_0_24px_rgba(251,191,36,0.12)] scale-[1.03]">
+          <div className="mt-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-4 py-4 lg:col-span-1">
+              <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                Free
+              </div>
+              <div className="mt-2 text-xl font-semibold text-zinc-100">
+                RadCheck
+              </div>
+              <div className="mt-2 text-sm text-zinc-400">
+                $0 / runtime / month
+              </div>
+            </div>
+
+            <div className="relative rounded-xl border border-amber-400/40 bg-zinc-900/70 px-5 py-5 shadow-[0_0_18px_rgba(251,191,36,0.1)] lg:order-2">
               <div className="absolute top-4 right-4 text-[10px] tracking-[0.28em] uppercase bg-amber-500/20 text-amber-300 px-2 py-1 rounded-full">
                 Most Popular
               </div>
@@ -83,6 +108,9 @@ export default function PricingPage() {
                 Always-on protection that flags trouble early and keeps
                 instability from growing quietly.
               </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                $1 / runtime / month
+              </div>
               <button className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400">
                 Enable Sentinel
               </button>
@@ -116,7 +144,31 @@ export default function PricingPage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+            <div className="rounded-2xl border border-amber-400/20 bg-amber-500/5 px-6 py-6 lg:col-span-1 lg:row-span-1 lg:translate-y-[-4px] lg:order-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+                  Operator Kit
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-amber-300 border border-amber-400/30 bg-amber-500/10 px-2 py-1 rounded-full">
+                  Most Common Loadout
+                </div>
+              </div>
+              <div className="mt-3 text-sm text-zinc-400">
+                Includes 5 core reliability modules
+              </div>
+              <div className="mt-3 text-sm text-zinc-400">
+                $5 / runtime / month
+              </div>
+              <div className="mt-4 space-y-2 text-sm text-zinc-300">
+                <div>• Sentinel</div>
+                <div>• Watchdog — Included as part of the reliability foundation.</div>
+                <div>• SphinxGate</div>
+                <div>• DriftGuard</div>
+                <div>• Transmission</div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-3">
               <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
                 Policy Enforcement
               </div>
@@ -127,9 +179,12 @@ export default function PricingPage() {
                 Token discipline and lane enforcement with audit-friendly
                 routing history.
               </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                $1 / runtime / month
+              </div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+            <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
@@ -146,9 +201,12 @@ export default function PricingPage() {
               <p className="mt-2 text-sm text-zinc-300">
                 Long-horizon drift signals and audit-ready traces.
               </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                $1 / runtime / month
+              </div>
             </div>
 
-            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
+            <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-5">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
@@ -165,12 +223,15 @@ export default function PricingPage() {
               <p className="mt-2 text-sm text-zinc-300">
                 Multi-agent routing guardrails and priority rules.
               </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                $1 / runtime / month
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Section C — Operator Kit */}
-        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6">
+        {/* Section C — Operator Kit (mobile) */}
+        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6 lg:hidden">
           <div className="flex items-center justify-between gap-4">
             <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
               Operator Kit
@@ -179,8 +240,14 @@ export default function PricingPage() {
               Most Common Loadout
             </div>
           </div>
-          <div className="mt-4 rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-zinc-300">
+          <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/5 px-6 py-6">
+            <div className="text-sm text-zinc-400">
+              Includes 5 core reliability modules
+            </div>
+            <div className="mt-2 text-sm text-zinc-400">
+              $5 / runtime / month
+            </div>
+            <div className="mt-4 space-y-2 text-sm text-zinc-300">
               <div>• Sentinel</div>
               <div>• Watchdog — Included as part of the reliability foundation.</div>
               <div>• SphinxGate</div>
