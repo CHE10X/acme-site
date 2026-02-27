@@ -86,6 +86,34 @@ export default function PricingPage() {
               <button className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400">
                 Enable Sentinel
               </button>
+              <div className="mt-4 border-t border-amber-400/20 pt-3">
+                <div className="text-[10px] uppercase tracking-[0.3em] text-amber-300">
+                  Proof Artifacts
+                </div>
+                <div className="mt-2 text-xs text-zinc-400">
+                  What Sentinel produces while it’s guarding.
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
+                  {[
+                    "Guardrail events (operator-readable)",
+                    "Silent failure flags",
+                    "Proof bundle snapshots",
+                    "Protection history markers",
+                    "Early trouble signals",
+                  ].map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-zinc-700/80 bg-zinc-900/70 px-2 py-1 text-zinc-300"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-2 text-[10px] uppercase tracking-[0.28em] text-zinc-500">
+                  Evidence you can save, share, and audit. Observational by
+                  design.
+                </div>
+              </div>
             </div>
 
             <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-5 py-5">
