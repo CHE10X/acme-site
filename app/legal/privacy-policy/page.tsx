@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Privacy Policy for ACME Agent Supply Co. products and services.",
 };
 
-export default function LegacyPrivacyPage() {
+export default function PrivacyPolicyPage() {
   return <LegalDocumentPage slug="privacy-policy" />;
 }

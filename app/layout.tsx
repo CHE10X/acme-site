@@ -127,8 +127,22 @@ export default function RootLayout({
                 </ul>
               </div>
             </div>
-            <div className="mt-8 pt-6 border-t border-zinc-800/60 text-[11px] text-zinc-600 text-center tracking-widest uppercase">
-              Property of ACME • Serial 77A • Authorized operators only
+            <div className="mt-8 pt-4 text-center text-xs text-zinc-500">
+              <span>© 2026 Acme Agent Supply Co.</span>
+              <span className="px-2 text-zinc-600">·</span>
+              <Link
+                href="/legal/terms-of-service"
+                className="transition-colors hover:text-zinc-300"
+              >
+                Terms
+              </Link>
+              <span className="px-2 text-zinc-600">·</span>
+              <Link
+                href="/legal/privacy-policy"
+                className="transition-colors hover:text-zinc-300"
+              >
+                Privacy
+              </Link>
             </div>
           </div>
         </footer>

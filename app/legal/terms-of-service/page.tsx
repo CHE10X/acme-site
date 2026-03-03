@@ -6,6 +6,6 @@ export const metadata: Metadata = {
   description: "Terms of Service for ACME Agent Supply Co. products and services.",
 };
 
-export default function LegacyTermsPage() {
+export default function TermsOfServicePage() {
   return <LegalDocumentPage slug="terms-of-service" />;
 }
