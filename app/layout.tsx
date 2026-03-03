@@ -33,6 +33,12 @@ export default function RootLayout({
                 Pricing
               </Link>
               <Link
+                href="/bot-shop"
+                className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Bot Shop
+              </Link>
+              <Link
                 href="/support"
                 className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
               >
@@ -108,6 +114,14 @@ export default function RootLayout({
                   Support
                 </div>
                 <ul className="space-y-2">
+                  <li>
+                    <Link
+                      href="/bot-shop"
+                      className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+                    >
+                      Bot Shop
+                    </Link>
+                  </li>
                   <li>
                     <Link
                       href="/pricing"
