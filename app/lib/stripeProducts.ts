@@ -1,75 +1,96 @@
-export type CheckoutSku =
+export type CheckoutProductKey =
   | "sentinel"
-  | "operator_kit"
+  | "operator-kit"
   | "agent911"
   | "sphinxgate"
   | "driftguard"
-  | "transmission";
+  | "transmission"
+  | "watchdog"
+  | "lazarus"
+  | "findmyagent";
 
 export type StripeProductConfig = {
-  sku: CheckoutSku;
+  productKey: CheckoutProductKey;
   displayName: string;
   priceEnvKey:
-    | "STRIPE_PRICE_SENTINEL"
-    | "STRIPE_PRICE_OPERATOR_KIT"
-    | "STRIPE_PRICE_AGENT911"
-    | "STRIPE_PRICE_MODULE_GENERIC";
-  moduleSku?: "sphinxgate" | "driftguard" | "transmission";
+    | "SENTINEL_PRICE_ID"
+    | "OPERATOR_KIT_PRICE_ID"
+    | "AGENT911_PRICE_ID"
+    | "SPHINXGATE_PRICE_ID"
+    | "DRIFTGUARD_PRICE_ID"
+    | "TRANSMISSION_PRICE_ID"
+    | "WATCHDOG_PRICE_ID"
+    | "LAZARUS_PRICE_ID"
+    | "FINDMYAGENT_PRICE_ID";
 };
 
 export const SUPPORT_EMAIL = "support@acmeagentsupply.co";
 
-export const STRIPE_PRODUCTS: Record<CheckoutSku, StripeProductConfig> = {
+export const STRIPE_PRODUCTS: Record<CheckoutProductKey, StripeProductConfig> = {
   sentinel: {
-    sku: "sentinel",
+    productKey: "sentinel",
     displayName: "Sentinel",
-    priceEnvKey: "STRIPE_PRICE_SENTINEL",
+    priceEnvKey: "SENTINEL_PRICE_ID",
   },
-  operator_kit: {
-    sku: "operator_kit",
+  "operator-kit": {
+    productKey: "operator-kit",
     displayName: "Operator Kit",
-    priceEnvKey: "STRIPE_PRICE_OPERATOR_KIT",
+    priceEnvKey: "OPERATOR_KIT_PRICE_ID",
   },
   agent911: {
-    sku: "agent911",
+    productKey: "agent911",
     displayName: "Agent911",
-    priceEnvKey: "STRIPE_PRICE_AGENT911",
+    priceEnvKey: "AGENT911_PRICE_ID",
   },
   sphinxgate: {
-    sku: "sphinxgate",
+    productKey: "sphinxgate",
     displayName: "SphinxGate",
-    priceEnvKey: "STRIPE_PRICE_MODULE_GENERIC",
-    moduleSku: "sphinxgate",
+    priceEnvKey: "SPHINXGATE_PRICE_ID",
   },
   driftguard: {
-    sku: "driftguard",
+    productKey: "driftguard",
     displayName: "DriftGuard",
-    priceEnvKey: "STRIPE_PRICE_MODULE_GENERIC",
-    moduleSku: "driftguard",
+    priceEnvKey: "DRIFTGUARD_PRICE_ID",
   },
   transmission: {
-    sku: "transmission",
+    productKey: "transmission",
     displayName: "Transmission",
-    priceEnvKey: "STRIPE_PRICE_MODULE_GENERIC",
-    moduleSku: "transmission",
+    priceEnvKey: "TRANSMISSION_PRICE_ID",
+  },
+  watchdog: {
+    productKey: "watchdog",
+    displayName: "Watchdog",
+    priceEnvKey: "WATCHDOG_PRICE_ID",
+  },
+  lazarus: {
+    productKey: "lazarus",
+    displayName: "Lazarus",
+    priceEnvKey: "LAZARUS_PRICE_ID",
+  },
+  findmyagent: {
+    productKey: "findmyagent",
+    displayName: "FindMyAgent",
+    priceEnvKey: "FINDMYAGENT_PRICE_ID",
   },
 };
 
-export function isCheckoutSku(value: unknown): value is CheckoutSku {
+export function isCheckoutProductKey(
+  value: unknown
+): value is CheckoutProductKey {
   return typeof value === "string" && value in STRIPE_PRODUCTS;
 }
 
-export function getCheckoutProduct(sku: CheckoutSku) {
-  return STRIPE_PRODUCTS[sku];
+export function getCheckoutProduct(productKey: CheckoutProductKey) {
+  return STRIPE_PRODUCTS[productKey];
 }
 
-export function getCheckoutPriceId(sku: CheckoutSku) {
-  const product = getCheckoutProduct(sku);
+export function getCheckoutPriceId(productKey: CheckoutProductKey) {
+  const product = getCheckoutProduct(productKey);
   return process.env[product.priceEnvKey];
 }
 
-export function getSuccessHref(sku: string | null) {
-  switch (sku) {
+export function getSuccessHref(productKey: string | null) {
+  switch (productKey) {
     case "sentinel":
       return "/docs/sentinel/overview";
     default:
