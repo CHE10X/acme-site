@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import AgentPlaybook from "./AgentPlaybook";
 import CapabilityMatrix from "./CapabilityMatrix";
 
 export const metadata: Metadata = {
@@ -25,9 +27,37 @@ export default function BotShopPage() {
             Use this page to map symptoms to the right ACME tool with correct
             scope and guardrails.
           </p>
+          <p className="mt-2 text-sm leading-7 text-zinc-500">
+            High-density reference. Human-readable, bot-optimized.
+          </p>
         </section>
 
-        <section className="mt-10">
+        <nav className="mt-8 rounded-2xl border border-white/10 bg-zinc-900/30 px-5 py-4">
+          <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+            On this page
+          </div>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            {[
+              ["#capability-matrix", "Capability Matrix"],
+              ["#agent-playbook", "Agent Playbook"],
+              ["#symptom-routing", "Symptom Routing"],
+              ["#message-templates", "Message Templates"],
+              ["#evidence-protocol", "Evidence Protocol"],
+              ["#guardrails", "Guardrails"],
+              ["#deep-links", "Deep Links"],
+            ].map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-zinc-300 underline underline-offset-4 hover:text-zinc-100"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+
+        <section id="capability-matrix" className="mt-8 scroll-mt-24">
           <div className="mb-4 max-w-3xl">
             <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
               Capability Matrix
@@ -39,22 +69,17 @@ export default function BotShopPage() {
           <CapabilityMatrix />
         </section>
 
-        <section className="mt-10 max-w-3xl rounded-2xl border border-white/10 bg-zinc-900/30 px-5 py-5">
-          <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
-            Agent Playbook (vNext)
-          </h2>
-          <p className="mt-3 text-sm leading-7 text-zinc-300">
-            This section will provide agent-facing instructions for mapping
-            symptoms to actions and for communicating results back to human
-            operators.
-          </p>
-          <p className="mt-2 text-sm leading-7 text-zinc-400">
-            The initial release keeps this intentionally narrow so the matrix can
-            act as a stable reference surface first.
-          </p>
-          <p className="mt-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
-            vNext
-          </p>
+        <section className="mt-8">
+          <div className="mb-4 max-w-3xl">
+            <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
+              Agent Playbook
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              Dense reference blocks for routing symptoms, requesting evidence,
+              and communicating safe next steps back to operators.
+            </p>
+          </div>
+          <AgentPlaybook />
         </section>
       </main>
     </div>
