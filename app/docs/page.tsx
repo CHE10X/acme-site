@@ -38,22 +38,32 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <main className="max-w-5xl mx-auto px-6 py-12">
-        <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
-          <img
-            src="/brand/agent911-support-badge.png"
-            alt="Agent911 Support Badge"
-            className="hidden md:block absolute top-2 right-6 h-40 w-auto opacity-80"
-          />
-          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
-            ACME Agent Supply Co.
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div className="max-w-2xl">
+              <div className="mb-2 text-[10px] uppercase tracking-[0.4em] text-amber-400">
+                ACME Agent Supply Co.
+              </div>
+              <h1 className="max-w-[18ch] text-3xl font-semibold tracking-[-0.02em] text-zinc-100 mb-3">
+                Documentation
+              </h1>
+              <p className="max-w-[60ch] text-zinc-400">
+                Platform documentation for reliability-minded operators.
+              </p>
+            </div>
+
+            <div className="flex justify-start md:justify-end">
+              <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-4 py-3">
+                <img
+                  src="/brand/agent911-support-badge.png"
+                  alt="Agent911 Support Badge"
+                  className="h-28 w-auto opacity-85 md:h-32"
+                />
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold text-zinc-100 mb-3">
-            Documentation
-          </h1>
-          <p className="text-zinc-400">
-            Platform documentation for reliability-minded operators.
-          </p>
-          <div className="mt-5 overflow-hidden rounded">
+
+          <div className="mt-6 overflow-hidden rounded">
             <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
           </div>
         </div>
