@@ -1,3 +1,5 @@
+import PricingCheckoutButton from "../components/PricingCheckoutButton";
+
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -111,9 +113,12 @@ export default function PricingPage() {
               <div className="mt-2 text-sm text-zinc-400">
                 $1 / runtime / month
               </div>
-              <button className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400">
+              <PricingCheckoutButton
+                sku="sentinel"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+              >
                 Enable Sentinel
-              </button>
+              </PricingCheckoutButton>
               <div className="mt-4 border-t border-amber-400/20 pt-3">
                 <div className="text-[10px] uppercase tracking-[0.3em] text-amber-300">
                   Proof Artifacts
@@ -166,6 +171,12 @@ export default function PricingPage() {
                 <div>• DriftGuard</div>
                 <div>• Transmission</div>
               </div>
+              <PricingCheckoutButton
+                sku="operator_kit"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/40 bg-amber-400/12 px-4 py-2 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-400/16"
+              >
+                Get Operator Kit
+              </PricingCheckoutButton>
             </div>
 
             <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-3">
@@ -182,6 +193,12 @@ export default function PricingPage() {
               <div className="mt-2 text-sm text-zinc-400">
                 $1 / runtime / month
               </div>
+              <PricingCheckoutButton
+                sku="sphinxgate"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
+              >
+                Enable SphinxGate
+              </PricingCheckoutButton>
             </div>
 
             <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-4">
@@ -204,6 +221,12 @@ export default function PricingPage() {
               <div className="mt-2 text-sm text-zinc-400">
                 $1 / runtime / month
               </div>
+              <PricingCheckoutButton
+                sku="driftguard"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
+              >
+                Enable DriftGuard
+              </PricingCheckoutButton>
             </div>
 
             <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-5">
@@ -226,6 +249,12 @@ export default function PricingPage() {
               <div className="mt-2 text-sm text-zinc-400">
                 $1 / runtime / month
               </div>
+              <PricingCheckoutButton
+                sku="transmission"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
+              >
+                Enable Transmission
+              </PricingCheckoutButton>
             </div>
           </div>
         </section>
@@ -254,6 +283,12 @@ export default function PricingPage() {
               <div>• DriftGuard</div>
               <div>• Transmission</div>
             </div>
+            <PricingCheckoutButton
+              sku="operator_kit"
+              className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/40 bg-amber-400/12 px-4 py-2 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-400/16"
+            >
+              Most Common Loadout
+            </PricingCheckoutButton>
           </div>
         </section>
 
@@ -291,6 +326,12 @@ export default function PricingPage() {
           <div className="mt-4 text-xs uppercase tracking-[0.28em] text-zinc-500">
             Observational by design. No autonomous changes.
           </div>
+          <PricingCheckoutButton
+            sku="agent911"
+            className="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
+          >
+            Enable Agent911
+          </PricingCheckoutButton>
         </section>
       </main>
     </div>
