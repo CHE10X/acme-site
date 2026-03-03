@@ -7,7 +7,7 @@ import HRChatWidget from "./HRChatWidget";
 import TierBadge from "./TierBadge";
 import ProductModal from "./ProductModal";
 import NotifyModal from "./NotifyModal";
-import FieldMap from "./FieldMap";
+import FieldMap from "./fieldmap/FieldMap";
 
 const TIER_BY_PRODUCT = {
   RadCheck: "FREE",
