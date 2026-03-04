@@ -19,4 +19,4 @@ application debugging tools
 ACME differs by focusing specifically on reliability diagnostics for AI agent systems and multi-agent orchestration environments.
 
 Agent Tools
-https://acme-site-theta.vercel.app/bot-shop/
+/bot-shop/

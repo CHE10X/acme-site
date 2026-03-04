@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 type CapabilityRow = {
+  anchor?: string;
   tool: string;
   primaryFunction: string;
   mode: string;
@@ -13,6 +14,7 @@ type CapabilityRow = {
 
 const CAPABILITY_ROWS: CapabilityRow[] = [
   {
+    anchor: "octriage",
     tool: "OCTriageUnit",
     primaryFunction: "Read-only first-response triage snapshot",
     mode: "One-shot, read-only, zero telemetry",
@@ -23,6 +25,7 @@ const CAPABILITY_ROWS: CapabilityRow[] = [
     tags: ["FREE"],
   },
   {
+    anchor: "radcheck",
     tool: "RadCheck",
     primaryFunction: "Scan-time detection of systemic risk posture",
     mode: "On-demand scan (read-only evidence)",
@@ -47,6 +50,7 @@ const CAPABILITY_ROWS: CapabilityRow[] = [
     tags: ["FREE"],
   },
   {
+    anchor: "sentinel",
     tool: "Sentinel",
     primaryFunction: "Continuous runtime guardrails + early trouble flags",
     mode: "Continuous runtime protection layer",
@@ -172,7 +176,7 @@ export default function CapabilityMatrix() {
           </thead>
           <tbody>
             {CAPABILITY_ROWS.map((row) => (
-              <tr key={row.tool} className="align-top">
+              <tr key={row.tool} id={row.anchor} className="align-top">
                 <td className="border-b border-white/10 px-4 py-4 text-zinc-100">
                   <div className="font-medium">{row.tool}</div>
                   <div className="mt-2 flex flex-wrap gap-2">
@@ -209,6 +213,7 @@ export default function CapabilityMatrix() {
         {CAPABILITY_ROWS.map((row) => (
           <article
             key={row.tool}
+            id={row.anchor}
             className="rounded-2xl border border-white/10 bg-zinc-900/40 p-4 text-sm"
           >
             <div className="flex items-start justify-between gap-3">
