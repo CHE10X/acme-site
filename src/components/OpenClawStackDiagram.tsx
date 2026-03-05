@@ -123,8 +123,8 @@ export default function OpenClawStackDiagram() {
       </text>
 
       <rect className="guard" x="350" y="380" width="190" height="64" />
-      <text className="t label" x="362" y="418">
-        Watchdog Hygiene Guard
+      <text className="t label" x="384" y="418">
+        Watchdog
       </text>
       <rect className="badge-guard" x="486" y="386" width="48" height="18" />
       <text className="t tiny" x="493" y="399">
@@ -140,35 +140,35 @@ export default function OpenClawStackDiagram() {
         Alerts
       </text>
 
-      <rect className="system" x="630" y="170" width="190" height="64" />
-      <text className="t label" x="658" y="208">
+      <rect className="system" x="655" y="170" width="190" height="64" />
+      <text className="t label" x="683" y="208">
         Agent Session
       </text>
 
-      <rect className="tool" x="590" y="275" width="210" height="64" />
-      <text className="t label" x="618" y="313">
+      <rect className="tool" x="655" y="274" width="190" height="64" />
+      <text className="t label" x="683" y="312">
         OCTriageUnit
       </text>
-      <rect className="badge-tool" x="742" y="281" width="52" height="18" />
-      <text className="t tiny" x="752" y="294">
+      <rect className="badge-tool" x="785" y="280" width="52" height="18" />
+      <text className="t tiny" x="795" y="293">
         TOOL
       </text>
-      <rect className="badge" x="742" y="305" width="48" height="18" />
-      <text className="t tiny" x="750" y="318">
+      <rect className="badge" x="789" y="304" width="48" height="18" />
+      <text className="t tiny" x="797" y="317">
         v0.1.5
       </text>
 
-      <rect className="system" x="630" y="370" width="190" height="64" />
-      <text className="t label" x="658" y="408">
+      <rect className="system" x="655" y="378" width="190" height="64" />
+      <text className="t label" x="683" y="416">
         Proof Bundle
       </text>
 
-      <rect className="tool" x="630" y="475" width="190" height="64" />
-      <text className="t label" x="674" y="513">
+      <rect className="tool" x="655" y="482" width="190" height="64" />
+      <text className="t label" x="699" y="520">
         Agent911
       </text>
-      <rect className="badge-tool" x="766" y="481" width="48" height="18" />
-      <text className="t tiny" x="776" y="494">
+      <rect className="badge-tool" x="791" y="488" width="48" height="18" />
+      <text className="t tiny" x="801" y="501">
         TOOL
       </text>
 
@@ -196,25 +196,25 @@ export default function OpenClawStackDiagram() {
         Agents
       </text>
 
-      <path className="line" d="M260 212 H630" />
-      <path className="line" d="M260 312 H300 V202 H630" />
+      <path className="line" d="M260 212 V156 H655 V202" />
+      <path className="line" d="M260 312 H300 V166 H655 V202" />
       <path className="line" d="M165 380 V344" />
       <path className="line" d="M350 212 H300 V412 H260" />
       <path className="line" d="M350 202 H300 V312 H260" />
-      <path className="inspect" d="M725 234 V275" />
-      <path className="line" d="M695 339 V370" />
+      <path className="inspect" d="M750 234 V274" />
+      <path className="line" d="M750 338 V378" />
       <path className="line" d="M445 444 V480" />
       <path className="line" d="M445 344 V556" />
-      <path className="line" d="M820 507 H920 V212 H960" />
+      <path className="line" d="M845 514 H920 V212 H960" />
       <path className="line" d="M1045 344 V380" />
       <path className="line" d="M1045 544 V556" />
-      <path className="operator-run" d="M960 312 H910 V307 H800" />
-      <text className="t small" x="842" y="296">
+      <path className="operator-run" d="M960 312 H910 V306 H845" />
+      <text className="t small" x="858" y="294">
         Operator runs
       </text>
 
-      <g transform="translate(770,636)">
-        <rect className="badge" x="0" y="0" width="390" height="48" />
+      <g transform="translate(700,636)">
+        <rect className="badge" x="0" y="0" width="280" height="48" />
         <text className="t legend-label" x="10" y="13">
           Legend
         </text>
@@ -232,8 +232,8 @@ export default function OpenClawStackDiagram() {
         </text>
       </g>
 
-      <g transform="translate(940,588)">
-        <rect className="badge" x="0" y="0" width="220" height="42" />
+      <g transform="translate(990,636)">
+        <rect className="badge" x="0" y="0" width="170" height="42" />
         <circle className="ok" cx="18" cy="21" r="5" />
         <text className="t tiny" x="30" y="25">
           OK
