@@ -1,15 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
-  <title id="title">OpenClaw Reliability Stack Architecture (Dark)</title>
-  <desc id="desc">Dark presentation of OpenClaw reliability stack with Elixir memory flow, triage, and operator surfaces.</desc>
+  <title id="title">OpenClaw Reliability Control Plane (Dark)</title>
+  <desc id="desc">OpenClaw reliability control plane flow from system signals to evidence, triage, and operator recovery actions.</desc>
   <defs>
     <style>
       .t { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; fill: #e5e7eb; }
       .title { font-size: 22px; font-weight: 700; }
-      .label { font-size: 15px; font-weight: 600; }
+      .label { font-size: 14px; font-weight: 600; }
       .small { font-size: 12px; font-weight: 500; fill: #9ca3af; }
-      .band { fill: #0f172a; opacity: 0.5; stroke: #334155; stroke-width: 1.5; vector-effect: non-scaling-stroke; rx: 12; ry: 12; }
+      .tiny { font-size: 11px; font-weight: 600; fill: #a1a1aa; }
+      .band { fill: #0f172a; opacity: 0.46; stroke: #334155; stroke-width: 1.5; vector-effect: non-scaling-stroke; rx: 14; ry: 14; }
       .band-label { font-size: 12px; font-weight: 600; fill: #cbd5e1; }
-      .card { fill: #111827; stroke: #64748b; stroke-width: 2; vector-effect: non-scaling-stroke; rx: 14; ry: 14; }
+      .card { fill: #111827; stroke: #64748b; stroke-width: 2; vector-effect: non-scaling-stroke; rx: 12; ry: 12; }
+      .triage-card { fill: #1f2937; stroke: #f59e0b; stroke-width: 2.6; vector-effect: non-scaling-stroke; rx: 12; ry: 12; }
+      .badge { fill: #27272a; stroke: #52525b; stroke-width: 1; vector-effect: non-scaling-stroke; rx: 8; ry: 8; }
       .line { stroke: #e5e7eb; stroke-width: 2; fill: none; vector-effect: non-scaling-stroke; marker-end: url(#arr); }
       .ok { fill: #22c55e; }
       .warn { fill: #f59e0b; }
@@ -20,55 +23,57 @@
     </marker>
   </defs>
   <rect x="0" y="0" width="1200" height="700" fill="#020617" />
-  <text class="t title" x="60" y="56">Control Plane - Reliability Surfaces</text>
-  <text class="t small" x="60" y="78">Read-only first response → continuous protection → recovery</text>
-  <rect class="band" x="40" y="96" width="260" height="510" />
-  <text class="t band-label" x="52" y="116">Evidence &amp; State</text>
-  <rect class="band" x="680" y="96" width="500" height="300" />
-  <text class="t band-label" x="692" y="116">Protection</text>
-  <rect class="band" x="340" y="482" width="840" height="198" />
-  <text class="t band-label" x="352" y="502">Operator Control</text>
+  <text class="t title" x="60" y="56">OpenClaw Reliability Control Plane</text>
+  <text class="t small" x="60" y="78">Signals → Evidence → Triage → Recovery</text>
+  <rect class="band" x="40" y="120" width="250" height="500" />
+  <text class="t band-label" x="52" y="116">System State</text>
+  <rect class="band" x="320" y="120" width="250" height="500" />
+  <text class="t band-label" x="332" y="116">Protection Surfaces</text>
+  <rect class="band" x="600" y="120" width="300" height="500" />
+  <text class="t band-label" x="612" y="116">Operator Response</text>
+  <rect class="band" x="930" y="120" width="230" height="500" />
+  <text class="t band-label" x="942" y="116">Human Control</text>
 
-  <rect class="card" x="60" y="110" width="220" height="90" /><text class="t label" x="90" y="152">BOOT.md</text>
-  <rect class="card" x="60" y="240" width="220" height="90" /><text class="t label" x="90" y="282">DIGEST.md</text>
-  <rect class="card" x="60" y="370" width="220" height="90" /><text class="t label" x="90" y="412">Digest Builder</text>
-  <rect class="card" x="60" y="500" width="220" height="90" /><text class="t label" x="90" y="542">Drift Guard</text>
-  <text class="t small" x="60" y="620">Elixir v0.1.x</text>
+  <rect class="card" x="70" y="180" width="190" height="64" /><text class="t label" x="98" y="218">BOOT.md</text>
+  <rect class="card" x="70" y="280" width="190" height="64" /><text class="t label" x="98" y="318">DIGEST.md</text>
+  <rect class="card" x="70" y="380" width="190" height="64" /><text class="t label" x="98" y="418">Digest Builder</text>
+  <rect class="badge" x="210" y="386" width="44" height="18" /><text class="t tiny" x="218" y="399">v0.1.x</text>
 
-  <rect class="card" x="360" y="175" width="240" height="90" /><text class="t label" x="390" y="217">Agent Session</text>
-  <rect class="card" x="360" y="370" width="240" height="90" />
-  <text class="t label" x="390" y="412">OCTriageUnit</text><text class="t small" x="390" y="434">v0.1.5</text>
-  <rect class="card" x="700" y="370" width="240" height="90" /><text class="t label" x="730" y="412">Proof Bundle</text>
-  <rect class="card" x="700" y="110" width="240" height="90" /><text class="t label" x="730" y="152">Watchdog Hygiene Guard</text>
-  <rect class="card" x="700" y="240" width="240" height="90" /><text class="t label" x="730" y="282">Disk/Workspace</text>
-  <rect class="card" x="1000" y="170" width="170" height="90" />
-  <text class="t label" x="1025" y="212">Sentinel</text><text class="t small" x="1025" y="232">(Disk Pressure)</text>
-  <rect class="card" x="1000" y="300" width="170" height="90" /><text class="t label" x="1045" y="352">Alerts</text>
-  <rect class="card" x="700" y="500" width="240" height="90" /><text class="t label" x="730" y="542">Agent911</text>
-  <rect class="card" x="1000" y="500" width="170" height="90" /><text class="t label" x="1038" y="542">Recovery</text>
-  <rect class="card" x="360" y="500" width="240" height="90" /><text class="t label" x="390" y="542">Commander</text>
-  <rect class="card" x="360" y="610" width="240" height="60" /><text class="t label" x="390" y="647">Operator</text>
-  <rect class="card" x="700" y="610" width="240" height="60" /><text class="t label" x="730" y="647">Channels (Discord/Telegram/Web)</text>
-  <rect class="card" x="1000" y="610" width="170" height="60" /><text class="t label" x="1048" y="647">Agents</text>
+  <rect class="card" x="350" y="180" width="190" height="64" /><text class="t label" x="378" y="218">Drift Guard</text>
+  <rect class="card" x="350" y="280" width="190" height="64" /><text class="t label" x="378" y="312">Sentinel</text><text class="t small" x="378" y="330">(Disk Pressure)</text>
+  <rect class="card" x="350" y="380" width="190" height="64" /><text class="t label" x="362" y="418">Watchdog Hygiene Guard</text>
+  <rect class="card" x="350" y="480" width="190" height="64" /><text class="t label" x="378" y="518">Disk/Workspace</text>
+  <rect class="card" x="350" y="556" width="190" height="52" /><text class="t label" x="403" y="588">Alerts</text>
 
-  <path class="line" d="M280 155 H360" />
-  <path class="line" d="M280 285 H360" />
-  <path class="line" d="M280 415 V285 H360" />
-  <path class="line" d="M280 545 V415 H360" />
-  <path class="line" d="M280 545 V285 H60" />
-  <path class="line" d="M600 415 H700" />
-  <path class="line" d="M940 155 V285 H700" />
-  <path class="line" d="M940 285 H700" />
-  <path class="line" d="M1170 215 V300" />
-  <path class="line" d="M940 545 H1000" />
-  <path class="line" d="M480 590 V610" />
-  <path class="line" d="M940 640 H1000" />
+  <rect class="card" x="630" y="170" width="190" height="64" /><text class="t label" x="658" y="208">Agent Session</text>
+  <rect class="triage-card" x="630" y="275" width="190" height="64" /><text class="t label" x="658" y="313">OCTriageUnit</text>
+  <rect class="badge" x="772" y="281" width="42" height="18" /><text class="t tiny" x="780" y="294">v0.1.5</text>
+  <rect class="card" x="630" y="370" width="190" height="64" /><text class="t label" x="658" y="408">Proof Bundle</text>
+  <rect class="card" x="630" y="475" width="190" height="64" /><text class="t label" x="674" y="513">Agent911</text>
 
-  <g transform="translate(990,70)">
-    <rect class="card" x="0" y="0" width="180" height="82" />
-    <text class="t label" x="14" y="22">Legend</text>
-    <circle class="ok" cx="20" cy="40" r="6" /><text class="t small" x="34" y="44">OK</text>
-    <circle class="warn" cx="20" cy="58" r="6" /><text class="t small" x="34" y="62">WARN</text>
-    <circle class="deg" cx="90" cy="58" r="6" /><text class="t small" x="104" y="62">DEGRADED</text>
+  <rect class="card" x="960" y="180" width="170" height="64" /><text class="t label" x="1005" y="218">Recovery</text>
+  <rect class="card" x="960" y="280" width="170" height="64" /><text class="t label" x="995" y="318">Commander</text>
+  <rect class="card" x="960" y="380" width="170" height="64" /><text class="t label" x="1006" y="418">Operator</text>
+  <rect class="card" x="960" y="480" width="170" height="64" /><text class="t small" x="992" y="507">Channels</text><text class="t tiny" x="970" y="525">Channels (Discord/Telegram/Web)</text>
+  <rect class="card" x="960" y="556" width="170" height="52" /><text class="t label" x="1012" y="587">Agents</text>
+
+  <path class="line" d="M260 212 H630" />
+  <path class="line" d="M260 312 H300 V202 H630" />
+  <path class="line" d="M165 380 V344" />
+  <path class="line" d="M350 212 H300 V412 H260" />
+  <path class="line" d="M350 202 H300 V312 H260" />
+  <path class="line" d="M725 234 V275" />
+  <path class="line" d="M725 339 V370" />
+  <path class="line" d="M445 444 V480" />
+  <path class="line" d="M445 344 V556" />
+  <path class="line" d="M820 507 H920 V212 H960" />
+  <path class="line" d="M1045 344 V380" />
+  <path class="line" d="M1045 544 V556" />
+
+  <g transform="translate(940,642)">
+    <rect class="badge" x="0" y="0" width="220" height="42" />
+    <circle class="ok" cx="18" cy="21" r="5" /><text class="t tiny" x="30" y="25">OK</text>
+    <circle class="warn" cx="88" cy="21" r="5" /><text class="t tiny" x="100" y="25">WARN</text>
+    <circle class="deg" cx="168" cy="21" r="5" /><text class="t tiny" x="180" y="25">DEGRADED</text>
   </g>
 </svg>
