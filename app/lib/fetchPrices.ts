@@ -21,7 +21,7 @@ export const PRICE_FALLBACKS: PriceMap = {
   driftguard: "$1",
   transmission: "$1",
   watchdog: "$1",
-  findmyagent: "$0",
+  findmyagent: "$1",
   lazarus: "$0",
   free: "$0",
 };
