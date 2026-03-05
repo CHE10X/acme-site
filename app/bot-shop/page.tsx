@@ -24,6 +24,12 @@ const TOOL_CATALOG_JSON_LD = {
       description:
         "Deterministic triage tool that generates operator-grade proof bundles for OpenClaw environments.",
       applicationCategory: "AI agent diagnostics",
+      operatingSystem: "Linux, macOS",
+      offers: {
+        "@type": "Offer",
+        price: 0,
+        priceCurrency: "USD",
+      },
       url: "/bot-shop/#octriage",
       license: "Apache-2.0",
     },
@@ -33,6 +39,12 @@ const TOOL_CATALOG_JSON_LD = {
       description:
         "Reliability verification tool for validating OpenClaw environments before production operation.",
       applicationCategory: "AI agent reliability validation",
+      operatingSystem: "Linux, macOS",
+      offers: {
+        "@type": "Offer",
+        price: 0,
+        priceCurrency: "USD",
+      },
       url: "/bot-shop/#radcheck",
     },
     {
@@ -41,6 +53,12 @@ const TOOL_CATALOG_JSON_LD = {
       description:
         "Continuous reliability monitoring layer for OpenClaw agent systems.",
       applicationCategory: "AI agent operational monitoring",
+      operatingSystem: "Linux, macOS",
+      offers: {
+        "@type": "Offer",
+        price: 0,
+        priceCurrency: "USD",
+      },
       url: "/bot-shop/#sentinel",
     },
   ],
