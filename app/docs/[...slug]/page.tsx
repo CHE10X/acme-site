@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { marked } from "marked";
+import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
 const DOCS_DIR = path.join(process.cwd(), "content", "docs");
 
@@ -70,6 +71,7 @@ export default async function DocsArticlePage({
     href: "/docs/" + slug.slice(0, i + 1).join("/"),
     isLast: i === slug.length - 1,
   }));
+  const isReliabilityStackPage = slug.join("/") === "architecture/reliability-stack";
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
@@ -131,6 +133,17 @@ export default async function DocsArticlePage({
             className="docs-prose"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
+
+          {isReliabilityStackPage ? (
+            <figure className="mt-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+              <OpenClawStackDiagram />
+              <figcaption className="mt-3 text-sm text-zinc-400">
+                Alt text: OpenClaw reliability stack architecture showing Elixir
+                memory flow, OCTriageUnit proof generation, runtime guards, and
+                operator channels from Commander to Agents.
+              </figcaption>
+            </figure>
+          ) : null}
 
           {/* Back link */}
           <div className="mt-12 pt-6 border-t border-zinc-800">

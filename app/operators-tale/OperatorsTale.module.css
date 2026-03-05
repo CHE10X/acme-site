@@ -1,0 +1,276 @@
+.page {
+  --bg: #f5f2eb;
+  --ink: #1a1a14;
+  --ink-mid: #444339;
+  --label: rgba(26, 26, 20, 0.7);
+  --accent: #b64d1a;
+  --rule: #d2cdbf;
+  --paper: #ece8de;
+  --field-green: #3c5b3e;
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 64px 24px 112px;
+}
+
+.classification {
+  display: inline-block;
+  margin-bottom: 36px;
+  border: 1px solid var(--rule);
+  padding: 5px 10px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.titleBlock {
+  border-left: 3px solid var(--accent);
+  padding-left: 18px;
+  margin-bottom: 52px;
+}
+
+.docLabel {
+  margin-bottom: 9px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.title {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 4.6vw, 42px);
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.035em;
+  color: var(--ink-mid);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.rule {
+  margin: 44px 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.sectionLabel {
+  margin-bottom: 16px;
+  font-size: 10px;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.wrap p {
+  margin: 0 0 23px;
+  font-size: 16px;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--ink-mid);
+}
+
+.wrap section p:last-child {
+  margin-bottom: 0;
+}
+
+.quote {
+  margin: 32px 0;
+  border-left: 3px solid var(--field-green);
+  background: var(--paper);
+  padding: 18px 20px;
+}
+
+.quote p {
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.stackList {
+  margin: 24px 0 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--rule);
+  background: var(--rule);
+}
+
+.stackItem {
+  background: var(--bg);
+  padding: 14px;
+}
+
+.stackItemName {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.stackItemDesc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-mid);
+}
+
+.fieldNotes {
+  margin-top: 56px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  padding: 30px 32px;
+  position: relative;
+}
+
+.fieldNotes::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(182, 77, 26, 0.82) 0,
+    rgba(182, 77, 26, 0.82) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+}
+
+.fieldNotesHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.fieldNotesHeader::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--rule);
+}
+
+.fieldNotes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fieldNotes li {
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.fieldNotes li:last-child {
+  border-bottom: 0;
+}
+
+.pageFooter {
+  margin-top: 72px;
+  padding-top: 24px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.footerBrand {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.footerSerial {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: #a8a28f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.nextLine {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--label);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.nextLine a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(180, 74, 26, 0.35);
+}
+
+.nextLine a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 700px) {
+  .wrap {
+    padding: 56px 20px 88px;
+  }
+
+  .stackList {
+    grid-template-columns: 1fr;
+  }
+
+  .pageFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

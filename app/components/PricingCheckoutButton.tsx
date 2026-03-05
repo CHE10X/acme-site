@@ -2,21 +2,28 @@
 
 import { useState } from "react";
 import CheckoutConfirm from "./CheckoutConfirm";
-import { getCheckoutProduct, type CheckoutSku } from "../lib/stripeProducts";
+import {
+  getCheckoutProduct,
+  type CheckoutProductKey,
+} from "../lib/stripeProducts";
 
 type PricingCheckoutButtonProps = {
-  sku: CheckoutSku;
+  productKey: CheckoutProductKey;
   children: React.ReactNode;
   className: string;
+  priceLabel?: string;
+  fallbackUrl?: string;
 };
 
 export default function PricingCheckoutButton({
-  sku,
+  productKey,
   children,
   className,
+  priceLabel,
+  fallbackUrl,
 }: PricingCheckoutButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const product = getCheckoutProduct(sku);
+  const product = getCheckoutProduct(productKey);
 
   return (
     <>
@@ -25,8 +32,10 @@ export default function PricingCheckoutButton({
       </button>
       {isOpen ? (
         <CheckoutConfirm
-          sku={sku}
+          productKey={productKey}
           label={product.displayName}
+          priceLabel={priceLabel}
+          fallbackUrl={fallbackUrl}
           onClose={() => setIsOpen(false)}
         />
       ) : null}

@@ -25,7 +25,7 @@ export default function RootLayout({
             >
               ACME
             </Link>
-            <nav className="flex items-center gap-6">
+            <nav className="hidden items-center gap-6 sm:flex">
               <Link
                 href="/pricing"
                 className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
@@ -49,6 +49,12 @@ export default function RootLayout({
                 className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
               >
                 Docs
+              </Link>
+              <Link
+                href="/operators-tale"
+                className="text-sm text-zinc-400 hover:text-zinc-200 transition-colors"
+              >
+                Operator&apos;s Tale
               </Link>
             </nav>
           </div>

@@ -259,27 +259,26 @@ function FeedPanel({
               Live symptom routing and gear recommendations.
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex h-11 items-center gap-3">
             {onClose ? (
               <button
                 onClick={onClose}
-                className="text-[10px] uppercase tracking-[0.3em] text-zinc-400 hover:text-zinc-200"
+                className="inline-flex h-11 items-center justify-center text-[10px] uppercase tracking-[0.3em] text-zinc-400 transition hover:text-zinc-200"
               >
                 Close
               </button>
             ) : null}
             <button
               onClick={onOpenIntel}
-              className="rounded-full border border-amber-300/70 bg-amber-400/15 px-3.5 py-1.5 text-[11px] font-semibold leading-none uppercase tracking-[0.28em] text-amber-200 transition hover:text-amber-100 hover:border-amber-300/90 intel-alert"
+              className="intel-alert inline-flex h-11 cursor-pointer items-center justify-center rounded-full border border-amber-300/80 bg-amber-400/18 px-4 text-xs font-semibold uppercase tracking-[0.18em] leading-none text-amber-100 transition duration-150 ease-out hover:-translate-y-px hover:border-amber-200 hover:bg-amber-300/22 hover:text-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
             >
               New Intel
             </button>
-            <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.3em] text-emerald-300">
-              <span className="relative inline-flex live-pulse">
-                <span className="absolute inline-flex h-[10px] w-[10px] animate-ping rounded-full bg-emerald-400 opacity-50" />
-                <span className="relative inline-flex h-[10px] w-[10px] rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.75)] ring-2 ring-emerald-300/40" />
+            <div className="inline-flex h-11 items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] leading-none text-emerald-300">
+              <span className="relative inline-flex h-3 w-3 items-center justify-center live-pulse">
+                <span className="relative block h-[10px] w-[10px] rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.32)] ring-1 ring-emerald-300/30" />
               </span>
-              LIVE
+              <span className="leading-none">LIVE</span>
             </div>
           </div>
         </div>

@@ -128,6 +128,19 @@ export function getCheckoutPriceId(productKey: CheckoutProductKey) {
   return process.env[product.priceEnvKey];
 }
 
+export function getCheckoutPaymentLink(productKey: CheckoutProductKey) {
+  const links: Partial<Record<CheckoutProductKey, string | undefined>> = {
+    sentinel: process.env.NEXT_PUBLIC_STRIPE_LINK_SENTINEL,
+    "operator-kit": process.env.NEXT_PUBLIC_STRIPE_LINK_OPERATOR_KIT,
+    agent911: process.env.NEXT_PUBLIC_STRIPE_LINK_AGENT911,
+    sphinxgate: process.env.NEXT_PUBLIC_STRIPE_LINK_SPHINXGATE,
+    driftguard: process.env.NEXT_PUBLIC_STRIPE_LINK_DRIFTGUARD,
+    transmission: process.env.NEXT_PUBLIC_STRIPE_LINK_TRANSMISSION,
+  };
+
+  return links[productKey];
+}
+
 export type StripePriceEntitlement = {
   productKey: CheckoutProductKey;
   entitlements: EntitlementKey[];

@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { SUPPORT_EMAIL, type CheckoutSku } from "../lib/stripeProducts";
+import {
+  SUPPORT_EMAIL,
+  type CheckoutProductKey,
+} from "../lib/stripeProducts";
 
 type CheckoutConfirmProps = {
-  sku: CheckoutSku;
+  productKey: CheckoutProductKey;
   label: string;
+  priceLabel?: string;
+  fallbackUrl?: string;
   onClose: () => void;
 };
 
@@ -18,8 +23,10 @@ const TRUST_BULLETS = [
 ];
 
 export default function CheckoutConfirm({
-  sku,
+  productKey,
   label,
+  priceLabel,
+  fallbackUrl,
   onClose,
 }: CheckoutConfirmProps) {
   const [accepted, setAccepted] = useState(false);
@@ -27,9 +34,9 @@ export default function CheckoutConfirm({
   const [fallbackMessage, setFallbackMessage] = useState<string | null>(null);
 
   const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent(`Purchase request: ${sku}`);
+    const subject = encodeURIComponent(`Purchase request: ${productKey}`);
     return `mailto:${SUPPORT_EMAIL}?subject=${subject}`;
-  }, [sku]);
+  }, [productKey]);
 
   const handleContinue = async () => {
     setIsLoading(true);
@@ -41,7 +48,7 @@ export default function CheckoutConfirm({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ sku }),
+        body: JSON.stringify({ productKey }),
       });
 
       const payload = (await response.json().catch(() => null)) as
@@ -49,11 +56,19 @@ export default function CheckoutConfirm({
         | null;
 
       if (!response.ok || !payload?.url) {
+        if (fallbackUrl) {
+          window.location.href = fallbackUrl;
+          return;
+        }
         throw new Error(payload?.error || "Checkout is unavailable in this build.");
       }
 
       window.location.href = payload.url;
     } catch (error) {
+      if (fallbackUrl) {
+        window.location.href = fallbackUrl;
+        return;
+      }
       setFallbackMessage(
         error instanceof Error
           ? error.message
@@ -76,6 +91,19 @@ export default function CheckoutConfirm({
           Secure checkout for operators. No surprises.
         </p>
         <p className="mt-2 text-sm text-zinc-500">Selected: {label}</p>
+        {priceLabel ? (
+          <p className="mt-1 text-sm text-zinc-400">
+            {priceLabel} · billed monthly · runtime = one active OpenClaw agent host
+          </p>
+        ) : null}
+        <div className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-300">
+          <div className="font-medium text-zinc-100">
+            Operator purchase - runs in your environment
+          </div>
+          <div className="mt-1 text-zinc-400">
+            You remain in full control. No hosted lock-in. No hidden telemetry.
+          </div>
+        </div>
 
         <ul className="mt-5 space-y-2 text-sm text-zinc-300">
           {TRUST_BULLETS.map((bullet) => (

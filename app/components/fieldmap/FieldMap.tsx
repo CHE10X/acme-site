@@ -15,8 +15,6 @@ import {
 } from "./fieldMapHotspots";
 
 type ImageBox = {
-  left: number;
-  top: number;
   width: number;
   height: number;
 };
@@ -178,14 +176,10 @@ export default function FieldMap() {
 
   const updateImageBox = useCallback(() => {
     const stage = stageRef.current;
-    const image = imageRef.current;
-    if (!stage || !image) return;
+    if (!stage) return;
 
-    const stageRect = stage.getBoundingClientRect();
-    const imageRect = image.getBoundingClientRect();
+    const imageRect = stage.getBoundingClientRect();
     setImageBox({
-      left: imageRect.left - stageRect.left,
-      top: imageRect.top - stageRect.top,
       width: imageRect.width,
       height: imageRect.height,
     });
@@ -225,9 +219,6 @@ export default function FieldMap() {
 
     const observer = new ResizeObserver(() => updateImageBox());
     observer.observe(stage);
-    if (imageRef.current) {
-      observer.observe(imageRef.current);
-    }
     return () => observer.disconnect();
   }, [updateImageBox]);
 
@@ -258,8 +249,8 @@ export default function FieldMap() {
       if (!stage || !imageBox) return null;
 
       const rect = stage.getBoundingClientRect();
-      const relativeX = clientX - rect.left - imageBox.left;
-      const relativeY = clientY - rect.top - imageBox.top;
+      const relativeX = clientX - rect.left;
+      const relativeY = clientY - rect.top;
 
       if (
         relativeX < 0 ||
@@ -390,8 +381,8 @@ export default function FieldMap() {
     const stageWidth = stage.clientWidth;
     const stageHeight = stage.clientHeight;
     const anchor = pointer ?? polygonCentroid(activeHotspot.polygon);
-    const anchorX = imageBox.left + anchor.x * imageBox.width;
-    const anchorY = imageBox.top + anchor.y * imageBox.height;
+    const anchorX = anchor.x * imageBox.width;
+    const anchorY = anchor.y * imageBox.height;
 
     let left = anchorX + TOOLTIP_OFFSET;
     let top = anchorY + TOOLTIP_OFFSET;
@@ -411,50 +402,41 @@ export default function FieldMap() {
   }, [activeHotspot, imageBox, pointer]);
 
   return (
-    <section ref={rootRef} className="mx-auto w-full max-w-[1160px] px-6 lg:px-8">
-      <div
-        ref={stageRef}
-        className="relative min-h-[360px] overflow-hidden rounded-[16px] border border-white/10 bg-zinc-950 shadow-[0_18px_50px_rgba(0,0,0,0.28)] sm:min-h-[420px] lg:min-h-[520px]"
-        onPointerMove={(event) => {
-          if (event.pointerType === "touch") return;
-          queuePointerUpdate(event.clientX, event.clientY);
-        }}
-        onPointerLeave={() => {
-          setPointer(null);
-          if (canHover) setHoveredId(null);
-        }}
-        onPointerDown={handleStagePointerDown}
-        onClick={handleStageClick}
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
-        <div className="absolute inset-0 flex items-center justify-center">
+    <section ref={rootRef} className="mx-auto w-full max-w-[1140px] px-6 lg:px-8">
+      <div className="rounded-[16px] border border-white/10 bg-zinc-950 shadow-[0_18px_50px_rgba(0,0,0,0.24)]">
+        <div
+          ref={stageRef}
+          className="relative overflow-hidden rounded-[16px]"
+          onPointerMove={(event) => {
+            if (event.pointerType === "touch") return;
+            queuePointerUpdate(event.clientX, event.clientY);
+          }}
+          onPointerLeave={() => {
+            setPointer(null);
+            if (canHover) setHoveredId(null);
+          }}
+          onPointerDown={handleStagePointerDown}
+          onClick={handleStageClick}
+        >
+          <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_60%,rgba(0,0,0,0.08)_100%)]" />
           <img
             ref={imageRef}
             src={FIELD_MAP_ASSET}
             alt="Field map v1.6"
-            className="block max-h-full max-w-full object-contain"
+            className="block h-auto w-full"
             onLoad={() => {
               window.requestAnimationFrame(() => updateImageBox());
             }}
           />
-        </div>
+        
 
         {imageBox ? (
-          <div
-            className="absolute"
-            style={{
-              left: imageBox.left,
-              top: imageBox.top,
-              width: imageBox.width,
-              height: imageBox.height,
-            }}
-          >
-            <div className="pointer-events-none absolute inset-0 rounded-[14px] border border-white/12 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.02)]" />
-            <div className="pointer-events-none absolute inset-0 rounded-[14px] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_56%,rgba(0,0,0,0.1)_100%)]" />
+          <>
+            <div className="pointer-events-none absolute inset-0 z-[1] rounded-[14px] border border-white/12 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.02),inset_0_0_38px_rgba(0,0,0,0.06)]" />
             <svg
               viewBox="0 0 1 1"
               preserveAspectRatio="none"
-              className="absolute inset-0 h-full w-full"
+              className="absolute inset-0 z-[2] h-full w-full"
             >
               {hotspots.map((hotspot) => {
                 const isActive = activeHotspot?.id === hotspot.id;
@@ -484,7 +466,7 @@ export default function FieldMap() {
                 );
               })}
             </svg>
-          </div>
+          </>
         ) : null}
 
         {!calibrate && activeHotspot && tooltipPosition ? (
@@ -593,6 +575,7 @@ export default function FieldMap() {
             <div className="mt-2 text-[11px] text-neutral-700">{status}</div>
           </div>
         ) : null}
+        </div>
       </div>
     </section>
   );

@@ -20,4 +20,4 @@ ACME differs by focusing specifically on reliability diagnostics for AI agent sy
 
 Agent Tools
 /bot-shop/
-Tool registry: /.well-known/tools.json
+Tool registry: https:///.well-known/tools.json
