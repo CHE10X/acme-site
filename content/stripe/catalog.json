@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T01:17:53.581Z",
+  "generatedAt": "2026-03-05T01:27:09.998Z",
   "mode": "test",
   "productCount": 10,
   "products": [
@@ -50,7 +50,7 @@
       "badge": null,
       "sortOrder": 40,
       "priceId": "price_1T6wd42YB5gO0VSa7h8NoBr8",
-      "unitAmount": 0,
+      "unitAmount": 100,
       "currency": "USD",
       "interval": "month",
       "active": true
@@ -102,7 +102,7 @@
       "badge": null,
       "sortOrder": 70,
       "priceId": "price_1T6yBZ2YB5gO0VSa6LUC9FUg",
-      "unitAmount": 0,
+      "unitAmount": 100,
       "currency": "USD",
       "interval": "month",
       "active": true
