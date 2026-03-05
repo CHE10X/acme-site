@@ -42,12 +42,71 @@ When your work is ready to ship:
 
 ## Pricing source of truth
 
-**Do not hardcode dollar amounts in the UI.**
+**Stripe is canonical. Do not hardcode dollar amounts in the UI.**
 
-Prices are fetched live from Stripe via `/api/prices`.
-To update a price: change it in the Stripe dashboard — the site updates automatically on next request.
+### Architecture
 
-Stripe product config: `app/lib/stripeProducts.ts`
+```
+Stripe dashboard (prices + product metadata)
+        ↓
+node scripts/stripe_export_catalog.mjs
+        ↓
+content/stripe/catalog.json  ← committed to repo
+        ↓
+app/pricing/page.tsx  (reads catalog.json by tier)
+```
+
+### Regenerate catalog after any Stripe change
+
+```bash
+node --env-file=.env.local scripts/stripe_export_catalog.mjs
+git add content/stripe/catalog.json
+git commit -m "chore: regenerate Stripe catalog"
+```
+
+Then tell Hendrik to deploy.
+
+### Required Stripe Product metadata (set in dashboard)
+
+| Product | `productKey` | `tier` | `sortOrder` | `badge` |
+|---|---|---|---|---|
+| RadCheck | `radcheck` | `free` | `10` | |
+| Sentinel | `sentinel` | `attach` | `20` | `MOST_POPULAR` |
+| Operator Bundle | `operator-kit` | `bundle` | `30` | `MOST_COMMON_LOADOUT` |
+| SphinxGate | `sphinxgate` | `module` | `40` | |
+| DriftGuard | `driftguard` | `module` | `50` | |
+| Transmission | `transmission` | `module` | `60` | |
+| WatchDog | `watchdog` | `module` | `70` | |
+| Lazarus | `lazarus` | `free` | `80` | |
+| Agent911 | `agent911` | `premium` | `90` | |
+| FindMyAgent | `findmyagent` | `module` | `95` | |
+
+### Canonical price amounts (verify in Stripe)
+
+| Product | Amount |
+|---|---|
+| Sentinel | $5/month |
+| Operator Kit | $5/month |
+| Modules (sphinxgate, driftguard, transmission, watchdog, findmyagent) | $1/month |
+| Agent911 | $19/month |
+| Free (radcheck, lazarus) | $0 |
+
+### For Codex — /pricing page task
+
+Update `app/pricing/page.tsx` to:
+1. Import `catalog.json` statically: `import catalog from "@/content/stripe/catalog.json"`
+2. Remove all hardcoded price constants
+3. Render sections by tier:
+   - **Free Surface:** `tier=free`
+   - **Standard Issue Modules:** `tier=attach` (Sentinel first) + `tier=module`
+   - **Operator Kit:** `tier=bundle` (featured card)
+   - **Premium band:** `tier=premium` (Agent911)
+4. Show dev-only warning if `catalog.mode === "test"` (only in `NODE_ENV=development`)
+5. Use `badge` field for MOST_POPULAR / MOST_COMMON_LOADOUT labels
+
+### Stripe product config
+
+`app/lib/stripeProducts.ts` — product/entitlement map
 Price IDs: set as Vercel environment variables (`SENTINEL_PRICE_ID`, etc.)
 
 ---
