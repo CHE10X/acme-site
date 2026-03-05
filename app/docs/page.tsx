@@ -73,11 +73,11 @@ export default function DocsPage() {
         </div>
 
         <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
-          <div className="mb-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+          <div className="mb-8 mx-auto max-w-[980px] rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
             <OpenClawStackDiagram />
             <div className="mt-3 text-sm text-zinc-400">
-              This is the path from signals → proof → triage. Start with
-              OCTriageUnit when things feel off.
+              Start with OCTriageUnit (Operator Tool) to capture a deterministic
+              proof bundle before recovery actions.
             </div>
           </div>
           <div className="mb-3 text-[11px] uppercase tracking-[0.4em] text-zinc-500">

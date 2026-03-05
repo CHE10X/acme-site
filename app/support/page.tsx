@@ -51,11 +51,11 @@ export default function SupportPage() {
           <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
             Reliability Flow
           </div>
-          <div className="mt-4 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+          <div className="mt-4 mx-auto max-w-[980px] rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
             <OpenClawStackDiagram />
             <p className="mt-3 text-sm text-zinc-400">
-              This is the path from signals → proof → triage. Start with
-              OCTriageUnit when things feel off.
+              Start with OCTriageUnit (Operator Tool) to capture a deterministic
+              proof bundle before recovery actions.
             </p>
           </div>
         </section>

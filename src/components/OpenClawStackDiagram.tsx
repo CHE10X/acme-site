@@ -6,22 +6,31 @@ export default function OpenClawStackDiagram() {
       aria-labelledby="stack-title stack-desc"
       className="h-auto w-full"
     >
-      <title id="stack-title">OpenClaw Reliability Stack</title>
+      <title id="stack-title">OpenClaw Reliability Control Plane</title>
       <desc id="stack-desc">
-        Architecture view showing Elixir memory artifacts, triage proof pipeline,
-        runtime guardrails, and operator control channels.
+        OpenClaw system components, Acme guards, and Acme operator tools with
+        OCTriageUnit as the operator entrypoint to evidence-first triage.
       </desc>
       <defs>
         <style>
           {`
           .t { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; fill: #e5e7eb; }
           .title { font-size: 22px; font-weight: 700; }
-          .label { font-size: 15px; font-weight: 600; }
+          .label { font-size: 14px; font-weight: 600; }
           .small { font-size: 12px; font-weight: 500; fill: #9ca3af; }
-          .band { fill: #0f172a; opacity: 0.5; stroke: #334155; stroke-width: 1.5; vector-effect: non-scaling-stroke; rx: 12; ry: 12; }
+          .tiny { font-size: 10.5px; font-weight: 700; fill: #a1a1aa; letter-spacing: 0.08em; }
+          .band { fill: #0f172a; opacity: 0.46; stroke: #334155; stroke-width: 1.5; vector-effect: non-scaling-stroke; rx: 14; ry: 14; }
           .band-label { font-size: 12px; font-weight: 600; fill: #cbd5e1; }
-          .card { fill: #111827; stroke: #64748b; stroke-width: 2; vector-effect: non-scaling-stroke; rx: 14; ry: 14; }
+          .system { fill: #111827; stroke: #64748b; stroke-width: 2; vector-effect: non-scaling-stroke; rx: 12; ry: 12; }
+          .guard { fill: #0d1a2b; stroke: #3b82f6; stroke-width: 2.1; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 4px rgba(59,130,246,0.18)); rx: 12; ry: 12; }
+          .tool { fill: #1f2937; stroke: #f59e0b; stroke-width: 2.5; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 8px rgba(245,158,11,0.26)); rx: 12; ry: 12; }
+          .badge { fill: #27272a; stroke: #52525b; stroke-width: 1; vector-effect: non-scaling-stroke; rx: 8; ry: 8; }
+          .badge-guard { fill: #14263f; stroke: #3b82f6; stroke-width: 1; vector-effect: non-scaling-stroke; rx: 8; ry: 8; }
+          .badge-tool { fill: #3f2a0c; stroke: #f59e0b; stroke-width: 1; vector-effect: non-scaling-stroke; rx: 8; ry: 8; }
           .line { stroke: #e5e7eb; stroke-width: 2; fill: none; vector-effect: non-scaling-stroke; marker-end: url(#arr); }
+          .inspect { stroke: #cbd5e1; stroke-width: 1.5; stroke-dasharray: 6 5; fill: none; vector-effect: non-scaling-stroke; marker-end: url(#arr-soft); }
+          .operator-run { stroke: #f5f5f5; stroke-width: 1.4; fill: none; vector-effect: non-scaling-stroke; marker-end: url(#arr-soft); }
+          .legend-label { font-size: 10px; font-weight: 600; fill: #a1a1aa; }
           .ok { fill: #22c55e; }
           .warn { fill: #f59e0b; }
           .deg { fill: #ef4444; }
@@ -38,138 +47,203 @@ export default function OpenClawStackDiagram() {
         >
           <path d="M0,0 L10,5 L0,10 z" fill="#e5e7eb" />
         </marker>
+        <marker
+          id="arr-soft"
+          viewBox="0 0 10 10"
+          refX="9"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path d="M0,0 L10,5 L0,10 z" fill="#cbd5e1" />
+        </marker>
       </defs>
 
       <rect x="0" y="0" width="1200" height="700" fill="#020617" />
       <text className="t title" x="60" y="56">
-        Control Plane - Reliability Surfaces
+        OpenClaw Reliability Control Plane
       </text>
       <text className="t small" x="60" y="78">
-        Read-only first response → continuous protection → recovery
+        Signals → Evidence → Triage → Recovery
       </text>
-
-      <rect className="band" x="40" y="96" width="260" height="510" />
+      <rect className="band" x="40" y="120" width="250" height="500" />
       <text className="t band-label" x="52" y="116">
-        Evidence &amp; State
+        System State
+      </text>
+      <rect className="band" x="320" y="120" width="250" height="500" />
+      <text className="t band-label" x="332" y="116">
+        Protection Surfaces
+      </text>
+      <rect className="band" x="600" y="120" width="300" height="500" />
+      <text className="t band-label" x="612" y="116">
+        Operator Response
+      </text>
+      <rect className="band" x="930" y="120" width="230" height="500" />
+      <text className="t band-label" x="942" y="116">
+        Human Control
       </text>
 
-      <rect className="band" x="680" y="96" width="500" height="300" />
-      <text className="t band-label" x="692" y="116">
-        Protection
-      </text>
-
-      <rect className="band" x="340" y="482" width="840" height="198" />
-      <text className="t band-label" x="352" y="502">
-        Operator Control
-      </text>
-
-      <rect className="card" x="60" y="110" width="220" height="90" />
-      <text className="t label" x="90" y="152">
+      <rect className="system" x="70" y="180" width="190" height="64" />
+      <text className="t label" x="98" y="218">
         BOOT.md
       </text>
-      <rect className="card" x="60" y="240" width="220" height="90" />
-      <text className="t label" x="90" y="282">
+      <rect className="system" x="70" y="280" width="190" height="64" />
+      <text className="t label" x="98" y="318">
         DIGEST.md
       </text>
-      <rect className="card" x="60" y="370" width="220" height="90" />
-      <text className="t label" x="90" y="412">
+      <rect className="system" x="70" y="380" width="190" height="64" />
+      <text className="t label" x="98" y="418">
         Digest Builder
       </text>
-      <rect className="card" x="60" y="500" width="220" height="90" />
-      <text className="t label" x="90" y="542">
-        Drift Guard
-      </text>
-      <text className="t small" x="60" y="620">
-        Elixir v0.1.x
+      <rect className="badge" x="210" y="386" width="44" height="18" />
+      <text className="t tiny" x="218" y="399">
+        v0.1.x
       </text>
 
-      <rect className="card" x="360" y="175" width="240" height="90" />
-      <text className="t label" x="390" y="217">
-        Agent Session
+      <rect className="guard" x="350" y="180" width="190" height="64" />
+      <text className="t label" x="378" y="218">
+        Drift Guard
       </text>
-      <rect className="card" x="360" y="370" width="240" height="90" />
-      <text className="t label" x="390" y="412">
-        OCTriageUnit
+      <rect className="badge-guard" x="486" y="186" width="48" height="18" />
+      <text className="t tiny" x="493" y="199">
+        GUARD
       </text>
-      <text className="t small" x="390" y="434">
-        v0.1.5
-      </text>
-      <rect className="card" x="700" y="370" width="240" height="90" />
-      <text className="t label" x="730" y="412">
-        Proof Bundle
-      </text>
-      <rect className="card" x="700" y="110" width="240" height="90" />
-      <text className="t label" x="730" y="152">
-        Watchdog Hygiene Guard
-      </text>
-      <rect className="card" x="700" y="240" width="240" height="90" />
-      <text className="t label" x="730" y="282">
-        Disk/Workspace
-      </text>
-      <rect className="card" x="1000" y="170" width="170" height="90" />
-      <text className="t label" x="1025" y="212">
+
+      <rect className="guard" x="350" y="280" width="190" height="64" />
+      <text className="t label" x="378" y="312">
         Sentinel
       </text>
-      <text className="t small" x="1025" y="232">
+      <text className="t small" x="378" y="330">
         (Disk Pressure)
       </text>
-      <rect className="card" x="1000" y="300" width="170" height="90" />
-      <text className="t label" x="1045" y="352">
+      <rect className="badge-guard" x="486" y="286" width="48" height="18" />
+      <text className="t tiny" x="493" y="299">
+        GUARD
+      </text>
+
+      <rect className="guard" x="350" y="380" width="190" height="64" />
+      <text className="t label" x="362" y="418">
+        Watchdog Hygiene Guard
+      </text>
+      <rect className="badge-guard" x="486" y="386" width="48" height="18" />
+      <text className="t tiny" x="493" y="399">
+        GUARD
+      </text>
+
+      <rect className="system" x="350" y="480" width="190" height="64" />
+      <text className="t label" x="378" y="518">
+        Disk/Workspace
+      </text>
+      <rect className="system" x="350" y="556" width="190" height="52" />
+      <text className="t label" x="403" y="587">
         Alerts
       </text>
-      <rect className="card" x="700" y="500" width="240" height="90" />
-      <text className="t label" x="730" y="542">
+
+      <rect className="system" x="630" y="170" width="190" height="64" />
+      <text className="t label" x="658" y="208">
+        Agent Session
+      </text>
+
+      <rect className="tool" x="590" y="275" width="210" height="64" />
+      <text className="t label" x="618" y="313">
+        OCTriageUnit
+      </text>
+      <rect className="badge-tool" x="742" y="281" width="52" height="18" />
+      <text className="t tiny" x="752" y="294">
+        TOOL
+      </text>
+      <rect className="badge" x="742" y="305" width="48" height="18" />
+      <text className="t tiny" x="750" y="318">
+        v0.1.5
+      </text>
+
+      <rect className="system" x="630" y="370" width="190" height="64" />
+      <text className="t label" x="658" y="408">
+        Proof Bundle
+      </text>
+
+      <rect className="tool" x="630" y="475" width="190" height="64" />
+      <text className="t label" x="674" y="513">
         Agent911
       </text>
-      <rect className="card" x="1000" y="500" width="170" height="90" />
-      <text className="t label" x="1038" y="542">
+      <rect className="badge-tool" x="766" y="481" width="48" height="18" />
+      <text className="t tiny" x="776" y="494">
+        TOOL
+      </text>
+
+      <rect className="system" x="960" y="180" width="170" height="64" />
+      <text className="t label" x="1005" y="218">
         Recovery
       </text>
-      <rect className="card" x="360" y="500" width="240" height="90" />
-      <text className="t label" x="390" y="542">
+      <rect className="system" x="960" y="280" width="170" height="64" />
+      <text className="t label" x="995" y="318">
         Commander
       </text>
-      <rect className="card" x="360" y="610" width="240" height="60" />
-      <text className="t label" x="390" y="647">
+      <rect className="system" x="960" y="380" width="170" height="64" />
+      <text className="t label" x="1006" y="418">
         Operator
       </text>
-      <rect className="card" x="700" y="610" width="240" height="60" />
-      <text className="t label" x="730" y="647">
-        Channels (Discord/Telegram/Web)
+      <rect className="system" x="960" y="480" width="170" height="64" />
+      <text className="t small" x="992" y="507">
+        Channels
       </text>
-      <rect className="card" x="1000" y="610" width="170" height="60" />
-      <text className="t label" x="1048" y="647">
+      <text className="t tiny" x="970" y="525">
+        Discord / Telegram / Web
+      </text>
+      <rect className="system" x="960" y="556" width="170" height="52" />
+      <text className="t label" x="1012" y="587">
         Agents
       </text>
 
-      <path className="line" d="M280 155 H360" />
-      <path className="line" d="M280 285 H360" />
-      <path className="line" d="M280 415 V285 H360" />
-      <path className="line" d="M280 545 V415 H360" />
-      <path className="line" d="M280 545 V285 H60" />
-      <path className="line" d="M600 415 H700" />
-      <path className="line" d="M940 155 V285 H700" />
-      <path className="line" d="M940 285 H700" />
-      <path className="line" d="M1170 215 V300" />
-      <path className="line" d="M940 545 H1000" />
-      <path className="line" d="M480 590 V610" />
-      <path className="line" d="M940 640 H1000" />
+      <path className="line" d="M260 212 H630" />
+      <path className="line" d="M260 312 H300 V202 H630" />
+      <path className="line" d="M165 380 V344" />
+      <path className="line" d="M350 212 H300 V412 H260" />
+      <path className="line" d="M350 202 H300 V312 H260" />
+      <path className="inspect" d="M725 234 V275" />
+      <path className="line" d="M695 339 V370" />
+      <path className="line" d="M445 444 V480" />
+      <path className="line" d="M445 344 V556" />
+      <path className="line" d="M820 507 H920 V212 H960" />
+      <path className="line" d="M1045 344 V380" />
+      <path className="line" d="M1045 544 V556" />
+      <path className="operator-run" d="M960 312 H910 V307 H800" />
+      <text className="t small" x="842" y="296">
+        Operator runs
+      </text>
 
-      <g transform="translate(990,70)">
-        <rect className="card" x="0" y="0" width="180" height="82" />
-        <text className="t label" x="14" y="22">
+      <g transform="translate(770,636)">
+        <rect className="badge" x="0" y="0" width="390" height="48" />
+        <text className="t legend-label" x="10" y="13">
           Legend
         </text>
-        <circle className="ok" cx="20" cy="40" r="6" />
-        <text className="t small" x="34" y="44">
+        <rect className="system" x="10" y="20" width="24" height="14" />
+        <text className="t legend-label" x="40" y="31">
+          System Component
+        </text>
+        <rect className="guard" x="142" y="20" width="24" height="14" />
+        <text className="t legend-label" x="172" y="31">
+          Acme Guard
+        </text>
+        <rect className="tool" x="250" y="20" width="24" height="14" />
+        <text className="t legend-label" x="280" y="31">
+          Acme Operator Tool
+        </text>
+      </g>
+
+      <g transform="translate(940,588)">
+        <rect className="badge" x="0" y="0" width="220" height="42" />
+        <circle className="ok" cx="18" cy="21" r="5" />
+        <text className="t tiny" x="30" y="25">
           OK
         </text>
-        <circle className="warn" cx="20" cy="58" r="6" />
-        <text className="t small" x="34" y="62">
+        <circle className="warn" cx="88" cy="21" r="5" />
+        <text className="t tiny" x="100" y="25">
           WARN
         </text>
-        <circle className="deg" cx="90" cy="58" r="6" />
-        <text className="t small" x="104" y="62">
+        <circle className="deg" cx="168" cy="21" r="5" />
+        <text className="t tiny" x="180" y="25">
           DEGRADED
         </text>
       </g>
