@@ -1,6 +1,8 @@
 import PricingCheckoutButton from "../components/PricingCheckoutButton";
+import { fetchPrices } from "../lib/fetchPrices";
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  const PRICES = await fetchPrices();
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <main className="max-w-6xl mx-auto px-6 py-12">
@@ -29,13 +31,13 @@ export default function PricingPage() {
                 title: "RadCheck",
                 unit: "RADIATION SCAN UNIT",
                 tier: "FREE",
-                price: "$0",
+                price: PRICES["free"],
               },
               {
                 title: "Lazarus Lite",
                 unit: "REANIMATION UNIT",
                 tier: "FREE",
-                price: "$0",
+                price: PRICES["free"],
               },
             ].map((item) => (
               <div
@@ -80,6 +82,12 @@ export default function PricingPage() {
                 </span>
                 .
               </p>
+              <div className="mt-3 text-sm text-zinc-300">
+                Operator purchase - runs in your environment
+              </div>
+              <div className="mt-1 text-sm text-zinc-500">
+                You remain in full control. No hosted lock-in. No hidden telemetry.
+              </div>
             </div>
           </div>
 
@@ -92,13 +100,43 @@ export default function PricingPage() {
                 RadCheck
               </div>
               <div className="mt-2 text-sm text-zinc-400">
-                $0 / runtime / month
+                {PRICES["free"]} / runtime / month
               </div>
+            </div>
+
+            <div className="order-first rounded-2xl border border-amber-400/20 bg-amber-500/5 px-6 py-6 lg:col-span-2 lg:col-start-2 lg:row-span-1 lg:translate-y-[-4px] lg:order-1">
+              <div className="flex items-center justify-between gap-4">
+                <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+                  Operator Kit
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-amber-300 border border-amber-400/30 bg-amber-500/10 px-2 py-1 rounded-full">
+                  MOST COMMON LOADOUT
+                </div>
+              </div>
+              <div className="mt-3 text-sm text-zinc-400">
+                Includes 5 core reliability modules
+              </div>
+              <div className="mt-3 text-sm text-zinc-400">
+                {PRICES["operator-kit"]} / runtime / month
+              </div>
+              <div className="mt-4 space-y-2 text-sm text-zinc-300">
+                <div>• Sentinel</div>
+                <div>• Watchdog — Included as part of the reliability foundation.</div>
+                <div>• SphinxGate</div>
+                <div>• DriftGuard</div>
+                <div>• Transmission</div>
+              </div>
+              <PricingCheckoutButton
+                productKey="operator-kit"
+                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/40 bg-amber-400/12 px-4 py-2 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-400/16"
+              >
+                Get Operator Kit
+              </PricingCheckoutButton>
             </div>
 
             <div className="relative rounded-xl border border-amber-400/40 bg-zinc-900/70 px-5 py-5 shadow-[0_0_18px_rgba(251,191,36,0.1)] lg:order-2">
               <div className="absolute top-4 right-4 text-[10px] tracking-[0.28em] uppercase bg-amber-500/20 text-amber-300 px-2 py-1 rounded-full">
-                Most Popular
+                MOST POPULAR
               </div>
               <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
                 Continuous Guardrails
@@ -111,10 +149,10 @@ export default function PricingPage() {
                 instability from growing quietly.
               </p>
               <div className="mt-2 text-sm text-zinc-400">
-                $1 / runtime / month
+                {PRICES["sentinel"]} / runtime / month
               </div>
               <PricingCheckoutButton
-                sku="sentinel"
+                productKey="sentinel"
                 className="mt-4 inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
               >
                 Enable Sentinel
@@ -126,57 +164,18 @@ export default function PricingPage() {
                 <div className="mt-2 text-xs text-zinc-400">
                   What Sentinel produces while it’s guarding.
                 </div>
-                <div className="mt-3 flex flex-wrap gap-2 text-[11px]">
-                  {[
-                    "Guardrail events (operator-readable)",
-                    "Silent failure flags",
-                    "Proof bundle snapshots",
-                    "Protection history markers",
-                    "Early trouble signals",
-                  ].map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-zinc-700/80 bg-zinc-900/70 px-2 py-1 text-zinc-300"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
+                <ul className="mt-3 list-disc space-y-1 pl-5 text-[11px] text-zinc-300">
+                  <li>Guardrail events (operator-readable)</li>
+                  <li>Silent failure flags</li>
+                  <li>Proof bundle snapshots</li>
+                  <li>Protection history markers</li>
+                  <li>Early trouble signals</li>
+                </ul>
                 <div className="mt-2 text-[10px] uppercase tracking-[0.28em] text-zinc-500">
                   Evidence you can save, share, and audit. Observational by
                   design.
                 </div>
               </div>
-            </div>
-
-            <div className="rounded-2xl border border-amber-400/20 bg-amber-500/5 px-6 py-6 lg:col-span-1 lg:row-span-1 lg:translate-y-[-4px] lg:order-1">
-              <div className="flex items-center justify-between gap-4">
-                <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
-                  Operator Kit
-                </div>
-                <div className="text-[10px] uppercase tracking-[0.28em] text-amber-300 border border-amber-400/30 bg-amber-500/10 px-2 py-1 rounded-full">
-                  Most Common Loadout
-                </div>
-              </div>
-              <div className="mt-3 text-sm text-zinc-400">
-                Includes 5 core reliability modules
-              </div>
-              <div className="mt-3 text-sm text-zinc-400">
-                $5 / runtime / month
-              </div>
-              <div className="mt-4 space-y-2 text-sm text-zinc-300">
-                <div>• Sentinel</div>
-                <div>• Watchdog — Included as part of the reliability foundation.</div>
-                <div>• SphinxGate</div>
-                <div>• DriftGuard</div>
-                <div>• Transmission</div>
-              </div>
-              <PricingCheckoutButton
-                sku="operator_kit"
-                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/40 bg-amber-400/12 px-4 py-2 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-400/16"
-              >
-                Get Operator Kit
-              </PricingCheckoutButton>
             </div>
 
             <div className="rounded-xl border border-zinc-800/70 bg-zinc-900/50 px-5 py-5 lg:order-3">
@@ -191,10 +190,10 @@ export default function PricingPage() {
                 routing history.
               </p>
               <div className="mt-2 text-sm text-zinc-400">
-                $1 / runtime / month
+                {PRICES["sphinxgate"]} / runtime / month
               </div>
               <PricingCheckoutButton
-                sku="sphinxgate"
+                productKey="sphinxgate"
                 className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
               >
                 Enable SphinxGate
@@ -219,10 +218,10 @@ export default function PricingPage() {
                 Long-horizon drift signals and audit-ready traces.
               </p>
               <div className="mt-2 text-sm text-zinc-400">
-                $1 / runtime / month
+                {PRICES["driftguard"]} / runtime / month
               </div>
               <PricingCheckoutButton
-                sku="driftguard"
+                productKey="driftguard"
                 className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
               >
                 Enable DriftGuard
@@ -247,48 +246,59 @@ export default function PricingPage() {
                 Multi-agent routing guardrails and priority rules.
               </p>
               <div className="mt-2 text-sm text-zinc-400">
-                $1 / runtime / month
+                {PRICES["transmission"]} / runtime / month
               </div>
               <PricingCheckoutButton
-                sku="transmission"
+                productKey="transmission"
                 className="mt-4 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
               >
                 Enable Transmission
               </PricingCheckoutButton>
             </div>
-          </div>
-        </section>
 
-        {/* Section C — Operator Kit (mobile) */}
-        <section className="mt-8 rounded-2xl border border-zinc-800/70 bg-zinc-950/60 px-6 py-6 lg:hidden">
-          <div className="flex items-center justify-between gap-4">
-            <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
-              Operator Kit
+            <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/35 px-5 py-5 lg:order-6">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                    Reliability Foundation
+                  </div>
+                  <div className="mt-2 text-xl font-semibold text-zinc-200">
+                    Watchdog
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-zinc-500 border border-zinc-700/70 bg-zinc-900/60 px-2 py-1 rounded-full">
+                  Foundation
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-zinc-400">
+                Baseline hygiene and reliability posture signals.
+              </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                {PRICES["watchdog"]} / runtime / month
+              </div>
             </div>
-            <div className="text-[10px] uppercase tracking-[0.28em] text-amber-300 border border-amber-400/30 bg-amber-500/10 px-2 py-1 rounded-full">
-              Most Common Loadout
+
+            <div className="rounded-xl border border-zinc-800/60 bg-zinc-900/35 px-5 py-5 lg:order-7">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.32em] text-zinc-500">
+                    Embedded Visibility
+                  </div>
+                  <div className="mt-2 text-xl font-semibold text-zinc-200">
+                    FindMyAgent
+                  </div>
+                </div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-zinc-500 border border-zinc-700/70 bg-zinc-900/60 px-2 py-1 rounded-full">
+                  Embedded
+                </div>
+              </div>
+              <p className="mt-2 text-sm text-zinc-400">
+                Presence, heartbeat age, and stalled flags in operator surfaces.
+              </p>
+              <div className="mt-2 text-sm text-zinc-400">
+                {PRICES["findmyagent"]} / runtime / month
+              </div>
             </div>
-          </div>
-          <div className="mt-4 rounded-xl border border-amber-400/20 bg-amber-500/5 px-6 py-6">
-            <div className="text-sm text-zinc-400">
-              Includes 5 core reliability modules
-            </div>
-            <div className="mt-2 text-sm text-zinc-400">
-              $5 / runtime / month
-            </div>
-            <div className="mt-4 space-y-2 text-sm text-zinc-300">
-              <div>• Sentinel</div>
-              <div>• Watchdog — Included as part of the reliability foundation.</div>
-              <div>• SphinxGate</div>
-              <div>• DriftGuard</div>
-              <div>• Transmission</div>
-            </div>
-            <PricingCheckoutButton
-              sku="operator_kit"
-              className="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-300/40 bg-amber-400/12 px-4 py-2 text-sm font-medium text-amber-100 transition hover:border-amber-200/50 hover:bg-amber-400/16"
-            >
-              Most Common Loadout
-            </PricingCheckoutButton>
           </div>
         </section>
 
@@ -305,6 +315,9 @@ export default function PricingPage() {
             FindMyAgent visibility into one operational surface — so you know
             what your agents are doing, and when to act.
           </p>
+          <div className="mt-3 text-sm text-zinc-300">
+            {PRICES["agent911"]} / runtime / month
+          </div>
           <ul className="mt-4 space-y-2 text-[15px] text-zinc-200">
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
@@ -327,7 +340,7 @@ export default function PricingPage() {
             Observational by design. No autonomous changes.
           </div>
           <PricingCheckoutButton
-            sku="agent911"
+            productKey="agent911"
             className="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/10 px-4 py-2 text-sm text-zinc-200 transition hover:border-white/20 hover:text-zinc-100"
           >
             Enable Agent911
