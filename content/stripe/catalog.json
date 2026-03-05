@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-03-05T00:21:16.606Z",
+  "mode": "test",
+  "productCount": 0,
+  "products": [],
+  "_note": "Run: node scripts/stripe_export_catalog.mjs to regenerate after adding Stripe metadata"
+}
