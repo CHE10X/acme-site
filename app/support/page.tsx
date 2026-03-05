@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
 export default function SupportPage() {
   const [supportMode, setSupportMode] = useState<"ai" | "human">("ai");
@@ -23,8 +24,14 @@ export default function SupportPage() {
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <a
-              href="/docs/support/when-things-feel-off"
+              href="/support/first-response"
               className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+            >
+              First Response
+            </a>
+            <a
+              href="/docs/support/when-things-feel-off"
+              className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500 hover:text-white"
             >
               Run Support Bundle
             </a>
@@ -35,8 +42,21 @@ export default function SupportPage() {
               View What’s Collected
             </a>
           </div>
-          <div className="mt-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
+        <div className="mt-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
             Observational analysis only. No system changes are performed.
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
+          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            Reliability Flow
+          </div>
+          <div className="mt-4 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+            <OpenClawStackDiagram />
+            <p className="mt-3 text-sm text-zinc-400">
+              This is the path from signals → proof → triage. Start with
+              OCTriageUnit when things feel off.
+            </p>
           </div>
         </section>
 
@@ -91,7 +111,22 @@ export default function SupportPage() {
                 </div>
                 <div>
                   <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
-                    Step 3 — Send bundle
+                    Step 3 — First response
+                  </div>
+                  <p className="mt-2 text-sm text-zinc-300">
+                    If the control plane is degraded, begin with the calm,
+                    read-only first-response workflow before escalating.
+                  </p>
+                  <a
+                    href="/support/first-response"
+                    className="mt-2 inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200"
+                  >
+                    First Response
+                  </a>
+                </div>
+                <div>
+                  <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                    Step 4 — Send bundle
                   </div>
                   <p className="mt-2 text-sm text-zinc-300">
                     Attach the generated zip when contacting support.

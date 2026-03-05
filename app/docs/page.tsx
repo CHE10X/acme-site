@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
 export const metadata: Metadata = {
   title: "Docs — ACME Agent Supply Co.",
@@ -41,9 +42,12 @@ export default function DocsPage() {
         <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
           <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div className="max-w-2xl">
-              <div className="mb-2 text-[10px] uppercase tracking-[0.4em] text-amber-400">
+              <Link
+                href="/"
+                className="mb-2 inline-flex text-[10px] uppercase tracking-[0.4em] text-amber-300/90 transition hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              >
                 ACME Agent Supply Co.
-              </div>
+              </Link>
               <h1 className="max-w-[18ch] text-3xl font-semibold tracking-[-0.02em] text-zinc-100 mb-3">
                 Documentation
               </h1>
@@ -69,6 +73,13 @@ export default function DocsPage() {
         </div>
 
         <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
+          <div className="mb-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+            <OpenClawStackDiagram />
+            <div className="mt-3 text-sm text-zinc-400">
+              This is the path from signals → proof → triage. Start with
+              OCTriageUnit when things feel off.
+            </div>
+          </div>
           <div className="mb-3 text-[11px] uppercase tracking-[0.4em] text-zinc-500">
             Launch Docs
           </div>
@@ -127,6 +138,15 @@ export default function DocsPage() {
                   →
                 </span>
                 Full Architecture Reference
+              </Link>
+              <Link
+                href="/products/octriageunit"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                OpenClaw Triage Unit (read-only triage)
               </Link>
             </div>
           </div>
