@@ -1,0 +1,14 @@
+{
+  "name": "ACME Agent Reliability Tools",
+  "tools": [
+    {
+      "name": "OCTriageUnit",
+      "purpose": "Deterministic triage tool for OpenClaw environments with operator-grade proof bundles.",
+      "canonicalRepoUrl": "https://github.com/CHE10X/octriageunit",
+      "installCommand": "curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash",
+      "currentVersion": "0.1.5",
+      "releaseZip": "https://github.com/CHE10X/octriageunit/releases/download/v1.0.0/octriageunit-v0.1.5-release.zip",
+      "sha256": "https://github.com/CHE10X/octriageunit/releases/download/v1.0.0/octriageunit-v0.1.5-release.zip.sha256"
+    }
+  ]
+}
