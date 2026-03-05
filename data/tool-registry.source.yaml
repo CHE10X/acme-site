@@ -30,6 +30,8 @@ tools:
     install: "curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash"
     install_docs: https://acmeagentsupply.co/docs/octriageunit/install
     status: ga
+    standaloneCta: false   # free open-source tool
+    canonicalPrice: 0     # USD/month/runtime
     description: "Read-only control plane triage tool for OpenClaw agents. Produces STATUS: HEALTHY / DEGRADED / CRITICAL."
 
   - productKey: sentinel
@@ -44,6 +46,8 @@ tools:
     install: "# Installed via OpenClaw operator kit — see docs"
     install_docs: https://acmeagentsupply.co/docs/sentinel/overview
     status: ga
+    standaloneCta: true   # sold individually; attach driver
+    canonicalPrice: 5     # USD/month/runtime
     description: "Always-on guardrails for OpenClaw agents. Flags instability early, produces protection proofs."
 
   - productKey: radcheck
@@ -58,6 +62,8 @@ tools:
     install: "# Free scan tool — no install required, runs in-session"
     install_docs: https://acmeagentsupply.co/docs/radcheck/overview
     status: ga
+    standaloneCta: false   # free scan tool
+    canonicalPrice: 0     # USD/month/runtime
     description: "Free radiation scan for OpenClaw agents. Produces risk score without persistent installation."
 
   - productKey: agent911
@@ -72,6 +78,8 @@ tools:
     install: "# Control plane module — activated via Agent911 license"
     install_docs: https://acmeagentsupply.co/docs/agent911/overview
     status: ga
+    standaloneCta: true   # premium control plane
+    canonicalPrice: 19     # USD/month/runtime
     description: "Unified reliability snapshot and guided triage surface. Embeds FindMyAgent visibility."
 
   - productKey: driftguard
@@ -86,6 +94,8 @@ tools:
     install: "# Module — installed as part of OpenClaw operator kit"
     install_docs: https://acmeagentsupply.co/docs/driftguard/overview
     status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
     description: "Long-horizon drift monitoring and audit-ready traces for OpenClaw agents."
 
   - productKey: sphinxgate
@@ -100,6 +110,8 @@ tools:
     install: "# Module — installed as part of OpenClaw operator kit"
     install_docs: https://acmeagentsupply.co/docs/sphinxgate/overview
     status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
     description: "Token discipline and lane enforcement with audit-friendly routing history."
 
   - productKey: transmission
@@ -114,6 +126,8 @@ tools:
     install: "# Module — installed as part of OpenClaw operator kit"
     install_docs: https://acmeagentsupply.co/docs/transmission/overview
     status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
     description: "Multi-agent routing guardrails and priority rules."
 
   - productKey: watchdog
@@ -128,6 +142,8 @@ tools:
     install: "# Foundation module — included in all operator kits"
     install_docs: https://acmeagentsupply.co/docs/watchdog/overview
     status: ga
+    standaloneCta: false   # foundation module; not marketed standalone — inside Operator Kit only
+    canonicalPrice: 1     # USD/month/runtime
     description: "Baseline hygiene and reliability posture signals. Foundation layer for all agent deployments."
 
   - productKey: lazarus
@@ -142,6 +158,8 @@ tools:
     install: "# Free reanimation module — runs in-session"
     install_docs: https://acmeagentsupply.co/docs/lazarus/overview
     status: ga
+    standaloneCta: false   # free; runs in-session
+    canonicalPrice: 0     # USD/month/runtime
     description: "Free agent reanimation and recovery scoring. Weight-based health assessment."
 
   - productKey: findmyagent
@@ -156,6 +174,8 @@ tools:
     install: "# Embedded in Agent911 — no standalone install"
     install_docs: https://acmeagentsupply.co/docs/findmyagent/overview
     status: ga
+    standaloneCta: false   # NOT sold standalone per doctrine; embedded in Agent911 only
+    canonicalPrice: 1     # USD/month/runtime
     description: "Agent presence, heartbeat age, and stall flags embedded in operator surfaces."
 
   - productKey: operator-kit
@@ -170,6 +190,8 @@ tools:
     install: "# Bundle — activates sentinel, watchdog, sphinxgate, driftguard, transmission"
     install_docs: https://acmeagentsupply.co/docs/quickstart/5-minute
     status: ga
+    standaloneCta: true   # bundle; most common loadout
+    canonicalPrice: 5     # USD/month/runtime
     description: "5-module reliability bundle. Most common loadout for production OpenClaw deployments."
 
 # ─────────────────────────────────────────────────────────────────────────────

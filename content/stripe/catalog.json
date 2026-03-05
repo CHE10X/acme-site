@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-05T01:10:06.836Z",
+  "generatedAt": "2026-03-05T01:17:53.581Z",
   "mode": "test",
   "productCount": 10,
   "products": [
@@ -89,7 +89,7 @@
       "badge": null,
       "sortOrder": 60,
       "priceId": "price_1T6wiR2YB5gO0VSaYByKCSEz",
-      "unitAmount": 0,
+      "unitAmount": 100,
       "currency": "USD",
       "interval": "month",
       "active": true
