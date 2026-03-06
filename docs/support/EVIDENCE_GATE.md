@@ -92,22 +92,28 @@ workspace/reports/orp_runs/orp_run_YYYYMMDDTHHMMSSZ.json
 ## Noncompliant Comment (canonical)
 
 ```
-## Evidence Required
+Support request received, but required diagnostic evidence is missing.
 
-This ticket cannot be triaged without diagnostic evidence. We do not triage without evidence.
+OpenClaw support operates on an evidence-first model.
+We do not triage issues without system diagnostics.
 
-**To resolve this:**
+Please run the OpenClaw triage tool and include the output.
 
-1. Run `octriage` on your OpenClaw instance:
-   ```
-   octriage
-   ```
-2. Paste the full output into the OCTriage Output field.
+Command:
 
-Alternatively, provide a proof bundle path.
+    octriage
 
-**This issue will be closed in 24 hours if evidence is not provided.**
-Edit the issue body above to add evidence — the gate will re-evaluate automatically.
+Then update this issue with ONE of the following:
+
+• OCTriage terminal output
+• Proof bundle path (example: ~/octriage-bundles/20260304-110938)
+• ORP report path (example: reports/orp_runs/orp_run_YYYYMMDD.json)
+
+Once evidence is attached, the issue will automatically enter the triage queue.
+
+Issues without diagnostic evidence may be closed automatically after 24 hours.
+
+Reference: OpenClaw Evidence-First Support Policy
 ```
 
 ---
