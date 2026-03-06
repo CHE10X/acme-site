@@ -1,0 +1,126 @@
+name: Support Request
+description: Submit a support request. Run `octriage` first and include the output below — we do not triage without evidence.
+title: "[Support] "
+labels:
+  - support
+  - triage-needed
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before You Submit
+
+        Run `octriage` and paste the output below. If you've run an ORP check, provide the bundle path.
+
+        > **Evidence is required.** Tickets without OCTriage output or a proof bundle path will not be triaged.
+        >
+        > ```bash
+        > octriage
+        > ```
+
+  - type: input
+    id: contact_email
+    attributes:
+      label: Contact Email
+      placeholder: you@example.com
+    validations:
+      required: true
+
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      options:
+        - OCTriage (free CLI)
+        - OpenClaw Observe (RadCheck + FindMyAgent)
+        - OpenClaw Recover (Agent911 + Lazarus)
+        - OpenClaw Memory (Elixir + DriftGuard)
+        - Full Platform
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - bug
+        - install
+        - config
+        - performance
+        - billing
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect?
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: OpenClaw Version
+      description: Run `openclaw --version`
+      placeholder: "e.g. 1.4.2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - macOS
+        - Linux
+        - Docker
+        - k8s
+        - other
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Evidence (one required)
+
+        Provide **either** OCTriage output **or** a proof bundle path. Tickets without evidence will be labeled `needs-evidence` and closed after 24 hours if not resolved.
+
+  - type: textarea
+    id: octriage_output
+    attributes:
+      label: OCTriage Output
+      description: Paste the full output of `octriage`
+      placeholder: |
+        OpenClaw System Triage
+        Evidence bundle: ~/octriage-bundles/20260305-210000
+        gateway: OK (liveness)
+        ...
+        STATUS: [HEALTHY]
+
+        OpenClaw Observe
+        agents: 3
+        reliability score: 87
+        protection state: ACTIVE
+      render: text
+
+  - type: input
+    id: proof_bundle_path
+    attributes:
+      label: Proof Bundle Path
+      description: Path to ORP proof bundle or octriage bundle (e.g. `~/octriage-bundles/20260305-210000` or `workspace/reports/orp_runs/orp_run_20260305T210000Z.json`)
+      placeholder: "~/octriage-bundles/YYYYMMDD-HHMMSS"
+
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: Additional Notes
+      description: Optional — recent changes, related incidents, anything else relevant

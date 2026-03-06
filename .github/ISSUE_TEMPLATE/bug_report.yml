@@ -1,0 +1,129 @@
+name: Bug Report
+description: Report a bug. Run `octriage` first — we do not triage without evidence.
+title: "[Bug] "
+labels:
+  - bug
+  - triage-needed
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before You Submit
+
+        Run `octriage` and paste the output below. Evidence is required to triage bug reports.
+
+        ```bash
+        octriage
+        ```
+
+        If you've run an ORP check, include the bundle path:
+        ```bash
+        bash ~/.openclaw/bin/orp_run.sh
+        ```
+
+  - type: input
+    id: contact_email
+    attributes:
+      label: Contact Email
+      placeholder: you@example.com
+    validations:
+      required: true
+
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      options:
+        - OCTriage (free CLI)
+        - OpenClaw Observe (RadCheck + FindMyAgent)
+        - OpenClaw Recover (Agent911 + Lazarus)
+        - OpenClaw Memory (Elixir + DriftGuard)
+        - Full Platform
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - bug
+        - install
+        - config
+        - performance
+        - billing
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: What happened? What did you expect? Steps to reproduce.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: OpenClaw Version
+      description: Run `openclaw --version`
+      placeholder: "e.g. 1.4.2"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - macOS
+        - Linux
+        - Docker
+        - k8s
+        - other
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Evidence (one required)
+
+        Provide **either** OCTriage output **or** a proof bundle path. Bugs without evidence will be labeled `needs-evidence` and closed after 24 hours if not resolved.
+
+  - type: textarea
+    id: octriage_output
+    attributes:
+      label: OCTriage Output
+      description: Paste the full output of `octriage`
+      placeholder: |
+        OpenClaw System Triage
+        Evidence bundle: ~/octriage-bundles/20260305-210000
+        gateway: OK (liveness)
+        ...
+        STATUS: [DEGRADED] (reason)
+
+        OpenClaw Observe
+        agents: 3
+        reliability score: 72
+        protection state: DEGRADED
+      render: text
+
+  - type: input
+    id: proof_bundle_path
+    attributes:
+      label: Proof Bundle Path
+      description: Path to octriage bundle or ORP proof bundle
+      placeholder: "~/octriage-bundles/YYYYMMDD-HHMMSS"
+
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: Additional Notes
+      description: Optional — logs, related incidents, anything else relevant
