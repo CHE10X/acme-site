@@ -1,0 +1,190 @@
+name: Support Evidence Gate v1.1
+
+on:
+  issues:
+    types: [opened, edited, labeled, unlabeled, reopened]
+
+permissions:
+  issues: write
+
+jobs:
+  evidence-gate:
+    name: Enforce Evidence-First Intake
+    runs-on: ubuntu-latest
+
+    # Only run on support/bug/triage-needed issues
+    if: |
+      contains(github.event.issue.labels.*.name, 'support') ||
+      contains(github.event.issue.labels.*.name, 'bug') ||
+      contains(github.event.issue.labels.*.name, 'triage-needed')
+
+    steps:
+      - name: Evaluate evidence compliance
+        id: evaluate
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const labels = context.payload.issue.labels.map(l => l.name);
+
+            // ── Required field check ────────────────────────────────────────
+            // GitHub form fields render as: ### Field Label\n\nValue
+            const hasField = (label) => {
+              const re = new RegExp(`###\\s*${label}[\\s\\S]*?\\n\\n([^\\n#]+)`, 'i');
+              const m = body.match(re);
+              return m && m[1].trim().length > 0 && m[1].trim() !== '_No response_';
+            };
+
+            const requiredFields = [
+              'Contact Email',
+              'Product',
+              'Issue Type',
+              'Description',
+              'OpenClaw Version',
+              'Environment',
+            ];
+
+            const missingFields = requiredFields.filter(f => !hasField(f));
+
+            // ── Evidence check ──────────────────────────────────────────────
+            // OCTriage output: look for the distinctive header
+            const hasOCTriageOutput = /OpenClaw\s+System\s+Triage/i.test(body) ||
+              /octriage-bundles/i.test(body) ||
+              /STATUS:\s*\[/i.test(body);
+
+            // Proof bundle path: octriage bundle or ORP bundle
+            const hasProofBundlePath =
+              /octriage-bundles\/\d{8}-\d{6}/i.test(body) ||
+              /orp_run_\d{8}T\d{6}Z\.json/i.test(body) ||
+              /workspace\/reports\/orp_runs\//i.test(body) ||
+              /~\/octriage-bundles\//i.test(body);
+
+            // Also check the dedicated form fields
+            const octriageFieldRe = /###\s*OCTriage Output[\s\S]*?\n\n([^#]+)/i;
+            const bundleFieldRe   = /###\s*Proof Bundle Path[\s\S]*?\n\n([^#\n]+)/i;
+
+            const octriageFieldVal = (body.match(octriageFieldRe) || [])[1] || '';
+            const bundleFieldVal   = (body.match(bundleFieldRe) || [])[1] || '';
+
+            const hasEvidence = hasOCTriageOutput || hasProofBundlePath ||
+              (octriageFieldVal.trim().length > 10 && octriageFieldVal.trim() !== '_No response_') ||
+              (bundleFieldVal.trim().length > 3 && bundleFieldVal.trim() !== '_No response_');
+
+            const compliant = missingFields.length === 0 && hasEvidence;
+
+            console.log(`Missing fields: ${missingFields.join(', ') || 'none'}`);
+            console.log(`Has evidence: ${hasEvidence}`);
+            console.log(`Compliant: ${compliant}`);
+
+            return {
+              compliant,
+              missingFields,
+              hasEvidence,
+              currentLabels: labels,
+              alreadyNoncompliant: labels.includes('needs-evidence'),
+              alreadyCompliant: labels.includes('evidence-ok'),
+            };
+
+      - name: Apply compliance labels and comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const result = ${{ steps.evaluate.outputs.result }};
+            const issue = context.payload.issue;
+            const issueNumber = issue.number;
+
+            const addLabel = async (label) => {
+              try {
+                await github.rest.issues.addLabels({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  labels: [label],
+                });
+              } catch (e) {
+                console.log(`Could not add label ${label}: ${e.message}`);
+              }
+            };
+
+            const removeLabel = async (label) => {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  name: label,
+                });
+              } catch (e) {
+                // Label may not exist — not an error
+              }
+            };
+
+            const postComment = async (body) => {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body,
+              });
+            };
+
+            if (!result.compliant) {
+              // ── NONCOMPLIANT path ─────────────────────────────────────────
+              await addLabel('needs-evidence');
+              await removeLabel('evidence-ok');
+
+              // Only comment on first transition into noncompliant (not on every edit)
+              if (!result.alreadyNoncompliant) {
+                const missing = result.missingFields.length > 0
+                  ? `\n\n**Missing required fields:** ${result.missingFields.join(', ')}`
+                  : '';
+                const noEvidence = !result.hasEvidence
+                  ? `\n\n**No diagnostic evidence provided.**`
+                  : '';
+
+                await postComment([
+                  '## Evidence Required',
+                  '',
+                  'This ticket cannot be triaged without diagnostic evidence. We do not triage without evidence.',
+                  missing,
+                  noEvidence,
+                  '',
+                  '**To resolve this:**',
+                  '',
+                  '1. Run `octriage` on your OpenClaw instance:',
+                  '   ```',
+                  '   octriage',
+                  '   ```',
+                  '2. Paste the full output into the **OCTriage Output** field.',
+                  '',
+                  'Alternatively, provide a proof bundle path:',
+                  '```',
+                  '~/octriage-bundles/YYYYMMDD-HHMMSS',
+                  '```',
+                  'or an ORP report path:',
+                  '```',
+                  'workspace/reports/orp_runs/orp_run_YYYYMMDDTHHMMSSZ.json',
+                  '```',
+                  '',
+                  '**This issue will be closed in 24 hours if evidence is not provided.**',
+                  'Edit the issue body above to add evidence — the gate will re-evaluate automatically.',
+                ].join('\n'));
+              }
+
+            } else {
+              // ── COMPLIANT path ────────────────────────────────────────────
+              await removeLabel('needs-evidence');
+              await addLabel('evidence-ok');
+              await addLabel('triage-needed');
+
+              // Only comment if transitioning from noncompliant → compliant
+              if (result.alreadyNoncompliant && !result.alreadyCompliant) {
+                await postComment([
+                  '## Evidence Received ✓',
+                  '',
+                  'Diagnostic evidence confirmed. This ticket has been labeled `evidence-ok` and queued for triage.',
+                  '',
+                  'Expected response time: 1 business day.',
+                ].join('\n'));
+              }
+            }

@@ -1,0 +1,93 @@
+name: Support Evidence Auto-Close (v1.1)
+
+on:
+  schedule:
+    # Runs every hour; checks for issues open >24h with needs-evidence
+    - cron: '0 * * * *'
+  workflow_dispatch:
+    inputs:
+      grace_hours:
+        description: 'Grace period in hours before closing (default: 24)'
+        required: false
+        default: '24'
+
+permissions:
+  issues: write
+
+jobs:
+  autoclose:
+    name: Close noncompliant issues past grace window
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Close stale needs-evidence issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const graceHours = parseInt(
+              '${{ github.event.inputs.grace_hours }}' || '24'
+            );
+            const cutoff = new Date(Date.now() - graceHours * 60 * 60 * 1000);
+
+            // Fetch all open issues with needs-evidence label
+            const issues = await github.paginate(
+              github.rest.issues.listForRepo,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: 'needs-evidence',
+                per_page: 100,
+              }
+            );
+
+            console.log(`Found ${issues.length} open issues with needs-evidence`);
+
+            for (const issue of issues) {
+              const labels = issue.labels.map(l => l.name);
+
+              // Bypass: never close if evidence-ok is present
+              if (labels.includes('evidence-ok')) {
+                console.log(`#${issue.number}: skipped (evidence-ok present)`);
+                continue;
+              }
+
+              const createdAt = new Date(issue.created_at);
+              if (createdAt > cutoff) {
+                console.log(`#${issue.number}: within grace window, skipping`);
+                continue;
+              }
+
+              console.log(`#${issue.number}: past grace window — closing`);
+
+              // Post final comment before closing
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: [
+                  '## Closing Pending Evidence',
+                  '',
+                  'This ticket has been open for more than 24 hours without the required diagnostic evidence.',
+                  '',
+                  '**Closing now.**',
+                  '',
+                  'To reopen: edit the issue to include OCTriage output or a proof bundle path, then reopen.',
+                  '',
+                  '```bash',
+                  'octriage',
+                  '```',
+                  '',
+                  'We do not triage without evidence.',
+                ].join('\n'),
+              });
+
+              // Close the issue
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'not_planned',
+              });
+            }

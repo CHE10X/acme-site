@@ -1,8 +1,8 @@
-name: Support Request
-description: Submit a support request. Run `octriage` first and include the output below — we do not triage without evidence.
-title: "[Support] "
+name: Bug Report
+description: Report a bug. Run `octriage` first — we do not triage without evidence.
+title: "[Bug] "
 labels:
-  - support
+  - bug
   - triage-needed
 assignees: []
 
@@ -12,13 +12,16 @@ body:
       value: |
         ## Before You Submit
 
-        Run `octriage` and paste the output below. If you've run an ORP check, provide the bundle path.
+        Run `octriage` and paste the output below. Evidence is required to triage bug reports.
 
-        > **Evidence is required.** Tickets without OCTriage output or a proof bundle path will not be triaged.
-        >
-        > ```bash
-        > octriage
-        > ```
+        ```bash
+        octriage
+        ```
+
+        If you've run an ORP check, include the bundle path:
+        ```bash
+        bash ~/.openclaw/bin/orp_run.sh
+        ```
 
   - type: input
     id: contact_email
@@ -59,8 +62,8 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Description
-      description: What happened? What did you expect?
+      label: Bug Description
+      description: What happened? What did you expect? Steps to reproduce.
     validations:
       required: true
 
@@ -92,7 +95,7 @@ body:
         ---
         ## Evidence (one required)
 
-        Provide **either** OCTriage output **or** a proof bundle path. Tickets without evidence will be labeled `needs-evidence` and closed after 24 hours if not resolved.
+        Provide **either** OCTriage output **or** a proof bundle path. Bugs without evidence will be labeled `needs-evidence` and closed after 24 hours if not resolved.
 
   - type: textarea
     id: octriage_output
@@ -104,23 +107,23 @@ body:
         Evidence bundle: ~/octriage-bundles/20260305-210000
         gateway: OK (liveness)
         ...
-        STATUS: [HEALTHY]
+        STATUS: [DEGRADED] (reason)
 
         OpenClaw Observe
         agents: 3
-        reliability score: 87
-        protection state: ACTIVE
+        reliability score: 72
+        protection state: DEGRADED
       render: text
 
   - type: input
     id: proof_bundle_path
     attributes:
       label: Proof Bundle Path
-      description: Path to ORP proof bundle or octriage bundle (e.g. `~/octriage-bundles/20260305-210000` or `workspace/reports/orp_runs/orp_run_20260305T210000Z.json`)
+      description: Path to octriage bundle or ORP proof bundle
       placeholder: "~/octriage-bundles/YYYYMMDD-HHMMSS"
 
   - type: textarea
     id: additional_notes
     attributes:
       label: Additional Notes
-      description: Optional — recent changes, related incidents, anything else relevant
+      description: Optional — logs, related incidents, anything else relevant
