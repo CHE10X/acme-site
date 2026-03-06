@@ -1,0 +1,27 @@
+# ACME Agent Supply
+
+> Reliability infrastructure for autonomous AI agents.
+
+ACME Agent Supply builds the operational stack that keeps AI agents running — memory, diagnostics, and recovery tools designed for agent-native deployments.
+
+## Core Products
+
+- [OpenClaw Memory](https://acmeagentsupply.com/platform): Persistent memory and session continuity for AI agents (Elixir + DriftGuard)
+- [OpenClaw Observe](https://acmeagentsupply.com/platform): Real-time health monitoring and reliability scoring (RadCheck, OCTriage)
+- [OpenClaw Recover](https://acmeagentsupply.com/platform): Automated recovery and rehydration for failed or degraded agents (Agent911, Lazarus)
+
+## Key Pages
+
+- [Homepage](https://acmeagentsupply.com): Product overview and value proposition
+- [Platform](https://acmeagentsupply.com/platform): Full platform architecture — 4-layer reliability stack
+- [Pricing](https://acmeagentsupply.com/pricing): Plans for operators and teams
+- [Docs](https://acmeagentsupply.com/docs): Technical documentation for OCTriage, RadCheck, Sentinel, and more
+- [Bot Shop](https://acmeagentsupply.com/bot-shop): Pre-built reliability bots and integrations
+- [Operator's Tale](https://acmeagentsupply.com/operators-tale): Real-world narrative of agent reliability challenges
+- [Support](https://acmeagentsupply.com/support): Support and troubleshooting
+
+## About
+
+ACME Agent Supply is purpose-built for the era of autonomous agents. The platform addresses the #1 operational challenge: agents that silently degrade, lose context, or fail to recover without human intervention.
+
+Contact: hello@acmeagentsupply.com
