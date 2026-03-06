@@ -67,8 +67,11 @@ export default function DocsPage() {
             </div>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded">
-            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+          <div className="mt-6 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+            <div className="overflow-hidden rounded">
+              <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.8)_0,rgba(251,191,36,0.8)_10px,rgba(0,0,0,0.78)_10px,rgba(0,0,0,0.78)_20px)] bg-[length:24px_24px]" />
+            </div>
+            <div className="hidden rounded bg-zinc-900/55 md:block" />
           </div>
         </div>
 

@@ -32,3 +32,7 @@ function renderSvgToPng(svgFilename, pngFilename) {
 
 renderSvgToPng("openclaw-stack.svg", "openclaw-stack.png");
 renderSvgToPng("openclaw-stack-dark.svg", "openclaw-stack-dark.png");
+renderSvgToPng(
+  "openclaw-reliability-stack.svg",
+  "openclaw-reliability-stack.png"
+);

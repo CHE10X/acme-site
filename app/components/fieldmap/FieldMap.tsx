@@ -19,6 +19,15 @@ type ImageBox = {
   height: number;
 };
 
+type ZoneRect = {
+  id: string;
+  label: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+};
+
 const STORAGE_KEY = "fieldmap-hotspots-v1.6";
 const FIELD_MAP_ASSET = "/fieldmap/field-map-v1_6.jpg?v=20260303";
 const TOOLTIP_WIDTH = 320;
@@ -132,10 +141,30 @@ function polygonCentroid(points: FieldMapPoint[]) {
   };
 }
 
+function polygonBounds(points: FieldMapPoint[]) {
+  if (!points.length) {
+    return { minX: 0, minY: 0, maxX: 0, maxY: 0 };
+  }
+
+  return points.reduce(
+    (accumulator, point) => ({
+      minX: Math.min(accumulator.minX, point.x),
+      minY: Math.min(accumulator.minY, point.y),
+      maxX: Math.max(accumulator.maxX, point.x),
+      maxY: Math.max(accumulator.maxY, point.y),
+    }),
+    {
+      minX: Number.POSITIVE_INFINITY,
+      minY: Number.POSITIVE_INFINITY,
+      maxX: Number.NEGATIVE_INFINITY,
+      maxY: Number.NEGATIVE_INFINITY,
+    }
+  );
+}
+
 export default function FieldMap() {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
-  const imageRef = useRef<HTMLImageElement | null>(null);
   const frameRef = useRef<number | null>(null);
   const pendingClientPointRef = useRef<{ x: number; y: number } | null>(null);
 
@@ -196,7 +225,7 @@ export default function FieldMap() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setCalibrate(params.get("calibrate") === "1");
-    setDebug(params.get("debug") === "1");
+    setDebug(params.get("debug") === "1" || params.get("debugZones") === "1");
   }, []);
 
   useEffect(() => {
@@ -374,12 +403,27 @@ export default function FieldMap() {
     setStatus("Saved hotspot JSON to localStorage.");
   };
 
-  const tooltipPosition = useMemo(() => {
-    if (!activeHotspot || !imageBox || !stageRef.current) return null;
+  const zoneRects = useMemo<ZoneRect[]>(() => {
+    if (!imageBox) return [];
 
-    const stage = stageRef.current;
-    const stageWidth = stage.clientWidth;
-    const stageHeight = stage.clientHeight;
+    return hotspots.map((hotspot) => {
+      const bounds = polygonBounds(hotspot.polygon);
+      return {
+        id: hotspot.id,
+        label: hotspot.label,
+        left: bounds.minX * imageBox.width,
+        top: bounds.minY * imageBox.height,
+        width: Math.max(0, (bounds.maxX - bounds.minX) * imageBox.width),
+        height: Math.max(0, (bounds.maxY - bounds.minY) * imageBox.height),
+      };
+    });
+  }, [hotspots, imageBox]);
+
+  const tooltipPosition = useMemo(() => {
+    if (!activeHotspot || !imageBox) return null;
+
+    const stageWidth = imageBox.width;
+    const stageHeight = imageBox.height;
     const anchor = pointer ?? polygonCentroid(activeHotspot.polygon);
     const anchorX = anchor.x * imageBox.width;
     const anchorY = anchor.y * imageBox.height;
@@ -406,7 +450,7 @@ export default function FieldMap() {
       <div className="rounded-[16px] border border-white/10 bg-zinc-950 shadow-[0_18px_50px_rgba(0,0,0,0.24)]">
         <div
           ref={stageRef}
-          className="relative overflow-hidden rounded-[16px]"
+          className="relative mx-auto aspect-[3/2] w-full max-w-[1080px] overflow-hidden rounded-[16px]"
           onPointerMove={(event) => {
             if (event.pointerType === "touch") return;
             queuePointerUpdate(event.clientX, event.clientY);
@@ -420,15 +464,13 @@ export default function FieldMap() {
         >
           <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,rgba(0,0,0,0)_60%,rgba(0,0,0,0.08)_100%)]" />
           <img
-            ref={imageRef}
             src={FIELD_MAP_ASSET}
             alt="Field map v1.6"
-            className="block h-auto w-full"
+            className="absolute inset-0 block h-full w-full object-cover"
             onLoad={() => {
               window.requestAnimationFrame(() => updateImageBox());
             }}
           />
-        
 
         {imageBox ? (
           <>
@@ -466,6 +508,27 @@ export default function FieldMap() {
                 );
               })}
             </svg>
+
+            {debug ? (
+              <div className="pointer-events-none absolute inset-0 z-[4]">
+                {zoneRects.map((zone) => (
+                  <div
+                    key={zone.id}
+                    className="absolute border border-amber-400/75 bg-amber-400/10"
+                    style={{
+                      left: zone.left,
+                      top: zone.top,
+                      width: zone.width,
+                      height: zone.height,
+                    }}
+                  >
+                    <span className="absolute left-1 top-1 rounded bg-zinc-950/90 px-1.5 py-0.5 text-[10px] uppercase tracking-[0.18em] text-amber-200">
+                      {zone.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </>
         ) : null}
 

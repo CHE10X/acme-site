@@ -19,7 +19,7 @@ export const HOTSPOTS: FieldMapHotspot[] = [
     body:
       "Control plane connectivity is degraded or non-responsive. Run a rapid probe to confirm gateway health and isolate failure domain.",
     ctaLabel: "Investigate gateway",
-    href: "/docs/gateway",
+    href: "/docs/support/when-things-feel-off",
     polygon: [
       { x: 0.08, y: 0.10 },
       { x: 0.41, y: 0.10 },
@@ -35,7 +35,7 @@ export const HOTSPOTS: FieldMapHotspot[] = [
     body:
       "Processes appear healthy, but failure signals are not reaching the operator surface. Detect hidden faults before they compound.",
     ctaLabel: "Surface hidden faults",
-    href: "/docs/radcheck",
+    href: "/docs/radcheck/score-explained",
     polygon: [
       { x: 0.57, y: 0.10 },
       { x: 0.91, y: 0.12 },
@@ -51,7 +51,7 @@ export const HOTSPOTS: FieldMapHotspot[] = [
     body:
       "Session and memory pressure are rising toward compaction thresholds. Assess headroom before degradation begins.",
     ctaLabel: "Check context headroom",
-    href: "/docs/compaction",
+    href: "/docs/architecture/reliability-stack",
     polygon: [
       { x: 0.09, y: 0.41 },
       { x: 0.42, y: 0.42 },
@@ -67,7 +67,7 @@ export const HOTSPOTS: FieldMapHotspot[] = [
     body:
       "Configuration or behavioral drift may reduce predictability over time. Compare live state against known-good baseline.",
     ctaLabel: "Analyze drift",
-    href: "/docs/sentinel",
+    href: "/docs/sentinel/overview",
     polygon: [
       { x: 0.58, y: 0.41 },
       { x: 0.92, y: 0.42 },
@@ -83,7 +83,7 @@ export const HOTSPOTS: FieldMapHotspot[] = [
     body:
       "Backup and restore pathways have not been recently verified. Confirm the system can recover under real conditions.",
     ctaLabel: "Verify recovery",
-    href: "/docs/lazarus",
+    href: "/docs/lazarus/overview",
     polygon: [
       { x: 0.36, y: 0.64 },
       { x: 0.66, y: 0.64 },

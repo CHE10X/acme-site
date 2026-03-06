@@ -4,6 +4,7 @@ import path from "node:path";
 export type ToolRegistryEntry = {
   slug: string;
   name: string;
+  displayName?: string;
   description: string;
   applicationCategory:
     | "DeveloperApplication"
@@ -69,6 +70,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
     {
       slug: "octriage",
       name: "OCTriageUnit",
+      displayName: "Triage",
       description:
         "Deterministic triage tool that generates operator-grade proof bundles for OpenClaw environments.",
       applicationCategory: "DeveloperApplication",

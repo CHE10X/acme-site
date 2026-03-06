@@ -108,22 +108,32 @@ export default async function DocsArticlePage({
           ))}
         </nav>
 
-        <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
-          <img
-            src="/brand/agent911-support-badge.png"
-            alt="Agent911 Support Badge"
-            className="hidden md:block absolute top-2 right-6 h-40 w-auto opacity-80"
-          />
-          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
-            ACME Agent Supply Co.
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
+            <div>
+              <div className="mb-2 text-[10px] uppercase tracking-[0.4em] text-amber-400">
+                ACME Agent Supply Co.
+              </div>
+              {title && (
+                <h1 className="mb-3 text-3xl font-bold leading-tight text-zinc-100">
+                  {title}
+                </h1>
+              )}
+            </div>
+            <div className="hidden rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-2 md:block">
+              <img
+                src="/brand/agent911-support-badge.png"
+                alt="Agent911 Support Badge"
+                className="h-32 w-auto opacity-80"
+              />
+            </div>
           </div>
-          {title && (
-            <h1 className="text-3xl font-bold text-zinc-100 mb-3 leading-tight">
-              {title}
-            </h1>
-          )}
-          <div className="overflow-hidden rounded">
-            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+
+          <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+            <div className="overflow-hidden rounded">
+              <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.8)_0,rgba(251,191,36,0.8)_10px,rgba(0,0,0,0.78)_10px,rgba(0,0,0,0.78)_20px)] bg-[length:24px_24px]" />
+            </div>
+            <div className="hidden rounded bg-zinc-900/55 md:block" />
           </div>
         </div>
 
@@ -138,9 +148,9 @@ export default async function DocsArticlePage({
             <figure className="mt-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
               <OpenClawStackDiagram />
               <figcaption className="mt-3 text-sm text-zinc-400">
-                Alt text: OpenClaw reliability stack architecture showing Elixir
-                memory flow, OCTriageUnit proof generation, runtime guards, and
-                operator channels from Commander to Agents.
+                OpenClaw combines deterministic agent rehydration, runtime
+                hygiene, diagnostics, and autonomous recovery into a single
+                reliability stack for AI agent systems.
               </figcaption>
             </figure>
           ) : null}

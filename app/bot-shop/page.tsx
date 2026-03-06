@@ -116,7 +116,9 @@ export default function BotShopPage() {
                 id={tool.slug}
                 className="rounded-2xl border border-white/10 bg-zinc-900/40 p-4 text-sm"
               >
-                <h3 className="text-base font-semibold text-zinc-100">{tool.name}</h3>
+                <h3 className="text-base font-semibold text-zinc-100">
+                  {tool.displayName ?? tool.name}
+                </h3>
                 <div className="mt-3 grid gap-2 text-zinc-300 md:grid-cols-2">
                   <div>Release tag: {tool.releaseTag}</div>
                   <div>Current version: {tool.latestVersion}</div>
