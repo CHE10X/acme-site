@@ -1,29 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const MODEL_BLOCKS = [
-  {
-    title: "Memory Integrity",
-    stack: "Elixir / DriftGuard",
-    desc: "Maintains agent memory health and prevents silent drift.",
-  },
-  {
-    title: "Runtime Hygiene",
-    stack: "Watchdog / Sentinel",
-    desc: "Continuously monitors runtime behavior and detects anomalies.",
-  },
-  {
-    title: "Observe Layer",
-    stack: "FindMyAgent / RadCheck / Observe",
-    desc: "Aggregates signals from across the runtime.",
-  },
-  {
-    title: "Recovery Layer",
-    stack: "ORP / Agent911 / Lazarus",
-    desc: "Deterministic recovery when failures occur.",
-  },
-];
-
 export default function PlatformPage() {
   return (
     <main className="bg-zinc-950 px-4 py-10 sm:px-6">
@@ -33,9 +10,9 @@ export default function PlatformPage() {
             The Problem
           </h1>
           <p className="mt-3 max-w-3xl text-zinc-300">
-            AI agent systems fail silently: stalled agents, memory corruption,
-            invisible runtime failures, and cascading instability often appear
-            before obvious alerts.
+            AI agent systems often fail silently: stalled agents, corrupted
+            memory, invisible failures, and cascading instability can emerge
+            before obvious alarms.
           </p>
         </section>
 
@@ -52,30 +29,63 @@ export default function PlatformPage() {
               className="h-auto w-full"
             />
           </div>
+        </section>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            {MODEL_BLOCKS.map((block) => (
-              <article
-                key={block.title}
-                className="rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-4"
-              >
-                <h3 className="text-lg font-medium text-zinc-100">{block.title}</h3>
-                <div className="mt-1 text-sm font-mono text-amber-300">
-                  {block.stack}
-                </div>
-                <p className="mt-2 text-sm text-zinc-300">{block.desc}</p>
-              </article>
-            ))}
-          </div>
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
+            Memory Integrity
+          </h2>
+          <p className="mt-3 text-zinc-300">
+            <span className="font-mono text-amber-300">Elixir</span> and{" "}
+            <span className="font-mono text-amber-300">DriftGuard</span> keep
+            memory state coherent across compaction pressure and runtime churn,
+            reducing drift and rehydration instability.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
+            Runtime Hygiene
+          </h2>
+          <p className="mt-3 text-zinc-300">
+            <span className="font-mono text-amber-300">Watchdog</span> and{" "}
+            <span className="font-mono text-amber-300">Sentinel</span> monitor
+            runtime health continuously, detecting stalls and anomalies before
+            they propagate.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
+            Observe Layer
+          </h2>
+          <p className="mt-3 text-zinc-300">
+            <span className="font-mono text-amber-300">FindMyAgent</span>,{" "}
+            <span className="font-mono text-amber-300">RadCheck</span>, and the
+            Observe aggregator expose reliability scoring and system signals for
+            rapid operator classification.
+          </p>
+        </section>
+
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
+            Recovery Layer
+          </h2>
+          <p className="mt-3 text-zinc-300">
+            <span className="font-mono text-amber-300">ORP</span>,{" "}
+            <span className="font-mono text-amber-300">Agent911</span>, and{" "}
+            <span className="font-mono text-amber-300">Lazarus</span> perform
+            deterministic recovery operations and readiness verification.
+          </p>
         </section>
 
         <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
           <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
             Operator Surface
           </h2>
-          <p className="mt-2 text-zinc-300">
-            OCTriage and <code className="text-amber-300">octriage -watch</code>{" "}
-            give operators an immediate system read.
+          <p className="mt-3 text-zinc-300">
+            Operators use OCTriage and <code>octriage -watch</code> for immediate
+            state visibility.
           </p>
           <pre className="mt-4 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950/90 p-4 text-sm text-zinc-200">
 {`OpenClaw System Triage
@@ -84,9 +94,6 @@ reliability_score: 87
 trend_24h: +3
 protection_state: ACTIVE`}
           </pre>
-          <p className="mt-3 text-sm text-zinc-300">
-            Operators run OCTriage to see system health instantly.
-          </p>
         </section>
 
         <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
@@ -94,9 +101,9 @@ protection_state: ACTIVE`}
             Platform Philosophy
           </h2>
           <p className="mt-3 text-zinc-300">
-            OpenClaw operates as a technical reliability loop:
+            OpenClaw operates as a closed reliability loop:
             <span className="ml-2 font-medium text-zinc-100">
-              Observe → Detect → Classify → Recover → Verify
+              Observe → Protect → Recover
             </span>
             .
           </p>
@@ -104,12 +111,22 @@ protection_state: ACTIVE`}
 
         <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
           <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
-            Install OCTriage
+            Operator Workflow
+          </h2>
+          <p className="mt-3 text-sm text-zinc-300">Morning workflow</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-zinc-300">
+            <li>run octriage</li>
+            <li>review reliability score</li>
+            <li>confirm protection state</li>
+          </ol>
+        </section>
+
+        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
+          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
+            Install
           </h2>
           <pre className="mt-4 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950/90 p-4 text-sm text-zinc-200">
-{`curl https://openclaw.ai/install.sh | bash
-
-octriage`}
+{`curl https://openclaw.ai/install.sh | bash`}
           </pre>
           <Link
             href="/docs/octriage/overview"
@@ -117,18 +134,6 @@ octriage`}
           >
             Install OCTriage
           </Link>
-        </section>
-
-        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
-          <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
-            Operator Workflow
-          </h2>
-          <p className="mt-3 text-sm text-zinc-300">Morning check</p>
-          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-zinc-300">
-            <li>run octriage</li>
-            <li>review reliability score</li>
-            <li>confirm protection state</li>
-          </ol>
         </section>
       </div>
     </main>
