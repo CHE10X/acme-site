@@ -1,0 +1,135 @@
+name: Support Request
+description: Submit a support request. Please run `octriage` before submitting and include the output or a proof bundle path.
+title: "[Support] "
+labels:
+  - support
+  - triage-needed
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Before You Submit
+        
+        Please run `octriage` on your OpenClaw instance and include the output below.
+        If you have run an ORP verification, include the proof bundle path.
+        
+        > **Note:** At least one evidence field (OCTriage output, Proof Bundle, or ORP Report) is required.
+        > If empty, support response will be delayed pending diagnostics.
+
+  - type: input
+    id: contact_email
+    attributes:
+      label: Contact Email
+      description: Email address for follow-up
+      placeholder: you@example.com
+    validations:
+      required: true
+
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      description: Which OpenClaw product are you using?
+      options:
+        - OCTriage (free CLI)
+        - OpenClaw Observe (RadCheck + FindMyAgent)
+        - OpenClaw Recover (Agent911 + Lazarus)
+        - OpenClaw Memory (Elixir + DriftGuard)
+        - Full Platform
+        - Other / Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      options:
+        - Agent not responding
+        - Gateway probe failing
+        - Memory drift / context loss
+        - Reliability score dropped
+        - Recovery not triggering
+        - Watchdog / Sentinel alert
+        - Installation / setup
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect to happen?
+      placeholder: Describe the issue in detail...
+    validations:
+      required: true
+
+  - type: input
+    id: openclaw_version
+    attributes:
+      label: OpenClaw Version
+      description: Run `openclaw --version` and paste the output
+      placeholder: "e.g. 1.4.2"
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, host type (Mac, Linux, Pi, VPS), and any relevant infra info
+      placeholder: "e.g. macOS 14.3, M2 MacBook Pro"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        ## Evidence (at least one required)
+        
+        Run `octriage` and paste the output, OR provide a proof bundle or ORP report path.
+        
+        ```bash
+        octriage
+        ```
+        
+        If you've run an ORP recovery check:
+        ```bash
+        bash ~/.openclaw/bin/orp_run.sh
+        ```
+
+  - type: textarea
+    id: octriage_output
+    attributes:
+      label: OCTriage Output
+      description: Paste the full output of `octriage` here
+      placeholder: |
+        OpenClaw Control Plane Triage
+        ─────────────────────────────
+        ...
+      render: text
+
+  - type: input
+    id: proof_bundle_path
+    attributes:
+      label: Proof Bundle Path
+      description: Path to ORP proof bundle JSON (e.g. `workspace/reports/orp_runs/orp_run_20260305T210000Z.json`)
+      placeholder: "workspace/reports/orp_runs/orp_run_YYYYMMDDTHHMMSSZ.json"
+
+  - type: input
+    id: orp_report_path
+    attributes:
+      label: ORP Operator Report Path
+      description: Path to ORP operator report text file
+      placeholder: "workspace/reports/orp_operator_reports/orp_report_YYYYMMDDTHHMMSSZ.txt"
+
+  - type: textarea
+    id: additional_notes
+    attributes:
+      label: Additional Notes
+      description: Anything else that might help diagnose the issue
+      placeholder: Optional — recent changes, recent errors, related incidents...
