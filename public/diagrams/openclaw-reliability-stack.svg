@@ -1,183 +1,263 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" role="img" aria-labelledby="title desc">
-  <title id="title">OpenClaw Reliability Stack</title>
-  <desc id="desc">Layered diagram of the OpenClaw reliability stack showing runtime, memory integrity, monitoring, diagnostics, and recovery.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 980" role="img" aria-labelledby="oc-title oc-desc">
+  <title id="oc-title">OpenClaw Reliability Stack</title>
+  <desc id="oc-desc">Layered architecture diagram of the OpenClaw reliability stack showing runtime, memory integrity, hygiene, observe, recovery, and proof outputs.</desc>
+
   <defs>
     <style>
-      .font { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-      .title { font-size: 34px; font-weight: 700; fill: #f4f4f5; }
-      .section { font-size: 16px; font-weight: 600; fill: #d4d4d8; }
-      .node { font-size: 13px; font-weight: 600; fill: #e4e4e7; }
-      .band { fill: #0b1020; stroke: #334155; stroke-width: 2; }
-      .runtime { fill: rgba(52, 211, 153, 0.07); }
-      .memory { fill: rgba(20, 184, 166, 0.11); }
-      .hygiene { fill: rgba(245, 158, 11, 0.1); }
-      .diag { fill: rgba(99, 102, 241, 0.1); }
-      .recovery { fill: rgba(248, 113, 113, 0.1); }
-      .artifact { fill: rgba(34, 197, 94, 0.12); }
-      .sys { fill: #121826; stroke: #475569; stroke-width: 2; }
-      .memory-node { fill: #0f2430; stroke: #0ea5a4; stroke-width: 2; }
-      .hygiene-node { fill: #2a1d0d; stroke: #f59e0b; stroke-width: 2; }
-      .diag-node { fill: #1c1d38; stroke: #818cf8; stroke-width: 2; }
-      .recovery-node { fill: #2f1717; stroke: #fb7185; stroke-width: 2; }
-      .output-pill { fill: #0d2418; stroke: #22c55e; stroke-width: 2; }
-      .flow { stroke: #cbd5e1; stroke-width: 2; fill: none; marker-end: url(#arrow); }
-      .evidence { stroke: #86efac; stroke-width: 2; stroke-dasharray: 8 6; fill: none; marker-end: url(#arrow-evidence); }
-      .legend-box { fill: #111827; stroke: #475569; stroke-width: 2; }
-      .entry { fill: none; stroke: #f8fafc; stroke-width: 2; }
+      text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+      .t-title { font-size: 26px; font-weight: 700; fill: #0f172a; }
+      .t-sub   { font-size: 13px; fill: #64748b; }
+      .t-layer { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; fill: #475569; }
+      .t-cap   { font-size: 10.5px; fill: #94a3b8; font-style: italic; }
+      .t-node  { font-size: 12px; font-weight: 600; fill: #1e293b; }
+      .t-ann   { font-size: 10.5px; fill: #64748b; }
+      .t-out   { font-size: 11px; font-weight: 600; fill: #15803d; }
+      .t-leg   { font-size: 11px; fill: #64748b; }
+      .t-cycle { font-size: 10px; fill: #60a5fa; }
+      .ann-ln  { stroke: #e2e8f0; stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+      .n-entry       { fill: #f1f5f9; stroke: #334155; stroke-width: 2; }
+      .n-entry-inner { fill: none;    stroke: #334155; stroke-width: 1; }
+      .leg-bg { fill: #fff; stroke: #e2e8f0; stroke-width: 1.5; }
     </style>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,5 L0,10 z" fill="#cbd5e1" />
-    </marker>
-    <marker id="arrow-evidence" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L10,5 L0,10 z" fill="#86efac" />
-    </marker>
+    <marker id="mh-gray"  markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7z" fill="#94a3b8"/></marker>
+    <marker id="mh-blue"  markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7z" fill="#60a5fa"/></marker>
+    <marker id="mh-green" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7z" fill="#22c55e"/></marker>
+    <marker id="mh-blue-l" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto"><path d="M7,0 L0,3.5 L7,7z" fill="#60a5fa"/></marker>
   </defs>
 
-  <rect x="0" y="0" width="1400" height="1000" fill="#020617" />
+  <rect x="0" y="0" width="1400" height="980" fill="#ffffff"/>
 
-  <text class="font title" x="80" y="56">OpenClaw Reliability Stack</text>
-  <text class="font section" x="80" y="84">Memory integrity, runtime hygiene, diagnostics, and autonomous recovery for AI agent systems</text>
+  <!-- HEADER -->
+  <text class="t-title" x="76" y="42">OpenClaw Reliability Stack</text>
+  <text class="t-sub"   x="76" y="62">Memory integrity, runtime hygiene, diagnostics, and autonomous recovery for AI agent systems</text>
 
-  <rect class="band" x="80" y="110" width="1240" height="90" rx="16" />
-  <text class="font section" x="102" y="136">Operator / Channels</text>
-  <rect class="sys" x="130" y="146" width="140" height="36" rx="12" />
-  <text class="font node" x="176" y="169">Operator</text>
-  <rect class="sys" x="320" y="146" width="150" height="36" rx="12" />
-  <text class="font node" x="366" y="169">Channels</text>
-  <rect class="sys" x="520" y="146" width="360" height="36" rx="12" />
-  <text class="font node" x="558" y="169">Support / GitHub / Tawk / Bot Shop</text>
+  <!--
+    LAYOUT:
+    Recovery cycle spine: x=18..54 (left gutter, 36px wide)
+    Band area: x=56..892 (width=836)
+    Annotations: x=904..1380
 
-  <rect class="band runtime" x="80" y="220" width="1240" height="120" rx="16" />
-  <text class="font section" x="102" y="246">OpenClaw Runtime</text>
-  <rect class="sys" x="130" y="270" width="220" height="44" rx="12" />
-  <text class="font node" x="176" y="297">OpenClaw Runtime</text>
-  <rect class="sys" x="390" y="270" width="130" height="44" rx="12" />
-  <text class="font node" x="431" y="297">Agents</text>
-  <rect class="sys" x="550" y="270" width="130" height="44" rx="12" />
-  <text class="font node" x="586" y="297">Gateway</text>
-  <rect class="sys" x="710" y="270" width="170" height="44" rx="12" />
-  <text class="font node" x="738" y="297">Session Store</text>
-  <rect class="sys" x="910" y="270" width="160" height="44" rx="12" />
-  <text class="font node" x="954" y="297">Workspace</text>
+    Bands (all inline fill to avoid CSS render issues):
+      y=80   h=94  Operator
+      y=186  h=94  Runtime
+      y=292  h=98  Memory
+      y=402  h=94  Hygiene
+      y=508  h=94  Observe
+      y=614  h=94  Recover
+      y=720  h=66  Outputs
 
-  <rect class="band memory" x="80" y="360" width="1240" height="180" rx="16" />
-  <text class="font section" x="102" y="386">Memory Integrity Layer</text>
-  <text class="font section" x="102" y="408">Keeps agents context-stable across disruption</text>
-  <rect class="memory-node" x="130" y="432" width="330" height="88" rx="14" />
-  <text class="font node" x="150" y="456">Elixir</text>
-  <text class="font node" x="230" y="456">DriftGuard</text>
-  <rect class="memory-node" x="150" y="468" width="70" height="34" rx="10" />
-  <text class="font node" x="167" y="490">BOOT</text>
-  <rect class="memory-node" x="232" y="468" width="86" height="34" rx="10" />
-  <text class="font node" x="247" y="490">DIGEST</text>
-  <rect class="memory-node" x="330" y="468" width="96" height="34" rx="10" />
-  <text class="font node" x="343" y="490">ANCHORS</text>
+    Within each band:
+      Layer label  baseline = y+16
+      Caption      baseline = y+30
+      Node top             = y+44  (node h=36)
+  -->
 
-  <rect class="memory-node" x="500" y="432" width="170" height="44" rx="12" />
-  <text class="font node" x="516" y="459">ORIENTATION</text>
+  <!-- ── BAND 1: Operator  y=80 ──────────────────────────────────── -->
+  <rect x="56" y="80" width="836" height="94" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="96">OPERATOR SURFACE</text>
 
-  <rect class="band hygiene" x="80" y="560" width="1240" height="100" rx="16" />
-  <text class="font section" x="102" y="586">Runtime Hygiene Layer</text>
-  <text class="font section" x="102" y="608">Continuously watches for stalls, silence, and degradation</text>
-  <rect class="hygiene-node" x="320" y="604" width="170" height="40" rx="12" />
-  <text class="font node" x="365" y="630">Watchdog</text>
-  <rect class="hygiene-node" x="520" y="604" width="170" height="40" rx="12" />
-  <text class="font node" x="572" y="630">Sentinel</text>
+  <rect class="n-entry"       x="76"  y="124" width="106" height="36" rx="7"/>
+  <rect class="n-entry-inner" x="80"  y="128" width="98"  height="28" rx="5"/>
+  <text class="t-node" x="104" y="147">Operator</text>
 
-  <rect class="band diag" x="80" y="680" width="1240" height="120" rx="16" />
-  <text class="font section" x="102" y="706">Diagnostic Layer</text>
-  <text class="font section" x="102" y="728">Diagnostics: Explains what is happening</text>
-  <rect class="diag-node" x="300" y="734" width="640" height="54" rx="14" />
-  <rect class="diag-node" x="320" y="744" width="170" height="36" rx="11" />
-  <rect class="entry" x="315" y="739" width="180" height="46" rx="13" />
-  <text class="font node" x="373" y="767">OCTriage</text>
-  <rect class="diag-node" x="520" y="744" width="160" height="36" rx="11" />
-  <text class="font node" x="570" y="767">RadCheck</text>
-  <rect class="diag-node" x="710" y="744" width="200" height="36" rx="11" />
-  <text class="font node" x="758" y="767">FindMyAgent</text>
+  <rect x="202" y="124" width="194" height="36" rx="7" fill="#fff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text class="t-node" x="221" y="147">Support / GitHub / Tawk</text>
 
-  <rect class="band recovery" x="80" y="820" width="1240" height="100" rx="16" />
-  <text class="font section" x="102" y="846">Recovery Layer</text>
-  <text class="font section" x="102" y="868">Recovery: Restores safe operation</text>
-  <rect class="recovery-node" x="500" y="864" width="170" height="40" rx="12" />
-  <text class="font node" x="548" y="890">Agent911</text>
-  <rect class="recovery-node" x="710" y="864" width="160" height="40" rx="12" />
-  <text class="font node" x="761" y="890">Lazarus</text>
+  <rect class="n-entry"       x="416" y="124" width="90"  height="36" rx="7"/>
+  <rect class="n-entry-inner" x="420" y="128" width="82"  height="28" rx="5"/>
+  <text class="t-node" x="434" y="147">Bot Shop</text>
 
-  <rect class="band artifact" x="80" y="930" width="1240" height="54" rx="16" />
-  <text class="font section" x="102" y="952">Artifacts / Outputs</text>
-  <text class="font section" x="102" y="972">Artifacts: Shows evidence of value</text>
-  <rect class="output-pill" x="330" y="944" width="170" height="28" rx="14" />
-  <text class="font node" x="360" y="963">Proof Bundles</text>
-  <rect class="output-pill" x="520" y="944" width="180" height="28" rx="14" />
-  <text class="font node" x="544" y="963">Reliability Score</text>
-  <rect class="output-pill" x="730" y="944" width="110" height="28" rx="14" />
-  <text class="font node" x="764" y="963">Alerts</text>
-  <rect class="output-pill" x="860" y="944" width="180" height="28" rx="14" />
-  <text class="font node" x="888" y="963">Recovery Plans</text>
+  <rect class="n-entry"       x="526" y="124" width="96"  height="36" rx="7"/>
+  <rect class="n-entry-inner" x="530" y="128" width="88"  height="28" rx="5"/>
+  <text class="t-node" x="544" y="147">OCTriage</text>
 
-  <path class="flow" d="M700 182 V270" />
-  <path class="flow" d="M240 314 V432" />
-  <path class="flow" d="M405 644 V744" />
-  <path class="flow" d="M600 644 V744" />
-  <path class="flow" d="M600 780 V864" />
-  <path class="flow" d="M540 884 V836 H615 V314" />
+  <rect class="n-entry"       x="642" y="124" width="138" height="36" rx="7"/>
+  <rect class="n-entry-inner" x="646" y="128" width="130" height="28" rx="5"/>
+  <text class="t-node" x="660" y="147">octriage -watch</text>
 
-  <path class="flow" d="M185 468 V322 H455 V314" />
-  <text class="font node" x="246" y="334">BOOT → Agent Session Startup</text>
+  <!-- ── BAND 2: Runtime  y=186 ──────────────────────────────────── -->
+  <rect x="56" y="186" width="836" height="94" rx="10" fill="#dbeafe" stroke="#93c5fd" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="202">OPENCLAW RUNTIME</text>
 
-  <path class="flow" d="M275 468 V334 H795 V314" />
-  <text class="font node" x="556" y="334">DIGEST → Agent Rehydration</text>
+  <rect x="76"  y="230" width="100" height="36" rx="7" fill="#fff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text class="t-node" x="100" y="253">Agents</text>
 
-  <path class="flow" d="M378 468 V326 H990 V314" />
-  <text class="font node" x="906" y="334">ANCHORS → Persistent System Facts</text>
+  <rect x="196" y="230" width="110" height="36" rx="7" fill="#fff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text class="t-node" x="216" y="253">Gateway</text>
 
-  <path class="flow" d="M585 432 V338 H615 V314" />
-  <text class="font node" x="620" y="351">ORIENTATION → Ecosystem Routing</text>
+  <rect x="326" y="230" width="130" height="36" rx="7" fill="#fff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text class="t-node" x="340" y="253">Session Store</text>
 
-  <path class="flow" d="M405 604 V350 H615 V314" />
-  <text class="font node" x="420" y="364">Watchdog → Gateway Probe</text>
+  <rect x="476" y="230" width="120" height="36" rx="7" fill="#fff" stroke="#60a5fa" stroke-width="1.5"/>
+  <text class="t-node" x="498" y="253">Workspace</text>
 
-  <path class="flow" d="M405 604 V338 H455 V314" />
-  <text class="font node" x="238" y="351">Watchdog → Stall Detection</text>
+  <!-- ── BAND 3: Memory  y=292 ──────────────────────────────────── -->
+  <rect x="56" y="292" width="836" height="98" rx="10" fill="#ccfbf1" stroke="#5eead4" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="308">OPENCLAW MEMORY</text>
+  <text class="t-cap"   x="76" y="322">Deterministic rehydration and context continuity</text>
 
-  <path class="flow" d="M605 604 V338 H455 V314" />
-  <text class="font node" x="618" y="351">Sentinel → Anomaly Detection</text>
+  <rect x="76"  y="336" width="100" height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="100" y="359">Elixir</text>
 
-  <path class="flow" d="M605 644 V744" />
-  <text class="font node" x="616" y="694">Sentinel → Trigger RadCheck</text>
+  <rect x="196" y="336" width="112" height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="212" y="359">DriftGuard</text>
 
-  <path class="flow" d="M810 744 V340 H795 V314" />
-  <text class="font node" x="818" y="359">FindMyAgent → Session / Agent Topology</text>
+  <rect x="328" y="336" width="76"  height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="347" y="359">BOOT</text>
 
-  <path class="flow" d="M585 864 H710" />
-  <text class="font node" x="594" y="857">Agent911 → Recovery Decision</text>
+  <rect x="424" y="336" width="86"  height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="440" y="359">DIGEST</text>
 
-  <path class="evidence" d="M810 884 V944" />
-  <text class="font node" x="818" y="930">Lazarus → Recovery Execution Plan</text>
+  <rect x="530" y="336" width="96"  height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="542" y="359">ANCHORS</text>
 
-  <path class="evidence" d="M405 780 V944" />
-  <text class="font node" x="248" y="874">OCTriage → Proof Bundle</text>
-  <path class="evidence" d="M600 780 V944" />
-  <text class="font node" x="576" y="874">RadCheck → Reliability Score</text>
+  <rect x="646" y="336" width="122" height="36" rx="7" fill="#fff" stroke="#0d9488" stroke-width="1.5"/>
+  <text class="t-node" x="657" y="359">ORIENTATION</text>
 
-  <path class="evidence" d="M990 432 V944 H785" />
-  <text class="font node" x="1000" y="706">Memory Integrity → Artifacts / Outputs</text>
+  <!-- ── BAND 4: Hygiene  y=402 ──────────────────────────────────── -->
+  <rect x="56" y="402" width="836" height="94" rx="10" fill="#ffedd5" stroke="#fb923c" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="418">OPENCLAW HYGIENE</text>
+  <text class="t-cap"   x="76" y="432">Continuous runtime observation and anomaly detection</text>
 
-  <path class="evidence" d="M870 884 V944" />
-  <text class="font node" x="875" y="918">Recovery Layer → Artifacts / Outputs</text>
+  <rect x="76"  y="446" width="118" height="36" rx="7" fill="#fff" stroke="#ea580c" stroke-width="1.5"/>
+  <text class="t-node" x="97" y="469">Watchdog</text>
 
-  <path class="evidence" d="M710 780 V944" />
-  <text class="font node" x="714" y="860">Diagnostic Layer → Artifacts / Outputs</text>
+  <rect x="214" y="446" width="106" height="36" rx="7" fill="#fff" stroke="#ea580c" stroke-width="1.5"/>
+  <text class="t-node" x="235" y="469">Sentinel</text>
 
-  <rect class="legend-box" x="1070" y="30" width="250" height="96" rx="14" />
-  <path class="flow" d="M1090 58 H1160" />
-  <text class="font node" x="1170" y="62">Active runtime dependency</text>
-  <path class="evidence" d="M1090 88 H1160" />
-  <text class="font node" x="1170" y="92">Generated output / evidence</text>
-  <rect class="diag-node" x="1090" y="102" width="34" height="16" rx="6" />
-  <rect class="entry" x="1087" y="99" width="40" height="22" rx="8" />
-  <text class="font node" x="1136" y="114">Operator-facing entrypoint</text>
+  <!-- ── BAND 5: Observe  y=508 ──────────────────────────────────── -->
+  <rect x="56" y="508" width="836" height="94" rx="10" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="524">OPENCLAW OBSERVE</text>
+  <text class="t-cap"   x="76" y="538">Topology, runtime signals, and reliability scoring</text>
 
-  <text class="font section" x="80" y="997">OpenClaw combines deterministic agent rehydration, runtime hygiene, diagnostics, and autonomous recovery into a single reliability stack for AI agent systems.</text>
+  <rect x="76"  y="552" width="130" height="36" rx="7" fill="#fff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text class="t-node" x="90" y="575">FindMyAgent</text>
+
+  <rect x="226" y="552" width="108" height="36" rx="7" fill="#fff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text class="t-node" x="246" y="575">RadCheck</text>
+
+  <rect x="354" y="552" width="170" height="36" rx="7" fill="#fff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text class="t-node" x="367" y="575">Observe Aggregator</text>
+
+  <!-- ── BAND 6: Recover  y=614 ──────────────────────────────────── -->
+  <rect x="56" y="614" width="836" height="94" rx="10" fill="#ffe4e6" stroke="#fda4af" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="630">OPENCLAW RECOVER</text>
+  <text class="t-cap"   x="76" y="644">Deterministic remediation and recovery readiness</text>
+
+  <rect x="76"  y="658" width="78"  height="36" rx="7" fill="#fff" stroke="#e11d48" stroke-width="1.5"/>
+  <text class="t-node" x="99" y="681">ORP</text>
+
+  <rect x="174" y="658" width="110" height="36" rx="7" fill="#fff" stroke="#e11d48" stroke-width="1.5"/>
+  <text class="t-node" x="194" y="681">Agent911</text>
+
+  <rect x="304" y="658" width="98"  height="36" rx="7" fill="#fff" stroke="#e11d48" stroke-width="1.5"/>
+  <text class="t-node" x="326" y="681">Lazarus</text>
+
+  <!-- ── BAND 7: Outputs  y=720 ──────────────────────────────────── -->
+  <rect x="56" y="720" width="836" height="66" rx="10" fill="#fefce8" stroke="#fde047" stroke-width="1.5"/>
+  <text class="t-layer" x="76" y="736">OUTPUTS / PROOF</text>
+
+  <rect x="76"  y="744" width="126" height="30" rx="7" fill="#fff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text class="t-out"  x="91" y="764">Proof Bundles</text>
+
+  <rect x="222" y="744" width="142" height="30" rx="7" fill="#fff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text class="t-out"  x="237" y="764">Reliability Score</text>
+
+  <rect x="374" y="744" width="150" height="30" rx="7" fill="#fff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text class="t-out"  x="389" y="764">Protection Report</text>
+
+  <rect x="534" y="744" width="110" height="30" rx="7" fill="#fff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text class="t-out"  x="549" y="764">ORP Report</text>
+
+  <rect x="654" y="744" width="144" height="30" rx="7" fill="#fff" stroke="#ca8a04" stroke-width="1.5"/>
+  <text class="t-out"  x="669" y="764">Recovery Status</text>
+
+  <!-- ══ PRIMARY DOWNWARD FLOW (center x=480) ══════════════════════ -->
+  <path d="M480,174 V186" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#mh-gray)"/>
+  <path d="M480,280 V292" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#mh-gray)"/>
+  <path d="M480,390 V402" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#mh-gray)"/>
+  <path d="M480,496 V508" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#mh-gray)"/>
+  <path d="M480,602 V614" stroke="#94a3b8" stroke-width="2" fill="none" marker-end="url(#mh-gray)"/>
+
+  <!-- ══ RECOVERY CYCLE — left spine ═══════════════════════════════
+       Recover band right → outer left → Runtime band left
+       Path: (56,661) → (22,661) → (22,248) → (56,248)
+  ══════════════════════════════════════════════════════════════════ -->
+  <path d="M56,661 H22 V248 H56"
+        stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="6 4" fill="none"
+        marker-end="url(#mh-blue)"/>
+  <!-- Label sits in left gutter, horizontal, centered vertically -->
+  <text class="t-cycle" text-anchor="middle"
+        transform="rotate(-90,13,454)" x="13" y="458">Recover → Runtime</text>
+
+  <!-- ══ ARTIFACT FLOWS to Outputs ═════════════════════════════════
+       Four dashed-green parallel lines, right edge of node area,
+       8px apart: x=860,852,844,836
+  ══════════════════════════════════════════════════════════════════ -->
+  <!-- Memory → Outputs -->
+  <path d="M860,372 V744" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#mh-green)"/>
+  <!-- Hygiene → Outputs -->
+  <path d="M852,478 V744" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#mh-green)"/>
+  <!-- Observe → Outputs -->
+  <path d="M844,584 V744" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#mh-green)"/>
+  <!-- Recover → Outputs -->
+  <path d="M836,690 V744" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#mh-green)"/>
+
+  <!-- OCTriage → Proof Bundles (from operator band) -->
+  <path d="M562,160 H870 V759 H820"
+        stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" fill="none"
+        marker-end="url(#mh-green)"/>
+
+  <!-- ══ RIGHT-COLUMN ANNOTATIONS ══════════════════════════════════ -->
+
+  <!-- Operator -->
+  <line class="ann-ln" x1="780" y1="142" x2="900" y2="142"/>
+  <text class="t-ann" x="904" y="120" font-weight="600" fill="#334155">Operator-facing entrypoints</text>
+  <text class="t-ann" x="904" y="134">OCTriage · octriage -watch · Bot Shop</text>
+  <text class="t-ann" x="904" y="148">Double border = operator surface</text>
+
+  <!-- Memory -->
+  <line class="ann-ln" x1="768" y1="354" x2="900" y2="354"/>
+  <text class="t-ann" x="904" y="334">BOOT → Agent Startup</text>
+  <text class="t-ann" x="904" y="348">DIGEST → Agent Rehydration</text>
+  <text class="t-ann" x="904" y="362">ANCHORS → Persistent Facts</text>
+  <text class="t-ann" x="904" y="376">ORIENTATION → Ecosystem Routing</text>
+
+  <!-- Hygiene -->
+  <line class="ann-ln" x1="320" y1="464" x2="900" y2="464"/>
+  <text class="t-ann" x="904" y="456">Watchdog → Runtime Signals</text>
+  <text class="t-ann" x="904" y="470">Sentinel → Predictive Alerts</text>
+
+  <!-- Observe -->
+  <line class="ann-ln" x1="524" y1="570" x2="900" y2="570"/>
+  <text class="t-ann" x="904" y="558">FindMyAgent → Agent Topology</text>
+  <text class="t-ann" x="904" y="572">RadCheck → Reliability Score</text>
+  <text class="t-ann" x="904" y="586">Observe Aggregator → Observe Snapshot</text>
+
+  <!-- Recover -->
+  <line class="ann-ln" x1="402" y1="676" x2="900" y2="676"/>
+  <text class="t-ann" x="904" y="660">ORP → Failure Classification</text>
+  <text class="t-ann" x="904" y="674">Agent911 → Recovery Readiness</text>
+  <text class="t-ann" x="904" y="688">Lazarus → Recovery Simulation</text>
+
+  <!-- ══ LEGEND ══════════════════════════════════════════════════════ -->
+  <rect class="leg-bg" x="56" y="812" width="560" height="120" rx="10"/>
+  <text x="76" y="834" style="font-size:12px;font-weight:700;fill:#0f172a;">Legend</text>
+
+  <line x1="76" y1="852" x2="136" y2="852" stroke="#94a3b8" stroke-width="2" marker-end="url(#mh-gray)"/>
+  <text class="t-leg" x="150" y="856">Active dependency / primary data flow</text>
+
+  <line x1="76" y1="872" x2="136" y2="872" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#mh-blue)"/>
+  <text class="t-leg" x="150" y="876">Recovery cycle back to runtime (left spine)</text>
+
+  <line x1="76" y1="892" x2="136" y2="892" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#mh-green)"/>
+  <text class="t-leg" x="150" y="896">Generated artifact / proof output</text>
+
+  <rect x="76" y="902" width="50" height="18" rx="4" fill="#f1f5f9" stroke="#334155" stroke-width="2"/>
+  <rect x="80" y="906" width="42" height="10" rx="3" fill="none" stroke="#334155" stroke-width="1"/>
+  <text class="t-leg" x="150" y="916">Operator-facing surface (double border)</text>
+
+  <!-- FOOTER -->
+  <text class="t-cap" x="56" y="950">OpenClaw combines deterministic rehydration, runtime hygiene, diagnostics, reliability scoring, and recovery into a single operator-facing reliability stack for AI agent systems.</text>
+
 </svg>
