@@ -1,5 +1,11 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import { LegalDocumentPage } from "../LegalDocumentPage";
 
-export default function PrivacyPolicyAliasPage() {
-  redirect("/legal/privacy");
+export const metadata: Metadata = {
+  title: "Privacy Policy — ACME Agent Supply Co.",
+  description: "Privacy Policy for ACME Agent Supply Co. products and services.",
+};
+
+export default function PrivacyPolicyPage() {
+  return <LegalDocumentPage slug="privacy-policy" />;
 }

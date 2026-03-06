@@ -1,0 +1,225 @@
+# tool-registry.source.yaml
+# Authoritative version + artifact feed for ACME Agent Supply Co. tools
+# Maintained by Hendrik (Ops). Used by scripts/generate-registry.mjs to produce public/registry.json
+# Update this file on every release. Do not guess — pull from actual build artifacts.
+#
+# Schema:
+#   productKey:     matches metadata.productKey in Stripe catalog
+#   category:       Schema.org / apple-category style (see category_truth table below)
+#   os:             cross-platform | macos | linux | windows
+#   repo:           GitHub repo (owner/name)
+#   latest:         latest release tag (git tag)
+#   version:        semver string (no v prefix)
+#   artifact:       release zip filename
+#   sha256:         sha256 of release zip (from build artifacts)
+#   install:        canonical install command (shell-safe)
+#   install_docs:   URL to full install docs
+#   status:         ga | beta | alpha
+
+tools:
+
+  - productKey: octriageunit
+    displayName: OCTriageUnit
+    category: DeveloperApplication
+    os: cross-platform
+    repo: CHE10X/octriageunit
+    latest: v0.1.5
+    version: "0.1.5"
+    artifact: octriageunit-v0.1.5-release.zip
+    sha256: acb7c6d604ad188888cea4cb087a9f7543353bf1c33cbe8c870661823680ff25
+    install: "curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash"
+    install_docs: https://acmeagentsupply.co/docs/octriageunit/install
+    status: ga
+    standaloneCta: false   # free open-source tool
+    canonicalPrice: 0     # USD/month/runtime
+    description: "Read-only control plane triage tool for OpenClaw agents. Produces STATUS: HEALTHY / DEGRADED / CRITICAL."
+
+  - productKey: sentinel
+    displayName: Sentinel
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null  # internal module — no standalone release artifact yet
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Installed via OpenClaw operator kit — see docs"
+    install_docs: https://acmeagentsupply.co/docs/sentinel/overview
+    status: ga
+    standaloneCta: true   # sold individually; attach driver
+    canonicalPrice: 5     # USD/month/runtime
+    description: "Always-on guardrails for OpenClaw agents. Flags instability early, produces protection proofs."
+
+  - productKey: radcheck
+    displayName: RadCheck
+    category: DeveloperApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Free scan tool — no install required, runs in-session"
+    install_docs: https://acmeagentsupply.co/docs/radcheck/overview
+    status: ga
+    standaloneCta: false   # free scan tool
+    canonicalPrice: 0     # USD/month/runtime
+    description: "Free radiation scan for OpenClaw agents. Produces risk score without persistent installation."
+
+  - productKey: agent911
+    displayName: Agent911
+    category: DeveloperApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Control plane module — activated via Agent911 license"
+    install_docs: https://acmeagentsupply.co/docs/agent911/overview
+    status: ga
+    standaloneCta: true   # premium control plane
+    canonicalPrice: 19     # USD/month/runtime
+    description: "Unified reliability snapshot and guided triage surface. Embeds FindMyAgent visibility."
+
+  - productKey: driftguard
+    displayName: DriftGuard
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Module — installed as part of OpenClaw operator kit"
+    install_docs: https://acmeagentsupply.co/docs/driftguard/overview
+    status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
+    description: "Long-horizon drift monitoring and audit-ready traces for OpenClaw agents."
+
+  - productKey: sphinxgate
+    displayName: SphinxGate
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Module — installed as part of OpenClaw operator kit"
+    install_docs: https://acmeagentsupply.co/docs/sphinxgate/overview
+    status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
+    description: "Token discipline and lane enforcement with audit-friendly routing history."
+
+  - productKey: transmission
+    displayName: Transmission
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Module — installed as part of OpenClaw operator kit"
+    install_docs: https://acmeagentsupply.co/docs/transmission/overview
+    status: ga
+    standaloneCta: true   # sold individually
+    canonicalPrice: 1     # USD/month/runtime
+    description: "Multi-agent routing guardrails and priority rules."
+
+  - productKey: watchdog
+    displayName: Watchdog
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Foundation module — included in all operator kits"
+    install_docs: https://acmeagentsupply.co/docs/watchdog/overview
+    status: ga
+    standaloneCta: false   # foundation module; not marketed standalone — inside Operator Kit only
+    canonicalPrice: 1     # USD/month/runtime
+    description: "Baseline hygiene and reliability posture signals. Foundation layer for all agent deployments."
+
+  - productKey: lazarus
+    displayName: Lazarus
+    category: DeveloperApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Free reanimation module — runs in-session"
+    install_docs: https://acmeagentsupply.co/docs/lazarus/overview
+    status: ga
+    standaloneCta: false   # free; runs in-session
+    canonicalPrice: 0     # USD/month/runtime
+    description: "Free agent reanimation and recovery scoring. Weight-based health assessment."
+
+  - productKey: findmyagent
+    displayName: FindMyAgent
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Embedded in Agent911 — no standalone install"
+    install_docs: https://acmeagentsupply.co/docs/findmyagent/overview
+    status: ga
+    standaloneCta: false   # NOT sold standalone per doctrine; embedded in Agent911 only
+    canonicalPrice: 1     # USD/month/runtime
+    description: "Agent presence, heartbeat age, and stall flags embedded in operator surfaces."
+
+  - productKey: operator-kit
+    displayName: Operator Kit
+    category: UtilitiesApplication
+    os: cross-platform
+    repo: CHE10X/homarus-eximius
+    latest: null
+    version: null
+    artifact: null
+    sha256: null
+    install: "# Bundle — activates sentinel, watchdog, sphinxgate, driftguard, transmission"
+    install_docs: https://acmeagentsupply.co/docs/quickstart/5-minute
+    status: ga
+    standaloneCta: true   # bundle; most common loadout
+    canonicalPrice: 5     # USD/month/runtime
+    description: "5-module reliability bundle. Most common loadout for production OpenClaw deployments."
+
+# ─────────────────────────────────────────────────────────────────────────────
+# CATEGORY + OS TRUTH TABLE
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# category values (Schema.org / structured data):
+#   DeveloperApplication  — diagnostic, scan, triage tools (OCTriageUnit, RadCheck, Agent911, Lazarus)
+#   UtilitiesApplication  — runtime protection modules (Sentinel, DriftGuard, SphinxGate, etc.)
+#
+# os values:
+#   cross-platform  — shell/Node.js based, runs on macOS + Linux (and WSL on Windows)
+#   macos           — macOS only (e.g. .app bundles)
+#   linux           — Linux only
+#
+# Per-tool decisions:
+#   OCTriageUnit      → DeveloperApplication  | cross-platform (bash + curl, macOS + Linux confirmed)
+#   Sentinel          → UtilitiesApplication  | cross-platform
+#   RadCheck          → DeveloperApplication  | cross-platform
+#   Agent911          → DeveloperApplication  | cross-platform
+#   DriftGuard        → UtilitiesApplication  | cross-platform
+#   SphinxGate        → UtilitiesApplication  | cross-platform
+#   Transmission      → UtilitiesApplication  | cross-platform
+#   Watchdog          → UtilitiesApplication  | cross-platform
+#   Lazarus           → DeveloperApplication  | cross-platform
+#   FindMyAgent       → UtilitiesApplication  | cross-platform
+#   Operator Kit      → UtilitiesApplication  | cross-platform
+#
+# NOTE: OCTriageUnit ships a macOS .app bundle (Applications/OCTriageUnit.app)
+# but the core binary (bin/control-plane-triage) is a bash script.
+# For registry purposes: cross-platform is correct. The .app is a launcher convenience.

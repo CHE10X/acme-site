@@ -1,63 +1,161 @@
-import Image from "next/image";
-import Link from "next/link";
+import fs from "fs";
+import path from "path";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DOCS_BY_SLUG, DOCS_ENTRIES } from "../docsData";
+import Link from "next/link";
+import { marked } from "marked";
+import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
-export function generateStaticParams() {
-  return DOCS_ENTRIES.map((entry) => ({ slug: entry.slug.split("/") }));
+const DOCS_DIR = path.join(process.cwd(), "content", "docs");
+
+function getAllDocSlugs(): string[][] {
+  const result: string[][] = [];
+  function walk(dir: string, prefix: string[] = []) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (entry.isDirectory()) {
+        walk(path.join(dir, entry.name), [...prefix, entry.name]);
+      } else if (entry.name.endsWith(".md")) {
+        result.push([...prefix, entry.name.replace(/\.md$/, "")]);
+      }
+    }
+  }
+  walk(DOCS_DIR);
+  return result;
 }
 
-export default async function DocsEntryPage({
+export async function generateStaticParams() {
+  return getAllDocSlugs().map((slug) => ({ slug }));
+}
+
+function parseFrontmatter(raw: string): { title?: string; body: string } {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
+  if (!match) return { body: raw };
+  const titleMatch = match[1].match(/^title:\s*(.+)$/m);
+  return { title: titleMatch?.[1]?.trim(), body: match[2] };
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string[] }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const filePath = path.join(DOCS_DIR, ...slug) + ".md";
+  if (!fs.existsSync(filePath)) return { title: "Not Found — ACME Docs" };
+  const { title } = parseFrontmatter(fs.readFileSync(filePath, "utf-8"));
+  return {
+    title: title ? `${title} — ACME Docs` : `Docs — ACME Agent Supply Co.`,
+  };
+}
+
+export default async function DocsArticlePage({
   params,
 }: {
   params: Promise<{ slug: string[] }>;
 }) {
-  const resolved = await params;
-  const key = resolved.slug.join("/");
-  const entry = DOCS_BY_SLUG.get(key);
+  const { slug } = await params;
+  const filePath = path.join(DOCS_DIR, ...slug) + ".md";
 
-  if (!entry) {
+  if (!fs.existsSync(filePath)) {
     notFound();
   }
 
-  const isArchitecture = key === "architecture/reliability-stack";
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const { title, body } = parseFrontmatter(raw);
+  const htmlContent = await marked(body, { async: true });
+
+  const breadcrumbs = slug.map((segment, i) => ({
+    label: segment.replace(/-/g, " "),
+    href: "/docs/" + slug.slice(0, i + 1).join("/"),
+    isLast: i === slug.length - 1,
+  }));
+  const isReliabilityStackPage = slug.join("/") === "architecture/reliability-stack";
 
   return (
-    <main className="bg-zinc-950 px-4 py-10 sm:px-6">
-      <div className="mx-auto max-w-4xl rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
-        <div className="mb-3 text-[11px] uppercase tracking-[0.35em] text-zinc-500">
-          Docs
-        </div>
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
-          {entry.title}
-        </h1>
-        <p className="mt-3 text-zinc-300">{entry.summary}</p>
-
-        <div className="mt-5 space-y-3 text-zinc-300">
-          {entry.body.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      <main className="max-w-5xl mx-auto px-6 py-12">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-2 text-sm flex-wrap mb-8">
+          <Link
+            href="/"
+            className="text-zinc-400 hover:text-zinc-200 transition-colors"
+          >
+            Home
+          </Link>
+          <span className="text-zinc-700">/</span>
+          <Link
+            href="/docs"
+            className="text-zinc-400 hover:text-zinc-200 transition-colors"
+          >
+            Docs
+          </Link>
+          {breadcrumbs.map((crumb) => (
+            <span key={crumb.href} className="flex items-center gap-2">
+              <span className="text-zinc-700">/</span>
+              {crumb.isLast ? (
+                <span className="text-zinc-300 capitalize">{crumb.label}</span>
+              ) : (
+                <Link
+                  href={crumb.href}
+                  className="text-zinc-400 hover:text-zinc-200 transition-colors capitalize"
+                >
+                  {crumb.label}
+                </Link>
+              )}
+            </span>
           ))}
+        </nav>
+
+        <div className="relative rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <img
+            src="/brand/agent911-support-badge.png"
+            alt="Agent911 Support Badge"
+            className="hidden md:block absolute top-2 right-6 h-40 w-auto opacity-80"
+          />
+          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400 mb-2">
+            ACME Agent Supply Co.
+          </div>
+          {title && (
+            <h1 className="text-3xl font-bold text-zinc-100 mb-3 leading-tight">
+              {title}
+            </h1>
+          )}
+          <div className="overflow-hidden rounded">
+            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+          </div>
         </div>
 
-        {isArchitecture ? (
-          <figure className="mt-6 overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-950/80">
-            <Image
-              src="/diagrams/openclaw-reliability-stack.svg"
-              alt="Layered diagram of the OpenClaw reliability stack showing runtime, memory integrity, monitoring, diagnostics, and recovery."
-              width={1400}
-              height={1000}
-              className="h-auto w-full"
-            />
-          </figure>
-        ) : null}
+        <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
+          {/* Content */}
+          <article
+            className="docs-prose"
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
+          />
 
-        <Link
-          href="/docs"
-          className="mt-8 inline-flex items-center rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500 hover:text-white"
-        >
-          Back to Docs
-        </Link>
-      </div>
-    </main>
+          {isReliabilityStackPage ? (
+            <figure className="mt-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+              <OpenClawStackDiagram />
+              <figcaption className="mt-3 text-sm text-zinc-400">
+                Alt text: OpenClaw reliability stack architecture showing Elixir
+                memory flow, OCTriageUnit proof generation, runtime guards, and
+                operator channels from Commander to Agents.
+              </figcaption>
+            </figure>
+          ) : null}
+
+          {/* Back link */}
+          <div className="mt-12 pt-6 border-t border-zinc-800">
+            <Link
+              href="/docs"
+              className="text-zinc-400 hover:text-zinc-200 text-sm transition-colors"
+            >
+              ← Back to Docs
+            </Link>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

@@ -1,71 +1,157 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { DOCS_ENTRIES } from "./docsData";
+import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
-const ORDER = [
-  "octriage/overview",
-  "architecture/reliability-stack",
-  "radcheck/score-explained",
-  "sentinel/overview",
-  "sphinxgate/overview",
-  "driftguard/overview",
-  "watchdog/overview",
-  "agent911/snapshot-explained",
-  "lazarus/overview",
-  "transmission/overview",
-  "findmyagent/overview",
-  "orp/overview",
-  "support/when-things-feel-off",
+export const metadata: Metadata = {
+  title: "Docs — ACME Agent Supply Co.",
+  description:
+    "Documentation for the ACME Agent Supply reliability platform.",
+};
+
+const LAUNCH_DOCS = [
+  {
+    href: "/docs/radcheck/score-explained",
+    title: "How RadCheck Scores Your Stack",
+    desc: "The 5-domain scoring model, risk bands, guardrails, and what each check catches.",
+    tag: "RadCheck",
+  },
+  {
+    href: "/docs/sentinel/overview",
+    title: "Sentinel — Continuous Guardrails",
+    desc: "Always-on detection for silent failures, stalls, and runtime drift.",
+    tag: "Sentinel",
+  },
+  {
+    href: "/docs/sphinxgate/overview",
+    title: "SphinxGate — Policy Enforcement",
+    desc: "Routing guardrails with inspectable policy decisions.",
+    tag: "SphinxGate",
+  },
+  {
+    href: "/docs/agent911/snapshot-explained",
+    title: "Agent911 Snapshot — What It Reads, What It Doesn't Touch",
+    desc: "Read-only telemetry cockpit: zero config mutations, operator playbooks only.",
+    tag: "Agent911",
+  },
 ];
-
-const entries = ORDER.map((slug) =>
-  DOCS_ENTRIES.find((entry) => entry.slug === slug),
-).filter((entry): entry is (typeof DOCS_ENTRIES)[number] => Boolean(entry));
 
 export default function DocsPage() {
   return (
-    <main className="bg-zinc-950 px-4 py-10 sm:px-6">
-      <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-4">
-          <div className="text-[11px] uppercase tracking-[0.35em] text-zinc-500">
-            Docs Navigation
-          </div>
-          <nav className="mt-4 space-y-1">
-            {entries.map((entry) => (
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      <main className="max-w-5xl mx-auto px-6 py-12">
+        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+          <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div className="max-w-2xl">
               <Link
-                key={entry.slug}
-                href={`/docs/${entry.slug}`}
-                className="block rounded-lg px-3 py-2 text-sm text-zinc-300 transition hover:bg-zinc-800 hover:text-zinc-100"
+                href="/"
+                className="mb-2 inline-flex text-[10px] uppercase tracking-[0.4em] text-amber-300/90 transition hover:text-amber-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
               >
-                {entry.title}
+                ACME Agent Supply Co.
               </Link>
-            ))}
-          </nav>
-        </aside>
+              <h1 className="max-w-[18ch] text-3xl font-semibold tracking-[-0.02em] text-zinc-100 mb-3">
+                Documentation
+              </h1>
+              <p className="max-w-[60ch] text-zinc-400">
+                Platform documentation for reliability-minded operators.
+              </p>
+            </div>
 
-        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">
-          <h1 className="text-3xl font-semibold tracking-tight text-zinc-100">
-            Documentation
-          </h1>
-          <p className="mt-3 max-w-3xl text-zinc-300">
-            Architecture, diagnostics, and deterministic recovery workflows for
-            OpenClaw operators.
-          </p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            {entries.map((entry) => (
+            <div className="flex justify-start md:justify-end">
+              <div className="rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-4 py-3">
+                <img
+                  src="/brand/agent911-support-badge.png"
+                  alt="Agent911 Support Badge"
+                  className="h-28 w-auto opacity-85 md:h-32"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded">
+            <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.85)_0,rgba(251,191,36,0.85)_10px,rgba(0,0,0,0.85)_10px,rgba(0,0,0,0.85)_20px)] bg-[length:24px_24px]" />
+          </div>
+        </div>
+
+        <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
+          <div className="mb-8 mx-auto max-w-[980px] rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
+            <OpenClawStackDiagram />
+            <div className="mt-3 text-sm text-zinc-400">
+              Start with OCTriageUnit (Operator Tool) to capture a deterministic
+              proof bundle before recovery actions.
+            </div>
+          </div>
+          <div className="mb-3 text-[11px] uppercase tracking-[0.4em] text-zinc-500">
+            Launch Docs
+          </div>
+          <div className="space-y-3">
+            {LAUNCH_DOCS.map((doc) => (
               <Link
-                key={entry.slug}
-                href={`/docs/${entry.slug}`}
-                className="rounded-xl border border-zinc-800/80 bg-zinc-900/55 p-4 transition-colors hover:border-zinc-700 hover:bg-zinc-900"
+                key={doc.href}
+                href={doc.href}
+                className="group block rounded-xl border border-zinc-800 bg-zinc-900/60 px-5 py-4 transition-colors hover:border-zinc-700 hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
               >
-                <h2 className="text-base font-medium text-zinc-100">
-                  {entry.title}
-                </h2>
-                <p className="mt-1 text-sm text-zinc-300">{entry.summary}</p>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="font-medium text-zinc-100 group-hover:text-amber-400 transition-colors">
+                      {doc.title}
+                    </div>
+                    <div className="mt-1 text-sm text-zinc-400">
+                      {doc.desc}
+                    </div>
+                  </div>
+                  <div className="shrink-0 text-[10px] uppercase tracking-widest text-zinc-500 bg-zinc-800 px-2 py-1 rounded mt-0.5">
+                    {doc.tag}
+                  </div>
+                </div>
               </Link>
             ))}
+          </div>
+
+          <div className="mt-10 pt-8 border-t border-zinc-800/60">
+            <div className="mb-3 text-[11px] uppercase tracking-[0.4em] text-zinc-500">
+              Additional Docs
+            </div>
+            <div className="space-y-2">
+              <Link
+                href="/docs/findmyagent/overview"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                FindMyAgent — Agent Presence &amp; Operator Awareness
+              </Link>
+              <Link
+                href="/docs/lazarus/overview"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                Lazarus — Backup Readiness
+              </Link>
+              <Link
+                href="/docs/architecture/reliability-stack"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                Full Architecture Reference
+              </Link>
+              <Link
+                href="/products/octriageunit"
+                className="group flex items-center gap-3 text-sm text-zinc-400 hover:text-zinc-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+              >
+                <span className="text-amber-400/50 group-hover:text-amber-400 transition-colors">
+                  →
+                </span>
+                OpenClaw Triage Unit (read-only triage)
+              </Link>
+            </div>
           </div>
         </section>
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

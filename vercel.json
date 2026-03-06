@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "web/homepage-4plus1": true
+    }
+  }
+}
