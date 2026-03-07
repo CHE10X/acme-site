@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME — Operator Terrain</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --page-bg:    #1A2028;
+      --panel-bg:   #242A30;
+      --inset-bg:   #161A1E;
+      --border:     #2A3848;
+      --amber:      #D98A2B;
+      --text:       #E0E8F0;
+      --muted:      #9AA3AD;
+      --dim:        #4A5E6E;
+      --green:      #4A9E6B;
+      --red:        #C44A3A;
+      --blue-gray:  #6C8599;
+    }
+
+    body {
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Page wrapper ── */
+    .page-wrap {
+      padding: 44px 0 0;
+    }
+
+    /* ── Content header (constrained 1100px) ── */
+    .content-header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .ch-left {}
+    .ch-eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 10px;
+    }
+    .ch-title {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      margin-bottom: 5px;
+    }
+    .ch-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .ch-id {
+      font-family: 'JetBrains Mono','Fira Mono',monospace;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    /* ── Telemetry strip (full width) ── */
+    .telemetry-strip {
+      background: var(--inset-bg);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      height: 44px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .telemetry-inner {
+      max-width: 1600px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-family: 'JetBrains Mono','Fira Mono',monospace;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .ts-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding-right: 20px;
+      border-right: 1px solid var(--border);
+      margin-right: 0;
+      flex-shrink: 0;
+    }
+    .ts-field {
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      border-right: 1px solid var(--border);
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .ts-field:last-child { border-right: none; }
+    .ts-key {
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+    .ts-val {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .ts-val.active { color: var(--green); }
+
+    /* Reliability score animation */
+    .ts-score {
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .ts-score.healthy {
+      color: var(--green);
+      animation: scorePulse 3s ease-in-out infinite;
+    }
+    .ts-score.warn { color: var(--amber); }
+    .ts-score.crit { color: var(--red); }
+    @keyframes scorePulse {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.65; }
+    }
+
+    /* ── Terrain section (full bleed) ── */
+    .terrain-section {
+      width: 100vw;
+      position: relative;
+      background: linear-gradient(180deg, #242A30 0%, #20262C 55%, #1C2126 100%);
+      margin-top: 0;
+    }
+
+    .terrain-svg {
+      width: 100%;
+      max-width: 1600px;
+      display: block;
+      margin: 0 auto;
+      height: 520px;
+    }
+
+    /* Edge fades — left and right gradient masks */
+    .terrain-section::before,
+    .terrain-section::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 7%;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .terrain-section::before {
+      left: 0;
+      background: linear-gradient(to right, var(--page-bg), transparent);
+    }
+    .terrain-section::after {
+      right: 0;
+      background: linear-gradient(to left, var(--page-bg), transparent);
+    }
+
+    /* ── Tooltip ── */
+    .tooltip {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      background: #1A2634;
+      border: 1px solid #2A3C50;
+      border-radius: 3px;
+      padding: 11px 15px;
+      pointer-events: none;
+      max-width: 260px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    }
+    .tooltip.visible { display: block; }
+    .tt-zone {
+      font-size: 9px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono','Fira Mono',monospace;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .tt-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #D0DCE8;
+      margin-bottom: 5px;
+    }
+    .tt-desc {
+      font-size: 12px;
+      color: #7A90A4;
+      line-height: 1.55;
+      margin-bottom: 8px;
+    }
+    .tt-action {
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono','Fira Mono',monospace;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Terrain animations ── */
+    @keyframes scan {
+      0%   { transform: translateX(-120px); opacity: 0; }
+      4%   { opacity: 1; }
+      96%  { opacity: 0.4; }
+      100% { transform: translateX(1700px); opacity: 0; }
+    }
+    .scan-line { animation: scan 14s linear infinite; }
+
+    @keyframes flicker {
+      0%,100% { opacity: 0.75; }
+      18%     { opacity: 0.3; }
+      42%     { opacity: 0.85; }
+      65%     { opacity: 0.2; }
+      82%     { opacity: 0.7; }
+    }
+    .flicker { animation: flicker 3.2s ease-in-out infinite; }
+
+    .marker-group { cursor: pointer; }
+    .marker-group:hover .marker-glow { opacity: 0.5 !important; }
+    .marker-group:hover .marker-hex  { filter: brightness(1.5); }
+
+    @media (max-width: 768px) {
+      .content-header { flex-direction: column; gap: 12px; align-items: flex-start; padding: 0 24px 16px; }
+      .telemetry-inner { padding: 0 24px; overflow-x: auto; }
+      .terrain-svg { height: 340px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- ── Content header ── -->
+  <div class="content-header">
+    <div class="ch-left">
+      <div class="ch-eyebrow">ACME Agent Supply Co. · Operator Terrain</div>
+      <div class="ch-title">Where in your system is the problem?</div>
+      <div class="ch-sub">Signal topology. Hover to inspect. Click to act.</div>
+    </div>
+    <div class="ch-id">Serial 77A · v2</div>
+  </div>
+
+  <!-- ── Telemetry strip ── -->
+  <div class="telemetry-strip">
+    <div class="telemetry-inner">
+      <div class="ts-label">System Signals</div>
+      <div class="ts-field">
+        <span class="ts-key">gateway_latency</span>
+        <span class="ts-val">184ms</span>
+      </div>
+      <div class="ts-field">
+        <span class="ts-key">active_agents</span>
+        <span class="ts-val">27</span>
+      </div>
+      <div class="ts-field">
+        <span class="ts-key">reliability_score</span>
+        <span class="ts-val ts-score healthy" id="reliabilityScore">87</span>
+      </div>
+      <div class="ts-field">
+        <span class="ts-key">protection</span>
+        <span class="ts-val active">ACTIVE</span>
+      </div>
+      <div class="ts-field">
+        <span class="ts-key">drift_alerts</span>
+        <span class="ts-val">0</span>
+      </div>
+      <div class="ts-field">
+        <span class="ts-key">session_uptime</span>
+        <span class="ts-val">14h 22m</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Terrain (full bleed) ── -->
+  <div class="terrain-section">
+
+    <svg class="terrain-svg" viewBox="0 0 1600 520" xmlns="http://www.w3.org/2000/svg" id="terrain" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <!-- Glow filters -->
+        <filter id="glow-sm" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-md" x="-80%" y="-80%" width="260%" height="260%">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-lg" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="14" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- Route path glow -->
+        <filter id="route-glow" x="-5%" y="-200%" width="110%" height="500%">
+          <feGaussianBlur stdDeviation="6" result="blur"/>
+          <feColorMatrix type="matrix" values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.6 0" result="colored"/>
+          <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
+        <!-- Scan gradient -->
+        <linearGradient id="scanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#4A90B8" stop-opacity="0"/>
+          <stop offset="40%"  stop-color="#4A90B8" stop-opacity="0.25"/>
+          <stop offset="60%"  stop-color="#4A90B8" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#4A90B8" stop-opacity="0"/>
+        </linearGradient>
+
+        <!-- Vertical gradient for depth -->
+        <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%"   stop-color="#242A30"/>
+          <stop offset="55%"  stop-color="#20262C"/>
+          <stop offset="100%" stop-color="#1C2126"/>
+        </linearGradient>
+
+        <!-- Route path (for animateMotion) -->
+        <path id="rp" d="M 30,375 C 90,345 140,298 182,270 C 228,244 420,222 505,216 C 590,210 730,282 822,304 C 898,322 1068,208 1148,192 C 1210,178 1382,265 1458,282 C 1530,298 1575,312 1590,318"/>
+      </defs>
+
+      <!-- ── Background ── -->
+      <rect width="1600" height="520" fill="url(#bgGrad)"/>
+
+      <!-- Zone tint overlays (very subtle) -->
+      <rect x="0"    y="0" width="320"  height="520" fill="#1C2010" opacity="0.20"/>
+      <rect x="320"  y="0" width="320"  height="520" fill="#101820" opacity="0.22"/>
+      <rect x="640"  y="0" width="320"  height="520" fill="#102015" opacity="0.16"/>
+      <rect x="960"  y="0" width="320"  height="520" fill="#201808" opacity="0.22"/>
+      <rect x="1280" y="0" width="320"  height="520" fill="#201010" opacity="0.20"/>
+
+      <!-- Zone dividers -->
+      <line x1="320"  y1="0" x2="320"  y2="520" stroke="#1E2C38" stroke-width="0.8" opacity="0.4"/>
+      <line x1="640"  y1="0" x2="640"  y2="520" stroke="#1E2C38" stroke-width="0.8" opacity="0.4"/>
+      <line x1="960"  y1="0" x2="960"  y2="520" stroke="#1E2C38" stroke-width="0.8" opacity="0.4"/>
+      <line x1="1280" y1="0" x2="1280" y2="520" stroke="#1E2C38" stroke-width="0.8" opacity="0.4"/>
+
+      <!-- ── Topographic contour lines ── -->
+      <g stroke="#2E343B" stroke-width="0.8" fill="none" opacity="0.55">
+        <path d="M 0,470 Q 180,458 380,465 Q 580,472 780,460 Q 980,448 1180,455 Q 1400,462 1600,455"/>
+        <path d="M 0,400 Q 200,388 420,395 Q 640,402 840,388 Q 1040,374 1240,382 Q 1440,390 1600,382"/>
+        <path d="M 0,322 Q 220,310 460,318 Q 700,326 900,310 Q 1100,294 1300,304 Q 1500,314 1600,308"/>
+        <path d="M 0,244 Q 240,232 500,242 Q 760,252 960,234 Q 1160,216 1360,228 Q 1520,238 1600,232"/>
+        <path d="M 0,166 Q 260,154 540,164 Q 820,174 1020,155 Q 1220,136 1420,150 Q 1540,158 1600,152"/>
+        <path d="M 0,90  Q 280,78  560,90  Q 840,102 1040,82  Q 1240,62  1460,78  Q 1560,86  1600,80"/>
+      </g>
+
+      <!-- ── Infrastructure node network ── -->
+      <!-- Connectors -->
+      <g stroke="#2A3848" stroke-width="0.8" fill="none" opacity="0.65">
+        <!-- Zone 1 -->
+        <line x1="65"  y1="165" x2="118" y2="245"/>
+        <line x1="118" y1="245" x2="95"  y2="325"/>
+        <line x1="95"  y1="325" x2="162" y2="385"/>
+        <line x1="65"  y1="165" x2="218" y2="192"/>
+        <line x1="218" y1="192" x2="265" y2="288"/>
+        <line x1="265" y1="288" x2="220" y2="368"/>
+        <line x1="118" y1="245" x2="218" y2="192"/>
+        <line x1="95"  y1="325" x2="265" y2="288"/>
+        <!-- Zone 2 -->
+        <line x1="340" y1="178" x2="398" y2="252"/>
+        <line x1="398" y1="252" x2="372" y2="330"/>
+        <line x1="372" y1="330" x2="432" y2="400"/>
+        <line x1="340" y1="178" x2="528" y2="155"/>
+        <line x1="528" y1="155" x2="562" y2="238"/>
+        <line x1="562" y1="238" x2="548" y2="318"/>
+        <line x1="398" y1="252" x2="562" y2="238"/>
+        <line x1="372" y1="330" x2="548" y2="318"/>
+        <!-- Zone 3 -->
+        <line x1="662" y1="185" x2="718" y2="265"/>
+        <line x1="718" y1="265" x2="740" y2="350"/>
+        <line x1="718" y1="265" x2="832" y2="240"/>
+        <line x1="832" y1="240" x2="888" y2="328"/>
+        <line x1="888" y1="328" x2="862" y2="412"/>
+        <line x1="740" y1="350" x2="862" y2="412"/>
+        <!-- Zone 4 -->
+        <line x1="982"  y1="152" x2="1032" y2="218"/>
+        <line x1="1032" y1="218" x2="1015" y2="305"/>
+        <line x1="1032" y1="218" x2="1118" y2="188"/>
+        <line x1="1118" y1="188" x2="1172" y2="272"/>
+        <line x1="1172" y1="272" x2="1152" y2="362"/>
+        <line x1="1015" y1="305" x2="1152" y2="362"/>
+        <line x1="982"  y1="152" x2="1118" y2="188"/>
+        <!-- Zone 5 -->
+        <line x1="1308" y1="200" x2="1355" y2="278"/>
+        <line x1="1355" y1="278" x2="1328" y2="368"/>
+        <line x1="1308" y1="200" x2="1432" y2="192"/>
+        <line x1="1432" y1="192" x2="1472" y2="272"/>
+        <line x1="1472" y1="272" x2="1450" y2="368"/>
+        <line x1="1328" y1="368" x2="1450" y2="368"/>
+        <!-- Inter-zone bridges -->
+        <line x1="265" y1="288" x2="340" y2="178" opacity="0.35"/>
+        <line x1="562" y1="238" x2="662" y2="185" opacity="0.35"/>
+        <line x1="888" y1="328" x2="982" y2="152" opacity="0.35"/>
+        <line x1="1172" y1="272" x2="1308" y2="200" opacity="0.35"/>
+      </g>
+
+      <!-- Infrastructure nodes -->
+      <g fill="#243848" opacity="0.7">
+        <circle cx="65"  cy="165" r="2.8"/><circle cx="118" cy="245" r="2.8"/>
+        <circle cx="95"  cy="325" r="2.8"/><circle cx="162" cy="385" r="2.5"/>
+        <circle cx="218" cy="192" r="2.8"/><circle cx="265" cy="288" r="2.8"/>
+        <circle cx="220" cy="368" r="2.5"/><circle cx="148" cy="432" r="2"/>
+        <circle cx="340" cy="178" r="2.8"/><circle cx="398" cy="252" r="2.8"/>
+        <circle cx="372" cy="330" r="2.8"/><circle cx="432" cy="400" r="2.5"/>
+        <circle cx="528" cy="155" r="2.8"/><circle cx="562" cy="238" r="2.8"/>
+        <circle cx="548" cy="318" r="2.8"/><circle cx="610" cy="162" r="2"/>
+        <circle cx="662" cy="185" r="2.8"/><circle cx="718" cy="265" r="2.8"/>
+        <circle cx="740" cy="350" r="2.8"/><circle cx="832" cy="240" r="2.8"/>
+        <circle cx="888" cy="328" r="2.8"/><circle cx="862" cy="412" r="2.5"/>
+        <circle cx="982"  cy="152" r="2.8"/><circle cx="1032" cy="218" r="2.8"/>
+        <circle cx="1015" cy="305" r="2.8"/><circle cx="1118" cy="188" r="2.8"/>
+        <circle cx="1172" cy="272" r="2.8"/><circle cx="1152" cy="362" r="2.5"/>
+        <circle cx="1308" cy="200" r="2.8"/><circle cx="1355" cy="278" r="2.8"/>
+        <circle cx="1328" cy="368" r="2.8"/><circle cx="1432" cy="192" r="2.8"/>
+        <circle cx="1472" cy="272" r="2.8"/><circle cx="1450" cy="368" r="2.5"/>
+        <circle cx="1525" cy="235" r="2"/>
+      </g>
+
+      <!-- ── Zone signal effects ── -->
+
+      <!-- Z1: Flickering amber signal tower -->
+      <g class="flicker">
+        <line x1="182" y1="270" x2="182" y2="200" stroke="#D98A2B" stroke-width="1.2" opacity="0.55"/>
+        <line x1="172" y1="206" x2="182" y2="200" stroke="#D98A2B" stroke-width="0.8" opacity="0.4"/>
+        <line x1="192" y1="206" x2="182" y2="200" stroke="#D98A2B" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="182" cy="198" r="2.5" fill="#D98A2B" opacity="0.8"/>
+      </g>
+      <g style="animation: flicker 4.8s ease-in-out infinite 1.6s;">
+        <line x1="140" y1="248" x2="140" y2="185" stroke="#D98A2B" stroke-width="0.8" opacity="0.45"/>
+        <circle cx="140" cy="183" r="2" fill="#D98A2B" opacity="0.6"/>
+      </g>
+
+      <!-- Z2: Fading dashed paths — failures not reaching operator -->
+      <g stroke="#6C8599" stroke-width="1" fill="none" stroke-dasharray="5 4" opacity="0.45">
+        <line x1="398" y1="252" x2="505" y2="216"/>
+        <line x1="505" y1="216" x2="560" y2="200"/>
+      </g>
+      <circle cx="420" cy="178" r="4" fill="none" stroke="#6C8599" stroke-width="0.8" opacity="0.3"/>
+      <circle cx="380" cy="148" r="3" fill="none" stroke="#6C8599" stroke-width="0.8" opacity="0.22"/>
+      <circle cx="500" cy="168" r="3" fill="none" stroke="#6C8599" stroke-width="0.8" opacity="0.18"/>
+
+      <!-- Z3: Drift waveform -->
+      <path d="M 662,255 Q 695,242 718,265 Q 748,288 780,275 Q 810,262 832,240 Q 858,218 888,232"
+            stroke="#4A9E6B" stroke-width="1" fill="none" opacity="0.45" stroke-dasharray="4 3"/>
+      <line x1="822" y1="304" x2="838" y2="290" stroke="#4A9E6B" stroke-width="0.9" opacity="0.5"/>
+      <line x1="822" y1="304" x2="808" y2="290" stroke="#4A9E6B" stroke-width="0.9" opacity="0.5"/>
+
+      <!-- Z4: Congestion cluster glow -->
+      <circle cx="1148" cy="192" r="22" fill="#D98A2B" opacity="0.05" filter="url(#glow-lg)"/>
+      <circle cx="1148" cy="192" r="10" fill="#D98A2B" opacity="0.10"/>
+      <g stroke="#D98A2B" stroke-width="0.8" fill="none" opacity="0.35">
+        <line x1="1118" y1="188" x2="1148" y2="192"/>
+        <line x1="1148" y1="192" x2="1172" y2="272"/>
+        <line x1="1148" y1="192" x2="1140" y2="165"/>
+      </g>
+
+      <!-- Z5: Broken recovery loop -->
+      <path d="M 1458,282 Q 1498,260 1508,198 Q 1518,145 1468,133 Q 1415,118 1390,158 Q 1375,180 1378,200"
+            stroke="#C44A3A" stroke-width="1" fill="none" stroke-dasharray="5 5" opacity="0.40"/>
+      <circle cx="1458" cy="282" r="10" fill="none" stroke="#C44A3A" stroke-width="0.8" opacity="0.28" stroke-dasharray="3 3"/>
+
+      <!-- ── Amber Route Path ── -->
+      <!-- Glow shadow -->
+      <path d="M 30,375 C 90,345 140,298 182,270 C 228,244 420,222 505,216 C 590,210 730,282 822,304 C 898,322 1068,208 1148,192 C 1210,178 1382,265 1458,282 C 1530,298 1575,312 1590,318"
+            stroke="#D98A2B" stroke-width="8" fill="none" opacity="0.07" filter="url(#glow-md)"/>
+      <!-- Route line -->
+      <path d="M 30,375 C 90,345 140,298 182,270 C 228,244 420,222 505,216 C 590,210 730,282 822,304 C 898,322 1068,208 1148,192 C 1210,178 1382,265 1458,282 C 1530,298 1575,312 1590,318"
+            stroke="#D98A2B" stroke-width="2" fill="none" opacity="0.85" filter="url(#route-glow)"/>
+
+      <!-- Animated signal pulses -->
+      <circle r="3.5" fill="#D98A2B" filter="url(#glow-sm)">
+        <animateMotion dur="9s" repeatCount="indefinite" begin="0s"><mpath href="#rp"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" dur="9s" repeatCount="indefinite" begin="0s"/>
+      </circle>
+      <circle r="3" fill="#D98A2B" filter="url(#glow-sm)">
+        <animateMotion dur="9s" repeatCount="indefinite" begin="3s"><mpath href="#rp"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0" dur="9s" repeatCount="indefinite" begin="3s"/>
+      </circle>
+      <circle r="2.5" fill="#E8A040">
+        <animateMotion dur="9s" repeatCount="indefinite" begin="6s"><mpath href="#rp"/></animateMotion>
+        <animate attributeName="opacity" values="0;0.7;0.7;0" dur="9s" repeatCount="indefinite" begin="6s"/>
+      </circle>
+
+      <!-- ── Pain Marker Hexagons ── -->
+
+      <!-- Z1: Gateway Unstable — amber #D98A2B -->
+      <g class="marker-group"
+         data-zone="1" data-title="Gateway Unstable"
+         data-desc="Control plane instability detected. Signal fluctuations indicate connection degradation before hard failure."
+         data-color="#D98A2B" data-link="/docs/radcheck">
+        <circle class="marker-glow" cx="182" cy="270" r="26" fill="#D98A2B" opacity="0.10" filter="url(#glow-md)"/>
+        <polygon class="marker-hex" points="182,244 206,257 206,283 182,296 158,283 158,257"
+                 fill="#1A2430" stroke="#D98A2B" stroke-width="1.4" opacity="0.92"/>
+        <circle cx="182" cy="270" r="4.5" fill="#D98A2B" opacity="0.8">
+          <animate attributeName="opacity" values="0.45;0.9;0.45" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="182" y="312" text-anchor="middle" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#D98A2B" letter-spacing="0.08em" opacity="0.88">GATEWAY UNSTABLE</text>
+      </g>
+
+      <!-- Z2: Failures Not Surfacing — blue-gray #6C8599 -->
+      <g class="marker-group"
+         data-zone="2" data-title="Failures Not Surfacing"
+         data-desc="Silent failure mode. Signals are disappearing before reaching operator visibility. Port up, process dead."
+         data-color="#6C8599" data-link="/docs/sentinel">
+        <circle class="marker-glow" cx="505" cy="216" r="26" fill="#6C8599" opacity="0.08" filter="url(#glow-md)"/>
+        <polygon class="marker-hex" points="505,190 529,203 529,229 505,242 481,229 481,203"
+                 fill="#1A2430" stroke="#6C8599" stroke-width="1.4" opacity="0.88"/>
+        <circle cx="505" cy="216" r="5" fill="none" stroke="#6C8599" stroke-width="1.3" stroke-dasharray="3 2" opacity="0.8">
+          <animateTransform attributeName="transform" type="rotate" from="0 505 216" to="360 505 216" dur="7s" repeatCount="indefinite"/>
+        </circle>
+        <text x="505" y="258" text-anchor="middle" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#6C8599" letter-spacing="0.08em" opacity="0.88">FAILURES NOT SURFACING</text>
+      </g>
+
+      <!-- Z3: System Drift — green #4A9E6B -->
+      <g class="marker-group"
+         data-zone="3" data-title="System Drift"
+         data-desc="Behavioral drift detected. Agent outputs are diverging from baseline. Accumulating silently across sessions."
+         data-color="#4A9E6B" data-link="/docs/driftguard">
+        <circle class="marker-glow" cx="822" cy="304" r="26" fill="#4A9E6B" opacity="0.08" filter="url(#glow-md)"/>
+        <polygon class="marker-hex" points="822,278 846,291 846,317 822,330 798,317 798,291"
+                 fill="#1A2430" stroke="#4A9E6B" stroke-width="1.4" opacity="0.88"/>
+        <line x1="813" y1="300" x2="806" y2="308" stroke="#4A9E6B" stroke-width="1.2" opacity="0.75"/>
+        <line x1="822" y1="299" x2="822" y2="309" stroke="#4A9E6B" stroke-width="1.2" opacity="0.75"/>
+        <line x1="831" y1="300" x2="838" y2="308" stroke="#4A9E6B" stroke-width="1.2" opacity="0.75"/>
+        <text x="822" y="346" text-anchor="middle" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#4A9E6B" letter-spacing="0.08em" opacity="0.88">SYSTEM DRIFT</text>
+      </g>
+
+      <!-- Z4: Context Nearing Limits — amber #D98A2B -->
+      <g class="marker-group"
+         data-zone="4" data-title="Context Nearing Limits"
+         data-desc="Resource pressure building. Token congestion and session overload accumulating. Background runs consuming foreground budget."
+         data-color="#D98A2B" data-link="/docs/sphinxgate">
+        <circle class="marker-glow" cx="1148" cy="192" r="26" fill="#D98A2B" opacity="0.12" filter="url(#glow-md)"/>
+        <polygon class="marker-hex" points="1148,166 1172,179 1172,205 1148,218 1124,205 1124,179"
+                 fill="#1A2430" stroke="#D98A2B" stroke-width="1.4" opacity="0.92"/>
+        <circle cx="1142" cy="190" r="2.2" fill="#D98A2B" opacity="0.9"/>
+        <circle cx="1148" cy="186" r="2.2" fill="#D98A2B" opacity="0.7"/>
+        <circle cx="1154" cy="190" r="2.2" fill="#D98A2B" opacity="0.9"/>
+        <circle cx="1145" cy="196" r="1.8" fill="#D98A2B" opacity="0.6"/>
+        <circle cx="1151" cy="196" r="1.8" fill="#D98A2B" opacity="0.6"/>
+        <text x="1148" y="234" text-anchor="middle" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#D98A2B" letter-spacing="0.08em" opacity="0.88">CONTEXT NEARING LIMITS</text>
+      </g>
+
+      <!-- Z5: Recovery Posture Unknown — red #C44A3A -->
+      <g class="marker-group"
+         data-zone="5" data-title="Recovery Posture Unknown"
+         data-desc="Recovery readiness unverified. Backup integrity unknown. Cannot confirm clean recovery path without a proof bundle."
+         data-color="#C44A3A" data-link="/docs/lazarus">
+        <circle class="marker-glow" cx="1458" cy="282" r="26" fill="#C44A3A" opacity="0.10" filter="url(#glow-md)"/>
+        <polygon class="marker-hex" points="1458,256 1482,269 1482,295 1458,308 1434,295 1434,269"
+                 fill="#1A2430" stroke="#C44A3A" stroke-width="1.4" opacity="0.88"/>
+        <path d="M 1450,278 A 8,8 0 1,1 1466,285" stroke="#C44A3A" stroke-width="1.4" fill="none" opacity="0.82"/>
+        <text x="1458" y="324" text-anchor="middle" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#C44A3A" letter-spacing="0.08em" opacity="0.88">RECOVERY POSTURE UNKNOWN</text>
+      </g>
+
+      <!-- ── Zone labels (top) ── -->
+      <g font-family="'JetBrains Mono','Fira Mono',monospace" font-size="8" fill="#253545" letter-spacing="0.1em">
+        <text x="24"   y="22">ZONE 01</text>
+        <text x="344"  y="22">ZONE 02</text>
+        <text x="664"  y="22">ZONE 03</text>
+        <text x="984"  y="22">ZONE 04</text>
+        <text x="1304" y="22">ZONE 05</text>
+      </g>
+
+      <!-- ── Scanning telemetry line ── -->
+      <rect class="scan-line" x="-120" y="0" width="120" height="520" fill="url(#scanGrad)" opacity="0.18"/>
+
+    </svg>
+
+  </div><!-- /terrain-section -->
+
+</div><!-- /page-wrap -->
+
+<!-- Tooltip -->
+<div class="tooltip" id="tooltip">
+  <div class="tt-zone" id="tt-zone"></div>
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-desc" id="tt-desc"></div>
+  <div class="tt-action" id="tt-action"></div>
+</div>
+
+<script>
+  const tooltip = document.getElementById('tooltip');
+
+  const zoneNames = {
+    '1': 'Zone 01 · Early Signals',
+    '2': 'Zone 02 · Hidden Failures',
+    '3': 'Zone 03 · Drift',
+    '4': 'Zone 04 · Resource Pressure',
+    '5': 'Zone 05 · Recovery Risk',
+  };
+
+  document.querySelectorAll('.marker-group').forEach(marker => {
+    marker.addEventListener('mouseenter', e => {
+      const z = marker.dataset.zone, c = marker.dataset.color;
+      document.getElementById('tt-zone').textContent  = zoneNames[z];
+      document.getElementById('tt-zone').style.color  = c;
+      document.getElementById('tt-title').textContent = marker.dataset.title;
+      document.getElementById('tt-desc').textContent  = marker.dataset.desc;
+      const a = document.getElementById('tt-action');
+      a.textContent = 'View solution →';
+      a.style.color = c;
+      tooltip.classList.add('visible');
+    });
+    marker.addEventListener('mousemove', e => {
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top  = (e.clientY - 10) + 'px';
+    });
+    marker.addEventListener('mouseleave', () => tooltip.classList.remove('visible'));
+    marker.addEventListener('click', () => { if (marker.dataset.link) window.location.href = marker.dataset.link; });
+  });
+
+  // Reliability score color logic
+  const score = parseInt(document.getElementById('reliabilityScore').textContent);
+  const el = document.getElementById('reliabilityScore');
+  if (score >= 80) { el.classList.add('healthy'); }
+  else if (score >= 60) { el.classList.add('warn'); }
+  else { el.classList.add('crit'); }
+</script>
+
+</body>
+</html>
