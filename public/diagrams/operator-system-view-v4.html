@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw Reliability Stack — Architecture Diagram</title>
+  <meta name="description" content="OpenClaw reliability platform architecture showing layers for observing, protecting, and recovering AI agent systems.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1A2028;
+      display: flex;
+      justify-content: center;
+      padding: 40px 24px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .diagram-wrap {
+      width: 100%;
+      max-width: 1400px;
+    }
+    .diagram-caption {
+      font-size: 13px;
+      color: #5A6E80;
+      text-align: center;
+      margin-top: 16px;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── SVG Card hover (embedded style read by SVG) ── */
+    svg .card-bg { transition: stroke 0.14s; }
+    svg .card-group:hover .card-bg { stroke: #D98A2B !important; }
+    svg .card-group { cursor: default; }
+    svg .card-group[data-link] { cursor: pointer; }
+
+    /* Mobile */
+    @media (max-width: 800px) {
+      .diagram-wrap { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="diagram-wrap">
+
+<svg id="oc-reliability-stack"
+     viewBox="0 0 1400 880"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-labelledby="svg-title"
+     aria-describedby="svg-desc"
+     style="width:100%;display:block;border-radius:6px;overflow:hidden;">
+
+  <!-- ══════════════════════════════════════════════════
+       SEMANTIC METADATA — machine readable
+  ══════════════════════════════════════════════════ -->
+  <title id="svg-title">OpenClaw Reliability Stack Architecture</title>
+  <desc id="svg-desc">OpenClaw reliability platform architecture showing layers for observing, protecting, and recovering AI agent systems. Layers include Operator Console (OCTriage entry point), Observe Layer (FindMyAgent, RadCheck, Observe), Protection Layer (Watchdog, Sentinel, SphinxGate), Recovery Layer (ORP, Agent911, Lazarus), Memory Integrity Layer (DriftGuard, Elixir), and Agent Runtime Environment (Claude, OpenAI, local, and specialized agents).</desc>
+
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#252C32"/>
+      <stop offset="50%"  stop-color="#242A30"/>
+      <stop offset="100%" stop-color="#1F252B"/>
+    </linearGradient>
+
+    <!-- OCTriage amber glow -->
+    <filter id="oct-glow" x="-15%" y="-30%" width="130%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feColorMatrix type="matrix" values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.5 0" in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Subtle entry glow for OCTriage card -->
+    <radialGradient id="octGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#D98A2B" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#D98A2B" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Signal dot blinking for OCTriage -->
+    <style>
+      @keyframes sigblink {
+        0%,100% { opacity: 1; r: 3px; }
+        50%      { opacity: 0.4; r: 4px; }
+      }
+      .sig-blink { animation: sigblink 2.4s ease-in-out infinite; }
+      .card-group:hover .card-bg { stroke: #D98A2B; }
+    </style>
+  </defs>
+
+  <!-- ══════════════════════════════════════════════════
+       BACKGROUND
+  ══════════════════════════════════════════════════ -->
+  <rect width="1400" height="880" fill="url(#bgGrad)"/>
+
+  <!-- ══════════════════════════════════════════════════
+       DIAGRAM HEADER
+  ══════════════════════════════════════════════════ -->
+  <g id="diagram-header">
+    <text x="48" y="48" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          font-weight="500" fill="#4A5E70" letter-spacing="0.14em" text-transform="uppercase">
+      ACME AGENT SUPPLY CO. · ARCHITECTURE REFERENCE
+    </text>
+    <text x="48" y="76" font-family="Inter,-apple-system,sans-serif" font-size="24"
+          font-weight="600" fill="#E0E8F0" letter-spacing="-0.01em">
+      OpenClaw Reliability Stack
+    </text>
+    <text x="48" y="100" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          fill="#9AA3AD">
+      How OpenClaw observes, protects, and recovers AI agent systems.
+    </text>
+    <!-- Serial ID -->
+    <text x="1352" y="76" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#3A4E60" letter-spacing="0.1em" text-anchor="end">SERIAL 77A · v4</text>
+  </g>
+
+  <!-- Header / content separator -->
+  <line x1="0" y1="122" x2="1400" y2="122" stroke="#2E363E" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════════
+       RELIABILITY LOOP VERTICAL INDICATOR
+       Covers Layers 1–3 (Observe, Protection, Recovery)
+  ══════════════════════════════════════════════════ -->
+  <g id="reliability-loop-indicator">
+    <line x1="30" y1="236" x2="30" y2="592" stroke="#3A4048" stroke-width="2"/>
+    <!-- Bracket ticks -->
+    <line x1="30" y1="236" x2="38" y2="236" stroke="#3A4048" stroke-width="1.5"/>
+    <line x1="30" y1="592" x2="38" y2="592" stroke="#3A4048" stroke-width="1.5"/>
+    <!-- Label -->
+    <text font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#4A5E70" letter-spacing="0.13em" text-anchor="middle"
+          transform="translate(16,414) rotate(-90)">RELIABILITY LOOP</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER SEPARATOR LINES
+  ══════════════════════════════════════════════════ -->
+  <line x1="0" y1="236" x2="1400" y2="236" stroke="#3A4048" stroke-width="1"/>
+  <line x1="0" y1="372" x2="1400" y2="372" stroke="#3A4048" stroke-width="1"/>
+  <line x1="0" y1="508" x2="1400" y2="508" stroke="#3A4048" stroke-width="1"/>
+  <line x1="0" y1="592" x2="1400" y2="592" stroke="#3A4048" stroke-width="1"/>
+  <line x1="0" y1="716" x2="1400" y2="716" stroke="#3A4048" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 0: OPERATOR CONSOLE
+       y: 122–236 (height 114)
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-console">
+    <title>Operator Console</title>
+    <desc>The entry point to the OpenClaw system. OCTriage captures a deterministic proof bundle before any recovery action begins.</desc>
+
+    <!-- Layer label -->
+    <text x="48" y="152" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 0</text>
+    <text x="48" y="172" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0" letter-spacing="0.01em">Operator Console</text>
+    <text x="48" y="192" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Entry point. Start here.</text>
+
+    <!-- OCTriage card — amber highlighted entry node -->
+    <g class="card-group" id="card-octriage" data-link="/support">
+      <title>OCTriage</title>
+      <desc>OCTriage is the first-response triage terminal. It captures a deterministic, read-only proof bundle before any recovery action. Run OCTriage first, every time.</desc>
+      <!-- Glow background -->
+      <rect x="308" y="134" width="260" height="88" rx="8" fill="url(#octGlow)"/>
+      <!-- Card -->
+      <rect class="card-bg" x="308" y="134" width="260" height="88" rx="6"
+            fill="#222E3C" stroke="#D98A2B" stroke-width="1.5"
+            style="filter:drop-shadow(0 2px 10px rgba(217,138,43,0.2))"/>
+      <!-- Signal dot — blinking amber -->
+      <circle class="sig-blink" cx="326" cy="158" r="3" fill="#D98A2B"/>
+      <!-- Name -->
+      <text x="338" y="162" font-family="Inter,-apple-system,sans-serif" font-size="16"
+            font-weight="600" fill="#D98A2B">OCTriage</text>
+      <!-- Badge -->
+      <rect x="416" y="147" width="56" height="18" rx="3" fill="#2A2010"/>
+      <text x="444" y="160" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+            fill="#D98A2B" text-anchor="middle" letter-spacing="0.08em">ENTRY</text>
+      <!-- Description -->
+      <text x="326" y="184" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">First-response triage terminal.</text>
+      <!-- Command -->
+      <text x="326" y="206" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#D98A2B">octriage -watch</text>
+    </g>
+
+    <!-- Readout values beside OCTriage -->
+    <text x="588" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A5E70">STATUS</text>
+    <text x="650" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">HEALTHY</text>
+    <text x="588" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A5E70">RELIABILITY</text>
+    <text x="686" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="13"
+          font-weight="700" fill="#D98A2B">87</text>
+    <text x="706" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A5E70">/ 100</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 1: OBSERVE
+       y: 236–372 (height 136)
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-observe">
+    <title>Observe Layer</title>
+    <desc>The Observe Layer aggregates signals about agent health and system behavior. Tools include FindMyAgent for agent presence and liveness, RadCheck for reliability scoring from 0 to 100, and Observe for signal aggregation.</desc>
+
+    <text x="48" y="268" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 1</text>
+    <text x="48" y="290" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0">Observe Layer</text>
+    <text x="48" y="312" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Visibility. Signals before stalls.</text>
+
+    <!-- FindMyAgent -->
+    <g class="card-group" id="card-findmyagent" data-link="/docs/findmyagent">
+      <title>FindMyAgent</title>
+      <desc>FindMyAgent provides real-time agent presence state, liveness monitoring, progress signals, and needs-attention flags. Being alive does not mean the agent is working correctly.</desc>
+      <rect class="card-bg" x="308" y="252" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="326" cy="274" r="3" fill="#4A9E6B"/>
+      <text x="336" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">FindMyAgent</text>
+      <text x="326" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Agent presence &amp; liveness.</text>
+      <text x="326" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● monitoring</text>
+    </g>
+
+    <!-- RadCheck -->
+    <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
+      <title>RadCheck</title>
+      <desc>RadCheck measures system reliability scores from 0 to 100 by analyzing agent health signals and telemetry across five domains: gateway, sessions, disk, memory drift, and agent churn. Free and read-only.</desc>
+      <rect class="card-bg" x="524" y="252" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="542" cy="274" r="3" fill="#4A9E6B"/>
+      <text x="552" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">RadCheck</text>
+      <text x="542" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Reliability scoring. 0–100.</text>
+      <text x="542" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● free tier</text>
+    </g>
+
+    <!-- Observe -->
+    <g class="card-group" id="card-observe" data-link="/docs/observe">
+      <title>Observe</title>
+      <desc>The Observe module provides unified aggregation of runtime signals from all connected agents. Its output feeds into RadCheck scoring and Sentinel anomaly detection.</desc>
+      <rect class="card-bg" x="740" y="252" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="758" cy="274" r="3" fill="#D98A2B"/>
+      <text x="768" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Observe</text>
+      <text x="758" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Signal aggregation layer.</text>
+      <text x="758" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#D98A2B">● operator action</text>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 2: PROTECTION
+       y: 372–508 (height 136)
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-protection">
+    <title>Protection Layer</title>
+    <desc>The Protection Layer continuously monitors runtime behavior and detects anomalies. Tools include Watchdog for heartbeat supervision, Sentinel for silent failure detection, and SphinxGate for token discipline and routing guardrails.</desc>
+
+    <text x="48" y="404" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 2</text>
+    <text x="48" y="426" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0">Protection Layer</text>
+    <text x="48" y="448" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Continuous guardrails. Always on.</text>
+
+    <!-- Watchdog -->
+    <g class="card-group" id="card-watchdog" data-link="/docs/watchdog">
+      <title>Watchdog</title>
+      <desc>Watchdog provides heartbeat supervision with liveness probes, cron-safe cadence checks, and lock collision alerts. Port availability does not confirm process health.</desc>
+      <rect class="card-bg" x="308" y="388" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="326" cy="410" r="3" fill="#4A9E6B"/>
+      <text x="336" y="414" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Watchdog</text>
+      <text x="326" y="436" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Heartbeat supervision.</text>
+      <text x="326" y="458" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● monitoring</text>
+    </g>
+
+    <!-- Sentinel -->
+    <g class="card-group" id="card-sentinel" data-link="/docs/sentinel">
+      <title>Sentinel</title>
+      <desc>Sentinel provides continuous detection of silent failures, output deviation, and stuck runs. It watches for failure modes that logs do not surface.</desc>
+      <rect class="card-bg" x="524" y="388" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="542" cy="410" r="3" fill="#4A9E6B"/>
+      <text x="552" y="414" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Sentinel</text>
+      <text x="542" y="436" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Silent failure detection.</text>
+      <text x="542" y="458" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● always on</text>
+    </g>
+
+    <!-- SphinxGate -->
+    <g class="card-group" id="card-sphinxgate" data-link="/docs/sphinxgate">
+      <title>SphinxGate</title>
+      <desc>SphinxGate enforces token discipline and routing guardrails. It separates interactive and background agent lanes, enforces token budgets, and provides a routing audit trail.</desc>
+      <rect class="card-bg" x="740" y="388" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="758" cy="410" r="3" fill="#4A9E6B"/>
+      <text x="768" y="414" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">SphinxGate</text>
+      <text x="758" y="436" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Token discipline. Lane enforcement.</text>
+      <text x="758" y="458" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● routing guard</text>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 3: RECOVERY
+       y: 508–592 (height 84 — compact)
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-recovery">
+    <title>Recovery Layer</title>
+    <desc>The Recovery Layer enables deterministic recovery operations. Tools include ORP (OpenClaw Recovery Protocol) for evidence-first recovery doctrine, Agent911 for read-only recovery cockpit diagnostics, and Lazarus for backup readiness verification.</desc>
+
+    <text x="48" y="538" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 3</text>
+    <text x="48" y="558" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0">Recovery Layer</text>
+    <text x="48" y="578" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Evidence before recovery. Always.</text>
+
+    <!-- ORP -->
+    <g class="card-group" id="card-orp" data-link="/docs/orp">
+      <title>ORP — OpenClaw Recovery Protocol</title>
+      <desc>ORP is the recovery doctrine layer. It sequences recovery in the correct order: evidence capture, then diagnosis, then safe recovery, then verification. The order is mandatory.</desc>
+      <rect class="card-bg" x="308" y="518" width="200" height="60" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="326" cy="538" r="3" fill="#D98A2B"/>
+      <text x="336" y="542" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">ORP</text>
+      <text x="326" y="562" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">OpenClaw Recovery Protocol.</text>
+    </g>
+
+    <!-- Agent911 -->
+    <g class="card-group" id="card-agent911" data-link="/docs/agent911">
+      <title>Agent911</title>
+      <desc>Agent911 provides recovery cockpit diagnostics and read-only triage capabilities during system recovery operations. It aggregates protection proofs and guides operators through playbooks.</desc>
+      <rect class="card-bg" x="524" y="518" width="200" height="60" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="542" cy="538" r="3" fill="#D98A2B"/>
+      <text x="552" y="542" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Agent911</text>
+      <text x="542" y="562" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Recovery cockpit. Read-only.</text>
+    </g>
+
+    <!-- Lazarus -->
+    <g class="card-group" id="card-lazarus" data-link="/docs/lazarus">
+      <title>Lazarus</title>
+      <desc>Lazarus verifies backup readiness before recovery is needed. Recovery readiness degrades silently. Lazarus confirms you can return to a clean state before an incident forces you to try.</desc>
+      <rect class="card-bg" x="740" y="518" width="200" height="60" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="758" cy="538" r="3" fill="#4A9E6B"/>
+      <text x="768" y="542" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Lazarus</text>
+      <text x="758" y="562" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Backup readiness verification.</text>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 4: MEMORY INTEGRITY
+       y: 592–716 (height 124)
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-memory">
+    <title>Memory Integrity Layer</title>
+    <desc>The Memory Integrity Layer ensures long-term system stability and prevents behavioral drift. Tools include DriftGuard for tracking behavioral drift across agents and Elixir for deterministic agent rehydration.</desc>
+
+    <text x="48" y="624" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 4</text>
+    <text x="48" y="645" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0">Memory Integrity</text>
+    <text x="48" y="666" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Long-horizon stability.</text>
+
+    <!-- DriftGuard -->
+    <g class="card-group" id="card-driftguard" data-link="/docs/driftguard">
+      <title>DriftGuard</title>
+      <desc>DriftGuard tracks behavioral drift across agents and identifies deviations from expected system behavior. It provides drift snapshots, policy deviation flags, and run-to-run delta tracking. Systems drift before they fail.</desc>
+      <rect class="card-bg" x="308" y="606" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="326" cy="628" r="3" fill="#4A9E6B"/>
+      <text x="336" y="632" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">DriftGuard</text>
+      <text x="326" y="654" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Behavioral drift tracking.</text>
+      <text x="326" y="676" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● monitoring</text>
+    </g>
+
+    <!-- Elixir -->
+    <g class="card-group" id="card-elixir" data-link="/docs/elixir">
+      <title>Elixir</title>
+      <desc>Elixir provides deterministic agent rehydration following the BOOT, DIGEST, ANCHORS, ORIENTATION sequence. Agents that use Elixir return to coherent operational state reliably after restarts or context loss.</desc>
+      <rect class="card-bg" x="524" y="606" width="200" height="88" rx="6"
+            fill="#2C3238" stroke="#3A4048" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="542" cy="628" r="3" fill="#4A9E6B"/>
+      <text x="552" y="632" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">Elixir</text>
+      <text x="542" y="654" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Deterministic rehydration.</text>
+      <text x="542" y="676" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● BOOT → ORIENT</text>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       LAYER 5: AGENT RUNTIME ENVIRONMENT
+       y: 716–820 (height 104)
+       Smaller cards — external systems being protected
+  ══════════════════════════════════════════════════ -->
+  <g id="layer-runtime">
+    <title>Agent Runtime Environment</title>
+    <desc>The Agent Runtime Environment represents the external agent systems that OpenClaw observes, protects, and recovers. This includes Anthropic Claude agents, OpenAI agents, self-hosted local model agents, and specialized or multi-modal agent systems.</desc>
+
+    <text x="48" y="745" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 5</text>
+    <text x="48" y="765" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#C8D4E0">Agent Runtime Environment</text>
+    <text x="48" y="785" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">The systems being protected.</text>
+
+    <!-- Claude Agents -->
+    <g class="card-group" id="card-claude">
+      <title>Claude Agents</title>
+      <desc>Anthropic Claude agent runtime environment. OpenClaw provides observability, protection, and recovery for agents running on Anthropic models.</desc>
+      <rect class="card-bg" x="308" y="726" width="185" height="68" rx="6"
+            fill="#1E2630" stroke="#2E3848" stroke-width="1"/>
+      <circle cx="325" cy="748" r="3" fill="#3A4E60"/>
+      <text x="334" y="752" font-family="Inter,-apple-system,sans-serif" font-size="14"
+            font-weight="500" fill="#7A8EA0">Claude Agents</text>
+      <text x="325" y="774" font-family="Inter,-apple-system,sans-serif" font-size="12"
+            fill="#4A5E70">Anthropic runtime.</text>
+    </g>
+
+    <!-- OpenAI Agents -->
+    <g class="card-group" id="card-openai">
+      <title>OpenAI Agents</title>
+      <desc>OpenAI agent runtime environment. OpenClaw provides observability, protection, and recovery for agents running on OpenAI models.</desc>
+      <rect class="card-bg" x="505" y="726" width="185" height="68" rx="6"
+            fill="#1E2630" stroke="#2E3848" stroke-width="1"/>
+      <circle cx="522" cy="748" r="3" fill="#3A4E60"/>
+      <text x="531" y="752" font-family="Inter,-apple-system,sans-serif" font-size="14"
+            font-weight="500" fill="#7A8EA0">OpenAI Agents</text>
+      <text x="522" y="774" font-family="Inter,-apple-system,sans-serif" font-size="12"
+            fill="#4A5E70">OpenAI runtime.</text>
+    </g>
+
+    <!-- Local Agents -->
+    <g class="card-group" id="card-local">
+      <title>Local Agents</title>
+      <desc>Self-hosted local model agent runtime environment. OpenClaw supports agents running on locally deployed language models and custom infrastructure.</desc>
+      <rect class="card-bg" x="702" y="726" width="185" height="68" rx="6"
+            fill="#1E2630" stroke="#2E3848" stroke-width="1"/>
+      <circle cx="719" cy="748" r="3" fill="#3A4E60"/>
+      <text x="728" y="752" font-family="Inter,-apple-system,sans-serif" font-size="14"
+            font-weight="500" fill="#7A8EA0">Local Agents</text>
+      <text x="719" y="774" font-family="Inter,-apple-system,sans-serif" font-size="12"
+            fill="#4A5E70">Self-hosted runtime.</text>
+    </g>
+
+    <!-- Specialized Agents -->
+    <g class="card-group" id="card-specialized">
+      <title>Specialized Agents</title>
+      <desc>Custom and multi-modal agent runtime environments including specialized agent architectures, domain-specific models, and multi-agent orchestration systems.</desc>
+      <rect class="card-bg" x="899" y="726" width="185" height="68" rx="6"
+            fill="#1E2630" stroke="#2E3848" stroke-width="1"/>
+      <circle cx="916" cy="748" r="3" fill="#3A4E60"/>
+      <text x="925" y="752" font-family="Inter,-apple-system,sans-serif" font-size="14"
+            font-weight="500" fill="#7A8EA0">Specialized Agents</text>
+      <text x="916" y="774" font-family="Inter,-apple-system,sans-serif" font-size="12"
+            fill="#4A5E70">Custom / multi-modal.</text>
+    </g>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       FLOW INDICATORS (layer connectors, right side)
+  ══════════════════════════════════════════════════ -->
+  <g id="flow-indicators" opacity="0.45">
+    <!-- Observe → Protect connector -->
+    <text x="1320" y="312" font-family="'JetBrains Mono','Fira Mono',monospace"
+          font-size="10" fill="#4A5E70" letter-spacing="0.06em" text-anchor="middle">SIGNALS</text>
+    <line x1="1320" y1="326" x2="1320" y2="358" stroke="#3A4048" stroke-width="1"/>
+    <polygon points="1314,358 1326,358 1320,368" fill="#3A4048"/>
+    <!-- Protect → Recover connector -->
+    <text x="1320" y="448" font-family="'JetBrains Mono','Fira Mono',monospace"
+          font-size="10" fill="#4A5E70" letter-spacing="0.06em" text-anchor="middle">ALERTS</text>
+    <line x1="1320" y1="462" x2="1320" y2="494" stroke="#3A4048" stroke-width="1"/>
+    <polygon points="1314,494 1326,494 1320,504" fill="#3A4048"/>
+    <!-- Recover → Memory connector -->
+    <text x="1320" y="624" font-family="'JetBrains Mono','Fira Mono',monospace"
+          font-size="10" fill="#4A5E70" letter-spacing="0.06em" text-anchor="middle">PROOFS</text>
+    <line x1="1320" y1="638" x2="1320" y2="680" stroke="#3A4048" stroke-width="1"/>
+    <polygon points="1314,680 1326,680 1320,690" fill="#3A4048"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════════════
+       BOTTOM BAR
+  ══════════════════════════════════════════════════ -->
+  <line x1="0" y1="830" x2="1400" y2="830" stroke="#2E363E" stroke-width="1"/>
+  <g id="bottom-bar">
+    <text x="48" y="858" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 77A</text>
+    <text x="956" y="858" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#3A4E60" text-anchor="middle">
+      Observe → Protect → Recover. In that order.
+    </text>
+    <!-- CTA button area -->
+    <rect x="1160" y="840" width="200" height="30" rx="4" fill="#D98A2B"/>
+    <text x="1260" y="860" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          font-weight="600" fill="#18202A" text-anchor="middle">Run OCTriage →</text>
+  </g>
+
+</svg>
+
+<p class="diagram-caption">
+  OpenClaw Reliability Stack — architecture for observing, protecting, and recovering AI agent systems.
+</p>
+
+</div><!-- /diagram-wrap -->
+
+<script>
+  // Card hover: handled by CSS .card-group:hover .card-bg
+  // Optional: click navigation for cards with data-link
+  document.querySelectorAll('.card-group[data-link]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => {
+      window.location.href = el.dataset.link;
+    });
+  });
+</script>
+</body>
+</html>
