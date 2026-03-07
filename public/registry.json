@@ -2,7 +2,7 @@
   "name": "ACME Agent Reliability Tools",
   "description": "Registry of reliability and diagnostic tools for AI agent systems and OpenClaw environments.",
   "source": "data/tool-registry.source.yaml",
-  "generated_at": "2026-03-06T22:26:46.187Z",
+  "generated_at": "2026-03-07T03:08:41.682Z",
   "tools": [
     {
       "slug": "octriageunit",

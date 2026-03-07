@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #1e2226;
+  --foreground: #e6e6e6;
+  --panel: #242a30;
+  --surface: #2c3238;
+  --inset: #161a1e;
+  --border: #3a4048;
+  --muted: #9aa3ad;
+  --accent: #d98a2b;
+  --accent-hover: #c47a22;
+  --danger: #c44a3a;
+  --success: #4a9e6b;
   --acme-amber-50: #fff6db;
   --acme-amber-200: #f6c453;
   --acme-amber-400: #e8a317;
@@ -15,23 +24,17 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "DIN Condensed", "Bahnschrift", "Segoe UI", "Arial Narrow",
-    "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "Cascadia Mono", "SFMono-Regular", Menlo, Monaco, Consolas,
+  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.65;
 }
 
 @keyframes hazard-shimmer {
@@ -58,8 +61,8 @@ body {
     135deg,
     rgba(251, 191, 36, 0.9) 0,
     rgba(251, 191, 36, 0.9) 10px,
-    rgba(0, 0, 0, 0.9) 10px,
-    rgba(0, 0, 0, 0.9) 20px
+    rgba(30, 34, 38, 0.9) 10px,
+    rgba(30, 34, 38, 0.9) 20px
   );
   background-size: 24px 24px;
 }
@@ -124,59 +127,59 @@ body {
 
 /* ── Docs prose styles ── */
 .docs-prose {
-  color: #a1a1aa;
+  color: #e6e6e6;
   line-height: 1.75;
-  font-size: 1rem;
+  font-size: 1.125rem;
 }
 .docs-prose h1 {
-  font-size: 1.875rem; font-weight: 700; color: #f4f4f5;
+  font-size: 2.5rem; font-weight: 600; color: #e6e6e6;
   margin-top: 2.5rem; margin-bottom: 1rem; line-height: 1.3;
 }
 .docs-prose h2 {
-  font-size: 1.375rem; font-weight: 600; color: #e4e4e7;
+  font-size: 1.875rem; font-weight: 600; color: #e6e6e6;
   margin-top: 2.5rem; margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem; border-bottom: 1px solid #27272a;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
 }
 .docs-prose h3 {
-  font-size: 1.125rem; font-weight: 600; color: #d4d4d8;
+  font-size: 1.375rem; font-weight: 500; color: #e6e6e6;
   margin-top: 1.75rem; margin-bottom: 0.5rem;
 }
 .docs-prose p { margin-bottom: 1.1rem; }
-.docs-prose strong { color: #e4e4e7; font-weight: 600; }
-.docs-prose em { color: #a1a1aa; font-style: italic; }
+.docs-prose strong { color: #e6e6e6; font-weight: 600; }
+.docs-prose em { color: #9aa3ad; font-style: italic; }
 .docs-prose ul,
 .docs-prose ol { margin-bottom: 1.1rem; padding-left: 1.5rem; }
 .docs-prose ul { list-style-type: disc; }
 .docs-prose ol { list-style-type: decimal; }
 .docs-prose li { margin-bottom: 0.3rem; }
-.docs-prose a { color: #fbbf24; text-decoration: underline; text-underline-offset: 3px; }
-.docs-prose a:hover { color: #f59e0b; }
+.docs-prose a { color: #d98a2b; text-decoration: underline; text-underline-offset: 3px; }
+.docs-prose a:hover { color: #c47a22; }
 .docs-prose code {
   font-family: var(--font-mono);
-  font-size: 0.875em; background: #18181b;
-  color: #fbbf24; padding: 0.15em 0.4em; border-radius: 4px;
+  font-size: 0.92em; background: var(--inset);
+  color: #d98a2b; padding: 0.15em 0.4em; border-radius: 4px;
 }
 .docs-prose pre {
-  background: #18181b; border: 1px solid #27272a;
+  background: var(--inset); border: 1px solid var(--border);
   border-radius: 8px; padding: 1rem 1.25rem;
   overflow-x: auto; margin-bottom: 1.5rem;
 }
 .docs-prose pre code {
-  background: transparent; color: #e4e4e7; padding: 0; font-size: 0.85em;
+  background: transparent; color: #e6e6e6; padding: 0; font-size: 0.9em;
 }
 .docs-prose blockquote {
-  border-left: 3px solid #fbbf24; padding-left: 1rem;
-  color: #71717a; margin: 1.5rem 0; font-style: italic;
+  border-left: 3px solid #d98a2b; padding-left: 1rem;
+  color: #9aa3ad; margin: 1.5rem 0; font-style: italic;
 }
-.docs-prose table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.9em; }
+.docs-prose table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85em; }
 .docs-prose th {
   text-align: left; padding: 0.5rem 0.75rem;
-  background: #18181b; color: #e4e4e7; font-weight: 600;
-  border: 1px solid #27272a;
+  background: var(--inset); color: #e6e6e6; font-weight: 600;
+  border: 1px solid var(--border);
 }
-.docs-prose td { padding: 0.5rem 0.75rem; border: 1px solid #27272a; color: #a1a1aa; }
-.docs-prose tr:hover td { background: #18181b; }
-.docs-prose hr { border: none; border-top: 1px solid #27272a; margin: 2rem 0; }
+.docs-prose td { padding: 0.5rem 0.75rem; border: 1px solid var(--border); color: #e6e6e6; }
+.docs-prose tr:hover td { background: var(--inset); }
+.docs-prose hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
 @keyframes live-pulse {
   0%,

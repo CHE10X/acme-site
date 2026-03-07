@@ -46,32 +46,35 @@ export default function SiteHeader({
     { href: "/support", label: "Support" },
     { href: "/bot-shop", label: "Bot Shop" },
     { href: "/operators-tale", label: "Operator's Tale" },
+    { href: "/legal/terms-of-service", label: "Legal: Terms of Service" },
+    { href: "/legal/privacy-policy", label: "Legal: Privacy Policy" },
+    { href: "/legal/refund-policy", label: "Refund Policy" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-[#3A4048] bg-[#1E2226]/95 backdrop-blur-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link
           href="/"
-          className="text-sm font-semibold uppercase tracking-[0.2em] text-zinc-200 transition-colors hover:text-white"
+          className="text-[14px] font-semibold uppercase tracking-[0.2em] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]"
         >
           ACME
         </Link>
 
         <nav className="hidden items-center gap-6 sm:flex">
-          <Link href="/pricing" className="text-sm text-zinc-400 transition-colors hover:text-zinc-200">
+          <Link href="/pricing" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Pricing
           </Link>
-          <Link href="/docs" className="text-sm text-zinc-400 transition-colors hover:text-zinc-200">
+          <Link href="/docs" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Docs
           </Link>
-          <Link href="/support" className="text-sm text-zinc-400 transition-colors hover:text-zinc-200">
+          <Link href="/support" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Support
           </Link>
-          <Link href="/bot-shop" className="text-sm text-zinc-400 transition-colors hover:text-zinc-200">
+          <Link href="/bot-shop" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Bot Shop
           </Link>
-          <Link href="/operators-tale" className="text-sm text-zinc-400 transition-colors hover:text-zinc-200">
+          <Link href="/operators-tale" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Operator&apos;s Tale
           </Link>
         </nav>
@@ -86,7 +89,7 @@ export default function SiteHeader({
             aria-label="Open navigation menu"
             aria-expanded={open}
             onClick={() => setOpen((current) => !current)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-900/80 text-zinc-200 transition-colors hover:border-zinc-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/60"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#3A4048] bg-[#242A30] text-[#E6E6E6] transition-colors hover:border-[#9AA3AD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
           >
             <span className="sr-only">Menu</span>
             <span className="flex items-center gap-1" aria-hidden>
@@ -99,14 +102,14 @@ export default function SiteHeader({
           {open ? (
             <div
               ref={panelRef}
-              className="absolute right-0 mt-2 w-72 rounded-xl border border-zinc-700 bg-zinc-900/98 p-2 shadow-2xl"
+              className="absolute right-0 mt-2 w-72 rounded-xl border border-[#3A4048] bg-[#242A30] p-2 shadow-2xl"
               role="menu"
             >
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block rounded-lg px-3 py-2.5 text-sm text-zinc-200 transition-colors hover:bg-zinc-800 hover:text-white"
+                  className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
                   role="menuitem"
                   onClick={() => setOpen(false)}
                 >

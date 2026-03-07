@@ -1,74 +1,77 @@
 "use client";
 
 import { useState } from "react";
-import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
+import Link from "next/link";
 
 export default function SupportPage() {
   const [supportMode, setSupportMode] = useState<"ai" | "human">("ai");
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <main className="max-w-5xl mx-auto px-6 py-12">
+    <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
+      <main className="mx-auto max-w-[1100px] px-6 py-12">
         {/* Hero */}
-        <section className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
-          <h1 className="text-3xl font-bold text-zinc-100 mb-3">
+        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
+          <h1 className="mb-3 text-[40px] font-semibold text-[#E6E6E6]">
             When something feels off
           </h1>
-          <p className="text-zinc-400">
+          <p className="text-[18px] text-[#9AA3AD]">
             Generate a support bundle. Send evidence, not guesswork.
           </p>
-          <p className="mt-2 text-sm text-zinc-300">
+          <p className="mt-2 text-[18px] text-[#E6E6E6]">
             ACME support begins with a deterministic bundle that captures the
             signals needed for fast triage. Built for operators. Readable by
             humans and AI.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <a
+            <Link
               href="/support/first-response"
-              className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
             >
               First Response
-            </a>
-            <a
+            </Link>
+            <Link
               href="/docs/support/when-things-feel-off"
-              className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
             >
               Run Support Bundle
-            </a>
+            </Link>
             <a
               href="#support-contents"
-              className="inline-flex items-center gap-2 rounded-lg border border-zinc-700 px-4 py-2 text-sm text-zinc-200 transition hover:border-zinc-500 hover:text-white"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
             >
               View What’s Collected
             </a>
           </div>
-        <div className="mt-3 text-xs uppercase tracking-[0.28em] text-zinc-500">
+        <div className="mt-3 text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">
             Observational analysis only. No system changes are performed.
           </div>
         </section>
 
-        <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
-          <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+        <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+          <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
             Reliability Flow
           </div>
-          <div className="mt-4 mx-auto max-w-[980px] rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
-            <OpenClawStackDiagram />
-            <p className="mt-3 text-sm text-zinc-400">
-              Start with OCTriageUnit (Operator Tool) to capture a deterministic
-              proof bundle before recovery actions.
-            </p>
-          </div>
+          <p className="mt-3 text-[18px] text-[#E6E6E6]">
+            The canonical reliability architecture diagram is maintained in
+            docs.
+          </p>
+          <Link
+            href="/docs"
+            className="mt-3 inline-flex items-center text-[18px] text-[#D98A2B] transition hover:text-[#C47A22]"
+          >
+            View the OpenClaw Reliability Stack →
+          </Link>
         </section>
 
         {/* Toggle */}
-        <div className="mt-6 inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/60 p-1 text-xs uppercase tracking-[0.28em] text-zinc-500">
-          <span className="px-3 py-1 text-zinc-500">Human / AI</span>
+        <div className="mt-6 inline-flex items-center rounded-full border border-[#3A4048] bg-[#242A30] p-1 text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
+          <span className="px-3 py-1 text-[#9AA3AD]">Human / AI</span>
           <button
             onClick={() => setSupportMode("human")}
             className={`rounded-full px-3 py-1 transition ${
               supportMode === "human"
-                ? "bg-amber-500 text-black"
-                : "text-zinc-400 hover:text-zinc-200"
+                ? "bg-[#D98A2B] text-[#1E2226]"
+                : "text-[#9AA3AD] hover:text-[#E6E6E6]"
             }`}
           >
             Human
@@ -77,8 +80,8 @@ export default function SupportPage() {
             onClick={() => setSupportMode("ai")}
             className={`rounded-full px-3 py-1 transition ${
               supportMode === "ai"
-                ? "bg-amber-500 text-black"
-                : "text-zinc-400 hover:text-zinc-200"
+                ? "bg-[#D98A2B] text-[#1E2226]"
+                : "text-[#9AA3AD] hover:text-[#E6E6E6]"
             }`}
           >
             AI
@@ -88,51 +91,51 @@ export default function SupportPage() {
         {supportMode === "ai" ? (
           <>
             {/* AI Mode — Support Protocol */}
-            <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
-              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Support Protocol
               </div>
               <div className="mt-4 space-y-6">
                 <div>
-                  <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                  <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 1 — Generate bundle
                   </div>
-                  <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
+                  <div className="mt-2 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                     acme_support_bundle.py -zip
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                  <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 2 — Review consent
                   </div>
-                  <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
+                  <div className="mt-2 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                     acme_support_bundle.py -print-consent
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                  <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 3 — First response
                   </div>
-                  <p className="mt-2 text-sm text-zinc-300">
+                  <p className="mt-2 text-[18px] text-[#E6E6E6]">
                     If the control plane is degraded, begin with the calm,
                     read-only first-response workflow before escalating.
                   </p>
-                  <a
+                  <Link
                     href="/support/first-response"
-                    className="mt-2 inline-flex items-center gap-2 text-sm text-amber-300 transition hover:text-amber-200"
+                    className="mt-2 inline-flex items-center gap-2 text-[18px] text-[#D98A2B] transition hover:text-[#C47A22]"
                   >
                     First Response
-                  </a>
+                  </Link>
                 </div>
                 <div>
-                  <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                  <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 4 — Send bundle
                   </div>
-                  <p className="mt-2 text-sm text-zinc-300">
+                  <p className="mt-2 text-[18px] text-[#E6E6E6]">
                     Attach the generated zip when contacting support.
                   </p>
                 </div>
-                <ul className="mt-2 space-y-2 text-sm text-zinc-300">
+                <ul className="mt-2 space-y-2 text-[18px] text-[#E6E6E6]">
                   <li>• Observational analysis only</li>
                   <li>• No configuration changes performed</li>
                   <li>• Redaction applied automatically</li>
@@ -143,12 +146,12 @@ export default function SupportPage() {
             {/* Expected contents */}
             <section
               id="support-contents"
-              className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6"
+              className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6"
             >
-              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Expected contents
               </div>
-              <ul className="mt-4 space-y-2 text-sm text-zinc-300">
+              <ul className="mt-4 space-y-2 text-[18px] text-[#E6E6E6]">
                 <li>• agent911 snapshot</li>
                 <li>• recent ops events (tail)</li>
                 <li>• routing and protection posture</li>
@@ -158,14 +161,14 @@ export default function SupportPage() {
             </section>
 
             {/* Response posture */}
-            <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
-              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Response posture
               </div>
-              <p className="mt-3 text-sm text-zinc-300">
+              <p className="mt-3 text-[18px] text-[#E6E6E6]">
                 ACME reviews bundles in deterministic order:
               </p>
-              <div className="mt-2 text-sm text-zinc-400">
+              <div className="mt-2 text-[18px] text-[#9AA3AD]">
                 Agent911 → ops events → Sentinel → compaction → routing
               </div>
             </section>
@@ -173,13 +176,13 @@ export default function SupportPage() {
         ) : (
           <>
             {/* Human Mode */}
-            <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
-              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 What to do
               </div>
-              <div className="mt-4 text-sm text-zinc-300">
+              <div className="mt-4 text-[18px] text-[#E6E6E6]">
                 If your system looks wrong or stalled:
-                <ol className="mt-3 space-y-2 text-sm text-zinc-400">
+                <ol className="mt-3 space-y-2 text-[18px] text-[#9AA3AD]">
                   <li>1. Run the support bundle command</li>
                   <li>2. Attach the zip to your support request</li>
                   <li>
@@ -187,19 +190,19 @@ export default function SupportPage() {
                   </li>
                 </ol>
               </div>
-              <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
+              <div className="mt-3 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                 acme_support_bundle.py -zip
               </div>
-              <div className="mt-4 text-sm text-zinc-400">
+              <div className="mt-4 text-[18px] text-[#9AA3AD]">
                 We’ll review the evidence and respond with next steps.
               </div>
             </section>
 
-            <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6">
-              <div className="text-[11px] uppercase tracking-[0.4em] text-zinc-400">
+            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Privacy &amp; safety
               </div>
-              <ul className="mt-4 space-y-2 text-sm text-zinc-300">
+              <ul className="mt-4 space-y-2 text-[18px] text-[#E6E6E6]">
                 <li>• Secrets are redacted</li>
                 <li>• openclaw.json is never included</li>
                 <li>• Bundle is read-only evidence</li>
@@ -210,8 +213,8 @@ export default function SupportPage() {
         )}
 
         {/* Footer callout */}
-        <section className="mt-8 rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 text-center">
-          <div className="text-xs uppercase tracking-[0.28em] text-zinc-500">
+        <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 text-center">
+          <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
             Generated artifacts are observational. No automated repair is
             performed.
           </div>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function PlatformPage() {
@@ -20,15 +19,16 @@ export default function PlatformPage() {
           <h2 className="text-2xl font-semibold tracking-tight text-zinc-100">
             The OpenClaw Reliability Model
           </h2>
-          <div className="mt-4 overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-950/80">
-            <Image
-              src="/diagrams/openclaw-reliability-stack.svg"
-              alt="Layered diagram of the OpenClaw reliability stack showing runtime, memory integrity, monitoring, diagnostics, and recovery."
-              width={1400}
-              height={1000}
-              className="h-auto w-full"
-            />
-          </div>
+          <p className="mt-3 text-zinc-300">
+            The canonical architecture diagram is maintained in docs and serves
+            as the single reference for layered reliability flow.
+          </p>
+          <Link
+            href="/docs"
+            className="mt-4 inline-flex items-center text-sm text-amber-300 transition hover:text-amber-200"
+          >
+            View the OpenClaw Reliability Stack →
+          </Link>
         </section>
 
         <section className="rounded-2xl border border-zinc-800/80 bg-zinc-900/35 p-6">

@@ -7,32 +7,32 @@ export default function OperatorUtilityCards() {
       {OPERATOR_UTILITY_CARDS.map((card) => (
         <article
           key={card.id}
-          className="group relative rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-700"
+          className="group relative rounded-md border border-[#3A4048] bg-[#2C3238] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.3)] transition duration-200 hover:border-[#9AA3AD]"
         >
-          <div className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">
+          <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
             {card.unitLabel}
           </div>
-          <h3 className="mt-2 text-2xl font-semibold text-zinc-100">
+          <h3 className="mt-2 text-[22px] font-semibold text-[#E6E6E6]">
             {card.title}
           </h3>
-          <p className="mt-1 text-sm text-zinc-400">{card.subtitle}</p>
-          <p className="mt-3 text-[15px] leading-relaxed text-zinc-300">
+          <p className="mt-1 text-[13px] text-[#9AA3AD]">{card.subtitle}</p>
+          <p className="mt-3 text-[18px] leading-8 text-[#E6E6E6]">
             {card.description}
           </p>
-          <p className="mt-2 text-[15px] italic leading-relaxed text-zinc-500">
+          <p className="mt-2 text-[18px] italic leading-8 text-[#9AA3AD]">
             {card.flavor}
           </p>
-          <ul className="mt-3 space-y-1 text-[15px] leading-relaxed text-zinc-300">
+          <ul className="mt-3 space-y-1 text-[18px] leading-8 text-[#E6E6E6]">
             {card.bullets.map((bullet) => (
               <li key={bullet} className="flex items-start gap-2">
-                <span className="mt-[2px] text-amber-400">•</span>
+                <span className="mt-[2px] text-[#D98A2B]">•</span>
                 <span>{bullet}</span>
               </li>
             ))}
           </ul>
           <Link
             href={card.docsHref}
-            className="mt-4 inline-flex items-center text-sm text-amber-300 transition hover:text-amber-200"
+            className="mt-4 inline-flex items-center text-[15px] text-[#D98A2B] transition hover:text-[#C47A22]"
           >
             Learn more →
           </Link>

@@ -1,12 +1,14 @@
 .page {
-  --bg: #f5f2eb;
-  --ink: #1a1a14;
-  --ink-mid: #444339;
-  --label: rgba(26, 26, 20, 0.7);
-  --accent: #b64d1a;
-  --rule: #d2cdbf;
-  --paper: #ece8de;
-  --field-green: #3c5b3e;
+  --bg: #1e2226;
+  --ink: #e6e6e6;
+  --ink-mid: #e6e6e6;
+  --label: #9aa3ad;
+  --accent: #d98a2b;
+  --rule: #3a4048;
+  --paper: #242a30;
+  --field-green: #4a9e6b;
+  --surface: #2c3238;
+  --inset: #161a1e;
 
   position: relative;
   isolation: isolate;
@@ -20,21 +22,28 @@
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: -1;
 }
 
 .wrap {
-  max-width: 680px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 64px 24px 112px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  border-radius: 14px;
+  margin-top: 36px;
+  margin-bottom: 36px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .classification {
   display: inline-block;
   margin-bottom: 36px;
   border: 1px solid var(--rule);
+  background: var(--surface);
   padding: 5px 10px;
   font-size: 10px;
   letter-spacing: 0.18em;
@@ -73,7 +82,7 @@
   margin: 0;
   font-size: 14px;
   letter-spacing: 0.035em;
-  color: var(--ink-mid);
+  color: var(--label);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 }
@@ -96,7 +105,7 @@
 
 .wrap p {
   margin: 0 0 23px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.65;
   font-weight: 400;
   color: var(--ink-mid);
@@ -109,7 +118,7 @@
 .quote {
   margin: 32px 0;
   border-left: 3px solid var(--field-green);
-  background: var(--paper);
+  background: var(--inset);
   padding: 18px 20px;
 }
 
@@ -129,7 +138,7 @@
 }
 
 .stackItem {
-  background: var(--bg);
+  background: var(--surface);
   padding: 14px;
 }
 
@@ -145,7 +154,7 @@
 
 .stackItemDesc {
   margin: 0;
-  font-size: 13px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--ink-mid);
 }
@@ -153,7 +162,7 @@
 .fieldNotes {
   margin-top: 56px;
   border: 1px solid var(--rule);
-  background: var(--paper);
+  background: var(--surface);
   padding: 30px 32px;
   position: relative;
 }
@@ -203,7 +212,7 @@
 .fieldNotes li {
   border-bottom: 1px solid var(--rule);
   padding: 10px 0;
-  font-size: 13px;
+  font-size: 18px;
   color: var(--ink-mid);
   line-height: 1.5;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -234,7 +243,7 @@
 }
 
 .footerSerial {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.15em;
   color: #a8a28f;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
@@ -250,9 +259,9 @@
 }
 
 .nextLine a {
-  color: var(--ink);
+  color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid rgba(180, 74, 26, 0.35);
+  border-bottom: 1px solid rgba(217, 138, 43, 0.35);
 }
 
 .nextLine a:hover {

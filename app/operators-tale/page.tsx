@@ -55,11 +55,11 @@ export default function OperatorsTalePage() {
     process.cwd(),
     "content",
     "docs",
-    "octriageunit",
+    "octriage",
     "overview.md",
   );
   const nextHref = fs.existsSync(octriageDocsPath)
-    ? "/docs/octriageunit/overview"
+    ? "/docs/octriage/overview"
     : "/docs";
 
   return (
@@ -156,7 +156,7 @@ export default function OperatorsTalePage() {
           </blockquote>
 
           <p>
-            OCTriageUnit exists to make that doctrine easy. It produces a
+            OpenClaw Triage Unit exists to make that doctrine easy. It produces a
             deterministic, timestamped proof bundle before anyone starts
             changing things. No screenshot archaeology. No ad-hoc log grepping.
             A structured artifact that survives the postmortem.

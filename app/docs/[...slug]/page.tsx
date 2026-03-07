@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { marked } from "marked";
-import OpenClawStackDiagram from "@/src/components/OpenClawStackDiagram";
 
 const DOCS_DIR = path.join(process.cwd(), "content", "docs");
 
@@ -71,35 +70,34 @@ export default async function DocsArticlePage({
     href: "/docs/" + slug.slice(0, i + 1).join("/"),
     isLast: i === slug.length - 1,
   }));
-  const isReliabilityStackPage = slug.join("/") === "architecture/reliability-stack";
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <main className="max-w-5xl mx-auto px-6 py-12">
+    <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
+      <main className="mx-auto max-w-[1100px] px-6 py-12">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm flex-wrap mb-8">
+        <nav className="mb-8 flex flex-wrap items-center gap-2 text-[13px]">
           <Link
             href="/"
-            className="text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]"
           >
             Home
           </Link>
-          <span className="text-zinc-700">/</span>
+          <span className="text-[#3A4048]">/</span>
           <Link
             href="/docs"
-            className="text-zinc-400 hover:text-zinc-200 transition-colors"
+            className="text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]"
           >
             Docs
           </Link>
           {breadcrumbs.map((crumb) => (
             <span key={crumb.href} className="flex items-center gap-2">
-              <span className="text-zinc-700">/</span>
+              <span className="text-[#3A4048]">/</span>
               {crumb.isLast ? (
-                <span className="text-zinc-300 capitalize">{crumb.label}</span>
+                <span className="capitalize text-[#E6E6E6]">{crumb.label}</span>
               ) : (
                 <Link
                   href={crumb.href}
-                  className="text-zinc-400 hover:text-zinc-200 transition-colors capitalize"
+                  className="capitalize text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]"
                 >
                   {crumb.label}
                 </Link>
@@ -108,19 +106,19 @@ export default async function DocsArticlePage({
           ))}
         </nav>
 
-        <div className="rounded-2xl border border-zinc-800/80 bg-zinc-950/70 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.06)]">
+        <div className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
           <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
             <div>
-              <div className="mb-2 text-[10px] uppercase tracking-[0.4em] text-amber-400">
+              <div className="mb-2 text-[13px] uppercase tracking-[0.32em] text-[#D98A2B]">
                 ACME Agent Supply Co.
               </div>
               {title && (
-                <h1 className="mb-3 text-3xl font-bold leading-tight text-zinc-100">
+                <h1 className="mb-3 text-[40px] font-semibold leading-tight text-[#E6E6E6]">
                   {title}
                 </h1>
               )}
             </div>
-            <div className="hidden rounded-xl border border-zinc-800/80 bg-zinc-900/50 p-2 md:block">
+            <div className="hidden rounded-xl border border-[#3A4048] bg-[#2C3238] p-2 md:block">
               <img
                 src="/brand/agent911-support-badge.png"
                 alt="Agent911 Support Badge"
@@ -131,35 +129,24 @@ export default async function DocsArticlePage({
 
           <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
             <div className="overflow-hidden rounded">
-              <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(251,191,36,0.8)_0,rgba(251,191,36,0.8)_10px,rgba(0,0,0,0.78)_10px,rgba(0,0,0,0.78)_20px)] bg-[length:24px_24px]" />
+              <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.8)_0,rgba(217,138,43,0.8)_10px,rgba(30,34,38,0.8)_10px,rgba(30,34,38,0.8)_20px)] bg-[length:24px_24px]" />
             </div>
-            <div className="hidden rounded bg-zinc-900/55 md:block" />
+            <div className="hidden rounded bg-[#2C3238] md:block" />
           </div>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-zinc-800/80 bg-zinc-900/40 px-6 py-6 shadow-[0_0_0_1px_rgba(251,191,36,0.05)]">
+        <section className="mt-6 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.05)]">
           {/* Content */}
           <article
             className="docs-prose"
             dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
-          {isReliabilityStackPage ? (
-            <figure className="mt-8 rounded-2xl border border-zinc-700/80 bg-zinc-900/70 p-4">
-              <OpenClawStackDiagram />
-              <figcaption className="mt-3 text-sm text-zinc-400">
-                OpenClaw combines deterministic agent rehydration, runtime
-                hygiene, diagnostics, and autonomous recovery into a single
-                reliability stack for AI agent systems.
-              </figcaption>
-            </figure>
-          ) : null}
-
           {/* Back link */}
-          <div className="mt-12 pt-6 border-t border-zinc-800">
+          <div className="mt-12 border-t border-[#3A4048] pt-6">
             <Link
               href="/docs"
-              className="text-zinc-400 hover:text-zinc-200 text-sm transition-colors"
+              className="text-[18px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]"
             >
               ← Back to Docs
             </Link>
