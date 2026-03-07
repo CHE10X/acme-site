@@ -60,11 +60,11 @@ export default function OperatorTerrainSection() {
   const [active, setActive] = useState<Marker | null>(MARKERS[0]);
 
   return (
-    <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-      <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+    <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+      <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
         Where in your system is the problem?
       </h2>
-      <p className="mt-2 text-[18px] text-[#9AA3AD]">
+      <p className="mt-2 text-[16px] text-[#9AA3AD]">
         Signal topology. Hover to inspect. Click to act.
       </p>
 
@@ -133,7 +133,7 @@ export default function OperatorTerrainSection() {
 
       <Link
         href="/docs/octriage/overview"
-        className="mt-5 inline-flex text-[18px] text-[#D98A2B] transition hover:text-[#C47A22]"
+        className="mt-5 inline-flex text-[16px] text-[#D98A2B] transition hover:text-[#C47A22]"
       >
         Something feels off? Run OCTriage →
       </Link>

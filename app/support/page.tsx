@@ -10,14 +10,14 @@ export default function SupportPage() {
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
       <main className="mx-auto max-w-[1100px] px-6 py-12">
         {/* Hero */}
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
           <h1 className="mb-3 text-[40px] font-semibold text-[#E6E6E6]">
             When something feels off
           </h1>
-          <p className="text-[18px] text-[#9AA3AD]">
+          <p className="text-[16px] text-[#9AA3AD]">
             Generate a support bundle. Send evidence, not guesswork.
           </p>
-          <p className="mt-2 text-[18px] text-[#E6E6E6]">
+          <p className="mt-2 text-[16px] text-[#E6E6E6]">
             ACME support begins with a deterministic bundle that captures the
             signals needed for fast triage. Built for operators. Readable by
             humans and AI.
@@ -42,22 +42,22 @@ export default function SupportPage() {
               View What’s Collected
             </a>
           </div>
-        <div className="mt-3 text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">
+          <div className="mt-3 text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">
             Observational analysis only. No system changes are performed.
           </div>
         </section>
 
-        <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+        <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
           <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
             Reliability Flow
           </div>
-          <p className="mt-3 text-[18px] text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] text-[#E6E6E6]">
             The canonical reliability architecture diagram is maintained in
             docs.
           </p>
           <Link
             href="/docs"
-            className="mt-3 inline-flex items-center text-[18px] text-[#D98A2B] transition hover:text-[#C47A22]"
+            className="mt-3 inline-flex items-center text-[16px] text-[#D98A2B] transition hover:text-[#C47A22]"
           >
             View the OpenClaw Reliability Stack →
           </Link>
@@ -91,7 +91,7 @@ export default function SupportPage() {
         {supportMode === "ai" ? (
           <>
             {/* AI Mode — Support Protocol */}
-            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+            <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Support Protocol
               </div>
@@ -116,13 +116,13 @@ export default function SupportPage() {
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 3 — First response
                   </div>
-                  <p className="mt-2 text-[18px] text-[#E6E6E6]">
+                  <p className="mt-2 text-[16px] text-[#E6E6E6]">
                     If the control plane is degraded, begin with the calm,
                     read-only first-response workflow before escalating.
                   </p>
                   <Link
                     href="/support/first-response"
-                    className="mt-2 inline-flex items-center gap-2 text-[18px] text-[#D98A2B] transition hover:text-[#C47A22]"
+                    className="mt-2 inline-flex items-center gap-2 text-[16px] text-[#D98A2B] transition hover:text-[#C47A22]"
                   >
                     First Response
                   </Link>
@@ -131,11 +131,11 @@ export default function SupportPage() {
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
                     Step 4 — Send bundle
                   </div>
-                  <p className="mt-2 text-[18px] text-[#E6E6E6]">
+                  <p className="mt-2 text-[16px] text-[#E6E6E6]">
                     Attach the generated zip when contacting support.
                   </p>
                 </div>
-                <ul className="mt-2 space-y-2 text-[18px] text-[#E6E6E6]">
+                <ul className="mt-2 space-y-2 text-[16px] text-[#E6E6E6]">
                   <li>• Observational analysis only</li>
                   <li>• No configuration changes performed</li>
                   <li>• Redaction applied automatically</li>
@@ -146,12 +146,12 @@ export default function SupportPage() {
             {/* Expected contents */}
             <section
               id="support-contents"
-              className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6"
+              className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6"
             >
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Expected contents
               </div>
-              <ul className="mt-4 space-y-2 text-[18px] text-[#E6E6E6]">
+              <ul className="mt-4 space-y-2 text-[16px] text-[#E6E6E6]">
                 <li>• agent911 snapshot</li>
                 <li>• recent ops events (tail)</li>
                 <li>• routing and protection posture</li>
@@ -161,14 +161,14 @@ export default function SupportPage() {
             </section>
 
             {/* Response posture */}
-            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+            <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Response posture
               </div>
-              <p className="mt-3 text-[18px] text-[#E6E6E6]">
+              <p className="mt-3 text-[16px] text-[#E6E6E6]">
                 ACME reviews bundles in deterministic order:
               </p>
-              <div className="mt-2 text-[18px] text-[#9AA3AD]">
+              <div className="mt-2 text-[16px] text-[#9AA3AD]">
                 Agent911 → ops events → Sentinel → compaction → routing
               </div>
             </section>
@@ -176,13 +176,13 @@ export default function SupportPage() {
         ) : (
           <>
             {/* Human Mode */}
-            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+            <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 What to do
               </div>
-              <div className="mt-4 text-[18px] text-[#E6E6E6]">
+              <div className="mt-4 text-[16px] text-[#E6E6E6]">
                 If your system looks wrong or stalled:
-                <ol className="mt-3 space-y-2 text-[18px] text-[#9AA3AD]">
+                <ol className="mt-3 space-y-2 text-[16px] text-[#9AA3AD]">
                   <li>1. Run the support bundle command</li>
                   <li>2. Attach the zip to your support request</li>
                   <li>
@@ -193,16 +193,16 @@ export default function SupportPage() {
               <div className="mt-3 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                 acme_support_bundle.py -zip
               </div>
-              <div className="mt-4 text-[18px] text-[#9AA3AD]">
+              <div className="mt-4 text-[16px] text-[#9AA3AD]">
                 We’ll review the evidence and respond with next steps.
               </div>
             </section>
 
-            <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+            <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Privacy &amp; safety
               </div>
-              <ul className="mt-4 space-y-2 text-[18px] text-[#E6E6E6]">
+              <ul className="mt-4 space-y-2 text-[16px] text-[#E6E6E6]">
                 <li>• Secrets are redacted</li>
                 <li>• openclaw.json is never included</li>
                 <li>• Bundle is read-only evidence</li>
@@ -213,7 +213,7 @@ export default function SupportPage() {
         )}
 
         {/* Footer callout */}
-        <section className="mt-8 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 text-center">
+        <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 text-center">
           <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
             Generated artifacts are observational. No automated repair is
             performed.

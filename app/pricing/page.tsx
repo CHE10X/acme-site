@@ -6,13 +6,7 @@ import Link from "next/link";
 function PriceLine({ price }: { price: string }) {
   return (
     <div className="mt-2 text-[18px] font-semibold text-[#E6E6E6]">
-      {price} / runtime / month{" "}
-      <span
-        title="Runtime means one active OpenClaw agent host."
-        className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-[#9AA3AD] text-[13px] font-normal text-[#9AA3AD]"
-      >
-        ?
-      </span>
+      {price} / runtime / month
     </div>
   );
 }
@@ -23,15 +17,15 @@ export default async function PricingPage() {
   return (
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:gap-10">
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.08)]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.08)]">
           <div className="text-[13px] uppercase tracking-[0.32em] text-[#D98A2B]">
             ACME Agent Supply Co.
           </div>
           <h1 className="mt-2 text-[40px] font-semibold text-[#E6E6E6]">Pricing</h1>
-          <p className="mt-3 text-[18px] text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] text-[#E6E6E6]">
             A clear path from scan-time evidence to continuous protection.
           </p>
-          <p className="mt-2 text-[18px] text-[#9AA3AD]">
+          <p className="mt-2 text-[16px] text-[#9AA3AD]">
             Runtime ={" "}
             <span
               className="text-[#E6E6E6]"
@@ -43,7 +37,7 @@ export default async function PricingPage() {
           </p>
         </section>
 
-        <section className="order-2 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-1">
+        <section className="order-2 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-1">
           <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
             Start Free
           </div>
@@ -75,17 +69,17 @@ export default async function PricingPage() {
           </div>
         </section>
 
-        <section className="order-1 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-2">
+        <section className="order-1 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-2">
           <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
             Standard Issue
           </div>
-          <p className="mt-2 text-[18px] text-[#E6E6E6]">
+          <p className="mt-2 text-[16px] text-[#E6E6E6]">
             Operator purchase - runs in your environment. You remain in full
             control. No hosted lock-in. No hidden telemetry.
           </p>
 
           <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-12">
-            <article className="order-1 rounded-2xl border border-[#D98A2B]/40 bg-[#D98A2B]/10 px-6 py-7 lg:order-2 lg:col-span-4">
+            <article className="order-1 rounded-[6px] border border-[#D98A2B]/40 bg-[#D98A2B]/10 px-6 py-7 lg:order-2 lg:col-span-4">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
                   Operator Kit
@@ -94,11 +88,11 @@ export default async function PricingPage() {
                   MOST COMMON LOADOUT
                 </div>
               </div>
-              <p className="mt-2 text-[18px] text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] text-[#E6E6E6]">
                 Includes 5 core reliability modules
               </p>
               <PriceLine price={prices["operator-kit"]} />
-              <ul className="mt-4 list-disc space-y-1 pl-5 text-[18px] text-[#E6E6E6]">
+              <ul className="mt-4 list-disc space-y-1 pl-5 text-[16px] text-[#E6E6E6]">
                 <li>Sentinel</li>
                 <li>Watchdog</li>
                 <li>SphinxGate</li>
@@ -124,7 +118,7 @@ export default async function PricingPage() {
                   MOST POPULAR
                 </div>
               </div>
-              <p className="mt-2 text-[18px] text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] text-[#E6E6E6]">
                 Active protection that flags instability early and keeps failures
                 from compounding.
               </p>
@@ -133,7 +127,7 @@ export default async function PricingPage() {
                 <div className="text-[13px] uppercase tracking-[0.24em] text-[#D98A2B]">
                   Proof artifacts
                 </div>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-[18px] text-[#E6E6E6]">
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-[16px] text-[#E6E6E6]">
                   <li>Deterministic protection history</li>
                   <li>Early warning flags (before visible failure)</li>
                   <li>Operator-readable proofs (no screenshots)</li>
@@ -159,7 +153,7 @@ export default async function PricingPage() {
               <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
                 SphinxGate
               </h3>
-              <p className="mt-2 text-[18px] text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] text-[#E6E6E6]">
                 Policy enforcement and audit-friendly routing posture.
               </p>
               <PriceLine price={prices.sphinxgate} />
@@ -177,7 +171,7 @@ export default async function PricingPage() {
               <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
                 DriftGuard
               </h3>
-              <p className="mt-2 text-[18px] text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] text-[#E6E6E6]">
                 Drift deltas and baseline deviations for predictable runtimes.
               </p>
               <PriceLine price={prices.driftguard} />
@@ -195,7 +189,7 @@ export default async function PricingPage() {
               <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
                 Transmission
               </h3>
-              <p className="mt-2 text-[18px] text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] text-[#E6E6E6]">
                 Multi-agent delivery discipline and routing reliability signals.
               </p>
               <PriceLine price={prices.transmission} />
@@ -211,18 +205,18 @@ export default async function PricingPage() {
           </div>
         </section>
 
-        <section className="order-3 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
+        <section className="order-3 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
           <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
             Control Plane
           </div>
-          <article className="mt-4 rounded-2xl border border-[#3A4048] bg-[#2C3238] px-6 py-6">
+          <article className="mt-4 rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-6 py-6">
             <h2 className="text-[30px] font-semibold text-[#E6E6E6]">Agent911</h2>
-            <p className="mt-3 text-[18px] text-[#E6E6E6]">
+            <p className="mt-3 text-[16px] text-[#E6E6E6]">
               Agent911 unifies system stability, Sentinel protection activity,
               and FindMyAgent visibility into one operational surface.
             </p>
             <PriceLine price={prices.agent911} />
-            <ul className="mt-4 space-y-2 text-[18px] text-[#E6E6E6]">
+            <ul className="mt-4 space-y-2 text-[16px] text-[#E6E6E6]">
               <li>Unified reliability snapshot</li>
               <li>FindMyAgent visibility</li>
               <li>Proofs and history</li>

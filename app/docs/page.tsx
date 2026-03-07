@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import InlineReliabilityStackSvg from "@/app/components/docs/InlineReliabilityStackSvg";
 
 export const metadata: Metadata = {
   title: "Docs — ACME Agent Supply Co.",
@@ -38,7 +39,7 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
       <main className="mx-auto max-w-[1400px] px-6 py-12">
-        <div className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
+        <div className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
           <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
             <div className="max-w-2xl">
               <Link
@@ -47,20 +48,20 @@ export default function DocsPage() {
               >
                 ACME Agent Supply Co.
               </Link>
-              <h1 className="mb-3 max-w-[18ch] text-[40px] font-semibold tracking-[-0.02em] text-[#E6E6E6]">
+              <h1 className="mb-3 max-w-[18ch] text-[30px] font-semibold tracking-[-0.02em] text-[#E6E6E6] md:text-[34px] lg:text-[40px]">
                 Documentation
               </h1>
-              <p className="max-w-[60ch] text-[18px] text-[#9AA3AD]">
+              <p className="max-w-[60ch] text-[16px] text-[#9AA3AD]">
                 Platform documentation for reliability-minded operators.
               </p>
             </div>
 
             <div className="flex justify-start md:justify-end">
-              <div className="rounded-2xl border border-[#3A4048] bg-[#2C3238] px-4 py-3">
+              <div className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-3 py-2">
                 <img
                   src="/brand/agent911-support-badge.png"
                   alt="Agent911 Support Badge"
-                  className="h-28 w-auto opacity-85 md:h-32"
+                  className="h-16 w-auto opacity-60 md:h-20"
                 />
               </div>
             </div>
@@ -74,28 +75,25 @@ export default function DocsPage() {
           </div>
         </div>
 
-        <section className="mt-6 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <h2 className="text-[30px] font-semibold text-[#E6E6E6]">
+        <section className="mt-6 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
+          <h2 className="text-[22px] font-semibold text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             OpenClaw Reliability Stack
           </h2>
-          <p className="mt-2 text-[18px] text-[#9AA3AD]">
+          <p className="mt-2 text-[16px] text-[#9AA3AD]">
             How OpenClaw observes, protects, and recovers AI agent systems.
           </p>
           <div className="mt-6">
-            <div className="overflow-hidden rounded-xl border border-[#3A4048]">
-              <iframe
-                src="/diagrams/operator-system-view-v4.html"
-                className="h-[600px] w-full border-0 sm:h-[700px]"
-                title="OpenClaw Operator System View — interactive reliability stack"
-              />
+            <div className="mx-auto max-w-[1400px] rounded-[6px] border border-[#3A4048] bg-[#242A30] px-2 py-12 sm:px-4">
+              <InlineReliabilityStackSvg />
             </div>
             <p className="mt-4 text-[13px] text-[#9AA3AD]">
-              Hover any node to inspect. Interactive reliability stack — signal topology across all layers.
+              OpenClaw Reliability Stack - architecture for observing,
+              protecting, and recovering AI agent systems.
             </p>
           </div>
         </section>
 
-        <section className="mt-6 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.05)]">
+        <section className="mt-6 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.05)]">
           <div className="mb-3 text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
             Launch Docs
           </div>
@@ -104,14 +102,14 @@ export default function DocsPage() {
               <Link
                 key={doc.href}
                 href={doc.href}
-                className="group block rounded-md border border-[#3A4048] bg-[#2C3238] px-5 py-4 transition-colors hover:border-[#9AA3AD] hover:bg-[#2C3238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+                className="group block rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-5 py-4 transition-colors hover:border-[#9AA3AD] hover:bg-[#2C3238] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <div className="text-[22px] font-medium text-[#E6E6E6] transition-colors group-hover:text-[#D98A2B]">
                       {doc.title}
                     </div>
-                    <div className="mt-1 text-[18px] text-[#E6E6E6]">
+                    <div className="mt-1 text-[16px] text-[#E6E6E6]">
                       {doc.desc}
                     </div>
                   </div>
@@ -130,7 +128,7 @@ export default function DocsPage() {
             <div className="space-y-2">
               <Link
                 href="/docs/findmyagent/overview"
-                className="group flex items-center gap-3 text-[18px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+                className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
                 <span className="text-[#D98A2B]/60 transition-colors group-hover:text-[#D98A2B]">
                   →
@@ -139,7 +137,7 @@ export default function DocsPage() {
               </Link>
               <Link
                 href="/docs/lazarus/overview"
-                className="group flex items-center gap-3 text-[18px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+                className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
                 <span className="text-[#D98A2B]/60 transition-colors group-hover:text-[#D98A2B]">
                   →
@@ -148,7 +146,7 @@ export default function DocsPage() {
               </Link>
               <Link
                 href="/docs/architecture/reliability-stack"
-                className="group flex items-center gap-3 text-[18px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+                className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
                 <span className="text-[#D98A2B]/60 transition-colors group-hover:text-[#D98A2B]">
                   →
@@ -157,7 +155,7 @@ export default function DocsPage() {
               </Link>
               <Link
                 href="/products/octriageunit"
-                className="group flex items-center gap-3 text-[18px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+                className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
                 <span className="text-[#D98A2B]/60 transition-colors group-hover:text-[#D98A2B]">
                   →

@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <main className="bg-[#1E2226] px-4 py-10 sm:px-6">
       <div className="mx-auto max-w-[1100px] space-y-8">
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <div className="mb-4 flex items-center gap-4 border-b border-[#3A4048] pb-4">
             <Image
               src="/brand/acme-logo.png"
@@ -75,12 +75,12 @@ export default function Home() {
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
             <div>
-              <h1 className="text-[40px] font-semibold leading-tight tracking-tight text-[#E6E6E6] sm:text-[56px]">
+              <h1 className="text-[34px] font-semibold leading-tight tracking-tight text-[#E6E6E6] sm:text-[40px] lg:text-[48px]">
                 OpenClaw
-                <span className="block text-[30px] font-medium text-[#9AA3AD] sm:text-[34px]">
-                  Reliability Infrastructure for AI Agent Systems
-                </span>
               </h1>
+              <p className="mt-2 text-[22px] font-medium text-[#9AA3AD]">
+                Reliability Infrastructure for AI Agent Systems
+              </p>
               <p className="mt-4 max-w-xl text-[18px] leading-8 text-[#E6E6E6]">
                 Observe agent fleets.
                 <br />
@@ -125,15 +125,15 @@ Protection: ACTIVE`}
 
         <OperatorTerrainSection />
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Reliability Stack Overview
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {STACK_BLOCKS.map((block) => (
               <article
                 key={block.title}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.3)]"
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5"
               >
                 <h3 className="text-[22px] font-medium text-[#E6E6E6]">
                   {block.title}
@@ -141,23 +141,23 @@ Protection: ACTIVE`}
                 <div className="mt-1 text-[16px] font-mono text-[#D98A2B]">
                   {block.stack}
                 </div>
-                <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">{block.desc}</p>
+                <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">{block.desc}</p>
               </article>
             ))}
           </div>
           <Link
             href="/docs"
-            className="mt-5 inline-flex text-[18px] text-[#D98A2B] hover:text-[#C47A22]"
+            className="mt-5 inline-flex text-[16px] text-[#D98A2B] hover:text-[#C47A22]"
           >
             View the full Reliability Stack →
           </Link>
         </section>
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Operator Console (OCTriage)
           </h2>
-          <p className="mt-3 text-[18px] leading-8 text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
             Operators run OCTriage and <code>octriage -watch</code> to
             immediately understand system state.
           </p>
@@ -173,7 +173,7 @@ protection_state: ACTIVE`}
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Operational Ritual
               </div>
-              <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
                 Run OCTriage first, confirm protection state, then decide if ORP
                 recovery workflow is required.
               </p>
@@ -182,7 +182,7 @@ protection_state: ACTIVE`}
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Runtime Visibility
               </div>
-              <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
                 <code>octriage -watch</code> keeps reliability signals visible
                 during live operations.
               </p>
@@ -196,15 +196,15 @@ protection_state: ACTIVE`}
           </Link>
         </section>
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Start with OCTriage
           </h2>
-          <p className="mt-3 text-[18px] leading-8 text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
             OCTriage is the platform entry point: system diagnostics,
             reliability scoring, observe signals, and proof bundles.
           </p>
-          <p className="mt-3 text-[18px] text-[#9AA3AD]">
+          <p className="mt-3 text-[16px] text-[#9AA3AD]">
             Run OCTriage to understand system health in seconds.
           </p>
           <ol className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -215,7 +215,7 @@ protection_state: ACTIVE`}
             ].map((step, index) => (
               <li
                 key={step}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[18px] text-[#E6E6E6]"
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
               >
                 {index + 1}. {step}
               </li>
@@ -231,7 +231,7 @@ octriage`}
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Install in Minutes
               </div>
-              <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
                 Deterministic install with read-safe defaults and immediate
                 operator visibility.
               </p>
@@ -240,7 +240,7 @@ octriage`}
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Evidence First
               </div>
-              <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">
+              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
                 Start every support event with OCTriage output, proof bundle
                 path, and ORP report context.
               </p>
@@ -256,11 +256,11 @@ octriage`}
 
         <ObserveSignalsSection signals={OBSERVE_SIGNALS} />
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Deterministic Recovery
           </h2>
-          <p className="mt-3 max-w-3xl text-[18px] leading-8 text-[#E6E6E6]">
+          <p className="mt-3 max-w-3xl text-[16px] leading-7 text-[#E6E6E6]">
             Most platforms detect problems. OpenClaw recovers deterministically
             through ORP, Agent911 verification, and Lazarus recovery
             simulation.
@@ -269,7 +269,7 @@ octriage`}
             {["Detect", "Classify", "Recover", "Verify"].map((step) => (
               <div
                 key={step}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[18px] text-[#E6E6E6]"
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
               >
                 {step}
               </div>
@@ -279,7 +279,7 @@ octriage`}
             {["ORP", "Agent911", "Lazarus"].map((item) => (
               <div
                 key={item}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[18px] text-[#E6E6E6]"
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
               >
                 {item}
               </div>
@@ -287,11 +287,11 @@ octriage`}
           </div>
         </section>
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Operator Utilities
           </h2>
-          <p className="mt-3 text-[18px] leading-8 text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
             Supporting utilities used in OpenClaw environments.
           </p>
           <div className="mt-4">
@@ -305,18 +305,18 @@ octriage`}
           </Link>
         </section>
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Operator Stories
           </h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {STORIES.map((story) => (
               <article
                 key={story.title}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5 shadow-[0_2px_8px_rgba(0,0,0,0.3)]"
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5"
               >
                 <h3 className="text-[22px] font-medium text-[#E6E6E6]">{story.title}</h3>
-                <p className="mt-2 text-[18px] leading-8 text-[#E6E6E6]">{story.detail}</p>
+                <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">{story.detail}</p>
                 <p className="mt-3 text-[13px] uppercase tracking-[0.18em] text-[#9AA3AD]">
                   {story.metric}
                 </p>
@@ -325,11 +325,11 @@ octriage`}
           </div>
         </section>
 
-        <section className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[30px] font-semibold tracking-tight text-[#E6E6E6]">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
+          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Documentation CTA
           </h2>
-          <p className="mt-3 text-[18px] leading-8 text-[#E6E6E6]">
+          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
             Architecture references, diagnostics, and recovery workflows.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
