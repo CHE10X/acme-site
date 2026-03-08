@@ -42,7 +42,7 @@ export default function SiteFooter({ showRefund }: SiteFooterProps) {
             <Link href="/pricing" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Pricing</Link>
             <Link href="/docs" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Docs</Link>
             <Link href="/support" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Support</Link>
-            <Link href="/bot-shop" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Bot Shop</Link>
+            <Link href="/bot-shop" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator Utilities</Link>
             <Link href="/operators-tale" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator&apos;s Tale</Link>
           </nav>
 

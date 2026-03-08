@@ -44,7 +44,7 @@ export default function SiteHeader({
     { href: "/pricing", label: "Pricing" },
     { href: "/docs", label: "Docs" },
     { href: "/support", label: "Support" },
-    { href: "/bot-shop", label: "Bot Shop" },
+    { href: "/bot-shop", label: "Operator Utilities" },
     { href: "/operators-tale", label: "Operator's Tale" },
     { href: "/legal/terms-of-service", label: "Legal: Terms of Service" },
     { href: "/legal/privacy-policy", label: "Legal: Privacy Policy" },
@@ -72,7 +72,7 @@ export default function SiteHeader({
             Support
           </Link>
           <Link href="/bot-shop" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Bot Shop
+            Operator Utilities
           </Link>
           <Link href="/operators-tale" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Operator&apos;s Tale
