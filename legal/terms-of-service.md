@@ -4,9 +4,9 @@ title: Terms of Service
 
 # Terms of Service
 
-**Last updated: March 2, 2026**
+**Last updated: March 3, 2026**
 
-These Terms of Service ("Terms") govern your use of ACME Agent Supply Co. ("ACME," "we," "us," or "our") products, services, and website (collectively, the "Services"). By accessing or using the Services, you agree to these Terms.
+These Terms of Service ("Terms") govern your use of Acme Agent Supply, LLC ("ACME," "we," "us," or "our") products, services, and website (collectively, the "Services"). By accessing or using the Services, you agree to these Terms.
 
 ## 1. Acceptance of Terms
 
@@ -64,5 +64,5 @@ We may update these Terms from time to time. We will notify you of material chan
 
 Questions about these Terms? Contact us at:
 
-**ACME Agent Supply Co.**  
+**Acme Agent Supply, LLC**  
 Email: legal@acmeagentsupply.com

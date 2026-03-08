@@ -84,6 +84,19 @@ These aren't banned but lose power when overused: *intelligent, precise, determi
 - Version numbers are required when making version-specific claims: "Agent911 v0.1" not "Agent911"
 - Never use amber text for inline product name mentions — amber is reserved for CTAs and status indicators only
 
+### Company Name Rules
+
+**Legal entity:** Acme Agent Supply, LLC — use this exact form only in legal and quasi-legal contexts: Terms of Service, Privacy Policy, Refund Policy, order confirmations, support tickets, invoices.
+
+**Brand names (everywhere else):** All three are acceptable and interchangeable:
+- Acme Agent Supply Co. ← preferred long form
+- Acme Agent Supply ← acceptable
+- ACME ← acceptable shorthand
+
+Do not call attention to the LLC structure in marketing or product copy. Do not write "Acme Agent Supply Co., LLC" — that's redundant. Use the legal name only where legal precision is required.
+
+**Formation date:** March 3, 2026 — use this date in all policy "effective date" and "last updated" fields.
+
 ### What ACME Is and Isn't
 
 Always write from these frames:

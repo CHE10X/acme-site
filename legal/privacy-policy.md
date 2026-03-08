@@ -4,9 +4,9 @@ title: Privacy Policy
 
 # Privacy Policy
 
-**Last updated: March 2, 2026**
+**Last updated: March 3, 2026**
 
-ACME Agent Supply Co. ("ACME," "we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Services.
+Acme Agent Supply, LLC ("ACME," "we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Services.
 
 ## 1. Information We Collect
 
@@ -88,5 +88,5 @@ We may update this Privacy Policy from time to time. We will notify you of mater
 
 If you have questions or concerns about this Privacy Policy:
 
-**ACME Agent Supply Co.**  
+**Acme Agent Supply, LLC**  
 Email: legal@acmeagentsupply.com
