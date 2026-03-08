@@ -1,12 +1,39 @@
+import Link from "next/link";
 import PricingCheckoutButton from "../components/PricingCheckoutButton";
 import { fetchPrices } from "../lib/fetchPrices";
 import { getCheckoutPaymentLink } from "../lib/stripeProducts";
-import Link from "next/link";
 
 function PriceLine({ price }: { price: string }) {
   return (
-    <div className="mt-2 text-[18px] font-semibold text-[#E6E6E6]">
-      {price} / runtime / month
+    <div className="mt-4 text-[28px] font-semibold leading-none text-[#E6E6E6]">
+      {price}
+      <span className="ml-2 text-[15px] font-medium text-[#9AA3AD]">/ runtime / month</span>
+    </div>
+  );
+}
+
+function MaturityDots({ count }: { count: 1 | 2 | 3 }) {
+  return (
+    <div className="inline-flex items-center gap-1" aria-hidden>
+      {[0, 1, 2].map((index) => (
+        <span
+          key={index}
+          className={`h-1.5 w-1.5 rounded-full ${index < count ? "bg-[#D98A2B]" : "bg-[#3A4048]"}`}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SignalStrip({ title, lines }: { title: string; lines: string[] }) {
+  return (
+    <div className="mt-5 rounded-md border border-[#3A4048] bg-[#1E2226] px-3 py-3">
+      <div className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9AA3AD]">{title}</div>
+      <ul className="mt-2 space-y-1 text-[14px] text-[#C7CDD4]">
+        {lines.map((line) => (
+          <li key={line}>{line}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -16,224 +43,200 @@ export default async function PricingPage() {
 
   return (
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
-      <main className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-12 md:gap-10">
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.08)]">
-          <div className="text-[13px] uppercase tracking-[0.32em] text-[#D98A2B]">
-            ACME Agent Supply Co.
-          </div>
-          <h1 className="mt-2 text-[40px] font-semibold text-[#E6E6E6]">Pricing</h1>
-          <p className="mt-3 text-[16px] text-[#E6E6E6]">
-            A clear path from scan-time evidence to continuous protection.
-          </p>
-          <p className="mt-2 text-[16px] text-[#9AA3AD]">
-            Runtime ={" "}
-            <span
-              className="text-[#E6E6E6]"
-              title="Runtime means one active OpenClaw agent host."
-            >
-              one active OpenClaw agent host
-            </span>
-            .
+      <main className="mx-auto flex w-full max-w-[1100px] flex-col gap-16 px-4 py-12 sm:px-6 sm:py-14">
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
+          <div className="text-[13px] uppercase tracking-[0.28em] text-[#D98A2B]">ACME Agent Supply Co.</div>
+          <h1 className="mt-3 text-[30px] font-semibold tracking-[-0.02em] text-[#E6E6E6] sm:text-[34px] lg:text-[40px]">
+            Pricing
+          </h1>
+          <p className="mt-3 max-w-[60ch] text-[16px] text-[#C7CDD4]">
+            Clear operator access from first diagnostics to production-grade reliability control.
           </p>
         </section>
 
-        <section className="order-2 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-1">
-          <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
-            Start Free
-          </div>
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
-            {[
-              { name: "RadCheck", unit: "RADIATION SCAN UNIT", price: prices.free },
-              { name: "Lazarus Lite", unit: "REANIMATION UNIT", price: prices.free },
-            ].map((tool) => (
-              <article
-                key={tool.name}
-                className="rounded-md border border-[#3A4048] bg-[#2C3238] px-5 py-5 transition hover:border-[#9AA3AD] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)]"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
-                      {tool.unit}
-                    </div>
-                    <h3 className="mt-2 text-[22px] font-semibold text-[#E6E6E6]">
-                      {tool.name}
-                    </h3>
-                    <PriceLine price={tool.price} />
-                  </div>
-                  <div className="rounded-full border border-[#4A9E6B]/40 bg-[#4A9E6B]/10 px-2 py-1 text-[13px] uppercase tracking-[0.22em] text-[#4A9E6B]">
-                    Free
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
+          <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Operator Access Model</h2>
+          <p className="mt-3 max-w-[78ch] text-[16px] leading-7 text-[#C7CDD4]">
+            OpenClaw begins with visibility. Operators start with OCTriage to understand system health. As
+            systems move into production, additional utilities provide reliability scoring, protection, and
+            deterministic recovery.
+          </p>
         </section>
 
-        <section className="order-1 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6 md:order-2">
-          <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
-            Standard Issue
-          </div>
-          <p className="mt-2 text-[16px] text-[#E6E6E6]">
-            Operator purchase - runs in your environment. You remain in full
-            control. No hosted lock-in. No hidden telemetry.
-          </p>
-
-          <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-12">
-            <article className="order-1 rounded-[6px] border border-[#D98A2B]/40 bg-[#D98A2B]/10 px-6 py-7 lg:order-2 lg:col-span-4">
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
-                  Operator Kit
-                </h3>
-                <div className="rounded-full border border-[#D98A2B]/45 bg-[#D98A2B]/20 px-2 py-1 text-[13px] uppercase tracking-[0.2em] text-[#E6E6E6]">
-                  MOST COMMON LOADOUT
-                </div>
+        <section>
+          <div className="grid gap-4 lg:grid-cols-3">
+            <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">Free Access</div>
+                <MaturityDots count={1} />
               </div>
-              <p className="mt-2 text-[16px] text-[#E6E6E6]">
-                Includes 5 core reliability modules
+              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">RadCheck + Lazarus Lite</h3>
+              <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                When something feels wrong and you need to see what is happening.
+              </p>
+              <PriceLine price={prices.free} />
+              <SignalStrip
+                title="Includes"
+                lines={["OCTriage", "RadCheck", "Lazarus Lite"]}
+              />
+              <Link
+                href="/docs/quickstart/5-minute"
+                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+              >
+                Start Free
+              </Link>
+            </article>
+
+            <article className="rounded-[6px] border border-[#D98A2B]/55 bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-[13px] uppercase tracking-[0.22em] text-[#D98A2B]">Standard Issue</div>
+                <MaturityDots count={2} />
+              </div>
+              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Operator Kit</h3>
+              <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                When agent systems run continuously and reliability signals matter.
               </p>
               <PriceLine price={prices["operator-kit"]} />
-              <ul className="mt-4 list-disc space-y-1 pl-5 text-[16px] text-[#E6E6E6]">
-                <li>Sentinel</li>
-                <li>Watchdog</li>
-                <li>SphinxGate</li>
-                <li>DriftGuard</li>
-                <li>Transmission</li>
-              </ul>
+              <SignalStrip
+                title="Signals"
+                lines={[
+                  "Reliability Score",
+                  "Protection Events",
+                  "Runtime Hygiene",
+                  "Drift Alerts",
+                ]}
+              />
               <PricingCheckoutButton
                 productKey="operator-kit"
                 priceLabel={`${prices["operator-kit"]} / runtime / month`}
                 fallbackUrl={getCheckoutPaymentLink("operator-kit")}
-                className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[#D98A2B]/60 bg-[#D98A2B]/20 px-4 py-2 text-[15px] font-semibold text-[#E6E6E6] transition hover:border-[#D98A2B]/80 hover:bg-[#D98A2B]/24"
+                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-semibold text-[#1E2226] transition-colors hover:bg-[#C47A22]"
               >
                 Subscribe
               </PricingCheckoutButton>
             </article>
 
-            <article className="order-2 rounded-md border border-[#D98A2B]/55 bg-[#2C3238] px-5 py-5 lg:order-1 lg:col-span-2">
-              <div className="flex items-center justify-between gap-3">
-                <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
-                  Sentinel
-                </h3>
-                <div className="rounded-full border border-[#D98A2B]/45 bg-[#D98A2B]/20 px-2 py-1 text-[13px] uppercase tracking-[0.2em] text-[#E6E6E6]">
-                  MOST POPULAR
-                </div>
+            <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+              <div className="flex items-center justify-between gap-2">
+                <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">Control Plane</div>
+                <MaturityDots count={3} />
               </div>
-              <p className="mt-2 text-[16px] text-[#E6E6E6]">
-                Active protection that flags instability early and keeps failures
-                from compounding.
+              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Agent911</h3>
+              <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                When production systems require deterministic recovery.
               </p>
-              <PriceLine price={prices.sentinel} />
-              <div className="mt-3 border-t border-[#D98A2B]/35 pt-3">
-                <div className="text-[13px] uppercase tracking-[0.24em] text-[#D98A2B]">
-                  Proof artifacts
-                </div>
-                <ul className="mt-2 list-disc space-y-1 pl-5 text-[16px] text-[#E6E6E6]">
-                  <li>Deterministic protection history</li>
-                  <li>Early warning flags (before visible failure)</li>
-                  <li>Operator-readable proofs (no screenshots)</li>
-                </ul>
-                <Link
-                  href="/docs/sentinel/overview"
-                  className="mt-2 inline-block text-[15px] text-[#D98A2B] underline underline-offset-4"
-                >
-                  Sentinel docs
-                </Link>
-              </div>
+              <PriceLine price={prices.agent911} />
+              <SignalStrip
+                title="Includes"
+                lines={[
+                  "Control Plane Visibility",
+                  "Recovery Readiness",
+                  "Guided Triage Workflow",
+                ]}
+              />
               <PricingCheckoutButton
-                productKey="sentinel"
-                priceLabel={`${prices.sentinel} / runtime / month`}
-                fallbackUrl={getCheckoutPaymentLink("sentinel")}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-semibold text-[#1E2226] transition hover:bg-[#C47A22]"
+                productKey="agent911"
+                priceLabel={`${prices.agent911} / runtime / month`}
+                fallbackUrl={getCheckoutPaymentLink("agent911")}
+                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
               >
                 Subscribe
               </PricingCheckoutButton>
             </article>
+          </div>
 
-            <article className="order-3 rounded-md border border-[#3A4048] bg-[#2C3238] px-5 py-5 transition hover:border-[#9AA3AD] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)] lg:col-span-2">
-              <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
-                SphinxGate
-              </h3>
-              <p className="mt-2 text-[16px] text-[#E6E6E6]">
-                Policy enforcement and audit-friendly routing posture.
-              </p>
-              <PriceLine price={prices.sphinxgate} />
-              <PricingCheckoutButton
-                productKey="sphinxgate"
-                priceLabel={`${prices.sphinxgate} / runtime / month`}
-                fallbackUrl={getCheckoutPaymentLink("sphinxgate")}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
-              >
-                Add module
-              </PricingCheckoutButton>
-            </article>
-
-            <article className="order-4 rounded-md border border-[#3A4048] bg-[#2C3238] px-5 py-5 transition hover:border-[#9AA3AD] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)] lg:col-span-2">
-              <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
-                DriftGuard
-              </h3>
-              <p className="mt-2 text-[16px] text-[#E6E6E6]">
-                Drift deltas and baseline deviations for predictable runtimes.
-              </p>
-              <PriceLine price={prices.driftguard} />
-              <PricingCheckoutButton
-                productKey="driftguard"
-                priceLabel={`${prices.driftguard} / runtime / month`}
-                fallbackUrl={getCheckoutPaymentLink("driftguard")}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
-              >
-                Add module
-              </PricingCheckoutButton>
-            </article>
-
-            <article className="order-5 rounded-md border border-[#3A4048] bg-[#2C3238] px-5 py-5 transition hover:border-[#9AA3AD] hover:shadow-[0_10px_24px_rgba(0,0,0,0.2)] lg:col-span-2">
-              <h3 className="text-[22px] font-semibold text-[#E6E6E6]">
-                Transmission
-              </h3>
-              <p className="mt-2 text-[16px] text-[#E6E6E6]">
-                Multi-agent delivery discipline and routing reliability signals.
-              </p>
-              <PriceLine price={prices.transmission} />
-              <PricingCheckoutButton
-                productKey="transmission"
-                priceLabel={`${prices.transmission} / runtime / month`}
-                fallbackUrl={getCheckoutPaymentLink("transmission")}
-                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
-              >
-                Add module
-              </PricingCheckoutButton>
-            </article>
+          <div className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-5 sm:px-6">
+            <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">Module Add-ons</div>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              {[
+                {
+                  name: "Sentinel",
+                  price: prices.sentinel,
+                  desc: "Protection events and instability warnings before visible failure.",
+                  productKey: "sentinel" as const,
+                  cta: "Subscribe",
+                },
+                {
+                  name: "SphinxGate",
+                  price: prices.sphinxgate,
+                  desc: "Policy routing discipline with audit-friendly trace behavior.",
+                  productKey: "sphinxgate" as const,
+                  cta: "Add module",
+                },
+                {
+                  name: "DriftGuard",
+                  price: prices.driftguard,
+                  desc: "Long-horizon drift stabilization for predictable runtime behavior.",
+                  productKey: "driftguard" as const,
+                  cta: "Add module",
+                },
+                {
+                  name: "Transmission",
+                  price: prices.transmission,
+                  desc: "Multi-agent transport discipline and control-lane reliability.",
+                  productKey: "transmission" as const,
+                  cta: "Add module",
+                },
+              ].map((module) => (
+                <article key={module.name} className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5">
+                  <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD]">Module</div>
+                  <h4 className="mt-2 text-[22px] font-semibold text-[#E6E6E6]">{module.name}</h4>
+                  <p className="mt-2 text-[15px] text-[#C7CDD4]">{module.desc}</p>
+                  <PriceLine price={module.price} />
+                  <PricingCheckoutButton
+                    productKey={module.productKey}
+                    priceLabel={`${module.price} / runtime / month`}
+                    fallbackUrl={getCheckoutPaymentLink(module.productKey)}
+                    className="mt-4 inline-flex h-10 min-w-[150px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                  >
+                    {module.cta}
+                  </PricingCheckoutButton>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="order-3 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
-            Control Plane
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
+          <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Tier Comparison</h2>
+          <div className="mt-5 overflow-x-auto">
+            <table className="w-full min-w-[680px] border-collapse text-left text-[15px]">
+              <thead>
+                <tr className="border-b border-[#3A4048] text-[#9AA3AD]">
+                  <th className="pb-2 pr-4 font-medium">Feature</th>
+                  <th className="pb-2 pr-4 font-medium">Free</th>
+                  <th className="pb-2 pr-4 font-medium">Standard</th>
+                  <th className="pb-2 font-medium">Control Plane</th>
+                </tr>
+              </thead>
+              <tbody className="text-[#C7CDD4]">
+                {[
+                  ["OCTriage", "Yes", "Yes", "Yes"],
+                  ["Reliability Score", "Basic", "Full", "Full"],
+                  ["Runtime Hygiene", "Limited", "Yes", "Yes"],
+                  ["Protection Events", "No", "Yes", "Yes"],
+                  ["Recovery Readiness", "Simulation", "Guided", "Deterministic"],
+                  ["Recovery Automation", "No", "No", "Yes"],
+                  ["Control Plane Visibility", "No", "Partial", "Full"],
+                ].map((row) => (
+                  <tr key={row[0]} className="border-b border-[#3A4048] last:border-b-0">
+                    <td className="py-2 pr-4 text-[#E6E6E6]">{row[0]}</td>
+                    <td className="py-2 pr-4">{row[1]}</td>
+                    <td className="py-2 pr-4">{row[2]}</td>
+                    <td className="py-2">{row[3]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <article className="mt-4 rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-6 py-6">
-            <h2 className="text-[30px] font-semibold text-[#E6E6E6]">Agent911</h2>
-            <p className="mt-3 text-[16px] text-[#E6E6E6]">
-              Agent911 unifies system stability, Sentinel protection activity,
-              and FindMyAgent visibility into one operational surface.
-            </p>
-            <PriceLine price={prices.agent911} />
-            <ul className="mt-4 space-y-2 text-[16px] text-[#E6E6E6]">
-              <li>Unified reliability snapshot</li>
-              <li>FindMyAgent visibility</li>
-              <li>Proofs and history</li>
-              <li>Guided triage workflows</li>
-            </ul>
-            <div className="mt-3 text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
-              Observational by design. No autonomous changes.
-            </div>
-            <PricingCheckoutButton
-              productKey="agent911"
-              priceLabel={`${prices.agent911} / runtime / month`}
-              fallbackUrl={getCheckoutPaymentLink("agent911")}
-              className="mt-5 inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
-            >
-              Subscribe
-            </PricingCheckoutButton>
-          </article>
+        </section>
+
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
+          <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Operator Adoption Pattern</h2>
+          <p className="mt-3 max-w-[78ch] text-[16px] leading-7 text-[#C7CDD4]">
+            Most operators begin with OCTriage. From there, systems naturally adopt additional utilities as
+            reliability requirements increase. You do not need to commit to the full platform on day one.
+          </p>
         </section>
       </main>
     </div>
