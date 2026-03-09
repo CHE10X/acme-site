@@ -17,14 +17,17 @@ export default function TawkToWidget() {
     <>
       <style>{`
         @keyframes tawk-goat-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
+          /* pause ~2.5s, then spin one full rotation over ~1s */
+          0%   { transform: rotate(0deg); }
+          30%  { transform: rotate(0deg); }
+          55%  { transform: rotate(360deg); }
+          100% { transform: rotate(360deg); }
         }
-        /* Tawk.to bubble container — spins slowly when chat is minimized */
+        /* Tawk.to bubble container — pause-spin-pause cycle */
         #tawk-bubble-container,
         .tawk-button,
         iframe[title="chat widget"] {
-          animation: tawk-goat-spin 4s linear infinite;
+          animation: tawk-goat-spin 4s ease-in-out infinite;
           transform-origin: center;
         }
         /* Pause spin when chat is open */
