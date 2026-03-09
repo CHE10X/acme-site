@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="36" viewBox="0 0 200 36" fill="none">
+  <rect x="2" y="2" width="6" height="32" fill="#C9850C" />
+  <rect x="12" y="2" width="3" height="32" fill="#92400E" />
+  <text x="24" y="24" font-family="'Impact', 'Arial Black', sans-serif" font-size="22" letter-spacing="6" fill="#1C1917">ACME</text>
+  <text x="24" y="34" font-family="'Arial', sans-serif" font-size="8" letter-spacing="3" fill="#57534E">AGENT SUPPLY</text>
+</svg>
