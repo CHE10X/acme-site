@@ -7,12 +7,57 @@ export const metadata: Metadata = {
 };
 
 const products = [
+  // Free Entry Points
+  {
+    href: "/products/radcheck",
+    name: "RadCheck",
+    tag: "Free — Detection",
+    description:
+      "Read-only reliability scan. Get a 0–100 score that surfaces stall risk, silence gaps, compaction pressure, and hygiene issues. Nothing changes on your system.",
+  },
   {
     href: "/products/octriageunit",
-    name: "OpenClaw Triage Unit",
-    tag: "Operator Service",
+    name: "OCTriage",
+    tag: "Free — Triage",
     description:
-      "Read-only triage workflow for degraded OpenClaw environments. Snapshot, diagnose, and generate proof bundles without touching live state.",
+      "Entry-point triage terminal for incident assessment. Collect evidence, classify failures, and generate proof bundles without touching live state.",
+  },
+  {
+    href: "/products/lazarus",
+    name: "Lazarus Lite",
+    tag: "Free — Recovery Readiness",
+    description:
+      "Maps backup coverage and validates restore assumptions before incidents force the test. Know your recovery posture before you need it.",
+  },
+  // Core Paid Products
+  {
+    href: "/products/sentinel",
+    name: "Sentinel",
+    tag: "Core — Runtime Protection",
+    description:
+      "Always-on runtime guardrails. Detects stalls and silent failures during live operation — the problems that don't crash but quietly break your workflows.",
+  },
+  {
+    href: "/products/sphinxgate",
+    name: "SphinxGate",
+    tag: "Core — Policy Enforcement",
+    description:
+      "Enforces allow/deny routing policy across multi-model teams. Deterministic, inspectable routing decisions with full audit trail.",
+  },
+  // Strategic / Expansion
+  {
+    href: "/products/agent911",
+    name: "Agent911",
+    tag: "Strategic — Control Plane",
+    description:
+      "Unified control surface for multi-agent operations. Health signals, anomaly detection, recovery guidance, and proof bundles. The 2am cockpit.",
+  },
+  {
+    href: "/products/findmyagent",
+    name: "FindMyAgent",
+    tag: "Included with Agent911",
+    description:
+      "Live agent presence and heartbeat visibility. Know which agents are up, which are degraded, and which went silent.",
   },
 ];
 
