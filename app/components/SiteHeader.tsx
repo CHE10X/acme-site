@@ -42,7 +42,8 @@ export default function SiteHeader({
 
   const navLinks = [
     { href: "/pricing", label: "Pricing" },
-    { href: "/docs", label: "Docs" },
+    { href: "/products", label: "Products" },
+    { href: "https://docs.acmeagentsupply.com", label: "Docs" },
     { href: "/support", label: "Support" },
     { href: "/bot-shop", label: "Operator Utilities" },
     { href: "/operators-tale", label: "Operator's Tale" },
@@ -65,9 +66,12 @@ export default function SiteHeader({
           <Link href="/pricing" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Pricing
           </Link>
-          <Link href="/docs" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Docs
+          <Link href="/products" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
+            Products
           </Link>
+          <a href="https://docs.acmeagentsupply.com" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
+            Docs
+          </a>
           <Link href="/support" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Support
           </Link>
