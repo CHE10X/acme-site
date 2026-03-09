@@ -69,7 +69,7 @@ export default function SiteHeader({
           <Link href="/products" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Products
           </Link>
-          <a href="https://docs.acmeagentsupply.com" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
+          <a href="https://docs.acmeagentsupply.com" target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Docs
           </a>
           <Link href="/support" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
@@ -109,17 +109,31 @@ export default function SiteHeader({
               className="absolute right-0 mt-2 w-72 rounded-xl border border-[#3A4048] bg-[#242A30] p-2 shadow-2xl"
               role="menu"
             >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
-                  role="menuitem"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) =>
+                link.href.startsWith("http") ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
             </div>
           ) : null}
         </div>
