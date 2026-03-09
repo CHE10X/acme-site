@@ -1,0 +1,100 @@
+---
+title: RadCheck Overview
+description: Read-only reliability scanning for AI agents
+---
+
+# RadCheck
+
+RadCheck is ACME's free reliability scanner. It performs a read-only assessment of your agent environment and produces a 0-100 reliability score.
+
+## What RadCheck Does
+
+<Info>
+RadCheck is **read-only**. It scans your environment but makes no changes. No agents are installed, no processes are started, no configurations are modified.
+</Info>
+
+RadCheck examines your agent system for reliability risk factors:
+
+- **Stall risk** — Patterns that indicate potential hangs or infinite loops
+- **Silence gaps** — Unexpected periods of inactivity that may indicate failures
+- **Compaction pressure** — Context window utilization and memory patterns
+- **Hygiene** — Configuration best practices and common misconfigurations
+
+## Running RadCheck
+
+```bash
+acme radcheck
+```
+
+The scan typically completes in under 30 seconds. Output includes:
+
+```
+RadCheck Reliability Scan
+=========================
+Overall Score: 72 / 100 (YELLOW)
+
+Components:
+  Stall Risk:        18/25  ✓
+  Silence Gaps:      15/25  ⚠
+  Compaction:        22/25  ✓
+  Hygiene:           17/25  ⚠
+
+Findings:
+  [WARN] Silence gap detected: 47s between context updates
+  [WARN] Missing retry configuration in provider fallback
+  [OK]   No stall patterns detected
+  [OK]   Context utilization within bounds
+```
+
+## Score Bands
+
+| Score | Band | Interpretation |
+|-------|------|----------------|
+| 80-100 | 🟢 GREEN | Healthy. Continue normal operations. |
+| 60-79 | 🟡 YELLOW | Monitor closely. Review warnings. |
+| 40-59 | 🟠 ORANGE | Action recommended. Reliability at risk. |
+| 0-39 | 🔴 RED | Critical. Immediate attention needed. |
+
+## When to Run RadCheck
+
+- **Before deploying** a new agent configuration
+- **After incidents** to identify contributing factors
+- **Periodically** as part of reliability hygiene (weekly recommended)
+- **When onboarding** to get a baseline score
+
+## From RadCheck to Sentinel
+
+RadCheck tells you your current state. [Sentinel](/products/sentinel/overview) provides ongoing protection.
+
+Think of it this way:
+- **RadCheck** = Point-in-time snapshot (like a blood test)
+- **Sentinel** = Continuous monitoring (like a heart monitor)
+
+Most teams start with RadCheck to understand their baseline, then add Sentinel for runtime protection.
+
+## CLI Reference
+
+```bash
+# Basic scan
+acme radcheck
+
+# JSON output (for CI/CD integration)
+acme radcheck --format json
+
+# Scan specific agent
+acme radcheck --agent my-agent-name
+
+# Verbose output with all checks
+acme radcheck --verbose
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Score Explained" icon="chart-bar" href="/products/radcheck/score-explained">
+    Deep dive into how each score component is calculated.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    Add runtime protection after establishing your baseline.
+  </Card>
+</CardGroup>

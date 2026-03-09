@@ -1,0 +1,165 @@
+---
+title: Sentinel Overview
+description: Runtime protection against stalls and silent failures
+---
+
+# Sentinel
+
+Sentinel is ACME's runtime guardrail system. It continuously monitors your agents for stalls and silent failures — the problems that don't crash but quietly break your workflows.
+
+## The Problem Sentinel Solves
+
+Traditional monitoring catches crashes. But agents fail in ways that don't crash:
+
+- The agent is "running" but hasn't made progress in 10 minutes
+- A model call is hanging indefinitely
+- The agent is looping without advancing toward its goal
+
+These failures don't trigger alerts. Your dashboards stay green while work stops happening.
+
+**Sentinel catches these failures.**
+
+## How It Works
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│   Agent     │────▶│   Sentinel   │────▶│   Alerts    │
+│  Runtime    │     │   Watcher    │     │  + Context  │
+└─────────────┘     └──────────────┘     └─────────────┘
+                           │
+                           ▼
+                    ┌──────────────┐
+                    │   Agent911   │
+                    │  (optional)  │
+                    └──────────────┘
+```
+
+Sentinel runs as a lightweight sidecar process that:
+
+1. **Observes** agent activity without interfering
+2. **Detects** anomalies: stalls, silence gaps, unexpected patterns
+3. **Alerts** with full context about what's happening
+4. **Feeds** Agent911 (if configured) for coordinated response
+
+<Warning>
+Sentinel is **observational only**. It does not take autonomous action on your agents. It alerts and provides context — you decide what to do.
+</Warning>
+
+## Quick Start
+
+```bash
+# Start Sentinel in the background
+acme sentinel start
+
+# Check status
+acme sentinel status
+
+# View recent detections
+acme sentinel log --tail 20
+```
+
+## What Sentinel Monitors
+
+### Stall Detection
+
+Sentinel watches for agents that stop making progress:
+
+- No context updates for longer than threshold
+- Repeated identical outputs (loop detection)
+- Hung external calls (API timeouts)
+
+### Silent Failure Detection
+
+Agents that look healthy but aren't:
+
+- Activity without meaningful progress
+- Error suppression patterns
+- Graceful degradation that's degraded too far
+
+### Anomaly Patterns
+
+Behavior that deviates from baseline:
+
+- Unusual response times
+- Unexpected tool usage patterns
+- Context growth anomalies
+
+## Configuration
+
+Sentinel works out of the box with sensible defaults. Customize via config file:
+
+```yaml
+# ~/.acme/sentinel.yaml
+thresholds:
+  stall_timeout: 300      # seconds before stall alert
+  silence_gap: 120        # seconds of silence before alert
+  loop_detection: 5       # repeated outputs before alert
+
+alerts:
+  channels:
+    - type: webhook
+      url: https://your-alerting-system.com/webhook
+    - type: email
+      to: oncall@yourcompany.com
+
+# Optional: connect to Agent911
+agent911:
+  enabled: true
+  endpoint: https://your-agent911-instance.com
+```
+
+## Sentinel vs Standard Monitoring
+
+| Aspect | Standard Monitoring | Sentinel |
+|--------|-------------------|----------|
+| Crashes | ✓ Detects | ✓ Detects |
+| Silent failures | ✗ Misses | ✓ Detects |
+| Stalls | ✗ Misses | ✓ Detects |
+| Agent-specific context | ✗ Generic | ✓ Full context |
+| Recovery guidance | ✗ None | ✓ Via Agent911 |
+
+## CLI Reference
+
+```bash
+# Start/stop
+acme sentinel start
+acme sentinel stop
+acme sentinel restart
+
+# Status and logs
+acme sentinel status
+acme sentinel log
+acme sentinel log --tail 50 --follow
+
+# Configuration
+acme sentinel config show
+acme sentinel config set thresholds.stall_timeout 600
+```
+
+## From Sentinel to Agent911
+
+Sentinel is detection. [Agent911](/products/agent911/overview) is response.
+
+When Sentinel detects an issue, it can feed that context to Agent911, which provides:
+- Unified view across all agents
+- Deterministic recovery guidance
+- Proof bundles for post-incident review
+
+Most teams start with Sentinel alone, then add Agent911 as their agent fleet grows.
+
+## Pricing
+
+Sentinel is a paid product. See [Pricing](/pricing) for current rates.
+
+Free alternative: Run [RadCheck](/products/radcheck/overview) periodically for point-in-time assessments.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Get a baseline reliability score before adding Sentinel.
+  </Card>
+  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
+    Add coordinated response for multi-agent systems.
+  </Card>
+</CardGroup>

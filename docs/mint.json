@@ -19,18 +19,47 @@
     {
       "name": "Home",
       "url": "https://acmeagentsupply.com"
+    },
+    {
+      "name": "Support",
+      "url": "https://acmeagentsupply.com/support"
     }
   ],
   "topbarCtaButton": {
     "name": "Get Started",
-    "url": "https://acmeagentsupply.com"
+    "url": "/quickstart"
   },
   "tabs": [],
-  "anchors": [],
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/CHE10X/acme-site"
+    }
+  ],
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction"]
+      "pages": ["introduction", "quickstart"]
+    },
+    {
+      "group": "RadCheck",
+      "pages": [
+        "products/radcheck/overview",
+        "products/radcheck/score-explained"
+      ]
+    },
+    {
+      "group": "Sentinel",
+      "pages": [
+        "products/sentinel/overview"
+      ]
+    },
+    {
+      "group": "OCTriage",
+      "pages": [
+        "products/octriage/overview"
+      ]
     }
   ],
   "footerSocials": {

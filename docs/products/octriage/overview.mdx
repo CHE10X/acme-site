@@ -1,0 +1,166 @@
+---
+title: OCTriage Overview
+description: Entry-point terminal for incident assessment
+---
+
+# OCTriage
+
+OCTriage is ACME's free incident triage terminal. When something goes wrong with your agents, OCTriage helps you quickly understand what happened and what to do next.
+
+## What OCTriage Does
+
+OCTriage is your first stop when an agent incident occurs. It:
+
+1. **Collects** relevant logs, state, and context
+2. **Analyzes** the incident pattern
+3. **Classifies** the failure type
+4. **Recommends** next steps
+
+<Info>
+OCTriage is **assessment only**. It does not execute recovery actions. It tells you what happened and what to do — you decide whether to act.
+</Info>
+
+## Quick Start
+
+```bash
+# Run triage on the current agent environment
+acme triage
+
+# Triage a specific agent
+acme triage --agent my-agent-name
+
+# Triage from exported logs
+acme triage --logs /path/to/incident-logs/
+```
+
+## Triage Output
+
+```
+OCTriage Incident Assessment
+============================
+Timestamp: 2026-03-09 15:42:31 UTC
+Agent: support-agent-prod
+
+Classification: STALL (High Confidence: 94%)
+
+Timeline:
+  15:41:02  Last successful context update
+  15:41:15  External API call initiated (openai/chat)
+  15:42:31  No response received (76s elapsed)
+
+Root Cause Assessment:
+  Primary: Hung external call to OpenAI API
+  Contributing: No timeout configured for provider calls
+
+Recommendations:
+  1. [IMMEDIATE] Restart agent with --force flag
+  2. [CONFIG] Add timeout to provider configuration
+  3. [MONITORING] Consider Sentinel for runtime protection
+
+Evidence Bundle: /tmp/octriage-20260309-154231.tar.gz
+```
+
+## Classification Types
+
+OCTriage recognizes common agent failure patterns:
+
+| Classification | Description |
+|---------------|-------------|
+| **STALL** | Agent stopped making progress |
+| **LOOP** | Agent repeating same actions without advancing |
+| **CRASH** | Agent process terminated unexpectedly |
+| **SILENT_FAIL** | Agent running but not producing expected output |
+| **CONTEXT_OVERFLOW** | Context window exceeded capacity |
+| **PROVIDER_ERROR** | External API/model call failed |
+| **CONFIG_ERROR** | Misconfiguration prevented normal operation |
+| **UNKNOWN** | Pattern not recognized (manual review needed) |
+
+## Evidence Bundles
+
+Every triage generates an evidence bundle containing:
+
+- Relevant log excerpts
+- State snapshots
+- Timeline reconstruction
+- Configuration at time of incident
+
+These bundles are useful for:
+- Post-incident review
+- Sharing with support
+- Compliance documentation
+
+```bash
+# Generate evidence bundle without full triage
+acme triage --bundle-only --output incident-2026-03-09.tar.gz
+```
+
+## Integration with ACME Stack
+
+OCTriage works standalone but integrates with the broader ACME stack:
+
+```
+                          ┌─────────────┐
+                          │  Incident   │
+                          │   Occurs    │
+                          └──────┬──────┘
+                                 │
+                                 ▼
+┌─────────────┐           ┌─────────────┐
+│  Sentinel   │──────────▶│  OCTriage   │
+│  (detects)  │           │  (assess)   │
+└─────────────┘           └──────┬──────┘
+                                 │
+                                 ▼
+                          ┌─────────────┐
+                          │  Agent911   │
+                          │  (respond)  │
+                          └─────────────┘
+```
+
+- **Sentinel** detects the issue and alerts
+- **OCTriage** assesses and classifies
+- **Agent911** coordinates response (if configured)
+
+## CLI Reference
+
+```bash
+# Basic triage
+acme triage
+
+# Specific agent
+acme triage --agent <agent-name>
+
+# From logs
+acme triage --logs <path>
+
+# JSON output
+acme triage --format json
+
+# Bundle only (no analysis)
+acme triage --bundle-only --output <file>
+
+# Verbose (include all checks)
+acme triage --verbose
+```
+
+## When to Use OCTriage
+
+- **Incident response**: First tool to run when something breaks
+- **Post-incident review**: Generate evidence bundles for analysis
+- **Support escalation**: Include triage output when contacting support
+- **Compliance**: Document incident assessment process
+
+## Pricing
+
+OCTriage is **free**. It's part of ACME's trust-first model — free tools help you understand problems, paid tools help you prevent them.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Proactive scanning to catch issues before incidents.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    Runtime protection to detect issues as they happen.
+  </Card>
+</CardGroup>

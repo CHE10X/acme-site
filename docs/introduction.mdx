@@ -1,31 +1,52 @@
 ---
 title: Introduction
-description: "Reliability infrastructure for AI agents"
+description: Reliability infrastructure for AI agents
 ---
 
-# Welcome to ACME Agent Supply Docs
+# Welcome to ACME Docs
 
-Technical documentation for operators running AI agent fleets.
+ACME builds the reliability layer for AI agent systems. We help operators answer the question every team running agents eventually asks:
 
-## What We Build
+> "My agents are running. But are they *reliable*?"
 
-ACME provides the reliability layer your agents need:
+## The Problem
 
-- **RadCheck** — Agent health scoring (0-100)
-- **Sentinel** — Continuous runtime monitoring  
-- **OCTriage** — Entry-point diagnostic terminal
-- **Agent911** — Unified incident cockpit (read-only v0.1)
-- **Lazarus** — Backup readiness verification
+Standard monitoring catches crashes. But agents fail in ways that don't crash:
+- **Silent failures** — the agent looks healthy but stopped making progress
+- **Stalls** — waiting on a response that will never come
+- **Drift** — behavior changes session-to-session without obvious cause
 
-## Quick Start
+These failures don't trigger alerts. They just... happen. And you find out when a user complains or a workflow silently stops.
 
-Documentation is under active development. Check back soon for:
+## The ACME Stack
 
-- Installation guides
-- Product references
-- Troubleshooting guides
-- Architecture overviews
+We provide tools across the reliability lifecycle:
 
----
+| Phase | Tool | What It Does |
+|-------|------|--------------|
+| **Detect** | [RadCheck](/products/radcheck/overview) | Read-only scan, 0-100 reliability score |
+| **Triage** | [OCTriage](/products/octriage/overview) | Entry-point terminal for incident assessment |
+| **Protect** | [Sentinel](/products/sentinel/overview) | Runtime guardrails for stalls and silent failures |
+| **Control** | Agent911 | Unified control plane with recovery guidance |
 
-*Questions? Contact support@acmeagentsupply.com*
+## Getting Started
+
+The fastest path to understanding your agent reliability:
+
+<CardGroup cols={2}>
+  <Card title="5-Minute Quickstart" icon="rocket" href="/quickstart">
+    Install observational mode. Get your first RadCheck score.
+  </Card>
+  <Card title="RadCheck Overview" icon="magnifying-glass" href="/products/radcheck/overview">
+    Understand what RadCheck scans and how scores work.
+  </Card>
+</CardGroup>
+
+## Free vs Paid
+
+ACME follows a trust-first model:
+
+- **Free**: RadCheck (scan), OCTriage (triage), Lazarus Lite (backup check)
+- **Paid**: Sentinel (runtime protection), Agent911 (control plane)
+
+Free tools build trust. Paid tools solve the problem at scale.

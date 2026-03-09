@@ -1,0 +1,131 @@
+---
+title: Score Explained
+description: How RadCheck calculates your reliability score
+---
+
+# RadCheck Score Explained
+
+Your RadCheck score is a composite of four components, each contributing up to 25 points for a maximum of 100.
+
+## Score Components
+
+### Stall Risk (0-25 points)
+
+Measures patterns that indicate potential hangs or infinite loops.
+
+**What we check:**
+- Recursive call patterns without exit conditions
+- Unbounded retry loops
+- Blocking operations without timeouts
+- Deadlock-prone resource access patterns
+
+**Scoring:**
+- 25: No stall patterns detected
+- 15-24: Minor concerns (e.g., missing timeouts on non-critical paths)
+- 5-14: Moderate risk (e.g., retry loops without backoff)
+- 0-4: High risk (e.g., detected infinite loop patterns)
+
+### Silence Gaps (0-25 points)
+
+Identifies unexpected periods of inactivity that may indicate silent failures.
+
+**What we check:**
+- Time between context updates
+- Heartbeat regularity (if configured)
+- Response latency patterns
+- Activity gaps that exceed expected bounds
+
+**Scoring:**
+- 25: Activity patterns consistent and within bounds
+- 15-24: Occasional gaps, likely benign
+- 5-14: Frequent or long gaps suggesting reliability concerns
+- 0-4: Extended silence periods indicating likely failures
+
+### Compaction Pressure (0-25 points)
+
+Evaluates context window utilization and memory management.
+
+**What we check:**
+- Context window fill percentage
+- Compaction frequency and efficiency
+- Memory growth patterns
+- Token budget management
+
+**Scoring:**
+- 25: Context well-managed, compaction healthy
+- 15-24: Approaching limits but stable
+- 5-14: Frequent compaction, potential information loss
+- 0-4: Context overflow risk, aggressive compaction
+
+### Hygiene (0-25 points)
+
+Assesses configuration best practices and common misconfigurations.
+
+**What we check:**
+- Provider fallback configuration
+- Error handling completeness
+- Logging and observability setup
+- Security configuration (API key management, etc.)
+
+**Scoring:**
+- 25: Best practices followed
+- 15-24: Minor gaps in configuration
+- 5-14: Several misconfigurations present
+- 0-4: Critical configuration issues
+
+## Interpreting Your Score
+
+### Overall Score Bands
+
+| Range | Band | Action |
+|-------|------|--------|
+| 80-100 | 🟢 GREEN | Maintain current practices. Schedule periodic re-scans. |
+| 60-79 | 🟡 YELLOW | Review specific warnings. Address within 1-2 weeks. |
+| 40-59 | 🟠 ORANGE | Prioritize fixes. Consider adding Sentinel for protection. |
+| 0-39 | 🔴 RED | Immediate action required. Do not deploy without addressing. |
+
+### Component-Level Analysis
+
+A low overall score with one component dragging it down is different from evenly distributed issues:
+
+- **Single low component**: Focused remediation. Fix the specific area.
+- **Multiple low components**: Systemic issues. Review architecture.
+
+## Common Findings
+
+### "Silence gap detected: Xs between context updates"
+
+Your agent went X seconds without updating context. This might be:
+- Normal (long-running computation)
+- Concerning (waiting on a hung external call)
+
+**Fix:** Add heartbeat logging or reduce timeout thresholds.
+
+### "Missing retry configuration in provider fallback"
+
+Your provider fallback doesn't include retry logic, meaning transient failures cascade.
+
+**Fix:** Add exponential backoff retry to your provider configuration.
+
+### "Context utilization at X%"
+
+You're using X% of available context window. Above 80% starts impacting quality.
+
+**Fix:** Review context compaction strategy or reduce context size.
+
+## Trending Your Score
+
+Run RadCheck regularly and track scores over time:
+
+```bash
+# Save to file with timestamp
+acme radcheck --format json > "radcheck-$(date +%Y%m%d).json"
+```
+
+A declining score trend indicates reliability degradation before incidents occur.
+
+## Next Steps
+
+<Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+RadCheck shows risk. Sentinel protects against it continuously.
+</Card>
