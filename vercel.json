@@ -4,5 +4,27 @@
       "main": true,
       "web/homepage-4plus1": true
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/legal/terms/",
+      "destination": "/legal/terms-of-service/",
+      "permanent": true
+    },
+    {
+      "source": "/legal/terms",
+      "destination": "/legal/terms-of-service/",
+      "permanent": true
+    },
+    {
+      "source": "/legal/privacy/",
+      "destination": "/legal/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/legal/privacy",
+      "destination": "/legal/privacy-policy/",
+      "permanent": true
+    }
+  ]
 }

@@ -14,7 +14,7 @@ By using our Services, you confirm that you are at least 18 years old, have the 
 
 ## 2. Services
 
-ACME provides AI agent reliability software including RadCheck, Sentinel, Agent911, and related tools. The Services are provided "as is" and we reserve the right to modify, suspend, or discontinue them at any time with reasonable notice.
+ACME provides AI agent reliability software including RadCheck, Sentinel, Agent911, SphinxGate, DriftGuard, Watchdog, Lazarus, Transmission, FindMyAgent, and related tools. The Services are provided "as is" and we reserve the right to modify, suspend, or discontinue them at any time with reasonable notice.
 
 ## 3. Accounts
 
