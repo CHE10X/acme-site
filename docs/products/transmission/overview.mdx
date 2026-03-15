@@ -1,0 +1,228 @@
+---
+title: Transmission Overview
+description: Signal transport integrity across the ACME reliability stack
+---
+
+# Transmission
+
+Transmission ensures that reliability signals — detections, alerts, incident events, recovery state — move correctly between components of the ACME stack. It's the connective tissue that keeps your reliability infrastructure coherent.
+
+## Why Signal Integrity Matters
+
+Each component in the ACME stack produces signals: Sentinel detects a stall, Watchdog misses a heartbeat, OCTriage classifies an incident. For your reliability infrastructure to work as a whole, those signals need to:
+
+- **Arrive** — reach the right destination
+- **Arrive intact** — not corrupted or truncated in transit
+- **Arrive in order** — timelines must be reconstructible
+- **Arrive once** — no duplicated events inflating incident counts
+
+Without this, your tools disagree. Agent911 shows one state; Sentinel shows another. You spend incident time debugging your monitoring, not your agents.
+
+**Transmission solves this.**
+
+## What Transmission Does
+
+<CardGroup cols={2}>
+  <Card title="Event Delivery Guarantees" icon="circle-check">
+    At-least-once delivery with deduplication. Events arrive, or you know they didn't.
+  </Card>
+  <Card title="Order Preservation" icon="list-ol">
+    Detection events, classification results, and recovery state maintained in sequence.
+  </Card>
+  <Card title="Coherence Verification" icon="check-double">
+    Validates that signal consumers (Agent911, alert channels) received what was sent.
+  </Card>
+  <Card title="Dead Letter Handling" icon="inbox">
+    Failed deliveries captured and surfaced for operator review — nothing silently dropped.
+  </Card>
+</CardGroup>
+
+## Signal Architecture
+
+Transmission operates as the transport layer between ACME components:
+
+```
+┌──────────────┐    ┌────────────────────┐    ┌──────────────────┐
+│  Sentinel    │───▶│                    │───▶│    Agent911      │
+│  Watchdog    │───▶│   Transmission     │───▶│    Alert Channel │
+│  DriftGuard  │───▶│   Signal Router    │───▶│    Webhooks      │
+│  SphinxGate  │───▶│                    │───▶│    Operator CLI  │
+└──────────────┘    └────────────────────┘    └──────────────────┘
+                             │
+                    ┌────────▼────────┐
+                    │  Event Journal  │
+                    │  (append-only)  │
+                    └─────────────────┘
+```
+
+The event journal is the source of truth. Every signal from every component is written there before delivery. This enables:
+
+- **Replay** — reconstruct exactly what happened and when
+- **Audit** — prove what signals were sent and received
+- **Recovery** — resume delivery after a disruption without losing events
+
+## Signal Types
+
+Transmission handles four categories of reliability signal:
+
+| Category | Examples |
+|----------|---------|
+| **Detection events** | Stall detected, heartbeat missed, drift alert, routing anomaly |
+| **Classification results** | OCTriage incident classification, confidence score, evidence bundle path |
+| **State transitions** | Agent health change, recovery started, recovery verified |
+| **Operator actions** | Snapshot triggered, playbook started, bundle exported |
+
+Each signal type has a defined schema, ensuring consumers know exactly what they're receiving.
+
+## Delivery Channels
+
+Transmission routes signals to configured destinations:
+
+```yaml
+# ~/.acme/transmission.yaml
+channels:
+  agent911:
+    enabled: true
+    endpoint: local            # Local Agent911 instance
+
+  webhooks:
+    - name: "pagerduty"
+      url: https://events.pagerduty.com/v2/enqueue
+      secret: ${PAGERDUTY_KEY}
+      filter:
+        severity: [HIGH, CRITICAL]   # Only escalate high-severity events
+
+    - name: "slack-alerts"
+      url: https://hooks.slack.com/services/...
+      filter:
+        types: [STALL, CRASH, RECOVERY_FAILED]
+
+  email:
+    enabled: true
+    to: oncall@yourcompany.com
+    filter:
+      severity: [CRITICAL]
+```
+
+## Event Journal
+
+Every event is appended to the Transmission journal before delivery:
+
+```
+/var/acme/transmission/journal/
+  events-2026-03-09.jsonl
+  events-2026-03-10.jsonl
+  ...
+```
+
+Journal format:
+```json
+{
+  "event_id": "evt_9xk2m4",
+  "timestamp": "2026-03-09T15:42:31Z",
+  "source": "sentinel",
+  "type": "STALL_DETECTED",
+  "agent": "support-agent-prod",
+  "severity": "HIGH",
+  "payload": { "duration_seconds": 262, "provider": "openai" },
+  "delivery": {
+    "agent911": { "status": "delivered", "at": "2026-03-09T15:42:31.08Z" },
+    "webhooks": [
+      { "name": "pagerduty", "status": "delivered", "at": "2026-03-09T15:42:31.12Z" }
+    ]
+  }
+}
+```
+
+## Dead Letters
+
+If a signal fails to deliver after retries, it's placed in the dead letter queue — not silently dropped:
+
+```bash
+# View dead letter queue
+acme transmission dead-letters
+
+# Retry failed deliveries
+acme transmission retry --channel webhooks
+
+# Inspect a specific failed event
+acme transmission inspect evt_9xk2m4
+```
+
+Dead letters are surfaced in the CLI and optionally in Agent911.
+
+## Quick Start
+
+```bash
+# Check Transmission status
+acme transmission status
+
+# View event journal (recent)
+acme transmission log --tail 20
+
+# Verify delivery for a specific agent
+acme transmission verify --agent my-agent-name
+
+# Test channel delivery
+acme transmission test --channel pagerduty
+```
+
+## CLI Reference
+
+```bash
+# Status
+acme transmission status
+acme transmission status --format json
+
+# Event log
+acme transmission log
+acme transmission log --tail 50 --follow
+acme transmission log --since 1h
+acme transmission log --type STALL_DETECTED --format json
+
+# Journal
+acme transmission journal list
+acme transmission journal export --date 2026-03-09 --output events.jsonl
+
+# Delivery management
+acme transmission verify --agent <name>
+acme transmission dead-letters
+acme transmission retry --all
+acme transmission test --channel <name>
+
+# Configuration
+acme transmission config show
+acme transmission config validate
+```
+
+## Integration
+
+Transmission doesn't require configuration if you're only using ACME tools locally — it operates as an internal transport layer by default. You configure it explicitly when:
+
+- **Connecting to external channels** (PagerDuty, Slack, email, custom webhooks)
+- **Running multi-machine deployments** where components are on different hosts
+- **Enabling compliance logging** that needs verifiable delivery receipts
+- **Replaying events** after a disruption or missed alert window
+
+## Pricing
+
+Transmission is a paid product, included with the [Operator Bundle](/products/operator-bundle) or available standalone.
+
+See [Pricing](/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
+    Primary consumer of Transmission signals — the unified control plane.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    Primary producer of runtime detection events.
+  </Card>
+  <Card title="SphinxGate" icon="shield-check" href="/products/sphinxgate/overview">
+    Routing anomalies are routed through Transmission to consumers.
+  </Card>
+  <Card title="Operator Bundle" icon="box" href="/products/operator-bundle">
+    Transmission is included in the full Operator Bundle.
+  </Card>
+</CardGroup>

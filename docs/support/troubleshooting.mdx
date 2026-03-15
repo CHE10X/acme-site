@@ -1,0 +1,175 @@
+---
+title: Troubleshooting
+description: When things feel off — start here to understand what's happening and what to do about it.
+---
+
+# Troubleshooting
+
+Something doesn't feel right with your agents. This page helps you figure out what's happening and get ACME's diagnostic tools working for you.
+
+## Start Here: Generate a Diagnostic Bundle
+
+Before reaching out to support, generate a diagnostic bundle. This gives you (and us) everything needed to understand your situation:
+
+```bash
+acme support bundle
+```
+
+The bundle collects:
+- Recent reliability signals and detection history
+- Protection activity from Sentinel/Watchdog (if active)
+- Routing posture from SphinxGate (if configured)
+- Compaction and context indicators
+- OCTriage output for recent incidents
+
+**What it does NOT collect:**
+- API keys or tokens
+- Secret values or credentials
+- Contents of `openclaw.json` or equivalent config files
+
+The bundle is generated locally. Nothing is sent anywhere until you share it.
+
+---
+
+## Common Situations
+
+### My agent looks healthy but isn't making progress
+
+This is a stall — one of the most common agent failure modes. The process is alive, but work isn't advancing.
+
+**Step 1: Run OCTriage**
+```bash
+acme triage --agent <your-agent-name>
+```
+
+OCTriage will classify the failure and give you a recommended next step.
+
+**Step 2: Check if Sentinel is running**
+```bash
+acme sentinel status
+```
+
+If Sentinel isn't running, it won't have caught the stall. Start it with `acme sentinel start` for future protection.
+
+**Step 3: Look for hung external calls**
+
+A stalled agent is often waiting on a model API call that never returned. Check your agent's logs for the last outgoing API call — if there's no corresponding response, that's your culprit.
+
+---
+
+### My RadCheck score is worse than last time
+
+A declining RadCheck score means new risk factors were detected or existing ones worsened.
+
+**Run RadCheck with verbose output:**
+```bash
+acme radcheck --verbose
+```
+
+Compare the component breakdown to your previous scan. The specific component that declined tells you where to focus:
+
+| Component dropped | What to investigate |
+|------------------|---------------------|
+| Stall Risk | New retry patterns? Removed timeouts? |
+| Silence Gaps | New long-running operations? Changed heartbeat config? |
+| Compaction | Context usage increasing? Memory leaks? |
+| Hygiene | Config changes? New dependencies? |
+
+---
+
+### Sentinel is alerting but I don't know what to do
+
+Sentinel detected something — now what?
+
+**Step 1: Check the alert context**
+```bash
+acme sentinel log --tail 20
+```
+
+The alert context tells you which agent, what pattern, and when.
+
+**Step 2: Pull an Agent911 snapshot**
+```bash
+acme agent911 snapshot
+```
+
+Agent911 aggregates the Sentinel detection with other signals and gives you prioritized recommended actions.
+
+**Step 3: Run OCTriage on the affected agent**
+```bash
+acme triage --agent <agent-name>
+```
+
+OCTriage classifies the specific failure and tells you the concrete next step.
+
+---
+
+### OCTriage says "UNKNOWN" — pattern not recognized
+
+This happens with unusual failure patterns. Here's how to handle it:
+
+1. Generate a diagnostic bundle: `acme support bundle`
+2. Note any recent changes to your agent configuration
+3. Check if your agent framework version changed recently
+4. [Contact support](/support/contact) with the bundle attached — UNKNOWN patterns are something we want to learn from
+
+---
+
+### Agent911 shows "UNKNOWN" status for an agent
+
+This typically means Agent911 can't see the agent — usually a Sentinel connectivity issue.
+
+**Check Sentinel status:**
+```bash
+acme sentinel status
+acme sentinel log --tail 10
+```
+
+If Sentinel isn't connected, Agent911 has no visibility. Restart Sentinel if needed: `acme sentinel restart`
+
+---
+
+### I can't connect to the ACME CLI after install
+
+**Verify the install:**
+```bash
+which acme
+acme --version
+```
+
+If `acme` isn't found, the install didn't complete or the binary isn't in your PATH.
+
+**Re-run the installer:**
+```bash
+curl -fsSL https://acmeagentsupply.com/install.sh | bash
+```
+
+After install, restart your terminal or run:
+```bash
+source ~/.bashrc   # Linux
+source ~/.zshrc    # macOS
+```
+
+---
+
+## Getting Help
+
+If troubleshooting here doesn't resolve your situation:
+
+<CardGroup cols={2}>
+  <Card title="Live Chat" icon="message" href="https://acmeagentsupply.com/support">
+    Chat with the support team on the support page. Have your diagnostic bundle ready.
+  </Card>
+  <Card title="Email Support" icon="envelope" href="mailto:support@acmeagentsupply.com">
+    Send your diagnostic bundle to support@acmeagentsupply.com
+  </Card>
+</CardGroup>
+
+When contacting support, include:
+1. Your diagnostic bundle (`acme support bundle`)
+2. Your ACME CLI version (`acme --version`)
+3. Your operating environment (macOS / Linux / Docker / k8s)
+4. What you were doing when the issue occurred
+5. What you expected vs. what happened
+
+The more context you provide, the faster we can help.

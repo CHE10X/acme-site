@@ -1,0 +1,180 @@
+---
+title: Agent911 — Snapshot Explained
+description: What's in a reliability snapshot and how to read it
+---
+
+# Snapshot Explained
+
+A **snapshot** is Agent911's core output: a unified, point-in-time picture of your agent system's reliability state. It's designed to answer one question:
+
+> "What is happening right now, and what should I do next?"
+
+## Anatomy of a Snapshot
+
+A snapshot has five sections:
+
+```
+Agent911 Snapshot
+=================
+Generated: 2026-03-15 13:44:02 UTC
+Agent(s):  support-agent-prod, pipeline-agent-01
+
+① Health Summary       ② Anomaly Correlation
+③ Governance Status    ④ Recovery Readiness
+⑤ Recommended Playbook
+```
+
+### ① Health Summary
+
+The current liveness and behavioral state of each monitored agent:
+
+```
+Health Summary
+──────────────
+support-agent-prod      DEGRADED   (stall detected, 4m ago)
+pipeline-agent-01       HEALTHY    (last heartbeat: 12s ago)
+radcheck-worker         HEALTHY    (last scan: 6 min ago)
+```
+
+Each agent shows:
+- **HEALTHY** — active, progressing, heartbeat current
+- **DEGRADED** — running but showing risk signals
+- **STALLED** — no progress detected within threshold
+- **OFFLINE** — no signal received
+
+### ② Anomaly Correlation
+
+Agent911 doesn't just list raw alerts — it groups them into correlated events:
+
+```
+Anomalies
+─────────
+[CORRELATED EVENT — HIGH CONFIDENCE]
+  15:41:02  Sentinel: silence gap detected (support-agent-prod)
+  15:41:15  Watchdog: missed heartbeat (support-agent-prod)
+  15:42:31  Sentinel: stall confirmed (support-agent-prod)
+  Correlation: STALL — single root cause suspected
+
+[INFORMATIONAL]
+  13:30:00  DriftGuard: minor behavioral delta from 24h baseline
+            (within normal variance — no action required)
+```
+
+<Info>
+Correlated events reduce noise. Three separate alerts about the same underlying issue appear as one event, not three things to investigate separately.
+</Info>
+
+### ③ Governance Status
+
+If [SphinxGate](/products/sphinxgate/overview) is configured, this section shows current routing policy state:
+
+```
+Governance (SphinxGate)
+───────────────────────
+Active policy:    production-v2
+Provider usage:   openai/gpt-4o (primary) — ALLOWED
+                  anthropic/claude-sonnet (fallback) — ALLOWED
+Last routing:     15:44:01 UTC — openai/gpt-4o
+Audit log:        /var/log/acme/sphinxgate/routing-2026-03-15.log
+```
+
+If SphinxGate is not configured, this section shows `NOT CONFIGURED`.
+
+### ④ Recovery Readiness
+
+If [Lazarus](/products/lazarus/overview) is configured, this section shows your current backup posture:
+
+```
+Recovery Readiness (Lazarus)
+────────────────────────────
+Last readiness check:    2026-03-15 06:00:00 UTC
+Overall readiness:       READY (4/4 surfaces verified)
+
+Surfaces:
+  Agent config files     ✓ BACKED UP   (2h ago)
+  Session state          ✓ BACKED UP   (2h ago)
+  Tool configurations    ✓ BACKED UP   (2h ago)
+  Provider credentials   ✓ BACKED UP   (2h ago)
+```
+
+<Warning>
+If Lazarus reports a surface as **NOT VERIFIED**, resolve it before attempting recovery. Unverified backups may not restore cleanly.
+</Warning>
+
+### ⑤ Recommended Playbook
+
+Based on the anomaly correlation, Agent911 recommends the appropriate recovery playbook:
+
+```
+Recommended Playbook: STALL_RECOVERY_v2
+────────────────────────────────────────
+Confidence: 91% (stall pattern, single agent)
+
+Step 1: Confirm Sentinel alert context (see: Anomalies section above)
+Step 2: Check external API status for affected agent
+Step 3: Run `acme radcheck --agent support-agent-prod`
+Step 4: Verify Lazarus readiness (status: READY ✓)
+Step 5: Restart agent: `acme agent restart support-agent-prod`
+Step 6: Confirm Watchdog liveness within 60s post-restart
+Step 7: Monitor Sentinel for recurrence over next 15 minutes
+```
+
+## Snapshot Freshness
+
+Snapshots reflect system state at the moment they're generated. Signals older than 5 minutes are marked `[STALE]`.
+
+For incidents in progress, regenerate frequently:
+
+```bash
+# Refresh snapshot
+acme agent911 snapshot
+
+# Auto-refresh every 30 seconds
+acme agent911 snapshot --watch --interval 30
+```
+
+## Exporting Snapshots
+
+Snapshots can be exported as proof bundles for compliance, post-incident review, or support escalation:
+
+```bash
+# Export current snapshot as proof bundle
+acme agent911 bundle --output incident-$(date +%Y%m%d-%H%M%S).tar.gz
+
+# Export with full log context
+acme agent911 bundle --verbose --output full-incident.tar.gz
+```
+
+A proof bundle includes:
+- The snapshot JSON
+- All referenced log excerpts
+- Correlation analysis output
+- Lazarus readiness report (if configured)
+- Governance audit entries (if SphinxGate is configured)
+
+## Snapshot via CLI
+
+```bash
+# Human-readable snapshot
+acme agent911 snapshot
+
+# JSON output (for scripting or CI)
+acme agent911 snapshot --format json
+
+# Specific agent only
+acme agent911 snapshot --agent <name>
+
+# Save to file
+acme agent911 snapshot --output snapshot.json
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Agent911 Overview" icon="tower-broadcast" href="/products/agent911/overview">
+    Back to the full Agent911 feature overview.
+  </Card>
+  <Card title="Lazarus" icon="rotate" href="/products/lazarus/overview">
+    Understand and improve your recovery readiness score.
+  </Card>
+</CardGroup>

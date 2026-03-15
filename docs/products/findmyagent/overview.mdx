@@ -1,0 +1,168 @@
+---
+title: FindMyAgent Overview
+description: Live agent presence, heartbeat visibility, and "needs attention" signals for your fleet
+---
+
+# FindMyAgent
+
+When you're running multiple agents, the first question is always: *"Who's actually working right now?"* FindMyAgent answers that — live presence, heartbeat age, and stall flags for every agent in your fleet.
+
+<Info>
+FindMyAgent is **included with Agent911**. It is visibility only — it does not control, restart, or modify agents.
+</Info>
+
+## Quick Start
+
+```bash
+# Show all agents and their current presence state
+acme findmyagent
+
+# Filter to only agents needing attention
+acme findmyagent --filter attention
+
+# Watch mode (refreshes every 15s)
+acme findmyagent --watch
+```
+
+## Output
+
+```
+FindMyAgent — Fleet Overview
+=============================
+Last updated: 2026-03-15 15:42:31 UTC
+
+Active Agents (3 total):
+
+  ● pipeline-agent        ACTIVE     ████████████  last seen: 8s ago
+  ⚠ support-agent-prod   STALLED    ████░░░░░░░░  no progress: 4m 17s  ← ATTENTION
+  ● indexer-agent         ACTIVE     ████████████  last seen: 4s ago
+
+  ○ staging-agent         OFFLINE    ────────────  not reporting
+
+Summary:
+  Active: 2  |  Stalled: 1  |  Offline: 1  |  Needs attention: 1
+```
+
+## Presence States
+
+| State | Symbol | Meaning |
+|-------|--------|---------|
+| `ACTIVE` | ● | Reporting regular heartbeats; making progress |
+| `STALLED` | ⚠ | Heartbeat present but no meaningful progress |
+| `SILENT` | ✕ | No heartbeats or activity detected |
+| `OFFLINE` | ○ | Not reporting — Sentinel may not be running |
+| `RECOVERING` | ↑ | Was stalled; progress has resumed |
+
+## Presence vs. Liveness
+
+FindMyAgent and [Watchdog](/products/watchdog/overview) address related but distinct questions:
+
+| Tool | Question Answered |
+|------|------------------|
+| **Watchdog** | *Is this agent alive and making progress?* |
+| **FindMyAgent** | *Where are my agents, and does my team know?* |
+
+Watchdog is process-level liveness. FindMyAgent is operator-level awareness. Both are valuable; they're not interchangeable.
+
+## What "Needs Attention" Means
+
+An agent is flagged as **needs attention** when:
+
+1. **STALLED** — No meaningful progress for more than the configured threshold (default: 5 minutes)
+2. **SILENT** — No heartbeat received within 2× the expected heartbeat interval
+3. **STALLED + HIGH DETECTION** — Sentinel has flagged a high-confidence issue on this agent
+
+Agents in `OFFLINE` state are shown but not flagged as needing attention — this typically means FindMyAgent can't see them, not that they've failed.
+
+## The Heartbeat Progress Bar
+
+The bar beside each agent shows activity density over the last 15 minutes:
+
+```
+████████████  = Continuous activity (healthy)
+████░░░░░░░░  = Activity stopped 4+ minutes ago (stalled)
+────────────  = No data (offline or not reporting)
+```
+
+Each block represents approximately 75 seconds. A full bar with no gaps is ideal for long-running agents.
+
+## Filtering
+
+```bash
+# Show only stalled agents
+acme findmyagent --filter stalled
+
+# Show only agents needing attention
+acme findmyagent --filter attention
+
+# Show only offline agents
+acme findmyagent --filter offline
+
+# Show a specific agent
+acme findmyagent --agent support-agent-prod
+```
+
+## Configuring Heartbeat Thresholds
+
+FindMyAgent uses Sentinel's heartbeat configuration. Adjust thresholds in your Sentinel config:
+
+```yaml
+# ~/.acme/sentinel.yaml
+findmyagent:
+  stall_threshold: 300        # seconds before marking STALLED (default: 300)
+  offline_threshold: 120      # seconds without heartbeat to mark OFFLINE (default: 120)
+  attention_severity: medium  # minimum Sentinel detection severity for attention flag
+```
+
+## FindMyAgent in the Agent911 Surface
+
+FindMyAgent data is embedded directly in the Agent911 snapshot. You don't need to run them separately:
+
+```bash
+# FindMyAgent standalone
+acme findmyagent
+
+# FindMyAgent via Agent911 snapshot (same data, more context)
+acme agent911 snapshot
+```
+
+## When to Use FindMyAgent
+
+- **Morning check-in**: Know the state of your fleet before your day starts
+- **On-call handoff**: Confirm all agents are healthy before handing off
+- **Post-deploy verification**: Confirm new agents registered and are active
+- **Fleet scaling**: Track that newly-spawned agents are checking in correctly
+
+## CLI Reference
+
+```bash
+# Basic fleet overview
+acme findmyagent
+
+# Watch mode
+acme findmyagent --watch
+acme findmyagent --watch --interval 30
+
+# Filtering
+acme findmyagent --filter [stalled|active|offline|attention]
+acme findmyagent --agent <name>
+
+# Output formats
+acme findmyagent --format json
+acme findmyagent --format table  (default)
+```
+
+## Pricing
+
+FindMyAgent is **included with Agent911**. No separate license required.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
+    Full control plane including snapshot, history, and proof bundles.
+  </Card>
+  <Card title="Watchdog" icon="heart-pulse" href="/products/watchdog/overview">
+    Process-level liveness supervision alongside presence tracking.
+  </Card>
+</CardGroup>

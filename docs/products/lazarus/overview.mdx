@@ -1,0 +1,181 @@
+---
+title: Lazarus Overview
+description: Prove your agents can actually recover before an incident forces the test
+---
+
+# Lazarus
+
+Lazarus is ACME's free recovery readiness tool. It maps your agent backup coverage, validates restore assumptions, and tells you whether your system can actually recover before you need to find out the hard way.
+
+<Info>
+Lazarus is **free**. Recovery confidence shouldn't cost anything — this is ACME's trust-first tool for teams who need to know their safety net is real.
+</Info>
+
+## The Problem Lazarus Solves
+
+Most teams assume they can recover from a failure. Lazarus tests that assumption.
+
+Common recovery failures in agent systems:
+- **Backup exists, restore fails** — the backup was created but the restore path was never tested
+- **State is partial** — memory or session state wasn't included in backup scope
+- **Recovery is undocumented** — no one knows the steps, and the steps turn out to matter
+- **Confidence is misplaced** — "we have backups" turns into "backups don't cover what broke"
+
+Lazarus surfaces these gaps before an incident forces you to discover them.
+
+## What Lazarus Does
+
+<CardGroup cols={2}>
+  <Card title="Coverage Mapping" icon="map">
+    Identifies which runtime surfaces are covered by backup and which are not.
+  </Card>
+  <Card title="Restore Validation" icon="circle-check">
+    Tests whether restore assumptions are actually valid.
+  </Card>
+  <Card title="Gap Detection" icon="triangle-exclamation">
+    Highlights specific gaps that could block recovery in a real incident.
+  </Card>
+  <Card title="Readiness Signals" icon="gauge">
+    Produces a readiness posture summary for operators and Agent911.
+  </Card>
+</CardGroup>
+
+## What Lazarus Does NOT Do
+
+<Warning>
+Lazarus is **non-destructive**. It does not modify live systems, delete data, or perform autonomous restoration.
+</Warning>
+
+- No autonomous restoration
+- No live-system mutation by default
+- No destructive operations
+- No changes to agent runtime state
+
+## Quick Start
+
+```bash
+# Run a readiness check
+acme lazarus check
+
+# Check a specific agent
+acme lazarus check --agent my-agent-name
+
+# Full report with gap details
+acme lazarus check --verbose
+```
+
+## Sample Output
+
+```
+Lazarus Recovery Readiness Check
+=================================
+Timestamp: 2026-03-09 10:15:00 UTC
+Agent: pipeline-agent
+
+Recovery Readiness: 87%
+
+Coverage:
+  ✓ Gateway config          COVERED
+  ✓ Agent memory (MEMORY.md) COVERED
+  ✓ Session history          COVERED
+  ⚠ Tool credentials         PARTIAL (2 of 4 secrets mapped)
+  ✗ Custom plugin state      NOT COVERED
+
+Restore Assumptions:
+  ✓ Backup path accessible
+  ✓ Restore script present
+  ⚠ Script untested for 14 days
+
+Recommendations:
+  1. [GAP] Map remaining 2 tool credentials to backup scope
+  2. [ACTION] Run restore dry-run — script untested
+  3. [REVIEW] Add custom plugin state to backup target list
+
+Readiness Signal: PARTIAL (87%)
+```
+
+## Readiness Score
+
+| Score | Status | Meaning |
+|-------|--------|---------|
+| 90–100% | ✅ Ready | High confidence in recovery path |
+| 70–89% | ⚠ Partial | Recoverable, but with gaps — fix before next deployment |
+| 50–69% | 🟠 Gaps | Meaningful coverage missing — run before relying on it |
+| Below 50% | 🔴 At Risk | Recovery likely to fail in a real incident |
+
+## Coverage Scope
+
+Lazarus evaluates backup coverage for these runtime surfaces:
+
+| Surface | What It Covers |
+|---------|---------------|
+| Gateway config | `~/.openclaw/openclaw.json` and related configuration |
+| Agent memory | `MEMORY.md`, `memory/*.md` state files |
+| Session history | Conversation and tool call history |
+| Tool credentials | API keys and auth profiles |
+| Custom plugins | Installed skill and plugin state |
+| Workspace | Project files and active work context |
+
+## CLI Reference
+
+```bash
+# Basic readiness check
+acme lazarus check
+
+# Check specific agent
+acme lazarus check --agent <agent-name>
+
+# Verbose — include all gap details
+acme lazarus check --verbose
+
+# JSON output (for Agent911 integration)
+acme lazarus check --format json
+
+# Dry-run restore test
+acme lazarus restore --dry-run --agent <agent-name>
+
+# List backup coverage map
+acme lazarus coverage
+```
+
+## Integration with Agent911
+
+Lazarus feeds recovery readiness posture directly into the [Agent911 snapshot](/products/agent911/snapshot-explained). When you run `acme agent911 snapshot`, the **Recovery Readiness** field reflects the last Lazarus check.
+
+```bash
+# Re-validate before relying on recovery posture
+acme lazarus check
+
+# Then check posture in Agent911
+acme agent911 snapshot
+```
+
+If your Agent911 snapshot shows a recovery readiness score older than 24 hours, re-run Lazarus to refresh it.
+
+## When to Run Lazarus
+
+- **Before major changes** — before a deploy, config change, or upgrade
+- **After incidents** — confirm your recovery path wasn't affected
+- **Periodically** — weekly is recommended as part of reliability hygiene
+- **Before relying on Agent911 recovery guidance** — ensure readiness is current
+
+## Pricing
+
+Lazarus is **free**. No account required for basic readiness checks.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Get your baseline reliability score. Good starting point before Lazarus.
+  </Card>
+  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
+    Lazarus feeds readiness posture into the Agent911 control plane.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    Add runtime protection to complement recovery readiness.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Get the full ACME stack running in 5 minutes.
+  </Card>
+</CardGroup>

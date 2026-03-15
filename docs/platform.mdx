@@ -1,0 +1,194 @@
+---
+title: Platform Overview
+description: How the ACME reliability stack fits together
+---
+
+# Platform Overview
+
+ACME is a reliability stack for AI agent operators. The products aren't a bundle of unrelated tools — they form a coherent system designed around how agent failures actually happen and how operators actually respond to them.
+
+## The Reliability Loop
+
+Agent reliability follows a loop. ACME tools map to each phase:
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│   ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌───────┐ │
+│   │  DETECT  │───▶│  TRIAGE  │───▶│ RECOVER  │───▶│VERIFY │ │
+│   └──────────┘    └──────────┘    └──────────┘    └───────┘ │
+│        │               │               │               │    │
+│   RadCheck         OCTriage        Agent911         Lazarus  │
+│   Sentinel         DriftGuard      Watchdog                  │
+│   Watchdog         SphinxGate                               │
+│   FindMyAgent                                               │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+                    ▲                               │
+                    └───────────────────────────────┘
+                         Transmission (signal bus)
+```
+
+Every tool has a defined place in this loop. No tool overlaps with another in responsibility. Each handoff is explicit.
+
+## Layer by Layer
+
+### Detect
+
+Tools that identify problems — before users do.
+
+| Tool | What It Detects |
+|------|----------------|
+| [RadCheck](/products/radcheck/overview) | Point-in-time reliability risk (0–100 score) |
+| [Sentinel](/products/sentinel/overview) | Real-time stalls, silence gaps, runtime anomalies |
+| [Watchdog](/products/watchdog/overview) | Missed heartbeats, liveness failures, throughput collapse |
+| [DriftGuard](/products/driftguard/overview) | Long-horizon behavioral drift across sessions |
+| [FindMyAgent](/products/findmyagent/overview) | Fleet presence — who's up, who's stalled, who needs attention |
+| [SphinxGate](/products/sphinxgate/overview) | Unauthorized routing, policy violations, audit anomalies |
+
+### Triage
+
+Tools that help you understand what happened and what to do.
+
+| Tool | What It Classifies |
+|------|-------------------|
+| [OCTriage](/products/octriage/overview) | Incident type, root cause, evidence bundle, next steps |
+| [DriftGuard](/products/driftguard/overview) | Drift patterns and memory integrity issues |
+
+### Recover
+
+Tools that coordinate and guide recovery.
+
+| Tool | What It Provides |
+|------|----------------|
+| [Agent911](/products/agent911/overview) | Unified control plane — telemetry, playbooks, proof bundles |
+| [Watchdog](/products/watchdog/overview) | Escalation and handoff to recovery workflow |
+
+### Verify
+
+Tools that confirm recovery was actually successful.
+
+| Tool | What It Verifies |
+|------|----------------|
+| [Lazarus](/products/lazarus/overview) | Recovery readiness — can your system actually restore? |
+
+### Signal Bus
+
+| Tool | Role |
+|------|------|
+| [Transmission](/products/transmission/overview) | Moves reliability signals between all components with delivery guarantees |
+
+---
+
+## Common Deployment Patterns
+
+### Starting Out: Free Baseline
+
+For teams just getting started with agent reliability.
+
+```
+RadCheck → OCTriage → Lazarus
+```
+
+- Run RadCheck to understand your current state
+- Use OCTriage when incidents happen
+- Run Lazarus to verify you can recover
+
+**Cost:** Free.
+
+---
+
+### Production Protection: Core Stack
+
+For teams running production agents that need runtime protection.
+
+```
+Sentinel + Watchdog → Agent911 + FindMyAgent
+       ↓                      ↓
+  Detection layer      Response layer
+```
+
+- Sentinel catches runtime anomalies continuously
+- Watchdog verifies liveness and escalates
+- Agent911 provides the response surface with guided playbooks
+- FindMyAgent gives fleet-wide visibility
+
+**Best for:** Teams with 2+ production agents, recurring incidents, or 24/7 uptime requirements.
+
+---
+
+### Multi-Model Governance: Add SphinxGate
+
+For teams using multiple models or with compliance requirements.
+
+```
+Core Stack + SphinxGate + Transmission
+```
+
+- SphinxGate enforces routing policy and maintains audit trail
+- Transmission ensures all signals reach Agent911 reliably
+
+**Best for:** Teams using fallback chains, multiple providers, or regulated AI usage.
+
+---
+
+### Full Stack: Operator Bundle
+
+All tools. Full coverage across detection, triage, routing, recovery, and verification.
+
+See the [Operator Bundle](/products/operator-bundle) for details and pricing.
+
+---
+
+## Design Principles
+
+### Observe, don't interfere
+
+ACME tools watch your systems. They do not autonomously modify agent behavior, restart processes, or take recovery actions without operator direction. Every action that changes system state is operator-initiated.
+
+This is intentional. Autonomy without understanding creates more incidents, not fewer.
+
+### Evidence-first
+
+Every detection includes evidence. Every incident includes a proof bundle. Every recovery includes a readiness check. The goal is that operators always know *why* a tool is telling them something, not just *what*.
+
+### Deterministic playbooks
+
+Recovery shouldn't depend on which team member is on-call. Agent911 playbooks give the same guidance to everyone, regardless of familiarity with the system. Same incident type → same playbook → same recovery path.
+
+### Trust-first free tier
+
+RadCheck, OCTriage, and Lazarus are free. These tools build the foundation of trust — you understand your system before you buy anything. Paid tools solve the problem at scale.
+
+---
+
+## What ACME Is Not
+
+<Info>
+Understanding what we don't do is as important as understanding what we do.
+</Info>
+
+**ACME is not:**
+- An orchestration framework (we watch your agents, not direct them)
+- An autonomous healing system (operators always act)
+- A replacement for logging/APM (we're the reliability layer on top)
+- Agent-specific (we work with OpenClaw, LangChain, AutoGPT, custom systems)
+
+---
+
+## Getting Started
+
+<CardGroup cols={2}>
+  <Card title="5-Minute Quickstart" icon="rocket" href="/quickstart">
+    Get RadCheck running and your first reliability score.
+  </Card>
+  <Card title="All Products" icon="grid" href="https://acmeagentsupply.com/products">
+    Browse every tool with descriptions and pricing.
+  </Card>
+  <Card title="Pricing" icon="tag" href="/pricing">
+    See free vs. paid options and bundles.
+  </Card>
+  <Card title="Support" icon="life-ring" href="/support">
+    Get help. We respond fast.
+  </Card>
+</CardGroup>

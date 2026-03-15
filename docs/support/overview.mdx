@@ -1,0 +1,133 @@
+---
+title: Support Overview
+description: How to get help with ACME products
+---
+
+# Getting Support
+
+We're here when you need us. ACME support is built around a simple principle: you shouldn't have to fight to get help at 2am when an agent is down.
+
+## Support Channels
+
+<CardGroup cols={3}>
+  <Card title="Live Chat" icon="comments">
+    **Fastest response.** Available on any docs page — click the widget in the lower right corner.
+    
+    Best for: Quick questions, triage help, "is this a bug?"
+  </Card>
+  <Card title="Email" icon="envelope">
+    **[support@acmeagentsupply.com](mailto:support@acmeagentsupply.com)**
+    
+    Best for: Sharing evidence bundles, detailed incident reports, async follow-up.
+  </Card>
+  <Card title="GitHub Issues" icon="github">
+    **[github.com/CHE10X/acme-site](https://github.com/CHE10X/acme-site)**
+    
+    Best for: Confirmed bugs, CLI issues, documentation gaps.
+  </Card>
+</CardGroup>
+
+## Before You Contact Support
+
+The fastest path to resolution is a good evidence bundle. When submitting a support request, include:
+
+1. **OCTriage output** — run `acme triage` and attach the result
+2. **Evidence bundle** — run `acme triage --bundle-only --output incident.tar.gz`
+3. **Agent911 snapshot** (if available) — `acme agent911 bundle --output snapshot.tar.gz`
+4. **Product version** — `acme --version`
+5. **What you were doing** when the issue occurred
+
+The more context you share upfront, the less back-and-forth is required.
+
+## Generating an Evidence Bundle
+
+An evidence bundle is a single archive containing everything needed to diagnose an issue:
+
+```bash
+# Basic triage + bundle
+acme triage --bundle-only --output incident-$(date +%Y%m%d-%H%M%S).tar.gz
+
+# Full triage with analysis
+acme triage --verbose --output /tmp/triage-report.txt
+
+# Agent911 snapshot bundle (if Agent911 is configured)
+acme agent911 bundle --verbose --output agent911-snapshot.tar.gz
+```
+
+Attach the `.tar.gz` file to your support email. This typically cuts resolution time in half.
+
+## Common Issues
+
+<AccordionGroup>
+  <Accordion title="RadCheck score dropped unexpectedly">
+    A sudden score drop usually reflects a real change in your system. Common causes:
+
+    1. New silence gaps — an agent that was regularly active stopped checking in
+    2. Context window approaching capacity (compaction pressure)
+    3. A missing or stale backup (hygiene component)
+    
+    Run `acme radcheck --verbose` to see which components changed and by how much.
+  </Accordion>
+  <Accordion title="Sentinel alerts that seem incorrect">
+    Sentinel uses configurable thresholds. If alerts are firing too aggressively for your workload, the thresholds may need adjustment.
+
+    ```bash
+    # View current thresholds
+    acme sentinel config show
+
+    # Adjust stall timeout (default: 300s)
+    acme sentinel config set thresholds.stall_timeout 600
+    ```
+
+    If alerts are misfiring even with correct thresholds, include `acme sentinel log --tail 100` in your support bundle.
+  </Accordion>
+  <Accordion title="Agent911 not receiving signals from Sentinel">
+    Verify that Transmission is running and the Agent911 endpoint is configured:
+
+    ```bash
+    acme transmission status
+    acme sentinel config show | grep agent911
+    ```
+
+    If Transmission shows delivery failures, include `acme transmission status --failures` in your support bundle.
+  </Accordion>
+  <Accordion title="Lazarus shows a surface as UNVERIFIED">
+    UNVERIFIED means a backup exists but restore assumptions haven't been confirmed. To verify:
+
+    ```bash
+    acme lazarus check --surface <surface-name> --verbose
+    ```
+
+    The verbose output explains what's needed to move from UNVERIFIED to VERIFIED.
+  </Accordion>
+  <Accordion title="OCTriage classification shows UNKNOWN">
+    UNKNOWN means the incident pattern doesn't match a recognized type. This is most common with novel failure modes.
+
+    If you encounter UNKNOWN:
+    1. Collect the full evidence bundle: `acme triage --bundle-only`
+    2. Include the raw logs referenced in the OCTriage output
+    3. Submit to support — UNKNOWN patterns help us improve OCTriage's classification library
+  </Accordion>
+</AccordionGroup>
+
+## Severity Levels
+
+When contacting support, let us know the impact:
+
+| Severity | Description | Example |
+|----------|-------------|---------|
+| **P1 — Critical** | Production agents down, data at risk | Agent fleet offline, cannot recover |
+| **P2 — High** | Significant impact, partial degradation | Sentinel alerts failing to fire |
+| **P3 — Medium** | Issue present but workaround exists | Dashboard not showing expected data |
+| **P4 — Low** | Minor or cosmetic issue | Documentation unclear |
+
+For P1 issues: email `support@acmeagentsupply.com` with **[P1]** in the subject line and start a live chat simultaneously.
+
+## Documentation Gaps
+
+If you can't find what you need in these docs, that's a documentation failure — not a user error. Please:
+
+- Use the live chat widget to ask your question
+- Or email us with "docs gap" in the subject
+
+We log every docs gap and address them in the next documentation update.

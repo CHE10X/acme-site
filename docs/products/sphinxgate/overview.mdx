@@ -1,0 +1,208 @@
+---
+title: SphinxGate Overview
+description: Policy enforcement and auditable routing for multi-model AI agent systems
+---
+
+# SphinxGate
+
+SphinxGate applies policy guardrails to your model routing. As agent systems grow — multiple models, fallback chains, different providers for different tasks — routing becomes a reliability surface in its own right. SphinxGate makes it controllable, inspectable, and provable.
+
+## The Problem SphinxGate Solves
+
+Multi-model agent systems have a routing problem that almost no one addresses until something goes wrong:
+
+- **Which models are actually being called?** Not which ones you think — which ones are actually used in production.
+- **Why did the fallback fire?** Was it expected or a silent failure?
+- **Who approved this routing change?** Can you prove compliance?
+- **Can you trust the audit trail?** If your routing logs are incomplete, you can't answer incidents or audits.
+
+SphinxGate gives you policy-enforced, evidence-backed answers to all of these.
+
+## What SphinxGate Does
+
+<CardGroup cols={2}>
+  <Card title="Policy Enforcement" icon="shield-check">
+    Allow/deny rules for which models and providers can be used — and under what conditions.
+  </Card>
+  <Card title="Routing Audit Trail" icon="list-check">
+    Every routing decision logged with the model chosen, the reason, and the policy applied.
+  </Card>
+  <Card title="Fail Behavior Control" icon="toggle-on">
+    Configure fail-open vs. hard-fail behavior per route. No silent surprises.
+  </Card>
+  <Card title="Anomaly Detection" icon="radar">
+    Flags unexpected routing patterns — unauthorized models, unusual fallback frequency, policy violations.
+  </Card>
+</CardGroup>
+
+## How Routing Policy Works
+
+SphinxGate operates as a policy layer between your agent and the model router:
+
+```
+┌─────────────┐     ┌───────────────┐     ┌──────────────┐
+│    Agent    │────▶│  SphinxGate   │────▶│    Model     │
+│   Request   │     │  Policy Layer │     │   Provider   │
+└─────────────┘     └───────┬───────┘     └──────────────┘
+                            │
+                    ┌───────▼───────┐
+                    │  Routing Log  │
+                    │  + Evidence   │
+                    └───────────────┘
+```
+
+Every request passes through SphinxGate's policy evaluation before reaching a model. The decision — approved, denied, routed to fallback — is logged with full context.
+
+## Policy Model
+
+SphinxGate policies are simple allow/deny rules with conditions:
+
+```yaml
+# ~/.acme/sphinxgate.yaml
+policies:
+  - name: "production-models-only"
+    action: allow
+    models:
+      - anthropic/claude-*
+      - openai/gpt-4*
+    
+  - name: "block-experimental"
+    action: deny
+    models:
+      - "*/preview"
+      - "*/experimental"
+    on_deny: hard_fail   # fail the request; don't silently fallback
+
+  - name: "fallback-permitted"
+    action: allow
+    models:
+      - openai/gpt-3.5-turbo
+    conditions:
+      only_as_fallback: true   # only permitted if primary denied
+    on_route: log_alert        # log when this fires
+```
+
+### Fail Behaviors
+
+| Behavior | Meaning | When to Use |
+|----------|---------|-------------|
+| `hard_fail` | Request fails with error | Compliance, security-sensitive routes |
+| `fail_open` | Falls through to next policy/fallback | Resilience-first configurations |
+| `log_deny` | Deny logged, request proceeds | Audit-without-blocking mode |
+| `log_alert` | Permitted but flagged | Monitor unexpected-but-acceptable routes |
+
+## Routing Log Format
+
+Every decision is logged:
+
+```json
+{
+  "timestamp": "2026-03-09T15:42:31Z",
+  "agent": "support-agent-prod",
+  "requested_model": "anthropic/claude-opus",
+  "routed_to": "anthropic/claude-opus",
+  "policy_applied": "production-models-only",
+  "action": "allow",
+  "fallback_fired": false,
+  "latency_ms": 4
+}
+```
+
+This log is the evidence layer. Export it for audits, feed it to Agent911, or use it for your own observability.
+
+## Anomaly Detection
+
+SphinxGate flags routing patterns that don't match expectations:
+
+| Anomaly | Trigger |
+|---------|---------|
+| Unauthorized model | A model outside the allow list was requested |
+| Fallback frequency spike | Fallbacks firing much more than baseline |
+| Policy violation attempt | Explicit deny rule triggered |
+| Unknown provider | Request routed to unrecognized provider endpoint |
+| Config bypass attempt | Routing attempted outside SphinxGate |
+
+Anomalies are surfaced in the routing log and fed to Agent911 when configured.
+
+## Quick Start
+
+```bash
+# Check current routing policy
+acme sphinxgate status
+
+# View recent routing decisions
+acme sphinxgate log --tail 20
+
+# Validate a policy file
+acme sphinxgate policy validate ~/.acme/sphinxgate.yaml
+
+# Run in audit mode (log-only, no enforcement)
+acme sphinxgate audit --agent my-agent-name
+```
+
+## CLI Reference
+
+```bash
+# Status and overview
+acme sphinxgate status
+acme sphinxgate status --format json
+
+# Policy management
+acme sphinxgate policy show
+acme sphinxgate policy validate <file>
+acme sphinxgate policy apply <file>
+
+# Routing log
+acme sphinxgate log
+acme sphinxgate log --tail 50 --follow
+acme sphinxgate log --format json --output routing-log.json
+
+# Anomaly report
+acme sphinxgate anomalies
+acme sphinxgate anomalies --since 24h
+
+# Audit mode (enforcement off, logging on)
+acme sphinxgate audit start
+acme sphinxgate audit stop
+```
+
+## SphinxGate vs Agent-Level Config
+
+You might already configure model fallbacks in your agent's gateway config. SphinxGate is **not** a replacement for that — it's a policy and audit layer on top of it.
+
+| Layer | What It Does |
+|-------|-------------|
+| Gateway config | Defines fallback chains and preferred models |
+| **SphinxGate** | Enforces policy on top of those choices; logs every decision |
+
+The distinction matters for compliance: your gateway config describes intent; SphinxGate provides evidence of what actually happened.
+
+## Who SphinxGate Is For
+
+SphinxGate is most valuable for teams that:
+
+- Use **multiple models or providers** and need to know which ones fire
+- Have **compliance requirements** around AI model usage
+- Run **production-grade agent systems** where unauthorized routing is a risk
+- Want **audit-ready logging** without building it themselves
+
+## Pricing
+
+SphinxGate is a paid product. See [Pricing](/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Transmission" icon="tower-broadcast" href="/products/transmission/overview">
+    Signal transport integrity for the broader reliability stack.
+  </Card>
+  <Card title="Agent911" icon="radar" href="/products/agent911/overview">
+    SphinxGate anomalies feed into the Agent911 unified snapshot.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    Runtime protection to complement routing governance.
+  </Card>
+  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Point-in-time reliability scan. Good first step.
+  </Card>
+</CardGroup>

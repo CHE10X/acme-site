@@ -1,0 +1,172 @@
+---
+title: Agent911 Overview
+description: Unified reliability cockpit for AI agent incidents
+---
+
+# Agent911
+
+Agent911 is ACME's unified control plane for agent reliability. When something goes wrong — or before it does — Agent911 gives you a single surface to understand system state, trace the cause, and follow a deterministic path to resolution.
+
+<Warning>
+**Agent911 v0.1 is a read-only cockpit.** It does not autonomously heal, repair, or restart agents. It guides operators; operators act. Never let anyone tell you otherwise.
+</Warning>
+
+## The Problem Agent911 Solves
+
+As your agent fleet grows, incidents get harder to diagnose. You have logs from five places, heartbeats from three tools, and no unified picture of what's actually happening. When something breaks at 2am:
+
+- Which agent is affected?
+- What signals are available right now?
+- What should I do first?
+
+Agent911 answers all three, immediately.
+
+## What Agent911 Does
+
+<CardGroup cols={2}>
+  <Card title="Unified Telemetry Snapshot" icon="radar">
+    Aggregates signals from 7 sources into a single view of system state.
+  </Card>
+  <Card title="Guided Recovery Playbooks" icon="book-open">
+    Deterministic, step-by-step operator guidance for each incident type.
+  </Card>
+  <Card title="Proof Bundles" icon="file-shield">
+    Exportable evidence artifacts for post-incident review and compliance.
+  </Card>
+  <Card title="Incident Timeline" icon="clock">
+    Reconstructed timeline of what happened, when, and in what order.
+  </Card>
+</CardGroup>
+
+## How It Works
+
+Agent911 aggregates reliability signals from across the ACME stack — and from your existing infrastructure — into a coherent operator view:
+
+```
+┌────────────────────────────────────────────────────┐
+│                    Agent911                         │
+│                                                    │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────────┐  │
+│  │ Sentinel │  │ Watchdog │  │   OCTriage logs  │  │
+│  └────┬─────┘  └────┬─────┘  └────────┬─────────┘  │
+│       │             │                  │            │
+│       └─────────────┴──────────────────┘            │
+│                          │                          │
+│                  ┌───────▼────────┐                 │
+│                  │  Unified View  │                 │
+│                  │  + Playbooks   │                 │
+│                  └────────────────┘                 │
+└────────────────────────────────────────────────────┘
+```
+
+## What Agent911 Does NOT Do
+
+<Info>
+This list is intentional. Trust requires precision.
+</Info>
+
+In v0.1, Agent911 does **not**:
+
+- Automatically restart or repair agents
+- Modify configurations without explicit operator action
+- Make autonomous decisions about recovery
+- Replace the need for an operator on-call
+
+It is a **guidance and visibility tool**. Every action taken during an incident is operator-initiated.
+
+## Telemetry Sources
+
+Agent911 v0.1 aggregates from 7 signal sources:
+
+| Source | Signal Type |
+|--------|-------------|
+| Sentinel | Runtime anomalies, stall detection |
+| Watchdog | Heartbeat / liveness probe results |
+| OCTriage | Incident classification, evidence bundles |
+| DriftGuard | Session-to-session behavioral delta |
+| RadCheck | Baseline reliability score history |
+| Lazarus | Recovery readiness posture |
+| Native logs | Raw process/gateway logs (when available) |
+
+## Snapshot: What You See
+
+When you open Agent911, you see a **snapshot** — a coherent view of system state at a point in time:
+
+- Current health signals across all agents
+- Recent anomalies and their correlations
+- Routing/governance status (if SphinxGate is configured)
+- Recovery readiness posture (if Lazarus is configured)
+
+<Accordion title="What does 'coherent view' actually mean?">
+A snapshot doesn't just show raw signals — it contextualizes them. If Sentinel detected a stall 4 minutes ago and Watchdog shows a missed heartbeat at the same time, Agent911 surfaces these as a correlated event, not two separate alerts.
+</Accordion>
+
+[→ See the full Snapshot reference](/products/agent911/snapshot-explained)
+
+## Guided Playbooks
+
+For each incident type Agent911 recognizes, it provides a **deterministic recovery playbook** — a numbered list of operator actions in recommended order:
+
+```
+Incident: STALL (High Confidence: 91%)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Playbook: STALL_RECOVERY_v2
+
+Step 1: Verify Sentinel alert context (attached)
+Step 2: Check external API call status (OpenAI timeout suspected)
+Step 3: Run `acme radcheck` to confirm no secondary issues
+Step 4: Review Lazarus readiness before restart
+Step 5: If ready, restart agent with `acme agent restart <name>`
+Step 6: Confirm Watchdog liveness post-restart
+```
+
+Playbooks are deterministic — same incident type, same playbook — which means **any team member can run them**, not just the person who knows the system by heart.
+
+## FindMyAgent (Included)
+
+Agent911 includes [FindMyAgent](/products/findmyagent/overview) — live presence and operator awareness for your agent fleet. See which agents are active, stalled, or haven't checked in.
+
+## CLI Reference
+
+```bash
+# Open Agent911 dashboard
+acme agent911
+
+# Get current snapshot (JSON)
+acme agent911 snapshot --format json
+
+# Get snapshot for a specific agent
+acme agent911 snapshot --agent <agent-name>
+
+# View active incidents
+acme agent911 incidents
+
+# Export proof bundle
+acme agent911 bundle --incident <incident-id> --output bundle.tar.gz
+
+# View playbook for incident type
+acme agent911 playbook STALL
+```
+
+## Pricing
+
+Agent911 is a paid expansion product. Most teams add it after establishing Sentinel — typically when fleet size grows or when incidents start recurring.
+
+See [Pricing](/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Snapshot Explained" icon="chart-mixed" href="/products/agent911/snapshot-explained">
+    Deep dive into what a snapshot contains and how to read it.
+  </Card>
+  <Card title="FindMyAgent" icon="location-dot" href="/products/findmyagent/overview">
+    Agent presence and operator awareness, included with Agent911.
+  </Card>
+  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
+    The detection layer that feeds Agent911. Start here first.
+  </Card>
+  <Card title="Lazarus" icon="rotate" href="/products/lazarus/overview">
+    Verify recovery readiness before you need it.
+  </Card>
+</CardGroup>

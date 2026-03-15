@@ -22,7 +22,7 @@
     },
     {
       "name": "Support",
-      "url": "https://acmeagentsupply.com/support"
+      "url": "/support/overview"
     }
   ],
   "topbarCtaButton": {
@@ -40,25 +40,58 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["introduction", "quickstart"]
+      "pages": [
+        "introduction",
+        "quickstart",
+        "platform",
+        "pricing"
+      ]
     },
     {
-      "group": "RadCheck",
+      "group": "Free Tools",
       "pages": [
         "products/radcheck/overview",
-        "products/radcheck/score-explained"
+        "products/radcheck/score-explained",
+        "products/octriage/overview",
+        "products/lazarus/overview"
       ]
     },
     {
-      "group": "Sentinel",
+      "group": "Runtime Protection",
       "pages": [
-        "products/sentinel/overview"
+        "products/sentinel/overview",
+        "products/watchdog/overview",
+        "products/driftguard/overview"
       ]
     },
     {
-      "group": "OCTriage",
+      "group": "Control & Recovery",
       "pages": [
-        "products/octriage/overview"
+        "products/agent911/overview",
+        "products/agent911/snapshot-explained",
+        "products/agent911/findmyagent",
+        "products/findmyagent/overview"
+      ]
+    },
+    {
+      "group": "Governance",
+      "pages": [
+        "products/sphinxgate/overview",
+        "products/transmission/overview"
+      ]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "architecture/reliability-stack"
+      ]
+    },
+    {
+      "group": "Support",
+      "pages": [
+        "support/overview",
+        "support/troubleshooting",
+        "support/contact"
       ]
     }
   ],

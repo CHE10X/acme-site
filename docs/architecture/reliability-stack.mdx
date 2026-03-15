@@ -1,0 +1,159 @@
+---
+title: The Reliability Stack
+description: How ACME's tools fit together across the agent reliability lifecycle.
+---
+
+# The Reliability Stack
+
+Agent reliability isn't a single problem — it's a lifecycle. ACME builds tools across that lifecycle: detecting risk before it becomes failure, protecting against failure at runtime, governing routing decisions, and supporting recovery when incidents occur.
+
+## The Lifecycle
+
+```
+DETECT ──▶ PROTECT ──▶ GOVERN ──▶ TRIAGE ──▶ RECOVER ──▶ OPERATE
+```
+
+Each phase has specific tooling. Most teams don't need everything at once — the stack is designed to be adopted incrementally, starting with free detection tools.
+
+## Phase by Phase
+
+### Detect — Know your risk posture
+
+**[RadCheck](/products/radcheck/overview)** — Free, read-only scan
+
+Before you can protect against reliability failures, you need to know where the risk is. RadCheck performs a fast, non-destructive scan and produces a 0–100 reliability score across four domains: stall risk, silence gaps, compaction pressure, and operational hygiene.
+
+Run it before deploying. Run it after incidents. Run it periodically as part of reliability hygiene.
+
+---
+
+### Protect — Catch failures as they happen
+
+**[Sentinel](/products/sentinel/overview)** — Paid continuous monitoring
+
+RadCheck is a point-in-time scan. Sentinel watches continuously, catching the silent failures and stalls that don't crash but quietly stop your workflows. It runs as a lightweight observer alongside your agents — no interference, just detection.
+
+**[Watchdog](/products/watchdog/overview)** — Heartbeat and progress verification
+
+The more precise sibling to Sentinel. Watchdog distinguishes between an agent that's *alive* and an agent that's *progressing* — a distinction that matters when agents get stuck rather than crash. Pair with the heartbeat SDK for maximum fidelity.
+
+---
+
+### Govern — Keep routing disciplined
+
+**[SphinxGate](/products/sphinxgate/overview)** — Paid policy enforcement
+
+As routing complexity grows — multiple models, fallbacks, contexts — SphinxGate keeps it deterministic and auditable. Every routing decision is policy-driven, logged, and provable. Essential for teams with compliance requirements or multi-provider setups.
+
+---
+
+### Triage — Understand what went wrong
+
+**[OCTriage](/products/octriage/overview)** — Free incident assessment
+
+When something breaks, OCTriage is your first tool. It collects context, classifies the failure pattern, and gives you a concrete next step — along with an evidence bundle for post-incident review or support escalation.
+
+---
+
+### Recover — Verify you can get back up
+
+**[Lazarus](/products/lazarus/overview)** — Free recovery readiness
+
+Most teams discover their backups don't work during an actual incident. Lazarus validates recovery readiness proactively: backup coverage, restore assumption validation, and readiness scoring before failure forces the test.
+
+---
+
+### Operate — Long-horizon visibility
+
+**[DriftGuard](/products/driftguard/overview)** — Long-horizon drift detection
+
+The problems that don't announce themselves. DriftGuard tracks behavioral baselines and flags slow erosion — context growth, latency trends, output consistency — before they cross into active failure.
+
+**[Agent911](/products/agent911/overview)** — Paid unified control plane
+
+The operator surface that aggregates everything. Health signals, anomaly detections, routing state, recovery readiness — all in one snapshot. When something goes wrong, Agent911 is where you go.
+
+**[FindMyAgent](/products/agent911/findmyagent)** — Fleet presence visibility (included with Agent911)
+
+Live presence, heartbeat age, and "needs attention" flags for every agent in your fleet. Included with Agent911.
+
+---
+
+### Infrastructure
+
+**[Transmission](/products/transmission/overview)** — Event coherence layer
+
+The reliability infrastructure for reliability signals. Transmission ensures events flow correctly between components — ordered, deduplicated, and delivered even under degraded conditions.
+
+## How Tools Connect
+
+```
+┌─────────────────────────────────────────────────────┐
+│                     AGENT911                         │
+│            Unified Operator Surface                  │
+└─────────────────┬───────────────┬───────────────────┘
+                  │               │
+        ┌─────────▼──┐    ┌───────▼───────┐
+        │ TRANSMISSION│    │   LAZARUS     │
+        │  (event bus)│    │ (readiness)   │
+        └─────┬───────┘    └───────────────┘
+              │
+    ┌─────────┼──────────┬────────────┐
+    ▼         ▼          ▼            ▼
+SENTINEL  WATCHDOG  SPHINXGATE  DRIFTGUARD
+(runtime) (progress) (routing)   (drift)
+    │
+    ▼
+ RADCHECK   OCTRIAGE   LAZARUS
+(scan-time) (triage)   (recovery)
+```
+
+## Adoption Path
+
+Most teams start small and add coverage as their agent fleet grows:
+
+### Solo operator / single agent
+
+1. **RadCheck** — Get your first reliability score (free, takes 5 minutes)
+2. **OCTriage** — Have it ready for when incidents happen (free)
+3. **Sentinel** — Add when you want continuous protection
+
+### Small team / multiple agents
+
+Add to the above:
+4. **Watchdog** — Progress verification beyond what Sentinel observes
+5. **Agent911** — Unified view when you're managing more than a couple of agents
+6. **Lazarus** — Validate recovery readiness proactively
+
+### Multi-model / regulated environment
+
+Add to the above:
+7. **SphinxGate** — Deterministic routing with audit trail
+8. **DriftGuard** — Long-horizon behavioral baseline tracking
+
+## Free vs. Paid
+
+| Product | Tier |
+|---------|------|
+| RadCheck | **Free** |
+| OCTriage | **Free** |
+| Lazarus | **Free** |
+| Sentinel | Paid |
+| Agent911 + FindMyAgent | Paid |
+| SphinxGate | Paid |
+| Watchdog | Paid |
+| DriftGuard | Paid |
+| Transmission | Included with paid products |
+
+Free tools build trust. Paid tools solve the problem at scale. See [Pricing](/pricing) for current rates.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="5-Minute Quickstart" icon="rocket" href="/quickstart">
+    Get RadCheck running and see your first reliability score.
+  </Card>
+  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Start with a free scan before deciding what else to add.
+  </Card>
+</CardGroup>

@@ -1,0 +1,86 @@
+---
+title: Contact Support
+description: How to reach the ACME support team and what to include when you do.
+---
+
+# Contact Support
+
+## Before You Reach Out
+
+Generate a diagnostic bundle first. It speeds up every support interaction significantly:
+
+```bash
+acme support bundle
+```
+
+This creates a local zip file with diagnostic data ACME needs to understand your situation. The bundle never includes API keys, tokens, or secret values.
+
+---
+
+## Support Channels
+
+### Live Chat
+
+The fastest way to reach us for questions and active issues.
+
+Available on [acmeagentsupply.com/support](https://acmeagentsupply.com/support) — click the chat widget in the bottom-right corner.
+
+### Email
+
+**support@acmeagentsupply.com**
+
+Best for detailed issues, sharing diagnostic bundles, and anything that benefits from a written thread.
+
+### GitHub Issues
+
+**[github.com/CHE10X/acme-site/issues](https://github.com/CHE10X/acme-site/issues)**
+
+For bugs, installation issues, and feature requests. GitHub Issues requires a diagnostic bundle for support and bug reports — the evidence gate enforces this automatically.
+
+---
+
+## What to Include
+
+Support requests that include diagnostics get resolved faster. Include:
+
+1. **Diagnostic bundle** — `acme support bundle` output
+2. **ACME CLI version** — `acme --version`
+3. **Operating environment** — macOS / Linux / Docker / k8s
+4. **What you were doing** — the context around the issue
+5. **What you expected vs. what happened** — specific, concrete descriptions help
+
+---
+
+## Evidence-First Support Policy
+
+ACME operates on an evidence-first model. Support and bug tickets without diagnostic evidence cannot be triaged.
+
+When you open a GitHub Issue, the evidence gate checks for:
+- OCTriage output (paste the terminal output of `acme triage`)
+- A proof bundle path from OCTriage or Agent911
+
+Issues without evidence are flagged and may be closed after 24 hours. This isn't bureaucracy — it's the only way to give you a useful answer rather than asking questions back and forth.
+
+---
+
+## Response Times
+
+| Channel | Typical Response |
+|---------|-----------------|
+| Live Chat | Minutes during business hours |
+| Email | Within 1 business day |
+| GitHub Issues | Within 2 business days |
+
+---
+
+## What Support Handles
+
+| Topic | Who handles it |
+|-------|---------------|
+| Installation and setup | Support |
+| CLI issues and bugs | Support / GitHub |
+| RadCheck interpretation | Support |
+| Sentinel configuration | Support |
+| Agent911 and snapshots | Support |
+| Billing and account | [chip.ernst@gmail.com](mailto:chip.ernst@gmail.com) |
+| Feature requests | GitHub Issues |
