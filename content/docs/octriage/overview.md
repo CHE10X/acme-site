@@ -1,20 +1,14 @@
 ---
-title: OCTriage Overview
+title: triage (formerly OCTriage)
+redirect: /docs/triage/overview
 ---
 
-# OCTriage
+# triage
 
-OCTriage is the operator entrypoint for OpenClaw reliability workflows.
+> **Note:** OCTriage has been renamed to `triage`. This page will redirect. See the [triage documentation](/docs/triage/overview) for current content.
 
-Run `octriage` first to see current system posture, reliability score, trend direction, and protection state.
+`triage` is the operator entrypoint for Acme reliability workflows.
 
-## Core Output
+Run `triage` first to capture system state — reliability score, trend direction, protection posture, proof bundle — before any recovery action.
 
-- reliability score
-- trend window (24h)
-- protection posture
-- proof bundle path
-
-## Operator Use
-
-Install OCTriage, run it during morning checks, and use its output before escalation or recovery actions.
+→ [Full triage documentation](/docs/triage/overview)
