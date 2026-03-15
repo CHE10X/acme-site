@@ -7,6 +7,12 @@
   },
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.acmeagentsupply.com" }],
+      "destination": "https://acmeagentsupply.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/legal/terms/",
       "destination": "/legal/terms-of-service/",
       "permanent": true
