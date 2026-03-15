@@ -52,7 +52,7 @@
       "pages": [
         "products/radcheck/overview",
         "products/radcheck/score-explained",
-        "products/octriage/overview",
+        "products/triage/overview",
         "products/lazarus/overview"
       ]
     },
@@ -67,6 +67,7 @@
     {
       "group": "Control & Recovery",
       "pages": [
+        "products/recall/overview",
         "products/agent911/overview",
         "products/agent911/snapshot-explained",
         "products/agent911/findmyagent",

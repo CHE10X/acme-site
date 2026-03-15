@@ -1,0 +1,132 @@
+---
+title: Recall
+description: Manual intervention and recovery CLI for AI agent fleets
+---
+
+# Recall
+
+Recall is the operator's hand on the system — the CLI for direct intervention when automated systems are insufficient or you need immediate control over a running agent fleet.
+
+```bash
+recall status          # fleet state snapshot
+recall stall heike     # pause an agent immediately
+recall wake heike      # resume
+recall lockdown        # stop everything, now
+```
+
+## The Three Control Surfaces
+
+Recall completes the operator control plane alongside two existing commands:
+
+```
+openclaw health    →  snapshot: what is the system's current state?
+openclaw watch     →  live: what is changing right now?
+recall             →  action: intervene directly
+```
+
+## The Three Operator Primitives
+
+These three commands cover every coordination scenario:
+
+| Command | Effect | When to Use |
+|---------|--------|-------------|
+| `recall stall <agent>` | Pause — agent stops acting, keeps listening | Almost always the right first move |
+| `recall focus <agent>` | Leader — named agent acts, all others stall | Agents stepping on each other |
+| `recall stun <agent>` | Reset — full intervention on a broken agent | Something is genuinely broken |
+
+**`stall` is the dominant operator command in real production.** Most incidents are coordination failures, not catastrophic failures. Stop the agent, investigate, then decide: `recall wake` (minor) or `recall stun` (broken).
+
+## Full Command Reference
+
+### System Commands
+```bash
+recall lockdown          # global lockdown — no new model calls, tool calls, or sub-agent spawning
+recall unlock            # lift lockdown
+recall status            # fleet state snapshot
+recall log [agent]       # intervention history
+```
+
+### Agent State
+```bash
+recall freeze <agent>    # stop sub-agent spawning only (agent keeps working)
+recall unfreeze <agent>
+recall stall <agent>     # queue messages, agent stops processing
+recall stall --all       # emergency brake — pauses everything
+recall wake <agent>      # reverse stall or sleep
+recall wake --all
+recall sleep <agent>     # disconnect from channel(s)
+recall stun <agent>      # full intervention (see below)
+recall quarantine <agent> # isolate for inspection
+```
+
+### Recovery
+```bash
+recall recover <agent>   # post-stun return-to-service wizard
+recall reset             # safe gateway restart with triage + backup
+recall focus <agent>     # single-leader mode — all others stall
+recall unfocus           # return to normal multi-agent operation
+```
+
+## What Stun Actually Does
+
+`recall stun` is not just a stop command. It runs a 7-step sequence:
+
+1. Disconnect channel connections
+2. Drain in-progress tool calls (max 10 seconds)
+3. Kill all sub-agents
+4. Archive the active session
+5. Compact memory
+6. Emit a control plane event (visible in `openclaw watch`)
+7. Hold — agent offline until `recall recover` + operator confirmation
+
+**Why step 4 matters:** A gateway restart doesn't fix a runaway agent. The bad state lives in the active session, active sub-agents, and memory files. Stun targets all three. Gateway restart misses all three.
+
+## Standard Incident Response
+
+```bash
+openclaw watch          # something looks odd
+recall stall heike      # pause the agent immediately
+radcheck risk           # assess
+triage                  # capture proof bundle
+agent911 diagnose       # classify the incident
+
+# If minor:
+recall wake heike
+
+# If serious:
+recall stun heike
+recall recover heike
+recall wake heike
+```
+
+## Reversibility
+
+Every operation has a reversal:
+
+| Operation | Reversal |
+|-----------|---------|
+| `lockdown` | `unlock` |
+| `freeze` | `unfreeze` |
+| `stall` | `wake` (queued messages delivered) |
+| `sleep` | `wake` |
+| `stun` | `wake` (after `recover` + confirmation) |
+
+Session context is not restored after stun — by design. If the session caused the problem, restoring it restores the problem.
+
+## Observability
+
+Every Recall operation emits a structured event that flows into the reliability stack:
+
+- Visible in `openclaw watch` incident timeline
+- Ingested by RadCheck signal analysis
+- Available in OCTriage proof bundles
+- Read by Agent911 during incident diagnosis
+
+<CardGroup cols={2}>
+  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
+    Recall calls Agent911 primitives. They share the same execution layer.
+  </Card>
+  <Card title="Triage" icon="stethoscope" href="/products/triage/overview">
+    Run triage before stun to capture a proof bundle at the moment of intervention.
+  </Card>
+</CardGroup>
