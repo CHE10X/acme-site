@@ -9,16 +9,11 @@ Transmission is ACME's dynamic model router. It classifies each task and routes 
 
 Most agent systems use static model configuration: one model for everything, or a hand-coded fallback chain. Transmission replaces that with task-aware routing. A quick lookup routes to a fast, cost-effective model. A complex reasoning task routes to a more capable one. The routing adapts to the work — not to whoever last edited the config file.
 
-## Why Static Routing Fails at Scale
+## The Problem With Static Routing
 
-Static configuration works fine until it doesn't:
+One model for everything sounds fine until you notice your expensive model is handling simple lookups, and your cheap fallback is getting routed complex reasoning tasks because that's just how the chain shakes out.
 
-- A simple query routes to your most expensive model because it's the default
-- A complex task routes to a budget model because the fallback chain doesn't consider task type
-- Cost climbs because nothing distinguishes high-stakes requests from routine ones
-- You can't audit why any specific task went to any specific model
-
-Transmission solves this by making routing an active, observable decision rather than a hardcoded assumption.
+Transmission replaces static fallback chains with routing that knows what the task actually is. Simple task, efficient model. Complex reasoning, capable model. You stop paying for mismatches and stop wondering why something went wrong.
 
 ## What Transmission Does
 

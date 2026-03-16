@@ -84,51 +84,51 @@ Tools that confirm recovery was actually successful.
 
 ### Starting Out: Free Baseline
 
-For operators just getting started with agent reliability.
+No account. No commitment. Just run it.
 
 ```
-RadCheck → OCTriage → Lazarus
+RadCheck → triage → Lazarus
 ```
 
-- Run RadCheck to understand your current state
-- Use OCTriage when incidents happen
-- Run Lazarus to verify you can recover
+- RadCheck tells you where your stack stands right now
+- triage captures a snapshot when something goes wrong
+- Lazarus confirms you can actually recover if you need to
 
 **Cost:** Free.
 
 ---
 
-### Production Protection: Core Stack
+### Staying Up: Core Stack
 
-For operators running production agents that need runtime protection.
+For when you've got agents running and you need to know about problems before your users do.
 
 ```
 Sentinel + Watchdog → Agent911 + FindMyAgent
        ↓                      ↓
-  Detection layer      Response layer
+  Catches problems       Tells you what to do
 ```
 
-- Sentinel catches runtime anomalies continuously
-- Watchdog verifies liveness and escalates
-- Agent911 provides the response surface with guided playbooks
-- FindMyAgent gives fleet-wide visibility
+- Sentinel notices silence gaps and stalls while you're away
+- Watchdog confirms liveness — running vs. actually working
+- Agent911 shows you what's wrong and where to start
+- FindMyAgent tells you which agents are healthy and which need attention
 
-**Best for:** Anyone running 2+ production agents, dealing with recurring incidents, or needing reliable uptime.
+**Good for:** Anyone running more than one agent and tired of finding out something broke after the fact.
 
 ---
 
-### Multi-Model Governance: Add SphinxGate + Transmission
+### Multi-Model Stacks: Add SphinxGate + Transmission
 
-For operators using multiple models or with compliance requirements.
+For when you're routing across multiple models and want it to be smart, not hand-coded.
 
 ```
 Core Stack + SphinxGate + Transmission
 ```
 
-- SphinxGate enforces routing policy and maintains audit trail
-- Transmission routes each task to the right model automatically — no more one-size-fits-all configuration
+- SphinxGate enforces which models go where — no accidental expensive calls from background jobs
+- Transmission classifies each task and picks the right model automatically — a coding task routes to a coding model, a simple lookup goes somewhere cheaper
 
-**Best for:** Anyone using fallback chains, multiple providers, or operating in regulated environments.
+**Good for:** Anyone using more than one provider and tired of one-size-fits-all model config.
 
 ---
 
@@ -156,9 +156,9 @@ Every detection includes evidence. Every incident includes a proof bundle. Every
 
 Recovery shouldn't depend on how well you know the system at 2am. Agent911 playbooks give you the same deterministic path every time. Same incident type → same playbook → same recovery.
 
-### Trust-first free tier
+### Free tools that are actually useful
 
-RadCheck, OCTriage, and Lazarus are free. These tools build the foundation of trust — you understand your system before you buy anything. Paid tools solve the problem at scale.
+RadCheck, triage, and Lazarus are free — not crippled demos. You can understand your stack and catch real problems with them before spending anything. The paid tools add always-on monitoring and a unified incident view for when the free pass-through isn't enough.
 
 ---
 
