@@ -1,0 +1,102 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "ACME Agent Supply",
+  "logo": {
+    "dark": "/docs/logo/dark.svg",
+    "light": "/docs/logo/light.svg"
+  },
+  "favicon": "/docs/favicon.svg",
+  "colors": {
+    "primary": "#e8a317",
+    "light": "#f6c453",
+    "dark": "#c9850c",
+    "anchors": {
+      "from": "#e8a317",
+      "to": "#f6c453"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Home",
+      "url": "https://acmeagentsupply.com"
+    },
+    {
+      "name": "Support",
+      "url": "/support/overview"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Get Started",
+    "url": "/quickstart"
+  },
+  "tabs": [],
+  "anchors": [
+    {
+      "name": "GitHub",
+      "icon": "github",
+      "url": "https://github.com/CHE10X/acme-site"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        "docs/introduction",
+        "docs/quickstart",
+        "docs/platform",
+        "docs/pricing"
+      ]
+    },
+    {
+      "group": "Free Tools",
+      "pages": [
+        "docs/products/radcheck/overview",
+        "docs/products/radcheck/score-explained",
+        "docs/products/triage/overview",
+        "docs/products/lazarus/overview"
+      ]
+    },
+    {
+      "group": "Runtime Protection",
+      "pages": [
+        "docs/products/sentinel/overview",
+        "docs/products/watchdog/overview",
+        "docs/products/driftguard/overview"
+      ]
+    },
+    {
+      "group": "Control & Recovery",
+      "pages": [
+        "docs/products/recall/overview",
+        "docs/products/agent911/overview",
+        "docs/products/agent911/snapshot-explained",
+        "docs/products/agent911/findmyagent",
+        "docs/products/findmyagent/overview"
+      ]
+    },
+    {
+      "group": "Governance",
+      "pages": [
+        "docs/products/sphinxgate/overview",
+        "docs/products/transmission/overview"
+      ]
+    },
+    {
+      "group": "Architecture",
+      "pages": [
+        "docs/architecture/reliability-stack"
+      ]
+    },
+    {
+      "group": "Support",
+      "pages": [
+        "docs/support/overview",
+        "docs/support/troubleshooting",
+        "docs/support/contact"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/CHE10X/acme-site"
+  }
+}
