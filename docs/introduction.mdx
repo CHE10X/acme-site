@@ -1,52 +1,53 @@
 ---
 title: Introduction
-description: Reliability infrastructure for AI agents
+description: Reliability tools for people running AI agents on their own
 ---
 
-# Welcome to ACME Docs
+# Welcome to ACME
 
-ACME builds the reliability layer for AI agent systems. We help operators answer the question every team running agents eventually asks:
+You're running agents. At some point — usually the wrong moment — one of them stops working in a way you won't catch until it's too late.
 
-> "My agents are running. But are they *reliable*?"
+ACME is the layer that tells you before that happens.
 
 ## The Problem
 
-Standard monitoring catches crashes. But agents fail in ways that don't crash:
-- **Silent failures** — the agent looks healthy but stopped making progress
-- **Stalls** — waiting on a response that will never come
-- **Drift** — behavior changes session-to-session without obvious cause
+Standard monitoring catches crashes. But agents fail quietly:
 
-These failures don't trigger alerts. They just... happen. And you find out when a user complains or a workflow silently stops.
+- **Silent failures** — the agent looks healthy but stopped making progress hours ago
+- **Stalls** — it's waiting on something that will never come, and it won't tell you
+- **Drift** — behavior shifts session-to-session in ways that are hard to pin down
 
-## The ACME Stack
+These don't trigger alerts. They just silently fail. And you find out when something downstream breaks, or a user complains, or you check in and realize it's been dead for hours.
 
-We provide tools across the reliability lifecycle:
+## Who This Is For
 
-| Phase | Tool | What It Does |
-|-------|------|--------------|
-| **Detect** | [RadCheck](/products/radcheck/overview) | Read-only scan, 0-100 reliability score |
-| **Triage** | [OCTriage](/products/octriage/overview) | Entry-point terminal for incident assessment |
-| **Protect** | [Sentinel](/products/sentinel/overview) | Runtime guardrails for stalls and silent failures |
-| **Control** | Agent911 | Unified control plane with recovery guidance |
+If you're running a handful of agents — for a side project, a home automation setup, or a small business you're building yourself — you're the person ACME was built for.
 
-## Getting Started
+You probably don't have an ops team. You are the ops team. When something breaks, it's just you, a terminal, and whatever logs you have. ACME gives you better visibility before things break, and better tools for when they do.
 
-The fastest path to understanding your agent reliability:
+## The Stack
+
+| What You Need | Tool | How It Helps |
+|---------------|------|-------------|
+| Know where you stand | [RadCheck](/products/radcheck/overview) | Free scan, 0–100 reliability score, ranked risks |
+| Catch problems as they happen | [Sentinel](/products/sentinel/overview) | Continuous monitoring — silence gaps, stalls, memory pressure |
+| Understand an incident | [triage](/products/triage/overview) | Captures a read-only snapshot before you touch anything |
+| See everything at once | [Agent911](/products/agent911/overview) | Unified view of what's wrong and what to check first |
+
+## Free vs. Paid
+
+Start free. Pay when you need more.
+
+- **Free**: RadCheck (reliability scan), triage (diagnostic snapshot), Lazarus (backup check)
+- **Paid**: Sentinel (always-on monitoring), Agent911 (incident view)
+
+The free tools are genuinely useful on their own — not crippled demos. They're how you find out what ACME is before committing to anything.
 
 <CardGroup cols={2}>
-  <Card title="5-Minute Quickstart" icon="rocket" href="/quickstart">
-    Install observational mode. Get your first RadCheck score.
+  <Card title="Run your first scan" icon="magnifying-glass" href="/products/radcheck/overview">
+    RadCheck scores your stack in under 10 seconds. Free, no account needed.
   </Card>
-  <Card title="RadCheck Overview" icon="magnifying-glass" href="/products/radcheck/overview">
-    Understand what RadCheck scans and how scores work.
+  <Card title="What does a score mean?" icon="chart-bar" href="/products/radcheck/score-explained">
+    Understand what the 0–100 score is actually measuring.
   </Card>
 </CardGroup>
-
-## Free vs Paid
-
-ACME follows a trust-first model:
-
-- **Free**: RadCheck (scan), OCTriage (triage), Lazarus Lite (backup check)
-- **Paid**: Sentinel (runtime protection), Agent911 (control plane)
-
-Free tools build trust. Paid tools solve the problem at scale.

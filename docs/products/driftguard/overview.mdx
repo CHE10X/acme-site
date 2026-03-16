@@ -1,174 +1,52 @@
 ---
-title: DriftGuard Overview
-description: Detect long-horizon reliability erosion before it becomes an incident.
+title: DriftGuard
+description: Catches when your agent's memory stops matching what it should know
 ---
 
 # DriftGuard
 
-Some reliability problems don't announce themselves. They accumulate — small behavioral shifts, growing memory deviations, patterns that move outside their baseline one session at a time. By the time they're visible, they've been building for weeks. DriftGuard watches for them.
+Your agent's behavior depends on what it remembers. DriftGuard watches for that memory drifting in ways you didn't intend.
 
-## What Drift Looks Like
+## The Problem
 
-Drift is harder to catch than a crash because nothing breaks outright. Instead:
+Agent memory isn't static. Context accumulates, tools write state, sessions inject information. Over time, what an agent carries into a conversation diverges from what it should.
 
-- An agent that used to respond in 800ms now consistently takes 2.5 seconds — not slow enough to trigger a timeout alert, but degraded
-- Memory patterns shift over successive sessions — the agent's context grows slightly faster each day without explanation
-- Behavior becomes less consistent: the same input produces noticeably different outputs across sessions, indicating something in the agent's operating environment is changing
+This isn't a crash. It's subtler. The agent keeps running. It just starts being slightly wrong — and then more wrong — and you don't notice until behavior has shifted enough to matter.
 
-Standard monitoring misses all of this. DriftGuard doesn't.
+DriftGuard catches the drift before it compounds.
 
-## What DriftGuard Does
+## What It Watches
 
-- **Establishes a behavioral baseline** for each monitored agent
-- **Tracks deviations** from baseline across memory patterns, response characteristics, and context behavior
-- **Flags long-horizon erosion** before it crosses the threshold into active failure
-- **Surfaces trends** with the context to understand what's changing and when it started
+**Baseline deviation** — a memory artifact changed in a way that doesn't match expected session-to-session evolution. Could be corruption, an unexpected tool side effect, or something being injected that shouldn't be.
 
-## Signals DriftGuard Monitors
+**Context drift patterns** — some change is normal. DriftGuard distinguishes routine accumulation from anomalous shifts.
 
-### Context Drift
+**Memory integrity posture** — an aggregate signal that feeds into Agent911, so you can see memory health alongside everything else.
 
-Changes in how the agent's context behaves over time:
+## What It Does NOT Do
 
-- Context growth rate (tokens per session vs. baseline)
-- Compaction frequency and efficiency
-- Memory retention patterns across sessions
+DriftGuard is a watcher, not a fixer. It doesn't:
 
-### Baseline Deviation
+- Automatically correct memory artifacts
+- Delete or overwrite anything
+- Make changes to your agent's context without you deciding to
 
-Comparison of current agent behavior against established baseline:
+If it finds something, it flags it. You decide what to do.
 
-- Response latency distribution
-- Output consistency across similar inputs
-- Tool usage patterns
-- Error rate trends
+## Who Needs This
 
-### Memory Integrity Posture
+If you're running short-lived agents on simple tasks, drift risk is low. But if your agents:
 
-Whether the agent's persistent memory state is remaining coherent:
+- Run for days or weeks with persistent memory
+- Share context artifacts across multiple agents
+- Need to behave consistently (accuracy matters, not just "did it respond")
 
-- Memory growth velocity
-- Anomalous retrieval patterns
-- State consistency across sessions
+...then silent memory drift is a real risk. DriftGuard is the layer that tells you it's happening.
 
-## Quick Start
+## How It Fits
 
-```bash
-# Establish a baseline for an agent (run once)
-acme driftguard baseline --agent my-agent-name
+DriftGuard works alongside Elixir — the memory management layer. Elixir builds and injects the memory surface. DriftGuard watches for that surface diverging over time.
 
-# Start drift monitoring
-acme driftguard watch --agent my-agent-name
+Together: Elixir keeps memory fresh. DriftGuard keeps it honest.
 
-# View current drift status
-acme driftguard status
-
-# Compare current behavior to baseline
-acme driftguard compare --agent my-agent-name
-```
-
-## Output
-
-```
-DriftGuard Status
-==================
-Timestamp: 2026-03-09 15:42:31 UTC
-
-Monitored Agents: 2
-
-  pipeline-agent       📊 STABLE     Deviation: +2%  (within normal range)
-  support-agent-prod   ⚠ DRIFTING   Deviation: +18%  ← ATTENTION
-
-support-agent-prod — Drift Detail:
-  Baseline established: 2026-02-20 (18 days ago)
-  
-  Context growth rate:  +23%  ⚠  (baseline: 420 tok/session → current: 516 tok/session)
-  Response latency:     +12%  ↑  (baseline: 840ms → current: 941ms)
-  Compaction frequency: +31%  ⚠  (was compacting 1.2×/session → now 1.6×/session)
-  Output consistency:   -5%   ↓  (within range)
-
-  Trend: 18-day upward trajectory. Started 2026-03-01.
-  
-  Recommendation:
-    Review agent configuration changes from 2026-03-01 onwards.
-    High compaction frequency suggests context growth outpacing budget.
-    Consider increasing context budget or reviewing memory management.
-```
-
-## Establishing Baselines
-
-DriftGuard needs a stable operating period to establish a reliable baseline. When to baseline:
-
-- **After a new agent deployment** once it's been running for a few days
-- **After a major configuration change** to reset expectations
-- **Periodically** (recommended: quarterly) to account for intentional evolution
-
-```bash
-# Establish baseline (captures current 7-day behavior window)
-acme driftguard baseline --agent my-agent-name
-
-# Baseline with custom window
-acme driftguard baseline --agent my-agent-name --window 14d
-
-# Reset baseline (use when you've intentionally changed agent behavior)
-acme driftguard baseline --agent my-agent-name --reset
-```
-
-## Drift Thresholds
-
-DriftGuard uses configurable thresholds. Defaults are conservative — flag early, before problems compound.
-
-```yaml
-# ~/.acme/driftguard.yaml
-thresholds:
-  context_growth_rate: 15     # % deviation from baseline before warning
-  response_latency: 20        # % deviation from baseline
-  compaction_frequency: 25    # % deviation from baseline
-  output_consistency: 15      # % drop from baseline before warning
-
-monitoring:
-  check_interval: 3600        # seconds between drift checks (default: 1h)
-  trend_window: 7             # days of history for trend analysis
-```
-
-## Integration with Sentinel and Agent911
-
-DriftGuard operates on a longer time horizon than Sentinel:
-
-- **Sentinel** catches active failures (minutes)
-- **DriftGuard** catches slow degradation (days to weeks)
-
-Both feed into Agent911. DriftGuard findings appear in the Agent911 snapshot when drift thresholds are exceeded.
-
-## CLI Reference
-
-```bash
-# Baseline management
-acme driftguard baseline --agent <name>
-acme driftguard baseline --agent <name> --reset
-acme driftguard baseline list
-
-# Status and comparison
-acme driftguard status
-acme driftguard status --agent <name>
-acme driftguard compare --agent <name>
-
-# Monitoring
-acme driftguard watch --agent <name>
-acme driftguard watch --all
-
-# History
-acme driftguard history --agent <name>
-acme driftguard history --agent <name> --days 30
-```
-
-## Next Steps
-
-<CardGroup cols={2}>
-  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
-    Active failure detection — the short-horizon complement to DriftGuard.
-  </Card>
-  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    DriftGuard findings surface in the Agent911 snapshot when thresholds are exceeded.
-  </Card>
-</CardGroup>
+Agent911 surfaces DriftGuard signals in its incident view — so memory integrity shows up alongside liveness and model health, not in a separate place you have to remember to check.

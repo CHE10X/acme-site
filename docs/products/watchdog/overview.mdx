@@ -1,218 +1,61 @@
 ---
-title: Watchdog Overview
-description: Heartbeat monitoring and liveness verification for AI agent systems
+title: Watchdog
+description: Catches the gap between "running" and "actually working"
 ---
 
 # Watchdog
 
-Watchdog continuously verifies that your agents are not just alive — but actually making progress. It monitors gateway and agent liveness, probes for stall signatures, and escalates before silent throughput collapse becomes an outage.
+Your process monitor says your agent is up. Watchdog checks whether it's actually doing anything.
 
-## The Gap Between "Running" and "Working"
+That gap — between a port being open and real work happening — is where most quiet failures live.
 
-Process monitors and uptime checkers answer one question: is the process alive? That's necessary but insufficient for agents.
+## The Problem It Solves
 
-An agent can be:
-- **Running but stalled** — process is up, no work happening
-- **Running but looping** — executing continuously, not advancing
-- **Running but silent** — heartbeat looks fine, outputs have stopped
+Standard health checks answer: *is the process alive?*
 
-Watchdog watches for these conditions — the gap between the process being alive and the agent actually working.
+Watchdog answers: *is it progressing?*
 
-## What Watchdog Does
+An agent can be fully "running" — port open, process active — and be completely frozen. Compaction events, hung model calls, and stuck loops all look healthy from the outside. Watchdog looks for the difference.
 
-<CardGroup cols={2}>
-  <Card title="Gateway Probes" icon="satellite-dish">
-    Actively probes gateway health at regular intervals. Not passive — verified.
-  </Card>
-  <Card title="Stall Signature Detection" icon="pause-circle">
-    Recognizes patterns consistent with execution stalls before they cause failures.
-  </Card>
-  <Card title="Throughput Monitoring" icon="chart-line">
-    Tracks whether work is actually completing, not just whether the agent is active.
-  </Card>
-  <Card title="Escalation Pipeline" icon="arrow-up-right-from-square">
-    Routes detections to Sentinel, Agent911, and configured alert channels.
-  </Card>
-</CardGroup>
+## How It Works
 
-## How Watchdog Works
+Watchdog runs a heartbeat loop on your gateway. Every probe, it checks not just that the port responds, but that the gateway is actually processing. If probes start failing:
 
-Watchdog runs as a persistent background monitor with two probe types:
+- It doesn't fire immediately — it waits for 3 consecutive failures before acting (no false alarms from a single blip)
+- After confirmed failure, it emits a `GATEWAY_STALL` event and can trigger a restart
+- Every action is logged before it happens — you always have a record
 
-### Liveness Probes
+## Keeping Your Disk Clean
 
-Active checks that the gateway and agent runtime are responsive:
+Watchdog v1.2 also handles log hygiene automatically:
 
-```
-Every 30s:
-  → Probe gateway endpoint
-  → Verify response within SLA window (default: 5s)
-  → Record heartbeat age
-  → Escalate if missed for N consecutive probes
-```
+- Warns when log files hit 2MB, trims at 10MB
+- Manages the restore staging directory — warns at 100MB, prunes at 250MB
+- Conservative by default — never deletes without writing to the log first
 
-### Progress Probes
+This matters if you're running long-lived agents. Logs accumulate. Watchdog keeps them from quietly eating your disk.
 
-Passive observation that meaningful work is completing:
+## What It Writes
+
+Everything Watchdog does gets written somewhere. Nothing is silent.
+
+| File | What's In It |
+|------|-------------|
+| `watchdog.log` | Probe results, stall events, restart actions |
+| `status.log` | Current liveness state — Sentinel and Agent911 read this |
+| `ops_events.log` | Every significant action, append-only |
+| `hygiene.log` | Disk and log management actions |
+
+These files are the foundation. RadCheck reads them. Sentinel runs inside the Watchdog loop. Agent911 pulls from all of them. If Watchdog isn't running, everything else is working from stale data.
+
+## Where It Fits
 
 ```
-Continuously:
-  → Monitor context update frequency
-  → Track tool call completion rate
-  → Watch for repeated-output patterns (loop detection)
-  → Measure throughput vs. expected baseline
+Your agents
+  → Watchdog (heartbeat + stall detection)
+      → Sentinel (runs inside every Watchdog cycle)
+          → RadCheck (reads the logs)
+          → Agent911 (reads everything)
 ```
 
-## Detection Scope
-
-| Detection | Trigger |
-|-----------|---------|
-| **Missed heartbeat** | No liveness response for N consecutive intervals |
-| **Stall** | No meaningful progress for threshold window |
-| **Gateway unresponsive** | Probe timeout with no response |
-| **Silent throughput collapse** | Outputs dropped to zero without process failure |
-| **Loop detected** | Repeated identical outputs N times in succession |
-| **Abnormal latency** | Response times exceed established baseline by threshold |
-| **Probe SLA breach** | Gateway responded but took longer than configured SLA |
-
-## Quick Start
-
-```bash
-# Start Watchdog
-acme watchdog start
-
-# Check status
-acme watchdog status
-
-# View recent detections
-acme watchdog log --tail 20
-```
-
-## Sample Output
-
-```
-Watchdog Monitor
-================
-Status: ACTIVE
-Agents watched: 3
-
-Agent Health:
-  ✓ pipeline-agent       ALIVE    Heartbeat: 8s ago
-  ✓ indexer-agent        ALIVE    Heartbeat: 12s ago
-  ⚠ support-agent-prod   STALL    No progress: 4m 22s
-
-Recent Detections:
-  [HIGH] 15:42:09 — support-agent-prod: Stall detected (no progress 4m 22s)
-  [HIGH] 15:42:09 — support-agent-prod: Feeding Sentinel + Agent911
-
-Escalation:
-  → Sentinel: notified
-  → Agent911: snapshot triggered
-  → Webhook: alert sent
-```
-
-## Configuration
-
-```yaml
-# ~/.acme/watchdog.yaml
-probes:
-  liveness:
-    interval_seconds: 30
-    timeout_seconds: 5
-    missed_threshold: 3    # Escalate after N missed probes
-
-  progress:
-    stall_threshold_seconds: 300   # Escalate if no progress for this long
-    loop_threshold: 5              # Escalate after N repeated outputs
-    silence_threshold_seconds: 120 # Escalate if silent for this long
-
-alerts:
-  channels:
-    - type: webhook
-      url: https://your-alerting-system.com/webhook
-    - type: email
-      to: oncall@yourcompany.com
-
-# Integration with ACME stack
-integrations:
-  sentinel: true
-  agent911: true
-```
-
-## CLI Reference
-
-```bash
-# Start/stop/restart
-acme watchdog start
-acme watchdog stop
-acme watchdog restart
-
-# Status and health
-acme watchdog status
-acme watchdog status --format json
-acme watchdog health --agent <name>
-
-# Logs and detections
-acme watchdog log
-acme watchdog log --tail 50 --follow
-acme watchdog log --since 1h --format json
-
-# Probe management
-acme watchdog probe run --agent <name>    # Manual probe
-acme watchdog probe history               # Probe history
-
-# Configuration
-acme watchdog config show
-acme watchdog config set probes.liveness.interval_seconds 15
-```
-
-## Watchdog vs Sentinel
-
-Watchdog and Sentinel are complementary:
-
-| Tool | What It Watches | How |
-|------|----------------|-----|
-| **Watchdog** | Gateway liveness, heartbeat, throughput | Active probes + passive monitoring |
-| **Sentinel** | Runtime anomalies, stalls, behavioral patterns | Continuous passive observation |
-
-Watchdog is the active verifier. Sentinel is the passive observer. Together they cover the full failure surface.
-
-When both are configured, they share detections with Agent911 — correlated events surface as higher-confidence incidents.
-
-## Escalation Path
-
-When Watchdog detects a problem:
-
-```
-Watchdog detects stall
-        │
-        ├──▶ Sentinel notified (if configured)
-        ├──▶ Agent911 snapshot triggered (if configured)
-        ├──▶ Webhook alert sent (if configured)
-        └──▶ Watchdog log entry (always)
-```
-
-Operators respond through Agent911's guided playbook — Watchdog surfaces the problem and hands it off.
-
-## Pricing
-
-Watchdog is a paid product. It's designed for teams running production agents where missed heartbeats and silent stalls have real consequences.
-
-See [Pricing](/pricing) for current rates.
-
-## Next Steps
-
-<CardGroup cols={2}>
-  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
-    Passive runtime anomaly detection. Pairs with Watchdog for full coverage.
-  </Card>
-  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    Watchdog feeds detections into the Agent911 control plane.
-  </Card>
-  <Card title="DriftGuard" icon="arrow-right-arrow-left" href="/products/driftguard/overview">
-    Long-horizon behavioral drift. Watchdog handles the short horizon.
-  </Card>
-  <Card title="Lazarus" icon="rotate" href="/products/lazarus/overview">
-    Confirm recovery readiness so Watchdog escalations have a clear path.
-  </Card>
-</CardGroup>
+Watchdog is layer zero. Start here.

@@ -1,83 +1,78 @@
 ---
 title: Sentinel
-description: Continuous runtime monitoring and protection for AI agent stacks
+description: Always-on monitoring that catches what you'd miss
 ---
 
 # Sentinel
 
-Sentinel is the always-on detection layer that watches your agent stack while it runs. Where RadCheck is a one-time scan, Sentinel monitors continuously — surfacing silence gaps, stall patterns, and compaction pressure before they become incidents.
+Your agent can be running and broken at the same time. Sentinel watches for that.
+
+It runs continuously alongside your stack and tells you when something is wrong — before you find out the hard way.
 
 <Warning>
-Sentinel is **advisory only**. It detects and signals — it never takes autonomous action, restarts services, or modifies your configuration.
+Sentinel is **read-only and advisory**. It watches and alerts. It never restarts anything, changes your configuration, or takes action on your behalf.
 </Warning>
 
-## What Sentinel Does
+## What Sentinel Watches For
 
-- Monitors for stalled or silent agent behavior during live operation
-- Tracks compaction acceleration and emits disk pressure advisories
-- Maintains a four-state protection machine that escalates based on signal accumulation
-- Feeds real-time event context into Agent911 and Watchdog
-- Emits structured alerts that operators and downstream tools can consume
+**Silence gaps** — your agent stopped responding when it shouldn't have. Not a crash — just... nothing happening anymore.
 
-## The Four Protection States
+**Stall patterns** — the process is alive, the port is up, but work stopped. Sentinel knows the difference between "running" and "actually doing something."
 
-Sentinel maintains a state machine across four levels:
+**Memory pressure** — compaction acceleration that historically shows up before a multi-minute freeze. You get a warning while you can still act.
 
-| State | Meaning |
-|-------|---------|
-| `NOMINAL` | No anomalies detected — system within expected parameters |
-| `SUSPECT` | Early warning signals present — elevated monitoring |
-| `ACTIVE` | Active anomaly confirmed — alert emitted |
-| `STORM` | Compaction storm state — multiple overlapping signals |
+**Log growth** — disk pressure building quietly in the background, caught before it becomes a storage problem.
 
-State advances automatically based on signal accumulation. Operators observe the current state in `sentinel_protection_state.json` and via Agent911.
+## What You'll See
 
-## What Sentinel Monitors
+Sentinel maintains four states and tells you which one you're in:
 
-**Silence gaps** — expected agent activity has stopped without a clean shutdown signal.
+| State | What It Means |
+|-------|--------------|
+| `NOMINAL` | Everything looks normal |
+| `SUSPECT` | Early signals — worth keeping an eye on |
+| `ACTIVE` | Something's wrong — check your stack |
+| `STORM` | Multiple problems overlapping — act now |
 
-**Stall patterns** — process appears alive (port up) but meaningful work has stopped. Sentinel distinguishes between "running" and "progressing."
+You don't have to poll for this. When the state changes, Sentinel logs it. Agent911 reads it. You find out.
 
-**Compaction pressure** — memory compaction acceleration that historically precedes multi-minute stalls. Sentinel adds a `comp_alert` signal to every Watchdog status cycle when compaction budget is stressed.
+## How It Fits In
 
-**Disk growth slope** — Sentinel emits a `SENTINEL_DISK_PRESSURE` advisory when log volume growth exceeds safe thresholds.
+Sentinel is built into the Watchdog loop — every heartbeat check carries Sentinel's current read of your stack. That means:
 
-## How Sentinel Integrates with Watchdog
+- When Watchdog probes your gateway, it already knows if Sentinel is seeing pressure
+- A `STORM` state shows up everywhere: `watchdog.log`, `ops_events.log`, Agent911
+- You get one consistent picture, not three different dashboards to reconcile
 
-Sentinel runs inside the Watchdog loop. Every Watchdog heartbeat cycle receives Sentinel's current protection state. This means:
+## Files It Writes
 
-- Watchdog stall detection inherits Sentinel's compaction context
-- A `STORM` state in Sentinel appears in `watchdog.log` and `ops_events.log`
-- Agent911 reads both surfaces — the protection state influences its top-risk ranking
+Sentinel writes three files, all read-only outputs — it never touches your config:
 
-## Output Files
+| File | What's In It |
+|------|-------------|
+| `compaction_alert_state.json` | Current memory pressure level and rate |
+| `sentinel_protection_state.json` | Current state, when it changed, what triggered it |
+| `ops_events.log` | Running log of every state change |
 
-| File | Contents |
-|------|----------|
-| `compaction_alert_state.json` | Current compaction pressure level, acceleration rate, timestamp |
-| `sentinel_protection_state.json` | Current state, last transition, active signals |
-| `ops_events.log` | Append-only event log — all Sentinel state transitions and alerts |
+## When Something Goes Wrong
 
-All files are read-only outputs. Sentinel never modifies gateway config or operational runtime.
+If Sentinel hits `ACTIVE` or `STORM`:
 
-## From Sentinel to Agent911
+1. Run `triage` first — capture a snapshot before touching anything
+2. Open Agent911 — it'll show you which signals are active
+3. Check `sentinel_protection_state.json` if you want the raw detail
 
-Sentinel is detection. [Agent911](/products/agent911/overview) is the unified incident view.
-
-When Sentinel reports `ACTIVE` or `STORM`:
-1. Run `triage` immediately to capture a proof bundle before touching anything
-2. Open Agent911 for a unified incident view with all active signals
-3. Check `sentinel_protection_state.json` for the specific active signal list
+Don't restart first and diagnose second. That's how you lose the evidence.
 
 ## Pricing
 
-Sentinel is a paid product — the recommended first step after a [RadCheck](/products/radcheck/overview) baseline scan. See [Pricing](/pricing) for current rates.
+Sentinel is a paid product. The free starting point is [RadCheck](/products/radcheck/overview) — run that first, see where your stack stands, then decide if always-on monitoring is worth it for what you're building.
 
 <CardGroup cols={2}>
-  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
-    Get your baseline reliability score first.
+  <Card title="Start with RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
+    Free scan, no account. Get your baseline before adding monitoring.
   </Card>
   <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    Add unified incident view when you need it.
+    Sentinel feeds Agent911. Together they give you the full picture.
   </Card>
 </CardGroup>

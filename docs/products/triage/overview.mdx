@@ -1,14 +1,16 @@
 ---
-title: Triage
-description: Open-source diagnostic CLI for AI agent stacks — deterministic proof bundles before any recovery action
+title: triage
+description: Capture what's happening before you change anything
 ---
 
-# Triage
+# triage
 
-Triage is a free, open-source diagnostic CLI that captures a read-only proof bundle of your agent stack's current state. Run it before you touch anything.
+Before you touch anything, run `triage`.
+
+It captures a read-only snapshot of your stack — gateway health, session state, disk pressure, compaction history, and more — and saves it with a timestamp. That snapshot is your evidence. You want it before you start changing things.
 
 <Info>
-`triage` is MIT licensed, requires no account, and makes zero changes to your system. It is the evidence gate — operator rule is: **run triage before any recovery action.**
+`triage` is free, MIT licensed, and requires no account. It never modifies your system.
 </Info>
 
 ## Install
@@ -23,62 +25,60 @@ curl -fsSL https://acmeagentsupply.com/install/triage | bash
 triage
 ```
 
-Output lands at `~/.openclaw/triage-bundles/YYYY-MM-DD-HH-MM-SS/` — timestamped so you can compare before and after any change.
+Done in seconds. Output lands at `~/.openclaw/triage-bundles/YYYY-MM-DD-HH-MM-SS/`.
 
-## What Triage Collects
+## What It Captures
 
-Seven collectors run on every invocation:
+Seven checks run every time:
 
-| Collector | What It Captures |
-|-----------|-----------------|
-| `gateway` | Gateway liveness, port status, probe response |
-| `sessions` | Active session topology and count |
-| `disk` | Log volume, growth rate, pressure indicators |
-| `integrity` | Binary and config file integrity checks |
+| Collector | What It Grabs |
+|-----------|--------------|
+| `gateway` | Liveness, port status, probe response |
+| `sessions` | Active session count and topology |
+| `disk` | Log volume, growth rate, pressure |
+| `integrity` | Binary and config file checks |
 | `doctor` | Environment and dependency health |
-| `compaction` | Compaction event history, current budget level |
+| `compaction` | Compaction event history and current budget |
 | `fleet` | Version, uptime, environment identity |
 
-## Reading the Bundle
+## Reading Your Bundle
 
-After `triage` runs, check these files first:
+Open these first:
 
 ```
-gateway_status.txt       — is the gateway alive and responding?
-compaction_status.txt    — any active compaction pressure?
-fleet_identity.txt       — version, uptime, environment confirmed
-disk_pressure.txt        — log volume and growth slope
+gateway_status.txt      — is the gateway alive and actually responding?
+compaction_status.txt   — any active memory pressure?
+fleet_identity.txt      — version, uptime, confirmed
+disk_pressure.txt       — log volume and growth rate
 ```
 
-A clean bundle means you have evidence. Now you know what "before" looks like.
+A clean bundle means you know what "before" looks like. Now you can make changes and compare.
 
-## What Triage Does NOT Do
+## What triage Does NOT Do
 
-- No recovery execution — ever
-- No writes to `openclaw.json` or any config file
-- No background daemons or LaunchAgent installs
-- No outbound network calls
+- No recovery or restart — ever
+- No writes to your config
+- No background processes or startup items installed
+- No network calls
 
-## Commercial Edition
+## triage for Acme
 
-The open-source `triage` command gives you the proof bundle. **Triage for Acme** adds:
+The free `triage` command gives you the proof bundle. **Triage for Acme** connects it to the rest of the ACME stack:
 
-| Feature | OSS | Triage for Acme |
-|---------|-----|-----------------|
+| | Free | Triage for Acme |
+|-|------|----------------|
 | 7 diagnostic collectors | ✓ | ✓ |
 | Timestamped proof bundle | ✓ | ✓ |
 | Live `-watch` dashboard | — | ✓ |
-| Reliability score (RadCheck) | — | ✓ |
+| RadCheck score in the view | — | ✓ |
 | Protection state | — | ✓ |
 | Agent911 integration | — | ✓ |
 
-## Next Steps
-
 <CardGroup cols={2}>
   <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
-    Triage captures the state. RadCheck scores the risk.
+    triage captures state. RadCheck scores the risk.
   </Card>
   <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    Use the triage bundle as input to Agent911's incident view.
+    Feed your triage bundle into Agent911 for a full incident view.
   </Card>
 </CardGroup>
