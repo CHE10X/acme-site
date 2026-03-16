@@ -1,228 +1,164 @@
 ---
 title: Transmission Overview
-description: Signal transport integrity across the ACME reliability stack
+description: Intelligent model routing that matches task complexity to the right model in real time.
 ---
 
 # Transmission
 
-Transmission ensures that reliability signals — detections, alerts, incident events, recovery state — move correctly between components of the ACME stack. It's the connective tissue that keeps your reliability infrastructure coherent.
+Transmission is ACME's dynamic model router. It classifies each task and routes it to the model best suited to handle it — automatically, with sub-10ms overhead, and full observability.
 
-## Why Signal Integrity Matters
+Most agent systems use static model configuration: one model for everything, or a hand-coded fallback chain. Transmission replaces that with task-aware routing. A quick lookup routes to a fast, cost-effective model. A complex reasoning task routes to a more capable one. The routing adapts to the work — not to whoever last edited the config file.
 
-Each component in the ACME stack produces signals: Sentinel detects a stall, Watchdog misses a heartbeat, OCTriage classifies an incident. For your reliability infrastructure to work as a whole, those signals need to:
+## Why Static Routing Fails at Scale
 
-- **Arrive** — reach the right destination
-- **Arrive intact** — not corrupted or truncated in transit
-- **Arrive in order** — timelines must be reconstructible
-- **Arrive once** — no duplicated events inflating incident counts
+Static configuration works fine until it doesn't:
 
-Without this, your tools disagree. Agent911 shows one state; Sentinel shows another. You spend incident time debugging your monitoring, not your agents.
+- A simple query routes to your most expensive model because it's the default
+- A complex task routes to a budget model because the fallback chain doesn't consider task type
+- Cost climbs because nothing distinguishes high-stakes requests from routine ones
+- You can't audit why any specific task went to any specific model
 
-**Transmission solves this.**
+Transmission solves this by making routing an active, observable decision rather than a hardcoded assumption.
 
 ## What Transmission Does
 
 <CardGroup cols={2}>
-  <Card title="Event Delivery Guarantees" icon="circle-check">
-    At-least-once delivery with deduplication. Events arrive, or you know they didn't.
+  <Card title="Task Classification" icon="tags">
+    Classifies each task by work type — coding, analysis, writing, organizing, and more — before routing.
   </Card>
-  <Card title="Order Preservation" icon="list-ol">
-    Detection events, classification results, and recovery state maintained in sequence.
+  <Card title="Model Selection" icon="sliders">
+    Maps work type and lane (interactive vs. background) to the right model from your configured pool.
   </Card>
-  <Card title="Coherence Verification" icon="check-double">
-    Validates that signal consumers (Agent911, alert channels) received what was sent.
+  <Card title="Confidence-Based Gearing" icon="gauge-high">
+    When classification confidence is low, Transmission routes conservatively — gearing up to a more capable model rather than guessing.
   </Card>
-  <Card title="Dead Letter Handling" icon="inbox">
-    Failed deliveries captured and surfaced for operator review — nothing silently dropped.
+  <Card title="Full Observability" icon="file-lines">
+    Every routing decision is logged as an append-only NDJSON event. Audit exactly what routed where and why.
   </Card>
 </CardGroup>
 
-## Signal Architecture
+## How Routing Works
 
-Transmission operates as the transport layer between ACME components:
+Transmission resolves routing through four layers in order:
 
-```
-┌──────────────┐    ┌────────────────────┐    ┌──────────────────┐
-│  Sentinel    │───▶│                    │───▶│    Agent911      │
-│  Watchdog    │───▶│   Transmission     │───▶│    Alert Channel │
-│  DriftGuard  │───▶│   Signal Router    │───▶│    Webhooks      │
-│  SphinxGate  │───▶│                    │───▶│    Operator CLI  │
-└──────────────┘    └────────────────────┘    └──────────────────┘
-                             │
-                    ┌────────▼────────┐
-                    │  Event Journal  │
-                    │  (append-only)  │
-                    └─────────────────┘
-```
+### 1. Work Class Resolution
 
-The event journal is the source of truth. Every signal from every component is written there before delivery. This enables:
+Transmission determines task type using the highest-confidence source available:
 
-- **Replay** — reconstruct exactly what happened and when
-- **Audit** — prove what signals were sent and received
-- **Recovery** — resume delivery after a disruption without losing events
+| Priority | Source | Example |
+|----------|--------|---------|
+| 1 | Dispatch hint (if provided) | Workflow system declares `work_class: coding` |
+| 2 | Explicit work class | Caller declares task type directly |
+| 3 | Agent metadata | Session context includes task classification |
+| 4 | Heuristic classifier | Keyword analysis of the prompt |
+| 5 | Lane default | Falls back to lane-appropriate baseline |
 
-## Signal Types
+### 2. Lane
 
-Transmission handles four categories of reliability signal:
+Tasks run in one of two lanes:
 
-| Category | Examples |
-|----------|---------|
-| **Detection events** | Stall detected, heartbeat missed, drift alert, routing anomaly |
-| **Classification results** | OCTriage incident classification, confidence score, evidence bundle path |
-| **State transitions** | Agent health change, recovery started, recovery verified |
-| **Operator actions** | Snapshot triggered, playbook started, bundle exported |
+| Lane | Optimizes For | Default Preference |
+|------|--------------|-------------------|
+| `interactive` | Quality and capability | Premium → budget-capable → mid → efficient |
+| `background` | Cost and throughput | Budget-capable → mid → premium → efficient |
 
-Each signal type has a defined schema, ensuring consumers know exactly what they're receiving.
+### 3. Confidence Gearing
 
-## Delivery Channels
+If the classifier confidence falls below the configured threshold (default: 70%), Transmission gears up — routing to a higher-capability model rather than committing to a low-confidence classification.
 
-Transmission routes signals to configured destinations:
+This prevents a misclassified complex task from landing on an underpowered model.
 
-```yaml
-# ~/.acme/transmission.yaml
-channels:
-  agent911:
-    enabled: true
-    endpoint: local            # Local Agent911 instance
+### 4. Execution Config
 
-  webhooks:
-    - name: "pagerduty"
-      url: https://events.pagerduty.com/v2/enqueue
-      secret: ${PAGERDUTY_KEY}
-      filter:
-        severity: [HIGH, CRITICAL]   # Only escalate high-severity events
+Transmission also resolves execution parameters — streaming mode, temperature, tool-calling, structured output — based on work type, and masks any settings the selected model doesn't support.
 
-    - name: "slack-alerts"
-      url: https://hooks.slack.com/services/...
-      filter:
-        types: [STALL, CRASH, RECOVERY_FAILED]
+## Routing Log Format
 
-  email:
-    enabled: true
-    to: oncall@yourcompany.com
-    filter:
-      severity: [CRITICAL]
-```
+Every decision is emitted as a structured NDJSON event:
 
-## Event Journal
-
-Every event is appended to the Transmission journal before delivery:
-
-```
-/var/acme/transmission/journal/
-  events-2026-03-09.jsonl
-  events-2026-03-10.jsonl
-  ...
-```
-
-Journal format:
 ```json
 {
-  "event_id": "evt_9xk2m4",
-  "timestamp": "2026-03-09T15:42:31Z",
-  "source": "sentinel",
-  "type": "STALL_DETECTED",
-  "agent": "support-agent-prod",
-  "severity": "HIGH",
-  "payload": { "duration_seconds": 262, "provider": "openai" },
-  "delivery": {
-    "agent911": { "status": "delivered", "at": "2026-03-09T15:42:31.08Z" },
-    "webhooks": [
-      { "name": "pagerduty", "status": "delivered", "at": "2026-03-09T15:42:31.12Z" }
-    ]
+  "ts": "2026-03-15T19:30:00.000Z",
+  "req_id": "tr-a3f2b1c4",
+  "event": "TRANSMISSION_SUCCESS",
+  "model": "openrouter/deepseek/deepseek-v3.1-terminus:exacto",
+  "work_class": "coding",
+  "confidence": 0.83,
+  "classifier_source": "heuristic",
+  "gear": "budget-capable",
+  "duration_ms": 1.42
+}
+```
+
+Log path: `~/.openclaw/watchdog/transmission_events.log`
+
+## Configuration
+
+```json
+{
+  "models": {
+    "anthropic/claude-sonnet-4-6": {
+      "tier": "premium",
+      "capabilities": ["coding", "analysis", "writing", "creative"],
+      "quality_score": 95,
+      "cost_weight": 10
+    },
+    "openrouter/deepseek/deepseek-v3.1-terminus:exacto": {
+      "tier": "budget-capable",
+      "capabilities": ["coding", "analysis"],
+      "quality_score": 80,
+      "cost_weight": 2
+    },
+    "google/gemini-2.5-flash-lite": {
+      "tier": "efficient",
+      "capabilities": ["simple", "organizing"],
+      "quality_score": 62,
+      "cost_weight": 1
+    }
+  },
+  "confidence_threshold": 0.70,
+  "lane_preferences": {
+    "interactive": ["premium", "budget-capable", "mid", "efficient"],
+    "background":  ["budget-capable", "mid", "premium", "efficient"]
   }
 }
 ```
 
-## Dead Letters
+## Performance
 
-If a signal fails to deliver after retries, it's placed in the dead letter queue — not silently dropped:
+Transmission is designed to add no meaningful overhead to the request path:
 
-```bash
-# View dead letter queue
-acme transmission dead-letters
+| Metric | Value |
+|--------|-------|
+| p95 routing latency (heuristic path) | < 10ms |
+| Classification cache | 100-entry LRU, keyed on prompt prefix |
+| Blocking I/O in hot path | None |
+| Writes to agent config files | Never |
 
-# Retry failed deliveries
-acme transmission retry --channel webhooks
+## What Transmission Does NOT Do
 
-# Inspect a specific failed event
-acme transmission inspect evt_9xk2m4
-```
-
-Dead letters are surfaced in the CLI and optionally in Agent911.
-
-## Quick Start
-
-```bash
-# Check Transmission status
-acme transmission status
-
-# View event journal (recent)
-acme transmission log --tail 20
-
-# Verify delivery for a specific agent
-acme transmission verify --agent my-agent-name
-
-# Test channel delivery
-acme transmission test --channel pagerduty
-```
-
-## CLI Reference
-
-```bash
-# Status
-acme transmission status
-acme transmission status --format json
-
-# Event log
-acme transmission log
-acme transmission log --tail 50 --follow
-acme transmission log --since 1h
-acme transmission log --type STALL_DETECTED --format json
-
-# Journal
-acme transmission journal list
-acme transmission journal export --date 2026-03-09 --output events.jsonl
-
-# Delivery management
-acme transmission verify --agent <name>
-acme transmission dead-letters
-acme transmission retry --all
-acme transmission test --channel <name>
-
-# Configuration
-acme transmission config show
-acme transmission config validate
-```
-
-## Integration
-
-Transmission doesn't require configuration if you're only using ACME tools locally — it operates as an internal transport layer by default. You configure it explicitly when:
-
-- **Connecting to external channels** (PagerDuty, Slack, email, custom webhooks)
-- **Running multi-machine deployments** where components are on different hosts
-- **Enabling compliance logging** that needs verifiable delivery receipts
-- **Replaying events** after a disruption or missed alert window
+- Does not make model API calls — it routes to the model, it doesn't invoke it
+- Does not modify your `openclaw.json` or any agent configuration
+- Does not handle failover or continuity — that's your model fallback chain
+- Does not replace your model chain config — it decides which entry in the chain to use
 
 ## Pricing
 
-Transmission is a paid product, included with the [Operator Bundle](/products/operator-bundle) or available standalone.
-
-See [Pricing](/pricing) for current rates.
+Transmission is a paid product, included with the [Operator Bundle](/docs/pricing) or available standalone.
 
 ## Next Steps
 
 <CardGroup cols={2}>
-  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    Primary consumer of Transmission signals — the unified control plane.
+  <Card title="SphinxGate" icon="shield-check" href="/docs/products/sphinxgate/overview">
+    Policy enforcement for model routing — pairs directly with Transmission.
   </Card>
-  <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
-    Primary producer of runtime detection events.
+  <Card title="Platform Overview" icon="layer-group" href="/docs/platform">
+    How Transmission fits into the full reliability stack.
   </Card>
-  <Card title="SphinxGate" icon="shield-check" href="/products/sphinxgate/overview">
-    Routing anomalies are routed through Transmission to consumers.
+  <Card title="Pricing" icon="tag" href="/docs/pricing">
+    Operator Bundle and standalone options.
   </Card>
-  <Card title="Operator Bundle" icon="box" href="/products/operator-bundle">
-    Transmission is included in the full Operator Bundle.
+  <Card title="Support" icon="life-ring" href="/docs/support/overview">
+    Questions about deployment or configuration.
   </Card>
 </CardGroup>

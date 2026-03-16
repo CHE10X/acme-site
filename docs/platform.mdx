@@ -18,15 +18,15 @@ Agent reliability follows a loop. ACME tools map to each phase:
 │   │  DETECT  │───▶│  TRIAGE  │───▶│ RECOVER  │───▶│VERIFY │ │
 │   └──────────┘    └──────────┘    └──────────┘    └───────┘ │
 │        │               │               │               │    │
-│   RadCheck         OCTriage        Agent911         Lazarus  │
-│   Sentinel         DriftGuard      Watchdog                  │
-│   Watchdog         SphinxGate                               │
+│   RadCheck           Triage         Agent911         Lazarus │
+│   Sentinel         DriftGuard        Recall                  │
+│   Watchdog         SphinxGate       Watchdog                 │
 │   FindMyAgent                                               │
 │                                                              │
 └──────────────────────────────────────────────────────────────┘
                     ▲                               │
                     └───────────────────────────────┘
-                         Transmission (signal bus)
+                      Transmission (model routing)
 ```
 
 Every tool has a defined place in this loop. No tool overlaps with another in responsibility. Each handoff is explicit.
@@ -39,12 +39,12 @@ Tools that identify problems — before users do.
 
 | Tool | What It Detects |
 |------|----------------|
-| [RadCheck](/products/radcheck/overview) | Point-in-time reliability risk (0–100 score) |
-| [Sentinel](/products/sentinel/overview) | Real-time stalls, silence gaps, runtime anomalies |
-| [Watchdog](/products/watchdog/overview) | Missed heartbeats, liveness failures, throughput collapse |
-| [DriftGuard](/products/driftguard/overview) | Long-horizon behavioral drift across sessions |
-| [FindMyAgent](/products/findmyagent/overview) | Fleet presence — who's up, who's stalled, who needs attention |
-| [SphinxGate](/products/sphinxgate/overview) | Unauthorized routing, policy violations, audit anomalies |
+| [RadCheck](/docs/products/radcheck/overview) | Point-in-time reliability risk (0–100 score) |
+| [Sentinel](/docs/products/sentinel/overview) | Real-time stalls, silence gaps, runtime anomalies |
+| [Watchdog](/docs/products/watchdog/overview) | Missed heartbeats, liveness failures, throughput collapse |
+| [DriftGuard](/docs/products/driftguard/overview) | Long-horizon behavioral drift across sessions |
+| [FindMyAgent](/docs/products/findmyagent/overview) | Fleet presence — who's up, who's stalled, who needs attention |
+| [SphinxGate](/docs/products/sphinxgate/overview) | Unauthorized routing, policy violations, audit anomalies |
 
 ### Triage
 
@@ -52,8 +52,8 @@ Tools that help you understand what happened and what to do.
 
 | Tool | What It Classifies |
 |------|-------------------|
-| [OCTriage](/products/octriage/overview) | Incident type, root cause, evidence bundle, next steps |
-| [DriftGuard](/products/driftguard/overview) | Drift patterns and memory integrity issues |
+| [Triage](/docs/products/triage/overview) | Incident type, root cause, evidence bundle, next steps |
+| [DriftGuard](/docs/products/driftguard/overview) | Drift patterns and memory integrity issues |
 
 ### Recover
 
@@ -61,8 +61,8 @@ Tools that coordinate and guide recovery.
 
 | Tool | What It Provides |
 |------|----------------|
-| [Agent911](/products/agent911/overview) | Unified control plane — telemetry, playbooks, proof bundles |
-| [Watchdog](/products/watchdog/overview) | Escalation and handoff to recovery workflow |
+| [Agent911](/docs/products/agent911/overview) | Unified control plane — telemetry, playbooks, proof bundles |
+| [Watchdog](/docs/products/watchdog/overview) | Escalation and handoff to recovery workflow |
 
 ### Verify
 
@@ -70,13 +70,13 @@ Tools that confirm recovery was actually successful.
 
 | Tool | What It Verifies |
 |------|----------------|
-| [Lazarus](/products/lazarus/overview) | Recovery readiness — can your system actually restore? |
+| [Lazarus](/docs/products/lazarus/overview) | Recovery readiness — can your system actually restore? |
 
-### Signal Bus
+### Model Routing
 
 | Tool | Role |
 |------|------|
-| [Transmission](/products/transmission/overview) | Moves reliability signals between all components with delivery guarantees |
+| [Transmission](/docs/products/transmission/overview) | Routes each task to the right model based on work type, lane, and classifier confidence |
 
 ---
 
@@ -117,7 +117,7 @@ Sentinel + Watchdog → Agent911 + FindMyAgent
 
 ---
 
-### Multi-Model Governance: Add SphinxGate
+### Multi-Model Governance: Add SphinxGate + Transmission
 
 For teams using multiple models or with compliance requirements.
 
@@ -126,7 +126,7 @@ Core Stack + SphinxGate + Transmission
 ```
 
 - SphinxGate enforces routing policy and maintains audit trail
-- Transmission ensures all signals reach Agent911 reliably
+- Transmission routes each task to the right model automatically — no more one-size-fits-all configuration
 
 **Best for:** Teams using fallback chains, multiple providers, or regulated AI usage.
 
@@ -136,7 +136,7 @@ Core Stack + SphinxGate + Transmission
 
 All tools. Full coverage across detection, triage, routing, recovery, and verification.
 
-See the [Operator Bundle](/products/operator-bundle) for details and pricing.
+See the [Operator Bundle](/docs/products/operator-bundle) for details and pricing.
 
 ---
 
