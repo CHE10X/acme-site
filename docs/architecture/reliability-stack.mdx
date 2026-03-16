@@ -5,155 +5,175 @@ description: How ACME's tools fit together across the agent reliability lifecycl
 
 # The Reliability Stack
 
-Agent reliability isn't a single problem — it's a lifecycle. ACME builds tools across that lifecycle: detecting risk before it becomes failure, protecting against failure at runtime, governing routing decisions, and supporting recovery when incidents occur.
+Agents fail in ways that aren't crashes. They stall, drift, go silent, or degrade slowly — and standard monitoring misses all of it. ACME builds a set of tools that cover the full lifecycle of an agent reliability problem: detecting it, understanding it, recovering from it, and verifying you're actually back.
 
 ## The Lifecycle
 
-```
-DETECT ──▶ PROTECT ──▶ GOVERN ──▶ TRIAGE ──▶ RECOVER ──▶ OPERATE
-```
+```mermaid
+flowchart LR
+    classDef detect fill:#1B4D3E,stroke:#52B788,color:#d1fae5
+    classDef triage fill:#312E81,stroke:#818CF8,color:#e0e7ff
+    classDef recover fill:#7C2D12,stroke:#FB923C,color:#ffedd5
+    classDef verify fill:#1E3A5F,stroke:#60A5FA,color:#dbeafe
 
-Each phase has specific tooling. Most operators don't need everything at once — the stack is designed to be adopted incrementally, starting with free detection tools.
+    D["🔍 Detect\nRadCheck · Sentinel\nWatchdog · FindMyAgent"]
+    T["📋 Triage\ntriage · DriftGuard"]
+    R["🔧 Recover\nAgent911 · Recall"]
+    V["✅ Verify\nLazarus"]
 
-## Phase by Phase
+    D --> T --> R --> V
+    V -.->|"loop"| D
 
-### Detect — Know your risk posture
-
-**[RadCheck](/products/radcheck/overview)** — Free, read-only scan
-
-Before you can protect against reliability failures, you need to know where the risk is. RadCheck performs a fast, non-destructive scan and produces a 0–100 reliability score across four domains: stall risk, silence gaps, compaction pressure, and operational hygiene.
-
-Run it before deploying. Run it after incidents. Run it periodically as part of reliability hygiene.
-
----
-
-### Protect — Catch failures as they happen
-
-**[Sentinel](/products/sentinel/overview)** — Paid continuous monitoring
-
-RadCheck is a point-in-time scan. Sentinel watches continuously, catching the silent failures and stalls that don't crash but quietly stop your workflows. It runs as a lightweight observer alongside your agents — no interference, just detection.
-
-**[Watchdog](/products/watchdog/overview)** — Heartbeat and progress verification
-
-The more precise sibling to Sentinel. Watchdog distinguishes between an agent that's *alive* and an agent that's *progressing* — a distinction that matters when agents get stuck rather than crash. Pair with the heartbeat SDK for maximum fidelity.
-
----
-
-### Govern — Keep routing disciplined
-
-**[SphinxGate](/products/sphinxgate/overview)** — Paid policy enforcement
-
-As routing complexity grows — multiple models, fallbacks, contexts — SphinxGate keeps it deterministic and auditable. Every routing decision is policy-driven, logged, and provable. Essential for anyone with compliance requirements or multi-provider setups.
-
----
-
-### Triage — Understand what went wrong
-
-**[OCTriage](/products/octriage/overview)** — Free incident assessment
-
-When something breaks, OCTriage is your first tool. It collects context, classifies the failure pattern, and gives you a concrete next step — along with an evidence bundle for post-incident review or support escalation.
-
----
-
-### Recover — Verify you can get back up
-
-**[Lazarus](/products/lazarus/overview)** — Free recovery readiness
-
-Most operators discover their backups don't work during an actual incident. Lazarus validates recovery readiness proactively: backup coverage, restore assumption validation, and readiness scoring before failure forces the test.
-
----
-
-### Operate — Long-horizon visibility
-
-**[DriftGuard](/products/driftguard/overview)** — Long-horizon drift detection
-
-The problems that don't announce themselves. DriftGuard tracks behavioral baselines and flags slow erosion — context growth, latency trends, output consistency — before they cross into active failure.
-
-**[Agent911](/products/agent911/overview)** — Paid unified control plane
-
-The operator surface that aggregates everything. Health signals, anomaly detections, routing state, recovery readiness — all in one snapshot. When something goes wrong, Agent911 is where you go.
-
-**[FindMyAgent](/products/agent911/findmyagent)** — Fleet presence visibility (included with Agent911)
-
-Live presence, heartbeat age, and "needs attention" flags for every agent in your fleet. Included with Agent911.
-
----
-
-### Infrastructure
-
-**[Transmission](/products/transmission/overview)** — Event coherence layer
-
-The reliability infrastructure for reliability signals. Transmission ensures events flow correctly between components — ordered, deduplicated, and delivered even under degraded conditions.
-
-## How Tools Connect
-
-```
-┌─────────────────────────────────────────────────────┐
-│                     AGENT911                         │
-│            Unified Operator Surface                  │
-└─────────────────┬───────────────┬───────────────────┘
-                  │               │
-        ┌─────────▼──┐    ┌───────▼───────┐
-        │ TRANSMISSION│    │   LAZARUS     │
-        │  (event bus)│    │ (readiness)   │
-        └─────┬───────┘    └───────────────┘
-              │
-    ┌─────────┼──────────┬────────────┐
-    ▼         ▼          ▼            ▼
-SENTINEL  WATCHDOG  SPHINXGATE  DRIFTGUARD
-(runtime) (progress) (routing)   (drift)
-    │
-    ▼
- RADCHECK   OCTRIAGE   LAZARUS
-(scan-time) (triage)   (recovery)
+    class D detect
+    class T triage
+    class R recover
+    class V verify
 ```
 
-## Adoption Path
+Start anywhere. Most people start with **Detect** — a free RadCheck scan — and add more as they need it.
 
-Most operators start small and add coverage as their agent fleet grows:
+---
 
-### Solo operator / single agent
+## Tool by Tool
 
-1. **RadCheck** — Get your first reliability score (free, takes 5 minutes)
-2. **OCTriage** — Have it ready for when incidents happen (free)
-3. **Sentinel** — Add when you want continuous protection
+### Detect
 
-### Solo operator / multiple agents
+These tools tell you something is wrong — or about to be.
 
-Add to the above:
-4. **Watchdog** — Progress verification beyond what Sentinel observes
-5. **Agent911** — Unified view when you're managing more than a couple of agents
-6. **Lazarus** — Validate recovery readiness proactively
+**[RadCheck](/docs/products/radcheck/overview)** — Free scan, 0–100 score
 
-### Multi-model / regulated environment
+A fast read-only scan that scores your stack across five domains: config health, watchdog health, model routing, environment, and port vs. probe detection. Run it before you deploy. Run it after something breaks. Run it when something feels off.
 
-Add to the above:
-7. **SphinxGate** — Deterministic routing with audit trail
-8. **DriftGuard** — Long-horizon behavioral baseline tracking
+**[Sentinel](/docs/products/sentinel/overview)** — Continuous monitoring
+
+Always-on detection that watches for silence gaps, stall patterns, and memory pressure while your agents are running. Tells you before your users do.
+
+**[Watchdog](/docs/products/watchdog/overview)** — Heartbeat and liveness
+
+Distinguishes "running" from "actually working." Catches the frozen-event-loop pattern that passes every naive health check.
+
+**[FindMyAgent](/docs/products/findmyagent/overview)** — Fleet presence
+
+Which agents are up, which are stalled, which need attention — at a glance. Included with Agent911.
+
+---
+
+### Triage
+
+These tools help you understand what happened.
+
+**[triage](/docs/products/triage/overview)** — Free diagnostic snapshot
+
+Captures a proof bundle — gateway health, session state, disk pressure, compaction history — before you change anything. Your evidence. Run it first.
+
+**[DriftGuard](/docs/products/driftguard/overview)** — Memory integrity
+
+Catches slow behavioral drift before it compounds. Watches memory artifacts session-to-session and flags when something diverges from baseline.
+
+---
+
+### Recover
+
+These tools coordinate getting you back.
+
+**[Agent911](/docs/products/agent911/overview)** — Unified incident view
+
+Reads everything — RadCheck score, Sentinel state, Watchdog logs, backup readiness — and shows it in one place. Tells you what's wrong and what to check first.
+
+**[Recall](/docs/products/recall/overview)** — Direct intervention CLI
+
+For when you need to reach in and stop something. Pause an agent, isolate a broken one, stun a runaway. The manual control layer.
+
+---
+
+### Verify
+
+**[Lazarus](/docs/products/lazarus/overview)** — Recovery readiness check
+
+Most people discover their backups don't work during an actual incident. Lazarus checks proactively: backup coverage, restore validation, readiness score. Free.
+
+---
+
+## How It Connects
+
+```mermaid
+flowchart TD
+    classDef free fill:#1B4D3E,stroke:#52B788,color:#d1fae5
+    classDef paid fill:#312E81,stroke:#818CF8,color:#e0e7ff
+    classDef core fill:#374151,stroke:#9CA3AF,color:#F9FAFB
+
+    RC["RadCheck\n(free)"]
+    S["Sentinel"]
+    WD["Watchdog"]
+    T["triage\n(free)"]
+    DG["DriftGuard"]
+    A9["Agent911"]
+    RE["Recall"]
+    L["Lazarus\n(free)"]
+    FM["FindMyAgent"]
+
+    RC -->|score feeds| A9
+    S -->|signals feed| A9
+    WD -->|logs feed| A9
+    WD -->|feeds| S
+    T -->|bundle feeds| A9
+    DG -->|drift signals feed| A9
+    RE -->|intervention events| A9
+    L -->|readiness feeds| A9
+    FM --> A9
+
+    class RC free
+    class T free
+    class L free
+    class S paid
+    class WD paid
+    class DG paid
+    class RE paid
+    class A9 core
+    class FM paid
+```
+
+Agent911 sits at the center — it reads every signal and shows you the full picture. Everything else feeds it.
+
+---
+
+## Where to Start
+
+**Just getting started:**
+1. Run [RadCheck](/docs/products/radcheck/overview) — free, takes under a minute, shows you where you stand
+2. Install [triage](/docs/products/triage/overview) — free, use it when something breaks before you touch anything
+3. Run [Lazarus](/docs/products/lazarus/overview) — free, confirm you can actually recover
+
+**Running multiple agents and tired of surprises:**
+
+Add Sentinel + Watchdog + Agent911. You'll know about problems before your users do.
+
+**Something broke right now:**
+
+Run `triage` first. Then open Agent911. Don't restart anything until you know what you're restarting.
+
+---
 
 ## Free vs. Paid
 
-| Product | Tier |
-|---------|------|
-| RadCheck | **Free** |
-| OCTriage | **Free** |
-| Lazarus | **Free** |
+| Tool | Tier |
+|------|------|
+| RadCheck | Free |
+| triage | Free |
+| Lazarus | Free |
 | Sentinel | Paid |
-| Agent911 + FindMyAgent | Paid |
-| SphinxGate | Paid |
 | Watchdog | Paid |
+| Agent911 + FindMyAgent | Paid |
+| Recall | Paid |
 | DriftGuard | Paid |
-| Transmission | Included with paid products |
 
-Free tools build trust. Paid tools solve the problem at scale. See [Pricing](/pricing) for current rates.
-
-## Next Steps
+See [Pricing](/docs/pricing) for current rates.
 
 <CardGroup cols={2}>
-  <Card title="5-Minute Quickstart" icon="rocket" href="/quickstart">
-    Get RadCheck running and see your first reliability score.
+  <Card title="Run your first scan" icon="magnifying-glass" href="/docs/products/radcheck/overview">
+    RadCheck is free and takes under a minute.
   </Card>
-  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
-    Start with a free scan before deciding what else to add.
+  <Card title="Something broke?" icon="circle-question" href="/docs/products/triage/overview">
+    Install triage and run it before you touch anything.
   </Card>
 </CardGroup>

@@ -50,12 +50,33 @@ These files are the foundation. RadCheck reads them. Sentinel runs inside the Wa
 
 ## Where It Fits
 
-```
-Your agents
-  → Watchdog (heartbeat + stall detection)
-      → Sentinel (runs inside every Watchdog cycle)
-          → RadCheck (reads the logs)
-          → Agent911 (reads everything)
+```mermaid
+flowchart TD
+    classDef agents fill:#374151,stroke:#9CA3AF,color:#F9FAFB
+    classDef watchdog fill:#1B4D3E,stroke:#52B788,color:#d1fae5
+    classDef sentinel fill:#312E81,stroke:#818CF8,color:#e0e7ff
+    classDef readers fill:#1E3A5F,stroke:#60A5FA,color:#dbeafe
+
+    A["Your Agents"]
+    W["Watchdog\nHeartbeat · Stall Detection · Log Hygiene"]
+    S["Sentinel\nRuns inside every Watchdog cycle"]
+    L["Logs\nwatchdog.log · status.log · ops_events.log"]
+    RC["RadCheck"]
+    A9["Agent911"]
+
+    A --> W
+    W --> S
+    W --> L
+    S --> L
+    L --> RC
+    L --> A9
+
+    class A agents
+    class W watchdog
+    class S sentinel
+    class L watchdog
+    class RC readers
+    class A9 readers
 ```
 
 Watchdog is layer zero. Start here.
