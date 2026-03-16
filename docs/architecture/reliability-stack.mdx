@@ -13,7 +13,7 @@ Agent reliability isn't a single problem — it's a lifecycle. ACME builds tools
 DETECT ──▶ PROTECT ──▶ GOVERN ──▶ TRIAGE ──▶ RECOVER ──▶ OPERATE
 ```
 
-Each phase has specific tooling. Most teams don't need everything at once — the stack is designed to be adopted incrementally, starting with free detection tools.
+Each phase has specific tooling. Most operators don't need everything at once — the stack is designed to be adopted incrementally, starting with free detection tools.
 
 ## Phase by Phase
 
@@ -43,7 +43,7 @@ The more precise sibling to Sentinel. Watchdog distinguishes between an agent th
 
 **[SphinxGate](/products/sphinxgate/overview)** — Paid policy enforcement
 
-As routing complexity grows — multiple models, fallbacks, contexts — SphinxGate keeps it deterministic and auditable. Every routing decision is policy-driven, logged, and provable. Essential for teams with compliance requirements or multi-provider setups.
+As routing complexity grows — multiple models, fallbacks, contexts — SphinxGate keeps it deterministic and auditable. Every routing decision is policy-driven, logged, and provable. Essential for anyone with compliance requirements or multi-provider setups.
 
 ---
 
@@ -59,7 +59,7 @@ When something breaks, OCTriage is your first tool. It collects context, classif
 
 **[Lazarus](/products/lazarus/overview)** — Free recovery readiness
 
-Most teams discover their backups don't work during an actual incident. Lazarus validates recovery readiness proactively: backup coverage, restore assumption validation, and readiness scoring before failure forces the test.
+Most operators discover their backups don't work during an actual incident. Lazarus validates recovery readiness proactively: backup coverage, restore assumption validation, and readiness scoring before failure forces the test.
 
 ---
 
@@ -110,7 +110,7 @@ SENTINEL  WATCHDOG  SPHINXGATE  DRIFTGUARD
 
 ## Adoption Path
 
-Most teams start small and add coverage as their agent fleet grows:
+Most operators start small and add coverage as their agent fleet grows:
 
 ### Solo operator / single agent
 
@@ -118,7 +118,7 @@ Most teams start small and add coverage as their agent fleet grows:
 2. **OCTriage** — Have it ready for when incidents happen (free)
 3. **Sentinel** — Add when you want continuous protection
 
-### Small team / multiple agents
+### Solo operator / multiple agents
 
 Add to the above:
 4. **Watchdog** — Progress verification beyond what Sentinel observes
