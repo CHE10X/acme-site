@@ -7,78 +7,141 @@ description: Capture what's happening before you change anything
 
 Before you touch anything, run `triage`.
 
-It captures a read-only snapshot of your stack — gateway health, session state, disk pressure, compaction history, and more — and saves it with a timestamp. That snapshot is your evidence. You want it before you start changing things.
+It captures a snapshot of your stack right now — gateway health, session state, disk pressure, memory history — and saves it with a timestamp. That snapshot is your evidence. You want it before you start changing things.
 
 <Info>
-`triage` is free, MIT licensed, and requires no account. It never modifies your system.
+Free, open source, no account needed. Never modifies your system.
 </Info>
 
+---
+
 ## Install
+
+**Step 1 — Open your terminal**
+
+On Mac: Press `Cmd + Space`, type `Terminal`, press Enter.  
+On Windows: Press `Win + R`, type `cmd`, press Enter.
+
+**Step 2 — Paste this and press Enter**
 
 ```bash
 curl -fsSL https://acmeagentsupply.com/install/triage | bash
 ```
 
-## Run
+**What you'll see:**
+
+```
+Installing triage...
+✓ Cloned repository
+✓ Installed to /usr/local/bin/triage
+triage 0.1.3 ready
+```
+
+If you see `Permission denied`, run it with `sudo` in front:
+```bash
+sudo curl -fsSL https://acmeagentsupply.com/install/triage | bash
+```
+
+<Tip>
+Not sure what any of this means? Paste the error message into Claude or ChatGPT and ask — that's exactly what they're there for.
+</Tip>
+
+---
+
+## Run It
+
+**Step 3 — Run triage**
 
 ```bash
 triage
 ```
 
-Done in seconds. Output lands at `~/.openclaw/triage-bundles/YYYY-MM-DD-HH-MM-SS/`.
+That's it. It runs, collects everything, and saves a bundle. Takes about 10 seconds.
 
-## What It Captures
-
-Seven checks run every time:
-
-| Collector | What It Grabs |
-|-----------|--------------|
-| `gateway` | Liveness, port status, probe response |
-| `sessions` | Active session count and topology |
-| `disk` | Log volume, growth rate, pressure |
-| `integrity` | Binary and config file checks |
-| `doctor` | Environment and dependency health |
-| `compaction` | Compaction event history and current budget |
-| `fleet` | Version, uptime, environment identity |
-
-## Reading Your Bundle
-
-Open these first:
+**What you'll see:**
 
 ```
-gateway_status.txt      — is the gateway alive and actually responding?
-compaction_status.txt   — any active memory pressure?
-fleet_identity.txt      — version, uptime, confirmed
-disk_pressure.txt       — log volume and growth rate
+triage 0.1.3
+───────────────────────────────
+✓ gateway         alive, responding
+✓ sessions        2 active
+✓ disk            normal
+✓ integrity       all checks passed
+✓ doctor          environment ok
+✓ compaction      no active pressure
+✓ fleet           openclaw 2026.3.11, uptime 4h
+
+Bundle saved → ~/.openclaw/triage-bundles/2026-03-15-22-00-00/
+───────────────────────────────
 ```
 
-A clean bundle means you know what "before" looks like. Now you can make changes and compare.
+---
+
+## Reading Your Results
+
+Your bundle is a folder of plain text files. Open it in Finder (Mac) or File Explorer (Windows), or read them in the terminal.
+
+**The files that matter most:**
+
+```
+gateway_status.txt     — is the gateway actually responding?
+compaction_status.txt  — any memory pressure building up?
+fleet_identity.txt     — version, uptime, confirmed
+disk_pressure.txt      — how much log space are you using?
+```
+
+**Green across the board?** Your stack is healthy right now. Keep the bundle — it's your "before" picture if something breaks later.
+
+**Something showing as a problem?** That's normal for a first run. It's not an emergency — it's information. Check the [RadCheck overview](/docs/products/radcheck/overview) for what to do next, or paste the output into Claude and ask what it means.
+
+---
 
 ## What triage Does NOT Do
 
-- No recovery or restart — ever
-- No writes to your config
-- No background processes or startup items installed
-- No network calls
+- It never restarts anything
+- It never changes your config
+- It never sends your data anywhere
+- It never installs background services
+
+If something breaks after running triage, triage didn't cause it.
+
+---
+
+## If Something Goes Wrong
+
+**"command not found" after installing:**
+Close your terminal, open a new one, try again. The installer updated your PATH but the current window doesn't know yet.
+
+**"Permission denied" during install:**
+```bash
+sudo curl -fsSL https://acmeagentsupply.com/install/triage | bash
+```
+
+**"git: command not found":**
+You need Git installed first. On Mac: `xcode-select --install`. Then try the triage install again.
+
+**Still stuck?** [Contact support](/docs/support/contact) or paste your error into Claude/ChatGPT.
+
+---
 
 ## triage for Acme
 
-The free `triage` command gives you the proof bundle. **Triage for Acme** connects it to the rest of the ACME stack:
+The free `triage` command gives you the snapshot. **Triage for Acme** adds a live dashboard and connects it to the rest of the ACME stack:
 
 | | Free | Triage for Acme |
 |-|------|----------------|
 | 7 diagnostic collectors | ✓ | ✓ |
-| Timestamped proof bundle | ✓ | ✓ |
+| Saved proof bundle | ✓ | ✓ |
 | Live `-watch` dashboard | — | ✓ |
-| RadCheck score in the view | — | ✓ |
+| RadCheck score inline | — | ✓ |
 | Protection state | — | ✓ |
 | Agent911 integration | — | ✓ |
 
 <CardGroup cols={2}>
-  <Card title="RadCheck" icon="magnifying-glass" href="/products/radcheck/overview">
-    triage captures state. RadCheck scores the risk.
+  <Card title="RadCheck" icon="magnifying-glass" href="/docs/products/radcheck/overview">
+    Run RadCheck next — it turns your triage data into a 0–100 reliability score.
   </Card>
-  <Card title="Agent911" icon="tower-broadcast" href="/products/agent911/overview">
-    Feed your triage bundle into Agent911 for a full incident view.
+  <Card title="Something looks wrong?" icon="circle-question" href="/docs/support/overview">
+    Get help reading your results.
   </Card>
 </CardGroup>
