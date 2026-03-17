@@ -16,7 +16,7 @@ const STACK_ITEMS = [
     desc: "Surfaces early instability signals before the system stalls.",
   },
   {
-    name: "OCTriageUnit",
+    name: "Triage",
     desc: "Creates a read-only proof bundle for first-response triage.",
   },
   {

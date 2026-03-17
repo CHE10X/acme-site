@@ -57,7 +57,7 @@ export default async function PricingPage() {
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
           <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Operator Access Model</h2>
           <p className="mt-3 max-w-[78ch] text-[16px] leading-7 text-[#C7CDD4]">
-            OpenClaw begins with visibility. Operators start with OCTriage to understand system health. As
+            OpenClaw begins with visibility. Operators start with Triage to understand system health. As
             systems move into production, additional utilities provide reliability scoring, protection, and
             deterministic recovery.
           </p>
@@ -77,7 +77,7 @@ export default async function PricingPage() {
               <PriceLine price={prices.free} />
               <SignalStrip
                 title="Includes"
-                lines={["OCTriage", "RadCheck", "Lazarus Lite"]}
+                lines={["Triage", "RadCheck", "Lazarus Lite"]}
               />
               <Link
                 href="/docs/quickstart/5-minute"
@@ -211,7 +211,7 @@ export default async function PricingPage() {
               </thead>
               <tbody className="text-[#C7CDD4]">
                 {[
-                  ["OCTriage", "Yes", "Yes", "Yes"],
+                  ["Triage", "Yes", "Yes", "Yes"],
                   ["Reliability Score", "Basic", "Full", "Full"],
                   ["Runtime Hygiene", "Limited", "Yes", "Yes"],
                   ["Protection Events", "No", "Yes", "Yes"],
@@ -234,7 +234,7 @@ export default async function PricingPage() {
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
           <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Operator Adoption Pattern</h2>
           <p className="mt-3 max-w-[78ch] text-[16px] leading-7 text-[#C7CDD4]">
-            Most operators begin with OCTriage. From there, systems naturally adopt additional utilities as
+            Most operators begin with Triage. From there, systems naturally adopt additional utilities as
             reliability requirements increase. You do not need to commit to the full platform on day one.
           </p>
         </section>

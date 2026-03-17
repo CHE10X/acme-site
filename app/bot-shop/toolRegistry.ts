@@ -69,7 +69,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
   return [
     {
       slug: "octriage",
-      name: "OCTriageUnit",
+      name: "Triage",
       displayName: "Triage",
       description:
         "Deterministic triage tool that generates operator-grade proof bundles for OpenClaw environments.",

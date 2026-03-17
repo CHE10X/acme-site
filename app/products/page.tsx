@@ -26,7 +26,7 @@ const products: Product[] = [
   },
   {
     href: "/products/octriageunit",
-    name: "OCTriage",
+    name: "Triage",
     tag: "Free — Triage",
     description:
       "Entry-point triage terminal for incident assessment. Collect evidence, classify failures, and generate proof bundles without touching live state.",

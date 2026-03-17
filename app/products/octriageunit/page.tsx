@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 };
 
 const COMMANDS = [
-  "python3 OCTriageUnit.py --snapshot",
-  "python3 OCTriageUnit.py --proof-bundle ./triage-proof.zip",
+  "python3 triage.py --snapshot",
+  "python3 triage.py --proof-bundle ./triage-proof.zip",
 ];
 
 const SAFETY_NOTES = [

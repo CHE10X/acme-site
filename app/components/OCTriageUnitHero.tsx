@@ -15,7 +15,7 @@ export default function OCTriageUnitHero() {
             triage-unit
           </p>
           <h1 className="max-w-xl text-5xl uppercase leading-none tracking-[0.08em] md:text-7xl">
-            OCTriageUnit
+            Triage
           </h1>
           <p className="mt-4 max-w-xl text-lg leading-7 text-white/78 md:text-xl">
             Read-only control-plane triage with proof bundles, pattern verdicts,
@@ -32,7 +32,7 @@ export default function OCTriageUnitHero() {
               href="/install"
               className="border border-amber-300 bg-amber-300 px-5 py-3 text-sm uppercase tracking-[0.24em] text-black transition hover:bg-amber-200"
             >
-              Install OCTriageUnit
+              Install Triage
             </Link>
             <a
               href="/images/triage-unit/triage-unit-source.html"
@@ -48,7 +48,7 @@ export default function OCTriageUnitHero() {
           <div className="relative overflow-hidden border border-white/15 bg-black/35 p-3 shadow-[0_24px_80px_rgba(0,0,0,0.45)] backdrop-blur">
             <Image
               src="/images/triage-unit/triage-unit-hero-1000.png"
-              alt="OCTriageUnit canonical triage-unit hero"
+              alt="Triage canonical triage-unit hero"
               width={500}
               height={500}
               priority

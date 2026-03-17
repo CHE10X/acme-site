@@ -15,7 +15,7 @@ type CapabilityRow = {
 const CAPABILITY_ROWS: CapabilityRow[] = [
   {
     anchor: "octriage",
-    tool: "OCTriageUnit",
+    tool: "Triage",
     primaryFunction: "Read-only first-response triage snapshot",
     mode: "One-shot, read-only, zero telemetry",
     outputs: "Deterministic proof bundle + bundle summary",

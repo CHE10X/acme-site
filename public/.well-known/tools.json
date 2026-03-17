@@ -2,7 +2,7 @@
   "name": "ACME Agent Reliability Tools",
   "tools": [
     {
-      "name": "OCTriageUnit",
+      "name": "Triage",
       "purpose": "Deterministic triage tool for OpenClaw environments with operator-grade proof bundles.",
       "canonicalRepoUrl": "https://github.com/CHE10X/octriageunit",
       "installCommand": "curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash",

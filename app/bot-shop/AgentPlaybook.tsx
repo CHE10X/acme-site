@@ -26,7 +26,7 @@ const OPERATING_MODE_LINES = [
 const SYMPTOM_ROUTES: SymptomRoute[] = [
   {
     symptom: "Gateway unstable / control plane non-responsive",
-    primary: "OCTriageUnit",
+    primary: "Triage",
     next: "RadCheck",
     escalate: "Agent911 (guided triage surface)",
     evidence: "proof bundle path + gateway snapshot",
@@ -139,7 +139,7 @@ const DEEP_LINKS = [
 
 const BOT_PAYLOAD = {
   tools: [
-    "OCTriageUnit",
+    "Triage",
     "RadCheck",
     "Lazarus",
     "Sentinel",
@@ -391,7 +391,7 @@ export default function AgentPlaybook() {
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <article className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-            <h4 className="font-medium text-zinc-100">OCTriageUnit first-response</h4>
+            <h4 className="font-medium text-zinc-100">Triage first-response</h4>
             <ol className="mt-3 space-y-2 text-zinc-300">
               {EVIDENCE_PROTOCOL.octriageunit.map((step) => (
                 <li key={step}>

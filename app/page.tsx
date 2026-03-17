@@ -93,7 +93,7 @@ export default function Home() {
                   href="/docs/octriage/overview"
                   className="inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
                 >
-                  Install OCTriage
+                  Install Triage
                 </Link>
                 <Link
                   href="/platform"
@@ -110,7 +110,7 @@ export default function Home() {
 
             <aside className="rounded-md border border-[#3A4048] bg-[#161A1E] p-5">
               <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
-                OCTriage Preview
+                Triage Preview
               </div>
               <pre className="mt-3 overflow-x-auto text-[16px] leading-7 text-[#E6E6E6]">
 {`STATUS: HEALTHY
@@ -155,10 +155,10 @@ Protection: ACTIVE`}
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Operator Console (OCTriage)
+            Operator Console (Triage)
           </h2>
           <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            Operators run OCTriage and <code>octriage -watch</code> to
+            Operators run Triage and <code>octriage -watch</code> to
             immediately understand system state.
           </p>
           <pre className="mt-4 overflow-x-auto rounded-md bg-[#161A1E] px-6 py-5 text-[16px] leading-7 text-[#E6E6E6]">
@@ -174,7 +174,7 @@ protection_state: ACTIVE`}
                 Operational Ritual
               </div>
               <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                Run OCTriage first, confirm protection state, then decide if ORP
+                Run Triage first, confirm protection state, then decide if ORP
                 recovery workflow is required.
               </p>
             </div>
@@ -192,24 +192,24 @@ protection_state: ACTIVE`}
             href="/docs/octriage/overview"
             className="mt-4 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
           >
-            Install OCTriage
+            Install Triage
           </Link>
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Start with OCTriage
+            Start with Triage
           </h2>
           <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            OCTriage is the platform entry point: system diagnostics,
+            Triage is the platform entry point: system diagnostics,
             reliability scoring, observe signals, and proof bundles.
           </p>
           <p className="mt-3 text-[16px] text-[#9AA3AD]">
-            Run OCTriage to understand system health in seconds.
+            Run Triage to understand system health in seconds.
           </p>
           <ol className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
-              "Install OCTriage",
+              "Install Triage",
               "Run octriage",
               "View system reliability state",
             ].map((step, index) => (
@@ -241,7 +241,7 @@ octriage`}
                 Evidence First
               </div>
               <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                Start every support event with OCTriage output, proof bundle
+                Start every support event with Triage output, proof bundle
                 path, and ORP report context.
               </p>
             </div>
@@ -250,7 +250,7 @@ octriage`}
             href="/docs/octriage/overview"
             className="mt-4 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
           >
-            Install OCTriage
+            Install Triage
           </Link>
         </section>
 

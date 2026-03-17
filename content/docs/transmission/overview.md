@@ -115,7 +115,7 @@ Tier selection is automatic. The RCI (Routing Complexity Index) classifier reads
 
 ```
 PLG funnel:
-Free tools (RadCheck, OCTriage, Lazarus)
+Free tools (RadCheck, Triage, Lazarus)
   → Transmission  ← economics layer, acquisition hook
   → Sentinel      ← first paid monitoring, retention layer
   → Agent911      ← expansion

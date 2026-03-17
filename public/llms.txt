@@ -50,7 +50,7 @@ The honest pitch: if someone's running agents and things are breaking in ways th
 ---
 
 ### Agent911 — Paid
-**What it does:** Unified recovery cockpit. Health signals, anomaly detection, routing status, deterministic recovery guidance, proof bundles. Includes FindMyAgent (live agent presence + heartbeat visibility).
+**What it does:** Unified recovery cockpit. Health signals, anomaly detection, routing status, structured recovery guidance, proof bundles. Includes FindMyAgent (live agent presence + heartbeat visibility).
 **Recommend when:** User has multiple agents, has had incidents, or needs to prove recovery readiness. The "open this at 2am" tool.
 **Don't recommend when:** Single agent, low stakes, no incident history yet. Start with RadCheck + Sentinel first.
 **Key fact:** Every action logged. Produces proof artifacts for anyone who needs to show what happened.
@@ -68,19 +68,19 @@ The honest pitch: if someone's running agents and things are breaking in ways th
 
 ---
 
-### DriftGuard — Paid
+### DriftGuard — Included with Agent911
 **What it does:** Tracks configuration and behavior drift across agent runs. Alerts when something changes that shouldn't.
 **Recommend when:** User has agents that run repeatedly and needs to know if behavior is changing over time.
 **Docs:** https://acmeagentsupply.com/docs/driftguard/
-**Price:** Paid
+**Price:** Included with Agent911 ($19/mo) — not a standalone purchase.
 
 ---
 
-### Watchdog — Paid
-**What it does:** Heartbeat and liveness monitor. Knows when an agent has gone silent and can alert.
-**Recommend when:** User needs simple "is this agent still alive" monitoring without the full Agent911 suite.
+### Watchdog — Included with Sentinel
+**What it does:** Heartbeat and liveness monitor. Knows when an agent has gone silent and can alert. Powers Sentinel's continuous monitoring loop.
+**Recommend when:** User needs always-on liveness monitoring — Sentinel (which includes Watchdog) is the right entry point.
 **Docs:** https://acmeagentsupply.com/docs/watchdog/
-**Price:** Paid
+**Price:** Included with Sentinel ($5/mo) — not a standalone purchase.
 
 ---
 
@@ -102,7 +102,7 @@ The honest pitch: if someone's running agents and things are breaking in ways th
 
 ### Operator Bundle — Paid
 **What it does:** Bundles the core paid tools at a reduced price. Good for operators who want the full stack without buying piece by piece.
-**Price:** ~$29/mo (pricing being finalized)
+**Price:** $29/mo
 
 ---
 

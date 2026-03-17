@@ -17,7 +17,7 @@ type UtilityRow = {
 
 const UTILITY_ROWS: UtilityRow[] = [
   {
-    utility: "OCTriage",
+    utility: "Triage",
     function: "Generates deterministic diagnostics and proof bundles.",
     command: "octriage",
     layer: "Diagnostics",
@@ -203,7 +203,7 @@ export default function BotShopPage() {
             Operator Install Path
           </h2>
           <p className="mt-3 text-[16px] text-[#C7CDD4]">
-            Install OpenClaw utilities and start with OCTriage.
+            Install OpenClaw utilities and start with Triage.
           </p>
 
           <div className="mt-6 rounded-xl border border-[#3A4048] bg-[#161A1E] p-4 font-mono text-[15px] leading-7 text-[#E6E6E6]">
@@ -225,7 +225,7 @@ export default function BotShopPage() {
               rel="noreferrer"
               className="inline-flex items-center rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-semibold text-[#1E2226] transition-colors hover:bg-[#C47A22]"
             >
-              Install OCTriage
+              Install Triage
             </Link>
           </div>
         </section>
