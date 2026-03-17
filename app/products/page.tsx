@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Products — ACME Agent Supply Co.",
   description: "Reliability and diagnostic tools for AI agent operators.",
 };
 
-const products = [
+type Product = {
+  href: string;
+  name: string;
+  tag: string;
+  description: string;
+  comingSoon?: boolean;
+};
+
+const products: Product[] = [
   // Free Entry Points
   {
     href: "/products/radcheck",
@@ -59,6 +68,29 @@ const products = [
     description:
       "Live agent presence and heartbeat visibility. Know which agents are up, which are degraded, and which went silent.",
   },
+  {
+    href: "/products/watchdog",
+    name: "Watchdog",
+    tag: "Core — Liveness",
+    description:
+      "Heartbeat and liveness monitor. Knows when an agent has gone silent and alerts before the silence becomes an incident.",
+  },
+  {
+    href: "/products/driftguard",
+    name: "DriftGuard",
+    tag: "Core — Drift Detection",
+    description:
+      "Tracks configuration and behavior drift across agent runs. Alerts when something changes that shouldn't.",
+  },
+  // Coming Soon
+  {
+    href: "/products/transmission",
+    name: "Transmission",
+    tag: "Coming Soon — Model Routing",
+    description:
+      "Your agents make hundreds of model calls a day. Most don't need your best model. Transmission routes each call to the right model automatically — fast and cheap for simple work, full power when it matters.",
+    comingSoon: true,
+  },
 ];
 
 export default function ProductsPage() {
@@ -77,21 +109,56 @@ export default function ProductsPage() {
           </p>
         </div>
 
+        {/* Stack Diagram */}
+        <div className="mb-12 rounded-xl border border-[#3A4048] bg-[#242A30] p-6">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317] mb-4">
+            The Stack
+          </div>
+          <Image
+            src="/diagrams/openclaw-reliability-stack.svg"
+            alt="ACME Reliability Stack — layered architecture showing agent runtime, memory integrity, hygiene, observe, recovery, and operator signals"
+            width={1400}
+            height={960}
+            className="w-full rounded-lg"
+            priority
+          />
+        </div>
+
         <div className="grid gap-4">
           {products.map((product) => (
-            <Link
-              key={product.href}
-              href={product.href}
-              className="group block rounded-xl border border-[#3A4048] bg-[#242A30] p-6 transition-colors hover:border-[#e8a317]/40 hover:bg-[#2C3238]"
-            >
-              <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
-                {product.tag}
+            product.comingSoon ? (
+              <div
+                key={product.href}
+                className="block rounded-xl border border-[#3A4048] border-dashed bg-[#1E2226] p-6 opacity-70"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
+                    {product.tag}
+                  </div>
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-[#64748b] border border-[#3A4048] rounded px-2 py-0.5">
+                    Early Access
+                  </span>
+                </div>
+                <h2 className="mt-2 text-lg font-semibold text-[#E6E6E6]">
+                  {product.name}
+                </h2>
+                <p className="mt-2 text-sm text-[#9AA3AD]">{product.description}</p>
               </div>
-              <h2 className="mt-2 text-lg font-semibold text-[#E6E6E6] group-hover:text-white">
-                {product.name}
-              </h2>
-              <p className="mt-2 text-sm text-[#9AA3AD]">{product.description}</p>
-            </Link>
+            ) : (
+              <Link
+                key={product.href}
+                href={product.href}
+                className="group block rounded-xl border border-[#3A4048] bg-[#242A30] p-6 transition-colors hover:border-[#e8a317]/40 hover:bg-[#2C3238]"
+              >
+                <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
+                  {product.tag}
+                </div>
+                <h2 className="mt-2 text-lg font-semibold text-[#E6E6E6] group-hover:text-white">
+                  {product.name}
+                </h2>
+                <p className="mt-2 text-sm text-[#9AA3AD]">{product.description}</p>
+              </Link>
+            )
           ))}
         </div>
       </main>
