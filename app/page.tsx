@@ -258,30 +258,42 @@ octriage`}
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Deterministic Recovery
+            When Something Breaks
           </h2>
-          <p className="mt-3 max-w-3xl text-[16px] leading-7 text-[#E6E6E6]">
-            Most platforms detect problems. OpenClaw recovers deterministically
-            through ORP, Agent911 verification, and Lazarus recovery
-            simulation.
+          <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[#9AA3AD]">
+            Most tools tell you something broke. OpenClaw tells you what to do about it — in order, with evidence, without guessing.
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-4">
-            {["Detect", "Classify", "Recover", "Verify"].map((step) => (
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            {[
+              {
+                name: "ORP",
+                label: "Recovery Protocol",
+                desc: "Sequences recovery correctly every time. Evidence first, then diagnosis, then action. The order is mandatory because skipping steps is how recoveries fail.",
+              },
+              {
+                name: "Agent911",
+                label: "Recovery Cockpit",
+                desc: "Your incident command surface. Health signals, anomaly classification, routing status — and structured guidance on what to do next. Open this at 2am.",
+              },
+              {
+                name: "Lazarus",
+                label: "Backup Readiness",
+                desc: "Verifies your backups actually work before an incident forces the test. Most operators discover their backup posture is wrong during recovery. Lazarus finds out first.",
+              },
+            ].map((item) => (
               <div
-                key={step}
-                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
+                key={item.name}
+                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5"
               >
-                {step}
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
-            {["ORP", "Agent911", "Lazarus"].map((item) => (
-              <div
-                key={item}
-                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
-              >
-                {item}
+                <div className="text-[13px] uppercase tracking-[0.28em] text-[#D98A2B]">
+                  {item.name}
+                </div>
+                <div className="mt-1 text-[15px] font-medium text-[#E6E6E6]">
+                  {item.label}
+                </div>
+                <p className="mt-2 text-[14px] leading-6 text-[#9AA3AD]">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -327,10 +339,10 @@ octriage`}
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Documentation CTA
+            Start Here
           </h2>
-          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            Architecture references, diagnostics, and recovery workflows.
+          <p className="mt-3 text-[16px] leading-7 text-[#9AA3AD]">
+            Architecture references, install guides, and recovery workflows — everything you need to get running.
           </p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {[
