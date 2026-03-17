@@ -1,135 +1,148 @@
 ---
-title: Transmission — Deterministic Model Routing
+title: Transmission — Task-Aware Model Routing
 product: transmission
 tier: CORE
-status: roadmap
+status: launching-soon
 ---
 
-# Transmission — Deterministic Model Routing
+# Transmission
 
-> **Status:** Transmission is in active development. The architecture and config spec below reflect the planned MVP. This page documents the design so operators can prepare — not something you can install today.
+> **Status:** Phase 1 launching soon. Early access signups open — [get notified when it ships](#early-access).
 
-Transmission is the routing fabric for OpenClaw-class agent stacks. It separates *what work is being done* from *which model executes it* — the abstraction most agent systems are currently hand-patching around.
+**The short version:** Your agent is using a $20-per-million-token model to answer a yes/no question. Transmission fixes that automatically.
+
+Transmission is ACME's task-aware model router. It sits between your agent stack and your model providers and makes one decision on every call: *which model should handle this, at what token footprint, with which tools?*
 
 If SphinxGate is the policy firewall and RadCheck is the diagnostic scanner, Transmission is the gearbox.
 
 ---
 
-## The Core Problem
+## The Problem
 
-Without lane discipline, model routing in agent stacks degrades in predictable ways:
+Without routing discipline, agent stacks degrade in predictable ways:
 
-- Background automation consumes interactive budget
-- Fallback order is implicit and untested until a provider goes down
-- "Which model ran this task?" becomes unanswerable
-- Cost optimization requires rewriting routing logic every time
+- Every task hits the same model, regardless of complexity
+- Input context bloats with tool schemas the model doesn't need for this task
+- Rate limit walls appear without warning — the call fails, context is lost
+- Cost is invisible until the bill arrives
 
-Transmission makes routing explicit, observable, and testable.
-
----
-
-## The 2-Lane Model
-
-Transmission routes all work through two canonical lanes:
-
-**Interactive lane** — human-facing, quality-first. Claude leads. All allowed providers in priority order.
-
-**Background lane** — batch, automation, cost-first. No Claude. Starts with a capable model (gpt-4.1-mini) for heavy work, falls back to Flash-Lite and DeepSeek for throughput.
-
-> **Critical rule:** Background lane must start with a model capable of completing complex tasks. Flash-Lite is not the first heavy-work fallback — it's the second hop.
+The result: a solo operator runs a weekly rent survey on Claude Opus, spends $160 in two weeks, and wonders what went wrong. Nothing went wrong with the model. The routing was wrong.
 
 ---
 
-## Config Reference (MVP Spec)
+## How Transmission Works
 
-Transmission reads from `~/.openclaw/watchdog/transmission_config.json`:
+Transmission addresses three distinct problems. Phase 1 ships all three together.
 
-```json
-{
-  "lanes": {
-    "interactive": {
-      "chain": [
-        "anthropic/claude-sonnet-4-6",
-        "google/gemini-2.5-flash-lite",
-        "openai/gpt-4-turbo"
-      ]
-    },
-    "background": {
-      "chain": [
-        "openai/gpt-4.1-mini",
-        "google/gemini-2.5-flash-lite",
-        "openrouter/deepseek-v3"
-      ]
-    }
-  },
-  "defaults": {
-    "lane": "interactive"
-  }
-}
-```
+### 1. ToolFilterAdapter — 85–90% input token reduction
 
-Lane selection priority at runtime:
-1. Explicit `route()` parameter
-2. Agent metadata
-3. `OPENCLAW_LANE` environment variable
-4. Config default (`interactive`)
+Most agent calls include the full tool schema whether or not those tools are relevant to the task. A context that's 10,000 tokens becomes 2,000–3,000 tokens once irrelevant tool schemas are stripped.
 
----
+Transmission's ToolFilterAdapter classifies each task and passes only the tools the model actually needs. This happens before the model call. No AI required — pure classification and filtering.
 
-## How Transmission and SphinxGate Work Together
+**Impact:** Input token footprint drops 85–90% per call on typical agent workloads.
 
-Transmission runs before SphinxGate:
+### 2. Circuit Breaker — proactive model health monitoring
+
+The standard approach to model failures is reactive: the call fails, then you fallback. By then it's too late — the task was interrupted, context may be lost, and the user felt it.
+
+Transmission's circuit breaker monitors model health scores continuously and routes *before* the failure hits. Three states:
+
+| State | Meaning | Behavior |
+|-------|---------|----------|
+| **CLOSED** | Model healthy | Route normally |
+| **HALF_OPEN** | Degraded, watching | Lightweight tasks only, ready to trip |
+| **OPEN** | Unhealthy | Route away entirely, 10-minute cooldown, then probe |
+
+**Example:** If a provider rate-limits after ~20 requests in a window, Transmission trips at 15. You never see the wall.
+
+Circuit breaker profiles are model-specific — built from empirical field testing, not generic retry logic.
+
+### 3. Token efficiency reporting
+
+Every session produces a Transmission report:
 
 ```
-Transmission (build chain) → SphinxGate (filter by policy) → Provider callers
+Transmission Session Report — Last 30 days
+
+EFFICIENCY
+  Token reduction: 78% (vs naive-Sonnet + full schema baseline)
+  Calls by tier: 12 orchestrator / 8 workhorse / 89 bulk / 34 free
+
+RELIABILITY
+  Circuit trips: 3 (avg recovery 8min, 0 unrecovered)
+  Tier escalations: 4 (bulk → workhorse after failure)
+  Filter errors: 0 (tool stripped that was needed)
+
+HEALTH
+  Models currently: 5 CLOSED / 0 HALF_OPEN / 0 OPEN
 ```
 
-Transmission decides which providers should try. SphinxGate decides which are allowed. If SphinxGate strips providers from the built chain, it emits `TRANSMISSION_POLICY_REDUCED` — the proof record that both layers cooperated.
+The efficiency score (0–100%) measures token reduction against a naive baseline (always-Sonnet + full schema). It's always accurate and comparable session-to-session — no pricing assumptions, no stale numbers.
+
+Token counts are auditable: you can verify them against your own provider logs.
+
+Dollar estimates are opt-in. Configure your own per-token rates and Transmission will calculate estimated spend using your numbers. If you don't configure it, dollar figures don't appear. Provider pricing is too volatile and too variable (subscriptions, middlemen, negotiated rates) for ACME to own that number on your behalf.
 
 ---
 
-## Observability
+## What This Isn't
 
-Transmission logs every routing decision to `~/.openclaw/watchdog/transmission_events.log` (NDJSON):
+**Not failover.** Failover is reactive — something breaks, then you switch. Transmission is proactive. It routes before the failure based on task complexity and live model health scores.
 
-| Event | Meaning |
-|-------|---------|
-| `TRANSMISSION_LANE_RESOLVED` | Lane determined for this call |
-| `TRANSMISSION_CHAIN_BUILT` | Provider chain materialized |
-| `TRANSMISSION_PROVIDER_ATTEMPT` | Individual provider being tried |
-| `TRANSMISSION_FAILOVER` | Falling back to next provider in chain |
-| `TRANSMISSION_SUCCESS` | Call completed |
-| `TRANSMISSION_EXHAUSTED` | All providers failed — structured failure returned to caller |
-| `TRANSMISSION_POLICY_REDUCED` | SphinxGate removed providers from chain |
+**Not a claim that LLMs are deterministic.** They aren't. That's not the promise. The promise: you'll never pay orchestrator prices for a task that runs fine on a bulk-tier model, and you'll never hit a rate limit wall because nobody was watching.
 
-`TRANSMISSION_EXHAUSTED` is a hard contract. Transmission never silently succeeds when all providers fail.
+**Not a replacement for the reliability stack.** Sentinel, Watchdog, and Agent911 remain your monitoring and recovery layer. Transmission is the economics layer.
 
 ---
 
-## Performance Targets
+## The Model Tiers
 
-Transmission adds routing overhead, not execution overhead:
+Transmission routes across four tiers based on task complexity (RCI score):
 
-| Operation | Target |
-|-----------|--------|
-| Lane resolution | < 2 ms |
-| Chain build | < 3 ms |
-| Total added overhead | < 10 ms |
-| Hot path blocking I/O | Zero |
+| Tier | Use case | Examples |
+|------|----------|---------|
+| **Orchestrator** | High-stakes reasoning, architecture decisions | Sonnet, Opus |
+| **Workhorse** | Standard agent tasks, multi-step workflows | GPT-4 class |
+| **Bulk** | High-volume, simple tasks | Haiku, Flash, Step Flash |
+| **Free** | Heartbeats, simple Q&A, status checks | Local / free tier models |
 
----
-
-## What Ships in MVP
-
-1. Two-lane deterministic routing (Interactive / Background)
-2. SphinxGate policy integration + reduced-chain logging
-3. Full observability event stream
-4. Structured failure contract (no silent exhaustion)
-
-**Post-MVP (not in v1):** `cheap` lane (simple/low-stakes tasks), `rescue` lane (always-respond when degraded), TUI dashboard, per-lane cost accounting.
+Tier selection is automatic. The RCI (Routing Complexity Index) classifier reads the task and routes it. You don't configure per-task — you configure the model profiles once, and Transmission handles the rest.
 
 ---
 
-## Next Step
+## Where Transmission Fits
 
-Transmission is on the roadmap. In the meantime, SphinxGate can enforce lane policy directly — see the [SphinxGate documentation](/docs/sphinxgate/overview) for current routing configuration options.
+```
+PLG funnel:
+Free tools (RadCheck, OCTriage, Lazarus)
+  → Transmission  ← economics layer, acquisition hook
+  → Sentinel      ← first paid monitoring, retention layer
+  → Agent911      ← expansion
+```
+
+Most operators find ACME because something broke or costs ran away. Transmission is the answer to the cost problem. Sentinel and Agent911 are why they stay.
+
+---
+
+## Early Access
+
+Transmission Phase 1 is in active development (~2 weeks to ship). Leave your email to be first on the launch list — you'll get access before public announcement.
+
+[Early access form — coming shortly]
+
+---
+
+## Integration
+
+Transmission installs as a middleware hook into OpenClaw's dispatch layer. No public API changes required. OpenClaw handles routing internally.
+
+Full install guide and config reference will be published at launch.
+
+---
+
+## Related
+
+- [SphinxGate](/docs/sphinxgate/overview) — policy enforcement layer (runs after Transmission in the call chain)
+- [RadCheck](/docs/radcheck/score-explained) — health scan, good starting point before wiring in Transmission
+- [Sentinel](/docs/sentinel/overview) — continuous runtime monitoring
