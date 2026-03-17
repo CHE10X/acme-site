@@ -88,7 +88,7 @@ const products: Product[] = [
     name: "Transmission",
     tag: "Coming Soon — Model Routing",
     description:
-      "Your agents make hundreds of model calls a day. Most don't need your best model. Transmission routes each call to the right model automatically — fast and cheap for simple work, full power when it matters.",
+      "We don't fix the engine. We fix the economics. Transmission routes every model call to the right model automatically — before the failure, not after. Cheaper and more resilient, without touching your stack.",
     comingSoon: true,
   },
 ];
