@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import InlineReliabilityStackSvg from "@/app/components/docs/InlineReliabilityStackSvg";
 
 export const metadata: Metadata = {
   title: "Products — ACME Agent Supply Co.",
@@ -114,14 +114,7 @@ export default function ProductsPage() {
           <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317] mb-4">
             The Stack
           </div>
-          <Image
-            src="/diagrams/openclaw-reliability-stack.svg"
-            alt="ACME Reliability Stack — layered architecture showing agent runtime, memory integrity, hygiene, observe, recovery, and operator signals"
-            width={1400}
-            height={960}
-            className="w-full rounded-lg"
-            priority
-          />
+          <InlineReliabilityStackSvg />
         </div>
 
         <div className="grid gap-4">
