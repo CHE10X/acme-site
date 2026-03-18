@@ -7,152 +7,112 @@ export const metadata: Metadata = {
   description: "Reliability and diagnostic tools for AI agent operators.",
 };
 
-type Product = {
-  href: string;
-  name: string;
-  tag: string;
-  description: string;
-  comingSoon?: boolean;
-};
-
-const products: Product[] = [
-  // Free Entry Points
-  {
-    href: "/products/radcheck",
-    name: "RadCheck",
-    tag: "Free — Detection",
-    description:
-      "Read-only reliability scan. Get a 0–100 score that surfaces stall risk, silence gaps, compaction pressure, and hygiene issues. Nothing changes on your system.",
-  },
-  {
-    href: "/products/octriageunit",
-    name: "Triage",
-    tag: "Free — Triage",
-    description:
-      "Entry-point triage terminal for incident assessment. Collect evidence, classify failures, and generate proof bundles without touching live state.",
-  },
-  {
-    href: "/products/lazarus",
-    name: "Lazarus Lite",
-    tag: "Free — Recovery Readiness",
-    description:
-      "Maps backup coverage and validates restore assumptions before incidents force the test. Know your recovery posture before you need it.",
-  },
-  // Core Paid Products
-  {
-    href: "/products/sentinel",
-    name: "Sentinel",
-    tag: "Core — Runtime Protection",
-    description:
-      "Always-on runtime guardrails. Detects stalls and silent failures during live operation — the problems that don't crash but quietly break your workflows.",
-  },
-  {
-    href: "/products/sphinxgate",
-    name: "SphinxGate",
-    tag: "Core — Policy Enforcement",
-    description:
-      "Enforces allow/deny routing policy across multi-model teams. Deterministic, inspectable routing decisions with full audit trail.",
-  },
-  // Strategic / Expansion
-  {
-    href: "/products/agent911",
-    name: "Agent911",
-    tag: "Strategic — Control Plane",
-    description:
-      "Unified control surface for multi-agent operations. Health signals, anomaly detection, recovery guidance, and proof bundles. The 2am cockpit.",
-  },
-  {
-    href: "/products/findmyagent",
-    name: "FindMyAgent",
-    tag: "Included with Agent911",
-    description:
-      "Live agent presence and heartbeat visibility. Know which agents are up, which are degraded, and which went silent.",
-  },
-  {
-    href: "/products/watchdog",
-    name: "Watchdog",
-    tag: "Core — Liveness",
-    description:
-      "Heartbeat and liveness monitor. Knows when an agent has gone silent and alerts before the silence becomes an incident.",
-  },
-  {
-    href: "/products/driftguard",
-    name: "DriftGuard",
-    tag: "Core — Drift Detection",
-    description:
-      "Tracks configuration and behavior drift across agent runs. Alerts when something changes that shouldn't.",
-  },
-  // Coming Soon
-  {
-    href: "/products/transmission",
-    name: "Transmission",
-    tag: "Coming Soon — Model Routing",
-    description:
-      "We don't fix the engine. We fix the economics. Transmission routes every model call to the right model automatically — before the failure, not after. Cheaper and more resilient, without touching your stack.",
-    comingSoon: true,
-  },
+const PRODUCTS = [
+  // Diagnostics bundle
+  { name: "Triage",        bundle: "Diagnostics",        tier: "Free",    command: "triage",             href: "/docs/octriage/overview",                  desc: "Read-only stack diagnostics. No gateway required." },
+  { name: "RadCheck",      bundle: "Diagnostics",        tier: "Free",    command: "radcheck",           href: "/docs/radcheck/score-explained",            desc: "0–100 reliability score. Surfaces hidden risk." },
+  // Runtime bundle
+  { name: "Sentinel",      bundle: "Runtime",            tier: "$5/mo",   command: "sentinel",           href: "/docs/sentinel/overview",                  desc: "Always-on silent failure detection." },
+  { name: "Watchdog",      bundle: "Runtime",            tier: "$5/mo",   command: "watchdog",           href: "/docs/watchdog/overview",                  desc: "Heartbeat and liveness monitoring." },
+  // Incident Response bundle
+  { name: "Agent911",      bundle: "Incident Response",  tier: "$19/mo",  command: "agent911",           href: "/docs/agent911/snapshot-explained",         desc: "Recovery cockpit. Open this at 2am." },
+  { name: "Recall",        bundle: "Incident Response",  tier: "$19/mo",  command: "recall",             href: "/docs/recall/overview",                    desc: "Manual fleet intervention surface." },
+  { name: "FindMyAgent",   bundle: "Incident Response",  tier: "$19/mo",  command: "findmyagent --list", href: "/docs/findmyagent/overview",                desc: "Live agent presence and heartbeat." },
+  { name: "Lazarus",       bundle: "Incident Response",  tier: "$19/mo",  command: "lazarus --simulate", href: "/docs/lazarus/overview",                   desc: "Verify backup readiness before you need it." },
+  // Coming soon
+  { name: "Transmission",  bundle: "Coming Soon",        tier: "—",       command: "—",                  href: "/docs/transmission/overview",              desc: "Task-aware model routing. Fix the economics." },
+  { name: "SphinxGate",    bundle: "Coming Soon",        tier: "—",       command: "sphinxgate",         href: "/docs/sphinxgate/overview",                desc: "Policy enforcement and routing audit." },
+  { name: "DriftGuard",    bundle: "Coming Soon",        tier: "—",       command: "driftguard",         href: "/docs/driftguard/overview",                desc: "Behavior drift detection across runs." },
 ];
+
+const BUNDLE_COLOR: Record<string, string> = {
+  "Diagnostics":        "#4A9E6B",
+  "Runtime":            "#D98A2B",
+  "Incident Response":  "#C0392B",
+  "Coming Soon":        "#3A4048",
+};
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
-      <main className="mx-auto max-w-4xl px-6 py-16">
-        <div className="mb-12">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
-            Product Catalog
-          </div>
-          <h1 className="mt-3 text-3xl font-bold text-[#E6E6E6] md:text-4xl">
-            ACME Agent Supply Tools
-          </h1>
-          <p className="mt-4 text-[#9AA3AD] max-w-xl">
-            Reliability, diagnostics, and recovery infrastructure for operators running AI agent systems.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#1A2028] text-[#E6E6E6]">
+      <main>
 
-        {/* Stack Diagram */}
-        <div className="mb-12 rounded-xl border border-[#3A4048] bg-[#242A30] p-6">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317] mb-4">
-            The Stack
-          </div>
+        {/* ── Full-width diagram hero ── */}
+        <div className="w-full border-b border-[#2E3640]">
           <InlineReliabilityStackSvg />
         </div>
 
-        <div className="grid gap-4">
-          {products.map((product) => (
-            product.comingSoon ? (
+        {/* ── Tight product table ── */}
+        <div className="mx-auto max-w-5xl px-6 py-12">
+          <div className="mb-6 flex items-baseline justify-between gap-4">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
+              <h1 className="mt-1 text-[22px] font-semibold text-[#E6E6E6]">All Products</h1>
+            </div>
+            <Link href="/pricing" className="text-[13px] text-[#D98A2B] hover:text-[#C47A22]">
+              View pricing →
+            </Link>
+          </div>
+
+          <div className="overflow-hidden rounded-[6px] border border-[#2E3640]">
+            {/* Table header */}
+            <div className="grid grid-cols-[140px_120px_80px_160px_1fr] gap-0 border-b border-[#2E3640] bg-[#151C24] px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-[#4A5E70]">
+              <div>Product</div>
+              <div>Bundle</div>
+              <div>Price</div>
+              <div>Command</div>
+              <div>What it does</div>
+            </div>
+
+            {/* Rows */}
+            {PRODUCTS.map((p, i) => (
               <div
-                key={product.href}
-                className="block rounded-xl border border-[#3A4048] border-dashed bg-[#1E2226] p-6 opacity-70"
+                key={p.name}
+                className={`grid grid-cols-[140px_120px_80px_160px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
               >
-                <div className="flex items-center gap-3">
-                  <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
-                    {product.tag}
-                  </div>
-                  <span className="text-[10px] uppercase tracking-[0.3em] text-[#64748b] border border-[#3A4048] rounded px-2 py-0.5">
-                    Early Access
+                <div className="flex items-center">
+                  {p.bundle !== "Coming Soon" ? (
+                    <Link href={p.href} className="font-medium text-[#E6E6E6] hover:text-[#D98A2B] transition">
+                      {p.name}
+                    </Link>
+                  ) : (
+                    <span className="font-medium text-[#5A6E80]">{p.name}</span>
+                  )}
+                </div>
+                <div className="flex items-center">
+                  <span
+                    className="text-[11px] font-medium"
+                    style={{ color: BUNDLE_COLOR[p.bundle] ?? "#9AA3AD" }}
+                  >
+                    {p.bundle}
                   </span>
                 </div>
-                <h2 className="mt-2 text-lg font-semibold text-[#E6E6E6]">
-                  {product.name}
-                </h2>
-                <p className="mt-2 text-sm text-[#9AA3AD]">{product.description}</p>
+                <div className="flex items-center text-[#9AA3AD]">{p.tier}</div>
+                <div className="flex items-center font-mono text-[11px] text-[#D98A2B]">{p.command}</div>
+                <div className="flex items-center text-[#9AA3AD]">{p.desc}</div>
               </div>
-            ) : (
-              <Link
-                key={product.href}
-                href={product.href}
-                className="group block rounded-xl border border-[#3A4048] bg-[#242A30] p-6 transition-colors hover:border-[#e8a317]/40 hover:bg-[#2C3238]"
-              >
-                <div className="text-[10px] uppercase tracking-[0.4em] text-[#e8a317]">
-                  {product.tag}
-                </div>
-                <h2 className="mt-2 text-lg font-semibold text-[#E6E6E6] group-hover:text-white">
-                  {product.name}
-                </h2>
-                <p className="mt-2 text-sm text-[#9AA3AD]">{product.description}</p>
-              </Link>
-            )
-          ))}
+            ))}
+          </div>
+
+          {/* Bundle quick-reference */}
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {[
+              { name: "Diagnostics", price: "Free", tools: "Triage + RadCheck", color: "#4A9E6B" },
+              { name: "Runtime",     price: "$5/mo", tools: "Sentinel + Watchdog", color: "#D98A2B" },
+              { name: "Incident Response", price: "$19/mo", tools: "Agent911 + Recall + FindMyAgent + Lazarus", color: "#C0392B" },
+            ].map((b) => (
+              <div key={b.name} className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] px-4 py-3"
+                style={{ borderTopColor: b.color, borderTopWidth: "2px" }}>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: b.color }}>{b.name}</div>
+                <div className="mt-1 text-[13px] font-medium text-[#E6E6E6]">{b.price}</div>
+                <div className="mt-1 text-[11px] text-[#5A6E80]">{b.tools}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 text-[12px] text-[#3A4E60]">
+            Operator Bundle — everything above — $29/mo (pricing being finalized)
+          </div>
         </div>
       </main>
     </div>
