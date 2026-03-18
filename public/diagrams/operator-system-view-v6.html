@@ -55,7 +55,7 @@
        SEMANTIC METADATA — machine readable
   ══════════════════════════════════════════════════ -->
   <title id="svg-title">OpenClaw Reliability Stack Architecture</title>
-  <desc id="svg-desc">OpenClaw reliability platform architecture showing layers for observing, protecting, and recovering AI agent systems. Layers include Operator Console and Access Control (Triage entry point, SphinxGate routing policy), Observe Layer (RadCheck, Observe), Detection Layer (Watchdog, Sentinel, Transmission) connected via the Resilience Event Bus (REB), Recovery Layer (ORP, Agent911, Recall, Lazarus), Memory Integrity Layer (InfraWatch, Elixir), and Agent Runtime Environment (Claude, OpenAI, local, and specialized agents).</desc>
+  <desc id="svg-desc">OpenClaw reliability platform architecture showing layers for observing, protecting, and recovering AI agent systems. Layers include Operator Console (Triage entry point, SphinxGate access control), Observe Layer (RadCheck, Observe), Resilience Layer — Detection (Watchdog, Sentinel, InfraWatch) wired via Resilience Event Bus (REB) to Readiness (Lazarus) and Recovery (Agent911, Recall, ORP), Memory Integrity Layer (Elixir), and Agent Runtime Environment (Claude, OpenAI, local, and specialized agents).</desc>
 
   <defs>
     <!-- Background gradient -->
@@ -112,7 +112,7 @@
     </text>
     <!-- Serial ID -->
     <text x="1352" y="76" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
-          fill="#3A4E60" letter-spacing="0.1em" text-anchor="end">SERIAL 77A · v5</text>
+          fill="#3A4E60" letter-spacing="0.1em" text-anchor="end">SERIAL 77B · v6</text>
   </g>
 
   <!-- Header / content separator -->
@@ -185,16 +185,36 @@
             fill="#D98A2B">triage -watch</text>
     </g>
 
-    <!-- Readout values beside Triage -->
-    <text x="588" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+    <!-- SphinxGate — Access Control (Layer 0, moved from Protection Layer) -->
+    <g class="card-group" id="card-sphinxgate" data-link="/docs/sphinxgate">
+      <title>SphinxGate</title>
+      <desc>SphinxGate is the access control layer for model routing. It governs which models run on which workloads, enforces token discipline per lane, and produces a routing audit trail. Layer 0 — operates before the resilience layer.</desc>
+      <rect class="card-bg" x="624" y="134" width="220" height="88" rx="6"
+            fill="#2C3238" stroke="#4A9E6B" stroke-width="1"
+            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+      <circle cx="642" cy="158" r="3" fill="#4A9E6B"/>
+      <text x="652" y="162" font-family="Inter,-apple-system,sans-serif" font-size="15"
+            font-weight="500" fill="#E6E6E6">SphinxGate</text>
+      <!-- Badge -->
+      <rect x="742" y="147" width="88" height="18" rx="3" fill="#1A2E1A"/>
+      <text x="786" y="160" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+            fill="#4A9E6B" text-anchor="middle" letter-spacing="0.08em">ACCESS CTRL</text>
+      <text x="642" y="184" font-family="Inter,-apple-system,sans-serif" font-size="13"
+            fill="#9AA3AD">Model routing policy.</text>
+      <text x="642" y="206" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+            fill="#4A9E6B">● lane enforcement</text>
+    </g>
+
+    <!-- Readout values -->
+    <text x="864" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
           fill="#4A5E70">STATUS</text>
-    <text x="650" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+    <text x="926" y="162" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
           fill="#4A9E6B">HEALTHY</text>
-    <text x="588" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+    <text x="864" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
           fill="#4A5E70">RELIABILITY</text>
-    <text x="686" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="13"
+    <text x="962" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="13"
           font-weight="700" fill="#D98A2B">87</text>
-    <text x="706" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+    <text x="982" y="180" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
           fill="#4A5E70">/ 100</text>
   </g>
 
@@ -204,7 +224,7 @@
   ══════════════════════════════════════════════════ -->
   <g id="layer-observe">
     <title>Observe Layer</title>
-    <desc>The Observe Layer aggregates signals about agent health and system behavior. Tools include FindMyAgent for agent presence and liveness, RadCheck for reliability scoring from 0 to 100, and Observe for signal aggregation.</desc>
+    <desc>The Observe Layer aggregates signals about agent health and system behavior. Tools include RadCheck for reliability scoring from 0 to 100, and Observe for signal aggregation. Agent presence and liveness monitoring is available via recall status --watch.</desc>
 
     <text x="48" y="268" font-family="Inter,-apple-system,sans-serif" font-size="14"
           font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 1</text>
@@ -213,35 +233,19 @@
     <text x="48" y="312" font-family="Inter,-apple-system,sans-serif" font-size="13"
           fill="#9AA3AD">Visibility. Signals before stalls.</text>
 
-    <!-- FindMyAgent -->
-    <g class="card-group" id="card-findmyagent" data-link="/docs/findmyagent">
-      <title>FindMyAgent</title>
-      <desc>FindMyAgent provides real-time agent presence state, liveness monitoring, progress signals, and needs-attention flags. Being alive does not mean the agent is working correctly.</desc>
+    <!-- RadCheck -->
+    <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
+      <title>RadCheck</title>
+      <desc>RadCheck measures system reliability scores from 0 to 100 by analyzing agent health signals and telemetry across five domains: gateway, sessions, disk, memory drift, and agent churn. Free and read-only.</desc>
       <rect class="card-bg" x="308" y="252" width="200" height="88" rx="6"
             fill="#2C3238" stroke="#3A4048" stroke-width="1"
             style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
       <circle cx="326" cy="274" r="3" fill="#4A9E6B"/>
       <text x="336" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
-            font-weight="500" fill="#E6E6E6">FindMyAgent</text>
-      <text x="326" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
-            fill="#9AA3AD">Agent presence &amp; liveness.</text>
-      <text x="326" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
-            fill="#4A9E6B">● monitoring</text>
-    </g>
-
-    <!-- RadCheck -->
-    <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
-      <title>RadCheck</title>
-      <desc>RadCheck measures system reliability scores from 0 to 100 by analyzing agent health signals and telemetry across five domains: gateway, sessions, disk, memory drift, and agent churn. Free and read-only.</desc>
-      <rect class="card-bg" x="524" y="252" width="200" height="88" rx="6"
-            fill="#2C3238" stroke="#3A4048" stroke-width="1"
-            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
-      <circle cx="542" cy="274" r="3" fill="#4A9E6B"/>
-      <text x="552" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
             font-weight="500" fill="#E6E6E6">RadCheck</text>
-      <text x="542" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
+      <text x="326" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
             fill="#9AA3AD">Reliability scoring. 0–100.</text>
-      <text x="542" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+      <text x="326" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
             fill="#4A9E6B">● free tier</text>
     </g>
 
@@ -249,15 +253,15 @@
     <g class="card-group" id="card-observe" data-link="/docs/observe">
       <title>Observe</title>
       <desc>The Observe module provides unified aggregation of runtime signals from all connected agents. Its output feeds into RadCheck scoring and Sentinel anomaly detection.</desc>
-      <rect class="card-bg" x="740" y="252" width="200" height="88" rx="6"
+      <rect class="card-bg" x="524" y="252" width="200" height="88" rx="6"
             fill="#2C3238" stroke="#3A4048" stroke-width="1"
             style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
-      <circle cx="758" cy="274" r="3" fill="#D98A2B"/>
-      <text x="768" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
+      <circle cx="542" cy="274" r="3" fill="#D98A2B"/>
+      <text x="552" y="278" font-family="Inter,-apple-system,sans-serif" font-size="15"
             font-weight="500" fill="#E6E6E6">Observe</text>
-      <text x="758" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
+      <text x="542" y="300" font-family="Inter,-apple-system,sans-serif" font-size="13"
             fill="#9AA3AD">Signal aggregation layer.</text>
-      <text x="758" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+      <text x="542" y="322" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
             fill="#D98A2B">● operator action</text>
     </g>
   </g>
@@ -267,15 +271,15 @@
        y: 372–508 (height 136)
   ══════════════════════════════════════════════════ -->
   <g id="layer-protection">
-    <title>Protection Layer</title>
-    <desc>The Protection Layer continuously monitors runtime behavior and detects anomalies. Tools include Watchdog for heartbeat supervision, Sentinel for silent failure detection, and SphinxGate for token discipline and routing guardrails.</desc>
+    <title>Detection Layer</title>
+    <desc>The Detection Layer continuously monitors runtime behavior, infrastructure configuration, and process liveness. All three detection products emit events to the Resilience Event Bus (REB). Tools include Watchdog for heartbeat and liveness probes, Sentinel for silent failure detection, and InfraWatch for infrastructure config drift detection.</desc>
 
     <text x="48" y="404" font-family="Inter,-apple-system,sans-serif" font-size="14"
           font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 2</text>
     <text x="48" y="426" font-family="Inter,-apple-system,sans-serif" font-size="14"
-          font-weight="600" fill="#C8D4E0">Protection Layer</text>
+          font-weight="600" fill="#C8D4E0">Detection Layer</text>
     <text x="48" y="448" font-family="Inter,-apple-system,sans-serif" font-size="13"
-          fill="#9AA3AD">Continuous guardrails. Always on.</text>
+          fill="#9AA3AD">Continuous detection. Emits to REB.</text>
 
     <!-- Watchdog -->
     <g class="card-group" id="card-watchdog" data-link="/docs/watchdog">
@@ -309,22 +313,22 @@
             fill="#4A9E6B">● always on</text>
     </g>
 
-    <!-- SphinxGate -->
-    <g class="card-group" id="card-sphinxgate" data-link="/docs/sphinxgate">
-      <title>SphinxGate</title>
-      <desc>SphinxGate enforces token discipline and routing guardrails. It separates interactive and background agent lanes, enforces token budgets, and provides a routing audit trail.</desc>
+    <!-- InfraWatch — infra config drift detection (Operator Bundle) -->
+    <g class="card-group" id="card-infrawatch" data-link="/docs/infrawatch/overview">
+      <title>InfraWatch</title>
+      <desc>InfraWatch detects configuration drift in your agent stack's infrastructure — ingest chains, daemon configs, and routing. Emits events to the Resilience Event Bus. Included in Operator Bundle.</desc>
       <rect class="card-bg" x="740" y="388" width="190" height="88" rx="6"
             fill="#2C3238" stroke="#3A4048" stroke-width="1"
             style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
       <circle cx="758" cy="410" r="3" fill="#4A9E6B"/>
       <text x="768" y="414" font-family="Inter,-apple-system,sans-serif" font-size="15"
-            font-weight="500" fill="#E6E6E6">SphinxGate</text>
+            font-weight="500" fill="#E6E6E6">InfraWatch</text>
       <text font-family="Inter,-apple-system,sans-serif" font-size="13" fill="#9AA3AD">
-        <tspan x="758" y="430">Token discipline.</tspan>
-        <tspan x="758" dy="16">Lane enforcement.</tspan>
+        <tspan x="758" y="430">Infra config drift.</tspan>
+        <tspan x="758" dy="16">Emits to REB.</tspan>
       </text>
       <text x="758" y="458" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
-            fill="#4A9E6B">● routing guard</text>
+            fill="#4A9E6B">● bundle only</text>
     </g>
 
     <!-- Transmission -->
@@ -424,30 +428,14 @@
   ══════════════════════════════════════════════════ -->
   <g id="layer-memory">
     <title>Memory Integrity Layer</title>
-    <desc>The Memory Integrity Layer ensures long-term system stability and prevents behavioral drift. Tools include DriftGuard for tracking behavioral drift across agents and Elixir for deterministic agent rehydration.</desc>
+    <desc>The Memory Integrity Layer ensures long-term agent coherence. Elixir provides deterministic agent rehydration via BOOT, DIGEST, ANCHORS, ORIENTATION sequence. Infrastructure config drift is handled by InfraWatch in the Detection Layer.</desc>
 
     <text x="48" y="624" font-family="Inter,-apple-system,sans-serif" font-size="14"
           font-weight="600" fill="#5A6E80" letter-spacing="0.06em">LAYER 4</text>
     <text x="48" y="645" font-family="Inter,-apple-system,sans-serif" font-size="14"
           font-weight="600" fill="#C8D4E0">Memory Integrity</text>
     <text x="48" y="666" font-family="Inter,-apple-system,sans-serif" font-size="13"
-          fill="#9AA3AD">Long-horizon stability.</text>
-
-    <!-- DriftGuard -->
-    <g class="card-group" id="card-driftguard" data-link="/docs/driftguard">
-      <title>DriftGuard</title>
-      <desc>DriftGuard tracks behavioral drift across agents and identifies deviations from expected system behavior. It provides drift snapshots, policy deviation flags, and run-to-run delta tracking. Systems drift before they fail.</desc>
-      <rect class="card-bg" x="308" y="606" width="200" height="88" rx="6"
-            fill="#2C3238" stroke="#3A4048" stroke-width="1"
-            style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
-      <circle cx="326" cy="628" r="3" fill="#4A9E6B"/>
-      <text x="336" y="632" font-family="Inter,-apple-system,sans-serif" font-size="15"
-            font-weight="500" fill="#E6E6E6">DriftGuard</text>
-      <text x="326" y="654" font-family="Inter,-apple-system,sans-serif" font-size="13"
-            fill="#9AA3AD">Behavioral drift tracking.</text>
-      <text x="326" y="676" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
-            fill="#4A9E6B">● monitoring</text>
-    </g>
+          fill="#9AA3AD">Long-horizon agent coherence.</text>
 
     <!-- Elixir -->
     <g class="card-group" id="card-elixir" data-link="/docs/elixir">
@@ -562,7 +550,7 @@
   <line x1="0" y1="830" x2="1400" y2="830" stroke="#2E363E" stroke-width="1"/>
   <g id="bottom-bar">
     <text x="48" y="858" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
-          fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 77A · v5</text>
+          fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 77B · v6</text>
     <text x="956" y="858" font-family="Inter,-apple-system,sans-serif" font-size="11"
           fill="#3A4E60" text-anchor="middle">
       Observe → Protect → Recover. In that order.
