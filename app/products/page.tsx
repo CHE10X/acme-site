@@ -81,7 +81,7 @@ export default function ProductsPage() {
         </div>
 
         {/* ── Tight product table ── */}
-        <div className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mx-auto max-w-[1100px] px-6 py-12">
           <div className="mb-6 flex items-baseline justify-between gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
