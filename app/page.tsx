@@ -14,7 +14,7 @@ const BUNDLES = [
     color: "#4A9E6B",
     desc: "Start here. Triage captures a read-only proof bundle in seconds. RadCheck scores your stack 0–100. You'll know exactly what's wrong — or that nothing is — before you touch anything.",
     cta: "Run Triage free",
-    href: "/docs/octriage/overview",
+    href: "/docs/triage/overview",
   },
   {
     tier: "$5 / mo",
@@ -101,7 +101,7 @@ export default function Home() {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  href="/docs/octriage/overview"
+                  href="/docs/triage/overview"
                   className="inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
                 >
                   Install Triage
@@ -204,10 +204,13 @@ Protection: ACTIVE`}
                 <span className="text-[11px] text-[#5A6E80]">· SHA-verified install</span>
               </div>
               <h2 className="mt-2 text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-                What Triage shows you
+                Works when OpenClaw doesn&apos;t.
               </h2>
               <p className="mt-3 text-[16px] leading-7 text-[#9AA3AD]">
-                Run <code className="text-[#D98A2B]">triage</code> and in seconds you have a complete picture — gateway health, session state, reliability score, protection posture. Read-only. Nothing changes. No risk.
+                When your gateway is degraded, <code className="text-[#D98A2B]">openclaw doctor</code> can&apos;t answer — it&apos;s asking the sick system what&apos;s wrong. Triage reads directly from the filesystem. No gateway required. Run it when the system itself is the suspect.
+              </p>
+              <p className="mt-3 text-[15px] leading-6 text-[#9AA3AD]">
+                And it doesn&apos;t just confirm broken things. <code className="text-[#D98A2B]">protection_state AT_RISK</code> means Triage caught a risk condition before anything failed. That&apos;s the part worth seeing.
               </p>
               <div className="mt-5 space-y-3">
                 {[
@@ -224,7 +227,7 @@ Protection: ACTIVE`}
                 ))}
               </div>
               <Link
-                href="/docs/octriage/overview"
+                href="/docs/triage/overview"
                 className="mt-6 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
               >
                 Install Triage — free
@@ -246,7 +249,7 @@ Protection: ACTIVE`}
                 />
               </div>
               <p className="mt-6 max-w-[280px] text-center text-[13px] leading-5 text-[#5A6E80]">
-                Works when OpenClaw doesn&apos;t. If your gateway is degraded, Triage still runs.
+                Read-only. Nothing changes. GPG-verified install.
               </p>
             </div>
           </div>
@@ -266,7 +269,7 @@ Protection: ACTIVE`}
           <ol className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
               "Install Triage",
-              "Run octriage",
+              "Run triage",
               "View system reliability state",
             ].map((step, index) => (
               <li
@@ -280,7 +283,7 @@ Protection: ACTIVE`}
           <pre className="mt-4 overflow-x-auto rounded-md bg-[#161A1E] px-6 py-5 text-[16px] leading-7 text-[#E6E6E6]">
 {`curl https://openclaw.ai/install.sh | bash
 
-octriage`}
+triage`}
           </pre>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5">
@@ -303,7 +306,7 @@ octriage`}
             </div>
           </div>
           <Link
-            href="/docs/octriage/overview"
+            href="/docs/triage/overview"
             className="mt-4 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
           >
             Install Triage
