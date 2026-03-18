@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME Stack — v2 Expansion</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1A2028;
+      display: flex;
+      justify-content: center;
+      padding: 40px 24px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .diagram-wrap { width: 100%; max-width: 1100px; }
+    .diagram-caption { font-size: 13px; color: #5A6E80; text-align: center; margin-top: 16px; }
+  </style>
+</head>
+<body>
+<div class="diagram-wrap">
+<svg id="acme-stack-v2"
+     viewBox="0 0 1100 820"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-labelledby="sv2-title"
+     style="width:100%;display:block;border-radius:6px;overflow:hidden;">
+
+  <title id="sv2-title">ACME Stack — v2 Expansion Architecture</title>
+
+  <defs>
+    <linearGradient id="v2bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#252C32"/>
+      <stop offset="100%" stop-color="#1F252B"/>
+    </linearGradient>
+    <filter id="v2amber" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix type="matrix" values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.4 0" in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="v2green" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0.3 0.8 0.3 0 0  0 0 0 0 0  0 0 0 0.35 0" in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="v2blue" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0.3 0.6 0 0  0.2 0.5 1 0 0  0 0 0 0.35 0" in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1100" height="820" fill="url(#v2bg)"/>
+
+  <!-- Header -->
+  <text x="48" y="44" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        font-weight="500" fill="#4A5E70" letter-spacing="0.14em">ACME AGENT SUPPLY CO. · STACK ARCHITECTURE</text>
+  <text x="48" y="72" font-family="Inter,-apple-system,sans-serif" font-size="24"
+        font-weight="600" fill="#E0E8F0" letter-spacing="-0.01em">The ACME Stack</text>
+  <text x="48" y="96" font-family="Inter,-apple-system,sans-serif" font-size="13" fill="#9AA3AD">
+    Five layers. Foundation to operator surface.
+  </text>
+  <text x="1052" y="72" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#4A9E6B" letter-spacing="0.1em" text-anchor="end">v2 · EXPANSION</text>
+  <line x1="0" y1="116" x2="1100" y2="116" stroke="#2E363E" stroke-width="1"/>
+
+  <!-- AGENTS vertical band -->
+  <rect x="970" y="130" width="100" height="580" rx="4" fill="#1E2630" stroke="#2A3848" stroke-width="1" stroke-dasharray="4,3"/>
+  <text font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9" fill="#3A5068"
+        letter-spacing="0.12em" text-anchor="middle" transform="translate(1020,420) rotate(-90)">AGENTS · TRAVERSE ALL LAYERS</text>
+
+  <!-- ── LAYER 5 — OPERATOR SURFACE (Recall + Callsign lit, rest ghosted) ── -->
+  <rect x="48" y="130" width="904" height="80" rx="4" fill="#1E2430" stroke="#D98A2B" stroke-width="1" opacity="0.8"/>
+  <text x="64" y="156" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="600" fill="#D98A2B" letter-spacing="0.1em">LAYER 5  ·  PARTIAL</text>
+  <text x="64" y="172" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#C8D4E0">Operator Surface</text>
+
+  <g filter="url(#v2amber)">
+    <rect x="160" y="140" width="130" height="58" rx="5" fill="#222E3C" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle cx="178" cy="161" r="3.5" fill="#D98A2B"/>
+    <text x="188" y="165" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#D98A2B">Recall</text>
+    <text x="178" y="186" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Fleet control · e-stop</text>
+  </g>
+
+  <g filter="url(#v2amber)">
+    <rect x="306" y="140" width="130" height="58" rx="5" fill="#222E3C" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle cx="324" cy="161" r="3.5" fill="#D98A2B"/>
+    <text x="334" y="165" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Callsign</text>
+    <text x="324" y="186" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Voice intent</text>
+  </g>
+
+  <rect x="452" y="140" width="140" height="58" rx="5" fill="#1A2028" stroke="#252C32" stroke-width="1" opacity="0.4"/>
+  <text x="468" y="165" font-family="Inter,-apple-system,sans-serif" font-size="13" fill="#364650" font-weight="500">Briefing Room</text>
+  <text x="468" y="183" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#2A3840">Outcomes</text>
+
+  <rect x="606" y="140" width="100" height="58" rx="5" fill="#1A2028" stroke="#252C32" stroke-width="1" opacity="0.4"/>
+  <text x="622" y="165" font-family="Inter,-apple-system,sans-serif" font-size="13" fill="#364650" font-weight="500">Scrum</text>
+  <text x="622" y="183" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#2A3840">Visibility</text>
+
+  <text x="780" y="172" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#2A3840" letter-spacing="0.08em">— coming —</text>
+
+  <!-- ── LAYER 4 — GOVERNANCE & CONTROL (LIVE) ── -->
+  <rect x="48" y="222" width="904" height="100" rx="4" fill="#1E2838" stroke="#6B88CC" stroke-width="1.5" opacity="0.9"/>
+  <text x="64" y="248" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="600" fill="#6B88CC" letter-spacing="0.1em">LAYER 4  ·  LIVE</text>
+  <text x="64" y="266" font-family="Inter,-apple-system,sans-serif" font-size="14"
+        font-weight="600" fill="#C8D4E0">Governance &amp; Control</text>
+  <text x="64" y="284" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#7A8EA0">Policy enforcement, mission orchestration, cognitive steering.</text>
+
+  <g filter="url(#v2blue)">
+    <rect x="200" y="234" width="140" height="76" rx="5" fill="#20283A" stroke="#6B88CC" stroke-width="1.5"/>
+    <circle cx="218" cy="256" r="3.5" fill="#6B88CC"/>
+    <text x="228" y="260" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Commander</text>
+    <text x="218" y="280" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Policy governance</text>
+    <text x="218" y="300" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#6B88CC">● live</text>
+  </g>
+
+  <g filter="url(#v2blue)">
+    <rect x="358" y="234" width="155" height="76" rx="5" fill="#20283A" stroke="#6B88CC" stroke-width="1.5"/>
+    <circle cx="376" cy="256" r="3.5" fill="#6B88CC"/>
+    <text x="386" y="260" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Quartermaster</text>
+    <text x="376" y="280" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Mission orchestration</text>
+    <text x="376" y="300" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#6B88CC">● live</text>
+  </g>
+
+  <g filter="url(#v2blue)">
+    <rect x="530" y="234" width="120" height="76" rx="5" fill="#20283A" stroke="#6B88CC" stroke-width="1.5"/>
+    <circle cx="548" cy="256" r="3.5" fill="#6B88CC"/>
+    <text x="558" y="260" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Hypnos</text>
+    <text x="548" y="280" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Cognitive steering</text>
+    <text x="548" y="300" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#6B88CC">● live</text>
+  </g>
+
+  <!-- ── LAYER 3 — EXECUTION & ROUTING (LIVE) ── -->
+  <rect x="48" y="334" width="904" height="100" rx="4" fill="#1E2830" stroke="#D98A2B" stroke-width="1.5" opacity="0.9"/>
+  <text x="64" y="360" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="600" fill="#D98A2B" letter-spacing="0.1em">LAYER 3  ·  LIVE</text>
+  <text x="64" y="378" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#C8D4E0">Execution &amp; Routing</text>
+  <text x="64" y="396" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#7A8EA0">Work gets scheduled, routed to the right model, dispatched.</text>
+
+  <g filter="url(#v2amber)">
+    <rect x="200" y="346" width="150" height="76" rx="5" fill="#252E38" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle cx="218" cy="368" r="3.5" fill="#D98A2B"/>
+    <text x="228" y="372" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Dispatch</text>
+    <text x="218" y="392" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Task scheduler</text>
+    <text x="218" y="410" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#D98A2B">● live</text>
+  </g>
+
+  <g filter="url(#v2amber)">
+    <rect x="368" y="346" width="160" height="76" rx="5" fill="#252E38" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle cx="386" cy="368" r="3.5" fill="#D98A2B"/>
+    <text x="396" y="372" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Transmission</text>
+    <text x="386" y="392" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Model router</text>
+    <text x="386" y="410" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10" fill="#D98A2B">● live</text>
+  </g>
+
+  <!-- ── LAYER 2 — COGNITIVE SUBSTRATE (LIVE) ── -->
+  <rect x="48" y="446" width="904" height="80" rx="4" fill="#1E2438" stroke="#8B68CC" stroke-width="1.5" opacity="0.9"/>
+  <text x="64" y="472" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="600" fill="#8B68CC" letter-spacing="0.1em">LAYER 2  ·  LIVE</text>
+  <text x="64" y="490" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="600" fill="#C8D4E0">Cognitive Substrate</text>
+
+  <g filter="url(#v2blue)">
+    <rect x="200" y="456" width="260" height="58" rx="5" fill="#201C38" stroke="#8B68CC" stroke-width="1.5"/>
+    <circle cx="218" cy="478" r="3.5" fill="#8B68CC"/>
+    <text x="228" y="482" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#E6E6E6">Telepath</text>
+    <text x="218" y="502" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#9AA3AD">Memory · knowledge graph · agent identity</text>
+  </g>
+
+  <!-- ── LAYER 1 — RELIABILITY FOUNDATION (LIVE) ── -->
+  <rect x="48" y="538" width="904" height="182" rx="4" fill="#1A2830" stroke="#4A9E6B" stroke-width="1.5" opacity="0.95"/>
+  <text x="64" y="566" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="600" fill="#4A9E6B" letter-spacing="0.1em">LAYER 1  ·  LIVE  ·  FOUNDATION</text>
+  <text x="64" y="584" font-family="Inter,-apple-system,sans-serif" font-size="14" font-weight="600" fill="#C8D4E0">Reliability</text>
+  <text x="64" y="600" font-family="Inter,-apple-system,sans-serif" font-size="12" fill="#7A8EA0">Always on. Always watching. The floor everything else rests on.</text>
+
+  <g filter="url(#v2green)">
+    <rect x="80" y="614" width="130" height="56" rx="5" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1"/>
+    <circle cx="96" cy="632" r="3" fill="#4A9E6B"/>
+    <text x="104" y="636" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" fill="#E6E6E6">RadCheck</text>
+    <text x="96" y="654" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Reliability scoring</text>
+
+    <rect x="224" y="614" width="120" height="56" rx="5" fill="#2C2416" stroke="#D98A2B" stroke-width="1.2"/>
+    <circle cx="240" cy="632" r="3" fill="#D98A2B"/>
+    <text x="248" y="636" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" fill="#E6E6E6">Triage</text>
+    <text x="240" y="654" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">First response</text>
+
+    <rect x="358" y="614" width="120" height="56" rx="5" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1"/>
+    <circle cx="374" cy="632" r="3" fill="#4A9E6B"/>
+    <text x="382" y="636" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" fill="#E6E6E6">Sentinel</text>
+    <text x="374" y="654" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Silent failure detect</text>
+
+    <rect x="492" y="614" width="120" height="56" rx="5" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1"/>
+    <circle cx="508" cy="632" r="3" fill="#4A9E6B"/>
+    <text x="516" y="636" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" fill="#E6E6E6">Watchdog</text>
+    <text x="508" y="654" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Heartbeat</text>
+
+    <rect x="626" y="614" width="120" height="56" rx="5" fill="#2C1E1E" stroke="#C0392B" stroke-width="1.2"/>
+    <circle cx="642" cy="632" r="3" fill="#C0392B"/>
+    <text x="650" y="636" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" fill="#E6E6E6">Agent911</text>
+    <text x="642" y="654" font-family="Inter,-apple-system,sans-serif" font-size="11" fill="#9AA3AD">Recovery cockpit</text>
+
+    <rect x="80" y="680" width="130" height="28" rx="4" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1" opacity="0.85"/>
+    <circle cx="94" cy="694" r="2.5" fill="#4A9E6B"/>
+    <text x="102" y="698" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="500" fill="#C8D4E0">DriftGuard</text>
+
+    <rect x="224" y="680" width="120" height="28" rx="4" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1" opacity="0.85"/>
+    <circle cx="238" cy="694" r="2.5" fill="#4A9E6B"/>
+    <text x="246" y="698" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="500" fill="#C8D4E0">SphinxGate</text>
+
+    <rect x="358" y="680" width="110" height="28" rx="4" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1" opacity="0.85"/>
+    <circle cx="372" cy="694" r="2.5" fill="#4A9E6B"/>
+    <text x="380" y="698" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="500" fill="#C8D4E0">Lazarus</text>
+
+    <rect x="482" y="680" width="140" height="28" rx="4" fill="#1E2C22" stroke="#4A9E6B" stroke-width="1" opacity="0.85"/>
+    <circle cx="496" cy="694" r="2.5" fill="#4A9E6B"/>
+    <text x="504" y="698" font-family="Inter,-apple-system,sans-serif" font-size="12" font-weight="500" fill="#C8D4E0">FindMyAgent</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <line x1="0" y1="756" x2="1100" y2="756" stroke="#2E363E" stroke-width="1"/>
+  <text x="48" y="782" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#3A4E60" letter-spacing="0.1em">ACME AGENT SUPPLY CO.</text>
+  <text x="550" y="782" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#3A4E60" text-anchor="middle">The stack that thinks and governs.</text>
+  <text x="1052" y="782" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#4A9E6B" text-anchor="end">v2 · EXPANSION</text>
+
+</svg>
+<p class="diagram-caption">ACME Stack v2 — All foundation layers live. Cognitive substrate + governance active. Operator surface expanding.</p>
+</div>
+</body>
+</html>
