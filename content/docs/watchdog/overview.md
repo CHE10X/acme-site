@@ -15,7 +15,12 @@ Watchdog is the heartbeat layer. It runs a continuous liveness loop on long-runn
 - Uses probe debounce: requires N=3 consecutive failures before triggering a kickstart — avoids false positives from transient network hiccups
 - Owns log hygiene: bounds log growth, governs `restore_staging` directory, performs conservative cleanup
 - Prevents duplicate runs via lockfile protection
+- Emits events to the **Resilience Event Bus (REB)** — the shared event backbone consumed by Lazarus, Agent911, and Bonfire
 - Emits telemetry that Sentinel, RadCheck, and Agent911 all consume
+
+> **Resilience layer position:** Watchdog is the process liveness watch surface in the Detection sublayer — alongside Sentinel (runtime behavior) and InfraWatch (infra config). All three emit to a shared REB.
+
+> **If running Watchdog standalone:** REB is installed and receiving Watchdog events. To consume those events — triggering readiness scans and recovery — add Lazarus and Agent911, or install the Operator Bundle.
 
 ## What Watchdog Does NOT Do
 

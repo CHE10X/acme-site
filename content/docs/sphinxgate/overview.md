@@ -1,12 +1,15 @@
 ---
-title: SphinxGate — Policy Enforcement for Routing
+title: SphinxGate — Access Control & Policy Enforcement
 product: sphinxgate
 tier: CORE
+layer: access-control
 ---
 
-# SphinxGate — Policy Enforcement for Routing
+# SphinxGate — Access Control & Policy Enforcement
 
-SphinxGate applies policy guardrails to model routing so agent systems behave predictably as provider and fallback complexity grows. It enforces which models are allowed on which workloads, prevents background agents from consuming interactive budget, and produces an auditable record of every routing decision.
+SphinxGate is ACME's **access control layer** — distinct from the resilience layer. It applies policy guardrails to model routing so agent systems behave predictably as provider and fallback complexity grows. It enforces which models are allowed on which workloads, prevents background agents from consuming interactive budget, and produces an auditable record of every routing decision.
+
+> **Stack position:** SphinxGate operates at Layer 0 (access control), not inside the resilience layer. It governs what can run. The resilience layer (Sentinel, InfraWatch, Watchdog, Lazarus, Agent911) governs what's healthy and how to recover.
 
 ## What SphinxGate Does
 

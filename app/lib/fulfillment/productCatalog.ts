@@ -10,7 +10,7 @@ const FULFILLMENT_ACTIONS = {
   deliver_radcheck: "deliver_radcheck",
   deliver_sentinel: "deliver_sentinel",
   deliver_sphinxgate: "deliver_sphinxgate",
-  deliver_driftguard: "deliver_driftguard",
+  deliver_infrawatch: "deliver_infrawatch", // renamed from deliver_driftguard 2026-03-18
   deliver_operator_bundle: "deliver_operator_bundle",
   deliver_watchdog: "deliver_watchdog",
   deliver_transmission: "deliver_transmission",
@@ -37,9 +37,9 @@ export const PRODUCT_CATALOG: Record<string, ProductCatalogEntry> = {
     fulfillment: "deliver_sphinxgate",
   },
   prod_U56nqUJd9LlJqQ: {
-    sku: "driftguard",
-    name: "DriftGuard",
-    fulfillment: "deliver_driftguard",
+    sku: "infrawatch",
+    name: "InfraWatch",
+    fulfillment: "deliver_infrawatch", // renamed from DriftGuard 2026-03-18
   },
   prod_U56ukpVLBM5p89: {
     sku: "operator_bundle",
