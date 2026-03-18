@@ -42,6 +42,26 @@ export default function ProductsPage() {
           <InlineReliabilityStackSvg />
         </div>
 
+        {/* ── Product nav strip ── */}
+        <div className="border-b border-[#2E3640] bg-[#151C24] px-6 py-4">
+          <div className="mx-auto max-w-5xl">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px]">
+              {PRODUCTS.filter(p => p.bundle !== "Coming Soon").map((p) => (
+                <Link
+                  key={p.name}
+                  href={p.href}
+                  className="text-[#9AA3AD] underline underline-offset-4 hover:text-[#E6E6E6] transition"
+                >
+                  {p.name}
+                </Link>
+              ))}
+              <Link href="/pricing" className="text-[#D98A2B] underline underline-offset-4 hover:text-[#C47A22] transition">
+                Pricing
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* ── Tight product table ── */}
         <div className="mx-auto max-w-5xl px-6 py-12">
           <div className="mb-6 flex items-baseline justify-between gap-4">
@@ -49,9 +69,6 @@ export default function ProductsPage() {
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
               <h1 className="mt-1 text-[22px] font-semibold text-[#E6E6E6]">All Products</h1>
             </div>
-            <Link href="/pricing" className="text-[13px] text-[#D98A2B] hover:text-[#C47A22]">
-              View pricing →
-            </Link>
           </div>
 
           <div className="overflow-hidden rounded-[6px] border border-[#2E3640]">
