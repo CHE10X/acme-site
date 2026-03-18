@@ -43,25 +43,15 @@ export default async function PricingPage() {
 
   return (
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
-      <main className="mx-auto flex w-full max-w-[1100px] flex-col gap-16 px-4 py-12 sm:px-6 sm:py-14">
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
-          <div className="text-[13px] uppercase tracking-[0.28em] text-[#D98A2B]">ACME Agent Supply Co.</div>
-          <h1 className="mt-3 text-[30px] font-semibold tracking-[-0.02em] text-[#E6E6E6] sm:text-[34px] lg:text-[40px]">
-            Pricing
-          </h1>
-          <p className="mt-3 max-w-[60ch] text-[16px] text-[#C7CDD4]">
-            Clear operator access from first diagnostics to production-grade reliability control.
-          </p>
-        </section>
-
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
-          <h2 className="text-[22px] font-semibold text-[#E6E6E6]">Operator Access Model</h2>
-          <p className="mt-3 max-w-[78ch] text-[16px] leading-7 text-[#C7CDD4]">
-            OpenClaw begins with visibility. Operators start with Triage to understand system health. As
-            systems move into production, additional utilities provide reliability scoring, protection, and
-            deterministic recovery.
-          </p>
-        </section>
+      <main className="mx-auto flex w-full max-w-[1100px] flex-col gap-8 px-4 py-10 sm:px-6 sm:py-12">
+        {/* Lean header — pricing page, get out of the way */}
+        <div className="flex items-baseline justify-between gap-4 border-b border-[#2E3640] pb-6">
+          <div>
+            <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">ACME Agent Supply Co.</div>
+            <h1 className="mt-1 text-[28px] font-semibold tracking-tight text-[#E6E6E6]">Pricing</h1>
+          </div>
+          <p className="hidden text-[14px] text-[#5A6E80] sm:block">Start free. Add protection as you need it.</p>
+        </div>
 
         <section>
           <div className="grid gap-4 lg:grid-cols-3">
