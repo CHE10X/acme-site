@@ -186,46 +186,53 @@ Protection: ACTIVE`}
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Operator Console (Triage)
-          </h2>
-          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            Operators run Triage and <code>octriage -watch</code> to
-            immediately understand system state.
-          </p>
-          <pre className="mt-4 overflow-x-auto rounded-md bg-[#161A1E] px-6 py-5 text-[16px] leading-7 text-[#E6E6E6]">
-{`OpenClaw System Triage
-STATUS: HEALTHY
-reliability_score: 87
-trend_24h: +3
-protection_state: ACTIVE`}
-          </pre>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5">
-              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
-                Operational Ritual
-              </div>
-              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                Run Triage first, confirm protection state, then decide if ORP
-                recovery workflow is required.
+          <div className="grid gap-8 lg:grid-cols-[1fr_420px] lg:items-start">
+            <div>
+              <div className="text-[12px] uppercase tracking-[0.28em] text-[#4A9E6B]">Free · Diagnostics</div>
+              <h2 className="mt-2 text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
+                What Triage shows you
+              </h2>
+              <p className="mt-3 text-[16px] leading-7 text-[#9AA3AD]">
+                Run <code className="text-[#D98A2B]">triage</code> and in seconds you have a complete picture — gateway health, session state, reliability score, protection posture. Read-only. Nothing changes. No risk.
               </p>
+              <div className="mt-5 space-y-3">
+                {[
+                  { label: "STATUS", value: "HEALTHY", color: "#4A9E6B" },
+                  { label: "reliability_score", value: "83", color: "#D98A2B" },
+                  { label: "protection_state", value: "AT_RISK", color: "#C0392B" },
+                  { label: "sessions", value: "17 active, 0 orphan", color: "#9AA3AD" },
+                  { label: "runtime alerts", value: "72,833 captured", color: "#9AA3AD" },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-baseline gap-3 rounded bg-[#161A1E] px-4 py-2.5 font-mono text-[13px]">
+                    <span className="text-[#5A6E80]">{row.label}</span>
+                    <span style={{ color: row.color }}>{row.value}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/docs/octriage/overview"
+                className="mt-6 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
+              >
+                Install Triage — free
+              </Link>
             </div>
-            <div className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5">
-              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
-                Runtime Visibility
+
+            {/* Screenshot — angled pop */}
+            <div className="hidden lg:flex lg:items-start lg:justify-center">
+              <div
+                className="overflow-hidden rounded-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
+                style={{ transform: "rotate(7deg)", transformOrigin: "top center", maxWidth: "400px" }}
+              >
+                <Image
+                  src="/images/triage-screenshot.png"
+                  alt="Triage output showing system health, reliability score, and protection state"
+                  width={400}
+                  height={316}
+                  className="w-full h-auto"
+                />
               </div>
-              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                <code>octriage -watch</code> keeps reliability signals visible
-                during live operations.
-              </p>
             </div>
           </div>
-          <Link
-            href="/docs/octriage/overview"
-            className="mt-4 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
-          >
-            Install Triage
-          </Link>
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
