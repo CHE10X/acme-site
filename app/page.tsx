@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HRInline from "./components/HRInline";
 import ObserveSignalsSection from "./components/home/ObserveSignalsSection";
 import OperatorUtilityCards from "./components/home/OperatorUtilityCards";
 import OperatorTerrainSection from "./components/home/OperatorTerrainSection";
@@ -70,6 +71,9 @@ export default function Home() {
             />
             <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
               Field Supply Division
+            </div>
+            <div className="ml-auto">
+              <HRInline />
             </div>
           </div>
 

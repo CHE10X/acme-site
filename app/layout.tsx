@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import fs from "node:fs";
 import path from "node:path";
-import HRPanel from "./components/HRPanel";
 import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import "./globals.css";
@@ -27,7 +26,6 @@ export default function RootLayout({
         <SiteHeader />
         {children}
         <SiteFooter showRefund={refundPolicyExists} />
-        <HRPanel />
       </body>
     </html>
   );
