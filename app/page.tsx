@@ -28,11 +28,20 @@ const BUNDLES = [
   {
     tier: "$19 / mo",
     name: "Incident Response",
-    tools: ["Agent911", "Recall", "FindMyAgent", "Lazarus"],
+    tools: ["Agent911", "Recall", "Lazarus"],
     color: "#C0392B",
-    desc: "When something breaks at 2am, you open Agent911. Recall gives you manual control. FindMyAgent tells you what's alive. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
+    desc: "When something breaks at 2am, you open Agent911. Recall gives you manual intervention. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
     cta: "See Incident Response",
     href: "/docs/agent911/snapshot-explained",
+  },
+  {
+    tier: "$29 / mo",
+    name: "Operator Bundle",
+    tools: ["Sentinel", "InfraWatch", "Watchdog", "Lazarus", "Agent911", "Recall"],
+    color: "#7B68EE",
+    desc: "The full resilience layer, fully wired. When something breaks, it doesn't wait for you to notice. Detection fires. Readiness confirms. Recovery runs. You get a report.",
+    cta: "See the full layer",
+    href: "/docs/operator-bundle/overview",
   },
 ];
 

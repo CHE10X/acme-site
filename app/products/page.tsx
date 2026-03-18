@@ -8,28 +8,29 @@ export const metadata: Metadata = {
 };
 
 const PRODUCTS = [
-  // Diagnostics bundle
-  { name: "Triage",        bundle: "Diagnostics",        tier: "Free",    command: "triage",             href: "/docs/octriage/overview",                  desc: "Read-only stack diagnostics. No gateway required." },
-  { name: "RadCheck",      bundle: "Diagnostics",        tier: "Free",    command: "radcheck",           href: "/docs/radcheck/score-explained",            desc: "0–100 reliability score. Surfaces hidden risk." },
-  // Runtime bundle
-  { name: "Sentinel",      bundle: "Runtime",            tier: "$5/mo",   command: "sentinel",           href: "/docs/sentinel/overview",                  desc: "Always-on silent failure detection." },
-  { name: "Watchdog",      bundle: "Runtime",            tier: "$5/mo",   command: "watchdog",           href: "/docs/watchdog/overview",                  desc: "Heartbeat and liveness monitoring." },
-  // Incident Response bundle
-  { name: "Agent911",      bundle: "Incident Response",  tier: "$19/mo",  command: "agent911",           href: "/docs/agent911/snapshot-explained",         desc: "Recovery cockpit. Open this at 2am." },
-  { name: "Recall",        bundle: "Incident Response",  tier: "$19/mo",  command: "recall",             href: "/docs/recall/overview",                    desc: "Manual fleet intervention surface." },
-  { name: "FindMyAgent",   bundle: "Incident Response",  tier: "$19/mo",  command: "findmyagent --list", href: "/docs/findmyagent/overview",                desc: "Live agent presence and heartbeat." },
-  { name: "Lazarus",       bundle: "Incident Response",  tier: "$19/mo",  command: "lazarus --simulate", href: "/docs/lazarus/overview",                   desc: "Verify backup readiness before you need it." },
+  // Diagnostics
+  { name: "Triage",        bundle: "Diagnostics",     tier: "Free",    command: "triage",                href: "/docs/octriage/overview",            desc: "Read-only stack diagnostics. No gateway required." },
+  { name: "RadCheck",      bundle: "Diagnostics",     tier: "Free",    command: "radcheck",              href: "/docs/radcheck/score-explained",     desc: "0–100 reliability score. Surfaces hidden risk." },
+  // Operator Bundle — one resilience layer, sold as a unit
+  { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo", command: "—",                   href: "/docs/operator-bundle/overview",     desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
+  // Standalone resilience products (entry points into the bundle)
+  { name: "Sentinel",      bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel/overview",            desc: "Always-on silent failure detection." },
+  { name: "Watchdog",      bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog/overview",            desc: "Heartbeat and liveness monitoring." },
+  { name: "Lazarus",       bundle: "Resilience",      tier: "$19/mo",  command: "lazarus --simulate",    href: "/docs/lazarus/overview",             desc: "Readiness scan. Confirms recovery is possible before it runs." },
+  { name: "Agent911",      bundle: "Resilience",      tier: "$19/mo",  command: "agent911",              href: "/docs/agent911/snapshot-explained",  desc: "Recovery cockpit. Open this at 2am." },
+  { name: "Recall",        bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall/overview",              desc: "Manual fleet intervention. Ambient presence awareness." },
+  // Access Control — separate from resilience layer
+  { name: "SphinxGate",    bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate/overview",          desc: "Policy enforcement. Governs what can run." },
   // Coming soon
-  { name: "Transmission",  bundle: "Coming Soon",        tier: "—",       command: "—",                  href: "/docs/transmission/overview",              desc: "Task-aware model routing. Fix the economics." },
-  { name: "SphinxGate",    bundle: "Coming Soon",        tier: "—",       command: "sphinxgate",         href: "/docs/sphinxgate/overview",                desc: "Policy enforcement and routing audit." },
-  { name: "DriftGuard",    bundle: "Coming Soon",        tier: "—",       command: "driftguard",         href: "/docs/driftguard/overview",                desc: "Behavior drift detection across runs." },
+  { name: "Transmission",  bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission/overview",        desc: "Task-aware model routing. Fix the economics." },
 ];
 
 const BUNDLE_COLOR: Record<string, string> = {
-  "Diagnostics":        "#4A9E6B",
-  "Runtime":            "#D98A2B",
-  "Incident Response":  "#C0392B",
-  "Coming Soon":        "#3A4048",
+  "Diagnostics":    "#4A9E6B",
+  "Operator Bundle":"#7B68EE",
+  "Resilience":     "#7B68EE",
+  "Access Control": "#4A9E6B",
+  "Coming Soon":    "#3A4048",
 };
 
 export default function ProductsPage() {
@@ -114,9 +115,9 @@ export default function ProductsPage() {
           {/* Bundle quick-reference */}
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
-              { name: "Diagnostics", price: "Free", tools: "Triage + RadCheck", color: "#4A9E6B" },
-              { name: "Runtime",     price: "$5/mo", tools: "Sentinel + Watchdog", color: "#D98A2B" },
-              { name: "Incident Response", price: "$19/mo", tools: "Agent911 + Recall + FindMyAgent + Lazarus", color: "#C0392B" },
+              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                          color: "#4A9E6B" },
+              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#7B68EE" },
+              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                 color: "#4A9E6B" },
             ].map((b) => (
               <div key={b.name} className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] px-4 py-3"
                 style={{ borderTopColor: b.color, borderTopWidth: "2px" }}>
@@ -128,7 +129,7 @@ export default function ProductsPage() {
           </div>
 
           <div className="mt-6 text-[12px] text-[#3A4E60]">
-            Operator Bundle — everything above — $29/mo (pricing being finalized)
+            Operator Bundle — the complete resilience layer — $29/mo. Individual resilience products also available standalone.
           </div>
         </div>
       </main>

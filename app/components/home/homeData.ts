@@ -41,32 +41,18 @@ export const OPERATOR_UTILITY_CARDS: UtilityCard[] = [
     ],
     docsHref: "/docs/sentinel/overview",
   },
-  {
-    id: "findmyagent",
-    title: "FindMyAgent",
-    unitLabel: "OPERATOR BETA",
-    subtitle: "Know what your agents are doing - and what they are not.",
-    description:
-      "Real-time presence, progress signals, and needs-attention flags for your agent fleet.",
-    flavor: "Included with Agent911 operator surface.",
-    bullets: [
-      "live agent presence state",
-      "clear stalled / blocked signals",
-      "last activity + heartbeat age",
-    ],
-    docsHref: "/docs/findmyagent/overview",
-  },
+
 ];
 
 export const FIELD_DEVELOPMENT_CARDS = [
   {
-    id: "driftguard",
-    title: "DriftGuard",
-    subtitle: "Monitoring long-horizon drift under live load.",
+    id: "infrawatch",
+    title: "InfraWatch",
+    subtitle: "Infrastructure config watching under live load.",
     bullets: [
-      "behavioral drift snapshots",
-      "policy deviation flags",
-      "run-to-run delta tracking",
+      "daemon config change detection",
+      "ingest chain integrity",
+      "routing drift alerts",
     ],
   },
   {
