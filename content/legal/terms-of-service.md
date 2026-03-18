@@ -4,7 +4,7 @@ title: Terms of Service
 
 # Terms of Service
 
-**Last updated: March 2, 2026**
+**Last updated: March 18, 2026**
 
 These Terms of Service ("Terms") govern your use of ACME Agent Supply Co. ("ACME," "we," "us," or "our") products, services, and website (collectively, the "Services"). By accessing or using the Services, you agree to these Terms.
 
@@ -14,7 +14,21 @@ By using our Services, you confirm that you are at least 18 years old, have the 
 
 ## 2. Services
 
-ACME provides AI agent reliability software including RadCheck, Sentinel, Agent911, and related tools. The Services are provided "as is" and we reserve the right to modify, suspend, or discontinue them at any time with reasonable notice.
+ACME provides AI agent reliability and resilience software. Current products include:
+
+- **RadCheck** — reliability scoring and signal monitoring
+- **Sentinel** — funnel alignment and attach bridge detection
+- **InfraWatch** — infrastructure and configuration drift detection
+- **Watchdog** — gateway process monitoring and recovery
+- **Lazarus** — recovery readiness scanning and planning
+- **Agent911** — incident response and agent reconstruction
+- **SphinxGate** — access control and session protection
+- **Recall** — manual intervention and recovery tooling
+- **Transmission** — intelligent model routing and governance
+- **Triage** — read-only control plane diagnostics (open source)
+- **Operator Bundle** — bundled resilience layer (Sentinel, InfraWatch, Watchdog, Lazarus, Agent911)
+
+The product lineup may evolve over time. The Services are provided "as is" and we reserve the right to modify, suspend, or discontinue them at any time with reasonable notice.
 
 ## 3. Accounts
 
