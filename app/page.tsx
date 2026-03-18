@@ -129,8 +129,8 @@ export default function Home() {
                 {[
                   { state: "Know", line: "What's running. What's at risk. What changed overnight.", color: "#4A9E6B" },
                   { state: "Protect", line: "Guardrails on. Watchdog live. Nothing goes silent.", color: "#D98A2B" },
-                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#C0392B" },
-                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#7B68EE" },
+                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#C44A3A" },
+                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#6C8599" },
                 ].map((item) => (
                   <div key={item.state} className="flex items-start gap-4 px-5 py-4">
                     <div
