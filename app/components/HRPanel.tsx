@@ -133,11 +133,11 @@ export default function HRPanel() {
   const latest = items[0];
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9000] flex flex-col items-end gap-0">
-      {/* Expanded panel */}
+    <div className="fixed bottom-6 right-6 z-[9000]">
+      {/* Expanded panel — absolutely anchored above the trigger bar, never shifts layout */}
       {expanded && (
         <div
-          className="mb-2 w-[340px] overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/98 shadow-2xl shadow-black/70"
+          className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-zinc-700 bg-zinc-900/98 shadow-2xl shadow-black/70"
           style={{ maxHeight: "480px" }}
         >
           {/* Panel header */}
@@ -210,11 +210,11 @@ export default function HRPanel() {
         </div>
       )}
 
-      {/* Collapsed callout bar */}
+      {/* Collapsed callout bar — fixed width matching Operator Touch Surface panel */}
       {!expanded && (
         <button
           onClick={handleExpand}
-          className="group flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-amber-400/40 hover:bg-zinc-900"
+          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-amber-400/40 hover:bg-zinc-900"
         >
           {/* Pulse dot */}
           <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center live-pulse">
