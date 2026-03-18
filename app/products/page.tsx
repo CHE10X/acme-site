@@ -27,9 +27,9 @@ const PRODUCTS = [
 
 const BUNDLE_COLOR: Record<string, string> = {
   "Diagnostics":    "#4A9E6B",
-  "Operator Bundle":"#7B68EE",
-  "Resilience":     "#7B68EE",
-  "Access Control": "#4A9E6B",
+  "Operator Bundle":"#D98A2B",
+  "Resilience":     "#D98A2B",
+  "Access Control": "#6C8599",
   "Coming Soon":    "#3A4048",
 };
 
@@ -132,9 +132,9 @@ export default function ProductsPage() {
           {/* Bundle quick-reference */}
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
-              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                          color: "#4A9E6B" },
-              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#7B68EE" },
-              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                 color: "#4A9E6B" },
+              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                             color: "#4A9E6B" },
+              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#D98A2B" },
+              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                    color: "#6C8599" },
             ].map((b) => (
               <div key={b.name} className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] px-4 py-3"
                 style={{ borderTopColor: b.color, borderTopWidth: "2px" }}>
