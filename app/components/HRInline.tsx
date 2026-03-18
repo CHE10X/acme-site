@@ -81,9 +81,9 @@ export default function HRInline() {
 
   return (
     <div className="relative flex flex-col items-end">
-      {/* Expanded panel — absolutely positioned above, right-aligned */}
+      {/* Expanded panel — drops DOWN from the callout bar, right-aligned */}
       {expanded && (
-        <div className="absolute bottom-full right-0 mb-2 z-50 w-[320px] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/98 shadow-2xl shadow-black/70">
+        <div className="absolute top-full right-0 mt-2 z-50 w-[380px] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/98 shadow-2xl shadow-black/70">
           {/* Header */}
           <div className="border-b border-zinc-800 bg-zinc-950 px-4 py-3">
             <div className="flex items-center justify-between">

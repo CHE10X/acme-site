@@ -90,44 +90,49 @@ export default function Home() {
                 OpenClaw
               </h1>
               <p className="mt-2 text-[22px] font-medium text-[#9AA3AD]">
-                Reliability Infrastructure for AI Agent Systems
+                For operators who are done fixing — and ready to build.
               </p>
               <p className="mt-4 max-w-xl text-[18px] leading-8 text-[#E6E6E6]">
-                Observe agent fleets.
+                Keep your agents alive.
                 <br />
-                Detect failures early.
+                Know when something&apos;s wrong.
                 <br />
-                Recover deterministically.
+                Recover fast when it is.
+              </p>
+              <p className="mt-4 max-w-xl text-[16px] leading-7 text-[#9AA3AD]">
+                Then lead your team on missions that matter.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  href="/docs/triage/overview"
+                  href="/docs/octriage/overview"
                   className="inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
                 >
-                  Install Triage
+                  Start with Triage — free
                 </Link>
                 <Link
                   href="/platform"
                   className="inline-flex items-center rounded-md border border-[#3A4048] px-6 py-3 text-[15px] text-[#E6E6E6] transition hover:border-[#D98A2B] hover:bg-[#2C3238]"
                 >
-                  View the Reliability Stack
+                  View the Stack
                 </Link>
               </div>
-              <p className="mt-4 max-w-2xl text-[18px] leading-8 text-[#9AA3AD]">
-                OpenClaw helps operators detect silent failures, understand
-                agent behavior, and recover systems deterministically.
-              </p>
             </div>
 
             <aside className="rounded-md border border-[#3A4048] bg-[#161A1E] p-5">
-              <div className="text-[13px] uppercase tracking-[0.24em] text-[#9AA3AD]">
-                Triage Preview
+              <div className="text-[11px] uppercase tracking-[0.28em] text-[#5A6E80]">Operator Touch Surface</div>
+              <div className="mt-3 space-y-3">
+                {[
+                  { state: "Know", line: "What's running. What's at risk. What changed." },
+                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing silent." },
+                  { state: "Recover", line: "Something broke. You have a playbook. Use it." },
+                  { state: "Lead", line: "Stack is stable. Now give them something to do." },
+                ].map((item) => (
+                  <div key={item.state} className="flex items-start gap-3">
+                    <div className="mt-0.5 w-14 shrink-0 text-[10px] uppercase tracking-[0.24em] text-[#D98A2B]">{item.state}</div>
+                    <div className="text-[13px] leading-5 text-[#9AA3AD]">{item.line}</div>
+                  </div>
+                ))}
               </div>
-              <pre className="mt-3 overflow-x-auto text-[16px] leading-7 text-[#E6E6E6]">
-{`STATUS: HEALTHY
-Reliability: 87
-Protection: ACTIVE`}
-              </pre>
             </aside>
           </div>
         </section>

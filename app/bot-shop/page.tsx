@@ -1,117 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import AgentPlaybook from "./AgentPlaybook";
+import CapabilityMatrix from "./CapabilityMatrix";
+import { getToolRegistry } from "./toolRegistry";
 
-type UtilityRow = {
-  utility: string;
-  function: string;
-  command: string;
-  layer:
-    | "Diagnostics"
-    | "Observe"
-    | "Runtime Hygiene"
-    | "Recovery"
-    | "Memory Integrity"
-    | "Control";
-  stages: Array<"Diagnose" | "Observe" | "Protect" | "Recover">;
-};
+const registry = getToolRegistry();
 
-const UTILITY_ROWS: UtilityRow[] = [
-  {
-    utility: "Triage",
-    function: "Generates deterministic diagnostics and proof bundles.",
-    command: "octriage",
-    layer: "Diagnostics",
-    stages: ["Diagnose"],
-  },
-  {
-    utility: "RadCheck",
-    function: "Scores reliability and flags drift risk.",
-    command: "radcheck",
-    layer: "Observe",
-    stages: ["Diagnose", "Observe"],
-  },
-  {
-    utility: "FindMyAgent",
-    function: "Locates active agent sessions and runtime context.",
-    command: "findmyagent --list",
-    layer: "Observe",
-    stages: ["Observe"],
-  },
-  {
-    utility: "Agent911",
-    function: "Runs guided response and recovery workflows.",
-    command: "agent911",
-    layer: "Recovery",
-    stages: ["Recover"],
-  },
-  {
-    utility: "Lazarus",
-    function: "Simulates recovery readiness before incidents.",
-    command: "lazarus --simulate",
-    layer: "Recovery",
-    stages: ["Recover"],
-  },
-  {
-    utility: "Watchdog",
-    function: "Supervises runtime hygiene and heartbeat signals.",
-    command: "watchdog --heartbeat",
-    layer: "Runtime Hygiene",
-    stages: ["Protect"],
-  },
-  {
-    utility: "Sentinel",
-    function: "Detects anomalies and emits protection signals.",
-    command: "sentinel --monitor",
-    layer: "Memory Integrity",
-    stages: ["Protect"],
-  },
-  {
-    utility: "SphinxGate",
-    function: "Enforces lane discipline for token and policy flow.",
-    command: "sphinxgate --enforce",
-    layer: "Control",
-    stages: ["Protect"],
-  },
-  {
-    utility: "DriftGuard",
-    function: "Stabilizes behavior under long-horizon drift.",
-    command: "driftguard --stabilize",
-    layer: "Memory Integrity",
-    stages: ["Protect"],
-  },
-  {
-    utility: "Transmission",
-    function: "Routes recovery and control-plane transport signals.",
-    command: "transmission --route",
-    layer: "Control",
-    stages: ["Recover"],
-  },
-];
-
-const STAGE_ORDER: Array<"Diagnose" | "Observe" | "Protect" | "Recover"> = [
-  "Diagnose",
-  "Observe",
-  "Protect",
-  "Recover",
-];
-
-const TOOL_INDEX_JSON_LD = {
+const TOOL_CATALOG_JSON_LD = {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Operator Utilities",
-  description: "OpenClaw tool index for operator workflows.",
-  itemListElement: UTILITY_ROWS.map((item, index) => ({
+  "@graph": registry.map((tool) => ({
     "@type": "SoftwareApplication",
-    position: index + 1,
-    name: item.utility,
-    description: item.function,
-    applicationCategory: item.layer,
+    name: tool.name,
+    description: tool.description,
+    applicationCategory: tool.applicationCategory,
+    operatingSystem: tool.operatingSystem,
+    offers: {
+      "@type": "Offer",
+      price: tool.free ? 0 : tool.priceUsdMonthly,
+      priceCurrency: "USD",
+    },
+    url: `/bot-shop/#${tool.slug}`,
+    softwareVersion: tool.latestVersion,
   })),
 };
 
 export const metadata: Metadata = {
-  title: "Operator Utilities — ACME Agent Supply Co.",
-  description: "OpenClaw Tool Index - human and machine readable.",
+  title: "Bot Shop — ACME Agent Supply Co.",
+  description:
+    "Machine-readable reference for operators and agents across the ACME tool surface.",
   alternates: {
     types: {
       "application/json": "/.well-known/tools.json",
@@ -121,113 +37,146 @@ export const metadata: Metadata = {
 
 export default function BotShopPage() {
   return (
-    <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(TOOL_INDEX_JSON_LD) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(TOOL_CATALOG_JSON_LD) }}
       />
-      <main className="mx-auto max-w-[1100px] px-4 py-12 sm:px-6 sm:py-14">
-        <header>
-          <h1 className="text-[32px] font-semibold tracking-[-0.02em] text-[#E6E6E6] sm:text-[40px]">
-            Operator Utilities
+      <main className="mx-auto max-w-5xl px-6 py-12">
+        <section className="max-w-3xl">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-amber-400">
+            Reference Surface
+          </div>
+          <h1 className="mt-3 text-3xl font-semibold tracking-[-0.02em] text-zinc-100">
+            Bot Shop
           </h1>
-          <p className="mt-3 text-[16px] text-[#9AA3AD]">
-            OpenClaw Tool Index - human and machine readable
+          <p className="mt-3 text-base text-zinc-300">
+            Machine-readable reference for operators and agents.
           </p>
-        </header>
-
-        <section
-          id="utility-registry"
-          className="mt-16 rounded-2xl border border-[#3A4048] bg-[#242A30] px-4 py-6 sm:px-6 sm:py-7"
-        >
-          <h2 className="text-[24px] font-semibold tracking-tight text-[#E6E6E6] sm:text-[30px]">
-            Utility Registry
-          </h2>
-          <div className="mt-6 overflow-x-auto">
-            <table className="w-full min-w-[860px] border-collapse text-left text-[15px]">
-              <thead>
-                <tr className="border-b border-[#3A4048] text-[#9AA3AD]">
-                  <th className="pb-2 pr-4 font-medium">Utility</th>
-                  <th className="pb-2 pr-4 font-medium">Function</th>
-                  <th className="pb-2 pr-4 font-medium">Command</th>
-                  <th className="pb-2 font-medium">Layer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {UTILITY_ROWS.map((row) => (
-                  <tr key={row.utility} className="border-b border-[#3A4048] align-top last:border-b-0">
-                    <td className="py-2 pr-4 font-medium text-[#E6E6E6]">{row.utility}</td>
-                    <td className="py-2 pr-4 text-[#C7CDD4]">{row.function}</td>
-                    <td className="py-2 pr-4 font-mono text-[15px] text-[#D98A2B]">{row.command}</td>
-                    <td className="py-2 text-[#C7CDD4]">{row.layer}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p className="mt-2 text-sm leading-7 text-zinc-400">
+            Use this page to map symptoms to the right ACME tool with correct
+            scope and guardrails.
+          </p>
+          <p className="mt-2 text-sm leading-7 text-zinc-500">
+            High-density reference. Human-readable, bot-optimized.
+          </p>
         </section>
 
-        <section
-          id="utilities-by-stage"
-          className="mt-16 rounded-2xl border border-[#3A4048] bg-[#242A30] px-4 py-6 sm:px-6 sm:py-7"
-        >
-          <h2 className="text-[24px] font-semibold tracking-tight text-[#E6E6E6] sm:text-[30px]">
-            Utilities by Operational Stage
-          </h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            {STAGE_ORDER.map((stage) => {
-              const rows = UTILITY_ROWS.filter((row) => row.stages.includes(stage));
-              return (
-                <div key={stage}>
-                  <h3 className="text-[18px] font-semibold text-[#E6E6E6]">{stage}</h3>
-                  <ul className="mt-3 space-y-2 text-[16px]">
-                    {rows.map((row) => (
-                      <li key={`${stage}-${row.utility}`} className="text-[#C7CDD4]">
-                        <span className="font-medium text-[#E6E6E6]">{row.utility}</span>
-                        <span className="text-[#9AA3AD]"> - </span>
-                        <span>{row.function}</span>
-                      </li>
-                    ))}
-                  </ul>
+        <nav className="mt-8 rounded-2xl border border-white/10 bg-zinc-900/30 px-5 py-4">
+          <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+            On this page
+          </div>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            {[
+              ["#capability-matrix", "Capability Matrix"],
+              ["#verified-install", "Verified Install + Provenance"],
+              ["#agent-playbook", "Agent Playbook"],
+              ["#symptom-routing", "Symptom Routing"],
+              ["#message-templates", "Message Templates"],
+              ["#evidence-protocol", "Evidence Protocol"],
+              ["#guardrails", "Guardrails"],
+              ["#deep-links", "Deep Links"],
+            ].map(([href, label]) => (
+              <Link
+                key={href}
+                href={href}
+                className="text-zinc-300 underline underline-offset-4 hover:text-zinc-100"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </nav>
+
+        <section id="capability-matrix" className="mt-8 scroll-mt-24">
+          <div className="mb-4 max-w-3xl">
+            <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
+              Capability Matrix
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              Core tool scope, surfaces, and guardrails for first-pass routing.
+            </p>
+          </div>
+          <CapabilityMatrix />
+        </section>
+
+        <section id="verified-install" className="mt-8 scroll-mt-24">
+          <div className="mb-4 max-w-3xl">
+            <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
+              VERIFIED INSTALL + PROVENANCE
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              Verifiable install and provenance signals for operators and agents.
+            </p>
+          </div>
+          <div className="space-y-4">
+            {registry.map((tool) => (
+              <article
+                key={tool.slug}
+                id={tool.slug}
+                className="rounded-2xl border border-white/10 bg-zinc-900/40 p-4 text-sm"
+              >
+                <h3 className="text-base font-semibold text-zinc-100">
+                  {tool.displayName ?? tool.name}
+                </h3>
+                <div className="mt-3 grid gap-2 text-zinc-300 md:grid-cols-2">
+                  <div>Release tag: {tool.releaseTag}</div>
+                  <div>Current version: {tool.latestVersion}</div>
+                  <div className="md:col-span-2">Install: {tool.installCommand}</div>
+                  <div className="md:col-span-2">SHA-256: {tool.sha256}</div>
+                  <div className="md:col-span-2">
+                    Canonical repo:{" "}
+                    <a
+                      className="underline underline-offset-4"
+                      href={tool.repoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {tool.repoUrl}
+                    </a>
+                  </div>
+                  <div className="md:col-span-2">
+                    Canonical Source Lock:{" "}
+                    <a
+                      className="underline underline-offset-4"
+                      href={tool.canonicalSourceLockUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      OPENCLAW_CANONICAL_SOURCE.md
+                    </a>
+                  </div>
+                  <div className="md:col-span-2">Guarantees: {tool.guarantees}</div>
+                  <div className="md:col-span-2">
+                    Evidence gate: Support requires an Triage bundle path.
+                  </div>
+                  <div className="md:col-span-2 text-xs text-zinc-500">
+                    <a
+                      href="/.well-known/tools.json"
+                      rel="alternate"
+                      type="application/json"
+                      className="underline underline-offset-4"
+                    >
+                      Machine-readable registry
+                    </a>
+                  </div>
                 </div>
-              );
-            })}
+              </article>
+            ))}
           </div>
         </section>
 
-        <section
-          id="operator-install-path"
-          className="mt-16 rounded-2xl border border-[#3A4048] bg-[#242A30] px-4 py-6 sm:px-6 sm:py-7"
-        >
-          <h2 className="text-[24px] font-semibold tracking-tight text-[#E6E6E6] sm:text-[30px]">
-            Operator Install Path
-          </h2>
-          <p className="mt-3 text-[16px] text-[#C7CDD4]">
-            Install OpenClaw utilities and start with Triage.
-          </p>
-
-          <div className="mt-6 rounded-xl border border-[#3A4048] bg-[#161A1E] p-4 font-mono text-[15px] leading-7 text-[#E6E6E6]">
-            <div className="text-[#9AA3AD]">Install</div>
-            <div className="mt-1 text-[#D98A2B]">
-              curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash
-            </div>
-            <div className="mt-4 text-[#9AA3AD]">Then run</div>
-            <div className="mt-1">octriage</div>
-            <div className="mt-4 text-[#9AA3AD]">Optional follow-up</div>
-            <div className="mt-1">radcheck</div>
-            <div>agent911</div>
+        <section className="mt-8">
+          <div className="mb-4 max-w-3xl">
+            <h2 className="text-xl font-semibold tracking-tight text-zinc-100">
+              Agent Playbook
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-zinc-400">
+              Dense reference blocks for routing symptoms, requesting evidence,
+              and communicating safe next steps back to operators.
+            </p>
           </div>
-
-          <div className="mt-6">
-            <Link
-              href="https://github.com/CHE10X/octriageunit"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-semibold text-[#1E2226] transition-colors hover:bg-[#C47A22]"
-            >
-              Install Triage
-            </Link>
-          </div>
+          <AgentPlaybook />
         </section>
       </main>
     </div>
