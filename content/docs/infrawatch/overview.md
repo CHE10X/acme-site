@@ -1,7 +1,8 @@
 ---
 title: InfraWatch — Infrastructure Drift Detection
 product: infrawatch
-tier: CORE
+tier: OPERATOR_BUNDLE
+availability: Included in the Operator Bundle. Not sold standalone.
 ---
 
 # InfraWatch — Infrastructure Drift Detection
@@ -91,6 +92,10 @@ InfraWatch is the layer that catches the config change you didn't make — befor
 
 ---
 
-## Next Step
+## Availability
 
-InfraWatch signals feed into Agent911's unified incident view. For the full detection → readiness → recovery sequence, see the [Operator Bundle](/docs/operator-bundle/overview) or add [Lazarus](/docs/lazarus/overview) to your stack.
+InfraWatch is included in the **Operator Bundle** ($29/month). It is not sold as a standalone product.
+
+The Operator Bundle includes the complete wired resilience layer: Sentinel, InfraWatch, Watchdog (detection) → Lazarus (readiness) → Agent911 (recovery).
+
+→ [Operator Bundle overview](/docs/operator-bundle/overview)
