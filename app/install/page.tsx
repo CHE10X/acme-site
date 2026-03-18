@@ -1,4 +1,4 @@
-import TawkToWidget from "@/app/components/TawkToWidget";
+
 
 export default function InstallPage() {
   return (
@@ -125,7 +125,6 @@ export default function InstallPage() {
         </section>
       </main>
     </div>
-    <TawkToWidget />
     </>
   );
 }
