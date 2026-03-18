@@ -15,7 +15,7 @@ const FULFILLMENT_ACTIONS = {
   deliver_watchdog: "deliver_watchdog",
   deliver_transmission: "deliver_transmission",
   deliver_lazarus: "deliver_lazarus",
-  deliver_findmyagent: "deliver_findmyagent",
+  // deliver_findmyagent: DEPRECATED 2026-03-18 — folded into Recall watch mode
   deliver_agent911: "deliver_agent911",
   deliver_unknown: "deliver_unknown",
 };
@@ -61,11 +61,9 @@ export const PRODUCT_CATALOG: Record<string, ProductCatalogEntry> = {
     name: "lazarus",
     fulfillment: "deliver_lazarus",
   },
-  prod_U56qHeY8Q5fKAy: {
-    sku: "findmyagent",
-    name: "FindMyAgent",
-    fulfillment: "deliver_findmyagent",
-  },
+  // prod_U56qHeY8Q5fKAy: DEPRECATED 2026-03-18 — FindMyAgent folded into Recall watch mode
+  // Stripe SKU retired. Features: live presence, stalled/blocked signals, needs-attention flags
+  // now live in recall status --watch. See ACME_MASTER_DEPENDENCY_MAP.md.
   prod_U56lL9ZkNuz22d: {
     sku: "agent911",
     name: "Agent911",
