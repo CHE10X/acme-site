@@ -218,7 +218,7 @@ Protection: ACTIVE`}
             </div>
 
             {/* Screenshot — angled pop */}
-            <div className="hidden lg:flex lg:items-start lg:justify-center">
+            <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4">
               <div
                 className="overflow-hidden rounded-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
                 style={{ transform: "rotate(7deg)", transformOrigin: "top center", maxWidth: "400px" }}
@@ -231,6 +231,9 @@ Protection: ACTIVE`}
                   className="w-full h-auto"
                 />
               </div>
+              <p className="mt-6 max-w-[280px] text-center text-[13px] leading-5 text-[#5A6E80]">
+                Works when OpenClaw doesn&apos;t. If your gateway is degraded, Triage still runs.
+              </p>
             </div>
           </div>
         </section>
