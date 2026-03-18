@@ -6,26 +6,33 @@ import OperatorUtilityCards from "./components/home/OperatorUtilityCards";
 import OperatorTerrainSection from "./components/home/OperatorTerrainSection";
 import TransitionPanelSection from "./components/home/TransitionPanelSection";
 
-const STACK_BLOCKS = [
+const BUNDLES = [
   {
-    title: "Memory Integrity",
-    stack: "Elixir / DriftGuard",
-    desc: "Maintains agent memory health and prevents silent drift.",
+    tier: "Free",
+    name: "Diagnostics",
+    tools: ["Triage", "RadCheck"],
+    color: "#4A9E6B",
+    desc: "Start here. Triage captures a read-only proof bundle in seconds. RadCheck scores your stack 0–100. You'll know exactly what's wrong — or that nothing is — before you touch anything.",
+    cta: "Run Triage free",
+    href: "/docs/octriage/overview",
   },
   {
-    title: "Runtime Hygiene",
-    stack: "Watchdog / Sentinel",
-    desc: "Continuously monitors runtime behavior and detects anomalies.",
+    tier: "$5 / mo",
+    name: "Runtime",
+    tools: ["Sentinel", "Watchdog"],
+    color: "#D98A2B",
+    desc: "Sentinel watches for silent failures while your agents run. Watchdog tracks heartbeats and catches the loops, double-runs, and stalls that logs don't surface until it's too late.",
+    cta: "Add runtime protection",
+    href: "/docs/sentinel/overview",
   },
   {
-    title: "Observe Layer",
-    stack: "FindMyAgent / RadCheck / Observe",
-    desc: "Aggregates signals across the runtime.",
-  },
-  {
-    title: "Recovery Layer",
-    stack: "ORP / Agent911 / Lazarus",
-    desc: "Provides deterministic recovery when failures occur.",
+    tier: "$19 / mo",
+    name: "Incident Response",
+    tools: ["Agent911", "Recall", "FindMyAgent", "Lazarus"],
+    color: "#C0392B",
+    desc: "When something breaks at 2am, you open Agent911. Recall gives you manual control. FindMyAgent tells you what's alive. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
+    cta: "See Incident Response",
+    href: "/docs/agent911/snapshot-explained",
   },
 ];
 
@@ -130,31 +137,52 @@ Protection: ACTIVE`}
         <OperatorTerrainSection />
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Reliability Stack Overview
-          </h2>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {STACK_BLOCKS.map((block) => (
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
+              Pick your starting point.
+            </h2>
+            <Link href="/pricing" className="text-[14px] text-[#D98A2B] hover:text-[#C47A22]">
+              Full pricing →
+            </Link>
+          </div>
+          <p className="mt-2 text-[15px] text-[#9AA3AD]">
+            Start free. Add protection as you need it. No lock-in.
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            {BUNDLES.map((bundle) => (
               <article
-                key={block.title}
-                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5"
+                key={bundle.name}
+                className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5"
+                style={{ borderTopColor: bundle.color, borderTopWidth: "2px" }}
               >
-                <h3 className="text-[22px] font-medium text-[#E6E6E6]">
-                  {block.title}
-                </h3>
-                <div className="mt-1 text-[16px] font-mono text-[#D98A2B]">
-                  {block.stack}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.28em]" style={{ color: bundle.color }}>
+                    {bundle.name}
+                  </span>
+                  <span className="rounded-full border border-[#3A4048] px-2 py-0.5 text-[11px] text-[#9AA3AD]">
+                    {bundle.tier}
+                  </span>
                 </div>
-                <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">{block.desc}</p>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {bundle.tools.map((tool) => (
+                    <span key={tool} className="rounded bg-[#1E2226] px-2 py-0.5 text-[11px] font-mono text-[#9AA3AD]">
+                      {tool}
+                    </span>
+                  ))}
+                </div>
+                <p className="mt-3 flex-1 text-[14px] leading-6 text-[#9AA3AD]">
+                  {bundle.desc}
+                </p>
+                <Link
+                  href={bundle.href}
+                  className="mt-4 inline-flex text-[13px] font-medium transition"
+                  style={{ color: bundle.color }}
+                >
+                  {bundle.cta} →
+                </Link>
               </article>
             ))}
           </div>
-          <Link
-            href="/docs"
-            className="mt-5 inline-flex text-[16px] text-[#D98A2B] hover:text-[#C47A22]"
-          >
-            View the full Reliability Stack →
-          </Link>
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
