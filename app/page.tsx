@@ -111,18 +111,26 @@ export default function Home() {
               </div>
             </div>
 
-            <aside className="rounded-md border border-[#3A4048] bg-[#161A1E] p-5">
-              <div className="text-[11px] uppercase tracking-[0.28em] text-[#5A6E80]">Operator Touch Surface</div>
-              <div className="mt-3 space-y-3">
+            <aside className="rounded-[6px] border border-[#3A4048] bg-[#161A1E] overflow-hidden">
+              <div className="border-b border-[#3A4048] bg-[#1A2028] px-5 py-4">
+                <div className="text-[10px] uppercase tracking-[0.36em] text-[#5A6E80]">Operator Touch Surface</div>
+                <div className="mt-1 text-[15px] font-semibold text-[#E6E6E6]">Your command layer.</div>
+              </div>
+              <div className="divide-y divide-[#2A3240]">
                 {[
-                  { state: "Know", line: "What's running. What's at risk. What changed." },
-                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing silent." },
-                  { state: "Recover", line: "Something broke. You have a playbook. Use it." },
-                  { state: "Lead", line: "Stack is stable. Now give them something to do." },
+                  { state: "Know", line: "What's running. What's at risk. What changed overnight.", color: "#4A9E6B" },
+                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing goes silent.", color: "#D98A2B" },
+                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#C0392B" },
+                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#7B68EE" },
                 ].map((item) => (
-                  <div key={item.state} className="flex items-start gap-3">
-                    <div className="mt-0.5 w-14 shrink-0 text-[10px] uppercase tracking-[0.24em] text-[#D98A2B]">{item.state}</div>
-                    <div className="text-[13px] leading-5 text-[#9AA3AD]">{item.line}</div>
+                  <div key={item.state} className="flex items-start gap-4 px-5 py-4">
+                    <div
+                      className="mt-0.5 w-16 shrink-0 text-[11px] font-semibold uppercase tracking-[0.22em]"
+                      style={{ color: item.color }}
+                    >
+                      {item.state}
+                    </div>
+                    <div className="text-[14px] leading-6 text-[#9AA3AD]">{item.line}</div>
                   </div>
                 ))}
               </div>

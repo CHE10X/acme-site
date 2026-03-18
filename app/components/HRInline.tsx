@@ -64,16 +64,17 @@ export default function HRInline() {
     }
   };
 
+  // Faster ticker — 1.8s base instead of 3.4s
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout>;
     const tick = () => {
       const next = templates[cursor.current % templates.length];
       cursor.current += 1;
       counter.current += 1;
-      setItems((prev) => [createItem(next, counter.current), ...prev].slice(0, 8));
-      timeout = setTimeout(tick, 3400 + Math.floor(Math.random() * 1200));
+      setItems((prev) => [createItem(next, counter.current), ...prev].slice(0, 10));
+      timeout = setTimeout(tick, 1800 + Math.floor(Math.random() * 600));
     };
-    timeout = setTimeout(tick, 3800);
+    timeout = setTimeout(tick, 2000);
     return () => clearTimeout(timeout);
   }, []);
 
@@ -81,50 +82,50 @@ export default function HRInline() {
 
   return (
     <div className="relative flex flex-col items-end">
-      {/* Expanded panel — drops DOWN from the callout bar, right-aligned */}
+      {/* Expanded panel — drops DOWN, wide, fills available space */}
       {expanded && (
-        <div className="absolute top-full right-0 mt-2 z-50 w-[380px] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/98 shadow-2xl shadow-black/70">
+        <div className="absolute top-full right-0 mt-2 z-50 w-[420px] overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 shadow-2xl shadow-black/80">
           {/* Header */}
-          <div className="border-b border-zinc-800 bg-zinc-950 px-4 py-3">
+          <div className="border-b border-zinc-800 bg-zinc-950 px-5 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-[10px] uppercase tracking-[0.36em] text-amber-400">Human Resources</div>
-                <div className="text-[12px] font-semibold text-zinc-200">Field Support Feed</div>
+                <div className="text-[11px] uppercase tracking-[0.36em] text-amber-400">Human Resources</div>
+                <div className="text-[13px] font-semibold text-zinc-200 mt-0.5">Field Support Feed</div>
               </div>
-              <div className="flex items-center gap-3">
-                <div className="inline-flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
-                  <span className="relative inline-flex h-2 w-2 items-center justify-center live-pulse">
-                    <span className="relative block h-[7px] w-[7px] rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.32)]" />
+              <div className="flex items-center gap-4">
+                <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
+                  <span className="relative inline-flex h-2.5 w-2.5 items-center justify-center live-pulse">
+                    <span className="relative block h-[9px] w-[9px] rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.4)]" />
                   </span>
                   LIVE
                 </div>
                 <button
                   onClick={() => setExpanded(false)}
-                  className="text-[9px] uppercase tracking-[0.28em] text-zinc-500 transition hover:text-zinc-300"
+                  className="text-[10px] uppercase tracking-[0.28em] text-zinc-500 transition hover:text-zinc-200"
                 >
                   Close
                 </button>
               </div>
             </div>
-            <div className="mt-2 overflow-hidden rounded-full opacity-80">
-              <span className="hr-solid-line block h-[2px] w-full" />
+            <div className="mt-3 overflow-hidden rounded-full opacity-90">
+              <span className="hr-solid-line block h-[3px] w-full" />
             </div>
           </div>
 
-          {/* Feed */}
-          <div className="overflow-y-auto" style={{ maxHeight: "300px" }}>
-            <div className="space-y-2 px-3 py-3">
+          {/* Feed — tall, ~500px, shows ~5 items at once */}
+          <div className="overflow-y-auto" style={{ maxHeight: "480px" }}>
+            <div className="space-y-2 px-4 py-4">
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`rounded-lg border border-zinc-800/80 bg-zinc-900/60 px-3 py-2.5 ${index === 0 ? "acme-feed-in" : ""}`}
+                  className={`rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-4 py-3 ${index === 0 ? "acme-feed-in" : ""}`}
                 >
-                  <div className="flex items-center justify-between gap-2 text-[9px] uppercase tracking-[0.28em] text-zinc-500">
+                  <div className="flex items-center justify-between gap-2 text-[10px] uppercase tracking-[0.28em] text-zinc-500">
                     <span>{item.kind}</span>
                     <span>{item.id} · {item.time}</span>
                   </div>
-                  <div className="mt-1 text-[12px] leading-snug text-zinc-100">{item.text}</div>
-                  <div className="mt-1 text-[11px] text-zinc-500">
+                  <div className="mt-1.5 text-[13px] leading-snug text-zinc-100">{item.text}</div>
+                  <div className="mt-1.5 text-[12px] text-zinc-500">
                     Gear:{" "}
                     <a href={item.anchor} className="text-amber-300 transition hover:text-amber-200">
                       {item.tool} →
@@ -137,7 +138,7 @@ export default function HRInline() {
         </div>
       )}
 
-      {/* Callout bar — fixed width, never resizes */}
+      {/* Callout bar — fixed width 200px, never resizes */}
       {!expanded && (
         <button
           onClick={handleExpand}
