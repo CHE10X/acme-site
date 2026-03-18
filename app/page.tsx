@@ -112,7 +112,7 @@ export default function Home() {
                   Start with Triage — free
                 </Link>
                 <Link
-                  href="/platform"
+                  href="/diagrams/operator-system-view-v6.html"
                   className="inline-flex items-center rounded-md border border-[#3A4048] px-6 py-3 text-[15px] text-[#E6E6E6] transition hover:border-[#D98A2B] hover:bg-[#2C3238]"
                 >
                   View the Stack
