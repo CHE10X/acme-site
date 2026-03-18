@@ -36,11 +36,10 @@ export const PRODUCT_CATALOG: Record<string, ProductCatalogEntry> = {
     name: "SphinxGate",
     fulfillment: "deliver_sphinxgate",
   },
-  prod_U56nqUJd9LlJqQ: {
-    sku: "infrawatch",
-    name: "InfraWatch",
-    fulfillment: "deliver_infrawatch", // renamed from DriftGuard 2026-03-18
-  },
+  // prod_U56nqUJd9LlJqQ — InfraWatch standalone SKU retired 2026-03-18
+  // InfraWatch is a bundled component of the Operator Bundle. Not sold standalone.
+  // SKU archived in Stripe. Existing subscribers grandfathered into Operator Bundle.
+  // prod_U56nqUJd9LlJqQ: { sku: "infrawatch", ... }
   prod_U56ukpVLBM5p89: {
     sku: "operator_bundle",
     name: "Operator Bundle",
