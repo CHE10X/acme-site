@@ -9,20 +9,20 @@ export const metadata: Metadata = {
 
 const PRODUCTS = [
   // Diagnostics
-  { name: "Triage",        bundle: "Diagnostics",     tier: "Free",    command: "triage",                href: "/docs/octriage/overview",            desc: "Read-only stack diagnostics. No gateway required." },
-  { name: "RadCheck",      bundle: "Diagnostics",     tier: "Free",    command: "radcheck",              href: "/docs/radcheck/score-explained",     desc: "0–100 reliability score. Surfaces hidden risk." },
+  { name: "Triage",          bundle: "Diagnostics",     tier: "Free",    command: "triage",                href: "/docs/triage",           desc: "Read-only stack diagnostics. No gateway required." },
+  { name: "RadCheck",        bundle: "Diagnostics",     tier: "Free",    command: "radcheck",              href: "/docs/radcheck/score-explained", desc: "0–100 reliability score. Surfaces hidden risk." },
   // Operator Bundle — one resilience layer, sold as a unit
-  { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo", command: "—",                   href: "/docs/operator-bundle/overview",     desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
+  { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo",  command: "—",                     href: "/docs/operator-bundle",  desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
   // Standalone resilience products (entry points into the bundle)
-  { name: "Sentinel",      bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel/overview",            desc: "Always-on silent failure detection." },
-  { name: "Watchdog",      bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog/overview",            desc: "Heartbeat and liveness monitoring." },
-  { name: "Lazarus",       bundle: "Resilience",      tier: "$19/mo",  command: "lazarus --simulate",    href: "/docs/lazarus/overview",             desc: "Readiness scan. Confirms recovery is possible before it runs." },
-  { name: "Agent911",      bundle: "Resilience",      tier: "$19/mo",  command: "agent911",              href: "/docs/agent911/snapshot-explained",  desc: "Recovery cockpit. Open this at 2am." },
-  { name: "Recall",        bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall/overview",              desc: "Manual fleet intervention. Ambient presence awareness." },
+  { name: "Sentinel",        bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel",         desc: "Always-on silent failure detection." },
+  { name: "Watchdog",        bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog",         desc: "Heartbeat and liveness monitoring." },
+  { name: "Lazarus",         bundle: "Resilience",      tier: "$19/mo",  command: "lazarus --simulate",    href: "/docs/lazarus",          desc: "Readiness scan. Confirms recovery is possible before it runs." },
+  { name: "Agent911",        bundle: "Resilience",      tier: "$19/mo",  command: "agent911",              href: "/docs/agent911/snapshot-explained", desc: "Recovery cockpit. Open this at 2am." },
+  { name: "Recall",          bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall",           desc: "Manual fleet intervention. Ambient presence awareness." },
   // Access Control — separate from resilience layer
-  { name: "SphinxGate",    bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate/overview",          desc: "Policy enforcement. Governs what can run." },
+  { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate",       desc: "Policy enforcement. Governs what can run." },
   // Coming soon
-  { name: "Transmission",  bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission/overview",        desc: "Task-aware model routing. Fix the economics." },
+  { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission",     desc: "Task-aware model routing. Fix the economics." },
 ];
 
 const BUNDLE_COLOR: Record<string, string> = {
@@ -43,28 +43,47 @@ export default function ProductsPage() {
           <InlineReliabilityStackSvg />
         </div>
 
-        {/* ── Product nav strip ── */}
-        <div className="border-b border-[#2E3640] bg-[#151C24] px-6 py-4">
-          <div className="mx-auto max-w-5xl">
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-[13px]">
-              {PRODUCTS.filter(p => p.bundle !== "Coming Soon").map((p) => (
-                <Link
-                  key={p.name}
-                  href={p.href}
-                  className="text-[#9AA3AD] underline underline-offset-4 hover:text-[#E6E6E6] transition"
-                >
-                  {p.name}
-                </Link>
-              ))}
-              <Link href="/pricing" className="text-[#D98A2B] underline underline-offset-4 hover:text-[#C47A22] transition">
-                Pricing
-              </Link>
-            </div>
+        {/* ── Breadcrumb nav strip ── */}
+        <div className="border-b border-[#2E3640] bg-[#151C24] px-6 py-3">
+          <div className="flex flex-wrap items-center gap-x-1 gap-y-2 text-[12px] text-[#4A5E70]">
+            {/* Breadcrumb root */}
+            <Link href="/" className="hover:text-[#9AA3AD] transition">Home</Link>
+            <span className="text-[#2E3640]">›</span>
+            <span className="text-[#9AA3AD] font-medium">Products</span>
+            <span className="text-[#2E3640] mx-1">›</span>
+
+            {/* Diagnostics group */}
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#4A9E6B] mr-1">Diagnostics</span>
+            {PRODUCTS.filter(p => p.bundle === "Diagnostics").map((p) => (
+              <span key={p.name} className="flex items-center gap-1">
+                <Link href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
+              </span>
+            ))}
+
+            <span className="text-[#2E3640] mx-1">·</span>
+
+            {/* Resilience group */}
+            <span className="text-[10px] uppercase tracking-[0.3em] text-[#7B68EE] mr-1">Resilience</span>
+            {PRODUCTS.filter(p => p.bundle === "Operator Bundle" || p.bundle === "Resilience").map((p) => (
+              <span key={p.name} className="flex items-center gap-1">
+                <Link href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
+              </span>
+            ))}
+
+            <span className="text-[#2E3640] mx-1">·</span>
+
+            {/* Access control */}
+            {PRODUCTS.filter(p => p.bundle === "Access Control").map((p) => (
+              <Link key={p.name} href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
+            ))}
+
+            <span className="text-[#2E3640] mx-1">·</span>
+            <Link href="/pricing" className="text-[#D98A2B] hover:text-[#C47A22] transition">Pricing</Link>
           </div>
         </div>
 
         {/* ── Tight product table ── */}
-        <div className="mx-auto max-w-5xl px-6 py-12">
+        <div className="mx-auto max-w-7xl px-6 py-12">
           <div className="mb-6 flex items-baseline justify-between gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
@@ -74,7 +93,7 @@ export default function ProductsPage() {
 
           <div className="overflow-hidden rounded-[6px] border border-[#2E3640]">
             {/* Table header */}
-            <div className="grid grid-cols-[140px_120px_80px_160px_1fr] gap-0 border-b border-[#2E3640] bg-[#151C24] px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-[#4A5E70]">
+            <div className="grid grid-cols-[160px_140px_100px_200px_1fr] gap-0 border-b border-[#2E3640] bg-[#151C24] px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-[#4A5E70]">
               <div>Product</div>
               <div>Bundle</div>
               <div>Price</div>
@@ -86,7 +105,7 @@ export default function ProductsPage() {
             {PRODUCTS.map((p, i) => (
               <div
                 key={p.name}
-                className={`grid grid-cols-[140px_120px_80px_160px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
+                className={`grid grid-cols-[160px_140px_100px_200px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
               >
                 <div className="flex items-center">
                   {p.bundle !== "Coming Soon" ? (
