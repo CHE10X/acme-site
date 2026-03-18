@@ -50,14 +50,16 @@ export default function SiteFooter({ showRefund }: SiteFooterProps) {
             <div className="text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">Legal</div>
             <Link href="/legal/terms-of-service" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Terms</Link>
             <Link href="/legal/privacy-policy" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Privacy</Link>
-            {showRefund ? (
-              <Link href="/legal/refund-policy" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Refund</Link>
-            ) : null}
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-[#3A4048] pt-4 text-[13px] text-[#9AA3AD]">
-          © 2026 ACME Agent Supply Co.
+        <div className="mt-8 border-t border-[#3A4048] pt-4 flex items-center justify-between gap-4 text-[13px] text-[#9AA3AD]">
+          <span>© 2026 ACME Agent Supply Co.</span>
+          {showRefund && (
+            <Link href="/legal/refund-policy" className="text-[#4A5E70] hover:text-[#9AA3AD] transition-colors">
+              Customer Service
+            </Link>
+          )}
         </div>
       </div>
     </footer>

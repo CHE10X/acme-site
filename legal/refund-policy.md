@@ -1,26 +1,28 @@
-# ACME AGENT SUPPLY — REFUND POLICY
+# Customer Service
 
 **Effective Date: March 3, 2026**
-**Last Updated: March 3, 2026**
+**Last Updated: March 18, 2026**
 
-Acme Agent Supply, LLC ("ACME," "we," "us") provides digital software tools intended for operator-controlled environments.
+## We're here to help.
 
-All purchases of paid Tools are generally final because digital access is provided immediately upon purchase.
+If something isn't working, reach us at **support@acmeagentsupply.com**. We respond to every message.
 
-If you believe you were charged in error, or you experienced a material technical failure that prevented reasonable use of a paid Tool, you may request review by contacting:
+For faster help, the [support page](/support) has first-response guides and diagnostic tools that resolve most issues before you need to contact anyone.
 
-**support@acmeagentsupply.com**  
-Acme Agent Supply, LLC  
-82 Wendell Ave. STE 100  
-Pittsfield, MA 01201  
-USA
+## Cancellation
 
-within fourteen (14) days of purchase.
+Cancel any subscription anytime — no questions asked. Your access continues through the end of the billing period.
 
-Refund requests are reviewed on a case-by-case basis at ACME's sole discretion. Approval is not guaranteed.
+## Refunds
 
-Nothing in this policy limits any rights you may have under applicable law.
+We don't think you should have to fight for a refund. If you're not getting value, we'd rather hear about it than keep your money.
+
+If you experienced a technical failure, were charged in error, or just feel a purchase wasn't right for you — email us within 14 days of the charge. Tell us what happened. We'll sort it out.
+
+**support@acmeagentsupply.com**
 
 ---
 
-© 2026 Acme Agent Supply, LLC. All rights reserved.
+*Nothing in this policy limits any rights you may have under applicable law.*
+
+© 2026 Acme Agent Supply, LLC.
