@@ -106,33 +106,31 @@ export default async function DocsArticlePage({
           ))}
         </nav>
 
-        <div className="rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] md:items-start">
-            <div>
+        <div className="overflow-hidden rounded-2xl border border-[#3A4048] bg-[#242A30] shadow-[0_0_0_1px_rgba(217,138,43,0.06)]">
+          {/* Header content row */}
+          <div className="flex items-center gap-6 px-6 py-6">
+            {/* Text — grows to fill */}
+            <div className="min-w-0 flex-1">
               <div className="mb-2 text-[13px] uppercase tracking-[0.32em] text-[#D98A2B]">
                 ACME Agent Supply Co.
               </div>
               {title && (
-                <h1 className="mb-3 text-[40px] font-semibold leading-tight text-[#E6E6E6]">
+                <h1 className="text-[36px] font-semibold leading-tight text-[#E6E6E6]">
                   {title}
                 </h1>
               )}
             </div>
-            <div className="hidden rounded-xl border border-[#3A4048] bg-[#2C3238] p-2 md:block">
+            {/* Badge — fixed size, centered, no extra box */}
+            <div className="hidden shrink-0 md:flex md:items-center md:justify-center" style={{ width: "120px" }}>
               <img
                 src="/brand/agent911-support-badge.png"
-                alt="Agent911 Support Badge"
-                className="h-32 w-auto opacity-80"
+                alt="ACME Support Badge"
+                className="h-24 w-24 object-contain opacity-80"
               />
             </div>
           </div>
-
-          <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
-            <div className="overflow-hidden rounded">
-              <span className="hazard-shimmer block h-1 w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.8)_0,rgba(217,138,43,0.8)_10px,rgba(30,34,38,0.8)_10px,rgba(30,34,38,0.8)_20px)] bg-[length:24px_24px]" />
-            </div>
-            <div className="hidden rounded bg-[#2C3238] md:block" />
-          </div>
+          {/* Hazard stripe — full width, flush to bottom of card */}
+          <div className="h-[6px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.85)_0,rgba(217,138,43,0.85)_10px,rgba(30,34,38,0.6)_10px,rgba(30,34,38,0.6)_20px)] bg-[length:24px_24px]" />
         </div>
 
         <section className="mt-6 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.05)]">
