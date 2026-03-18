@@ -45,39 +45,37 @@ export default function ProductsPage() {
 
         {/* ── Breadcrumb nav strip ── */}
         <div className="border-b border-[#2E3640] bg-[#151C24] px-6 py-3">
-          <div className="flex flex-wrap items-center gap-x-1 gap-y-2 text-[12px] text-[#4A5E70]">
-            {/* Breadcrumb root */}
-            <Link href="/" className="hover:text-[#9AA3AD] transition">Home</Link>
-            <span className="text-[#2E3640]">›</span>
-            <span className="text-[#9AA3AD] font-medium">Products</span>
-            <span className="text-[#2E3640] mx-1">›</span>
+          <div className="flex flex-wrap items-center gap-y-2 text-[12px]">
+            {/* Root breadcrumb */}
+            <Link href="/" className="text-[#4A5E70] hover:text-[#9AA3AD] transition mr-1">Home</Link>
+            <span className="text-[#2E3640] mr-1">›</span>
+            <span className="text-[#9AA3AD] font-medium mr-3">Products</span>
 
             {/* Diagnostics group */}
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#4A9E6B] mr-1">Diagnostics</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#4A9E6B] mr-2">Diagnostics</span>
             {PRODUCTS.filter(p => p.bundle === "Diagnostics").map((p) => (
-              <span key={p.name} className="flex items-center gap-1">
-                <Link href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
-              </span>
+              <Link key={p.name} href={p.href} className="text-[#6A7A88] hover:text-[#E6E6E6] transition mr-3">{p.name}</Link>
             ))}
 
-            <span className="text-[#2E3640] mx-1">·</span>
+            {/* Separator */}
+            <span className="text-[#2A3440] mr-3">|</span>
 
             {/* Resilience group */}
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#7B68EE] mr-1">Resilience</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D98A2B] mr-2">Resilience</span>
             {PRODUCTS.filter(p => p.bundle === "Operator Bundle" || p.bundle === "Resilience").map((p) => (
-              <span key={p.name} className="flex items-center gap-1">
-                <Link href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
-              </span>
+              <Link key={p.name} href={p.href} className="text-[#6A7A88] hover:text-[#E6E6E6] transition mr-3">{p.name}</Link>
             ))}
 
-            <span className="text-[#2E3640] mx-1">·</span>
+            {/* Separator */}
+            <span className="text-[#2A3440] mr-3">|</span>
 
             {/* Access control */}
             {PRODUCTS.filter(p => p.bundle === "Access Control").map((p) => (
-              <Link key={p.name} href={p.href} className="text-[#9AA3AD] hover:text-[#E6E6E6] transition">{p.name}</Link>
+              <Link key={p.name} href={p.href} className="text-[#6A7A88] hover:text-[#E6E6E6] transition mr-3">{p.name}</Link>
             ))}
 
-            <span className="text-[#2E3640] mx-1">·</span>
+            {/* Separator */}
+            <span className="text-[#2A3440] mr-3">|</span>
             <Link href="/pricing" className="text-[#D98A2B] hover:text-[#C47A22] transition">Pricing</Link>
           </div>
         </div>
