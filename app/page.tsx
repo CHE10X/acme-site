@@ -87,20 +87,13 @@ export default function Home() {
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
             <div>
               <h1 className="text-[34px] font-semibold leading-tight tracking-tight text-[#E6E6E6] sm:text-[40px] lg:text-[48px]">
-                OpenClaw
+                Lead agents.<br />Get outcomes.
               </h1>
-              <p className="mt-2 text-[22px] font-medium text-[#9AA3AD]">
-                For operators who are done fixing — and ready to build.
-              </p>
-              <p className="mt-4 max-w-xl text-[18px] leading-8 text-[#E6E6E6]">
-                Keep your agents alive.
-                <br />
-                Know when something&apos;s wrong.
-                <br />
-                Recover fast when it is.
+              <p className="mt-4 max-w-xl text-[18px] leading-7 text-[#9AA3AD]">
+                Stop managing your stack. Start running missions.
               </p>
               <p className="mt-4 max-w-xl text-[16px] leading-7 text-[#9AA3AD]">
-                Then lead your team on missions that matter.
+                When your stack is stable, the real work begins. ACME is the infrastructure that gets you there — and the mission control that runs what comes next.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
