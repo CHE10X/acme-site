@@ -39,12 +39,12 @@ export default function ProductsPage() {
       <main>
 
         {/* ── ACME Stack diagram hero ── */}
-        <div className="w-full border-b border-[#2E3640] bg-[#1A2028]">
+        <div className="w-full border-b border-[#2E3640] bg-[#1A2028] overflow-hidden" style={{ height: "520px" }}>
           <iframe
             src="/diagrams/acme-stack-v1-r2.html"
             title="The ACME Stack — product architecture"
-            className="w-full border-0"
-            style={{ height: "560px", display: "block" }}
+            scrolling="no"
+            style={{ width: "100%", height: "100%", border: "none", display: "block", overflow: "hidden" }}
             loading="eager"
           />
         </div>
@@ -54,8 +54,8 @@ export default function ProductsPage() {
           <span className="hazard-shimmer block h-[4px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.5)_0,rgba(217,138,43,0.5)_10px,rgba(21,28,36,0.5)_10px,rgba(21,28,36,0.5)_20px)] bg-[length:24px_24px]" />
         </div>
 
-        {/* ── Tight product table ── */}
-        <div className="mx-auto max-w-[1100px] px-6 py-12">
+        {/* ── Product table ── */}
+        <div className="px-6 py-12">
           <div className="mb-6 flex items-baseline justify-between gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
@@ -65,10 +65,9 @@ export default function ProductsPage() {
 
           <div className="overflow-hidden rounded-[6px] border border-[#2E3640]">
             {/* Table header */}
-            <div className="grid grid-cols-[160px_140px_100px_200px_1fr] gap-0 border-b border-[#2E3640] bg-[#151C24] px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-[#4A5E70]">
+            <div className="grid grid-cols-[200px_160px_220px_1fr] gap-0 border-b border-[#2E3640] bg-[#151C24] px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-[#4A5E70]">
               <div>Product</div>
-              <div>Bundle</div>
-              <div>Price</div>
+              <div>Layer</div>
               <div>Command</div>
               <div>What it does</div>
             </div>
@@ -77,7 +76,7 @@ export default function ProductsPage() {
             {PRODUCTS.map((p, i) => (
               <div
                 key={p.name}
-                className={`grid grid-cols-[160px_140px_100px_200px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
+                className={`grid grid-cols-[200px_160px_220px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
               >
                 <div className="flex items-center">
                   {p.bundle !== "Coming Soon" ? (
@@ -89,38 +88,18 @@ export default function ProductsPage() {
                   )}
                 </div>
                 <div className="flex items-center">
-                  <span
-                    className="text-[11px] font-medium"
-                    style={{ color: BUNDLE_COLOR[p.bundle] ?? "#9AA3AD" }}
-                  >
+                  <span className="text-[11px] font-medium" style={{ color: BUNDLE_COLOR[p.bundle] ?? "#9AA3AD" }}>
                     {p.bundle}
                   </span>
                 </div>
-                <div className="flex items-center text-[#9AA3AD]">{p.tier}</div>
                 <div className="flex items-center font-mono text-[11px] text-[#D98A2B]">{p.command}</div>
                 <div className="flex items-center text-[#9AA3AD]">{p.desc}</div>
               </div>
             ))}
           </div>
 
-          {/* Bundle quick-reference */}
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            {[
-              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                             color: "#3D8A5C" },
-              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#B8782A" },
-              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                    color: "#5A7080" },
-            ].map((b) => (
-              <div key={b.name} className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] px-4 py-3"
-                style={{ borderTopColor: b.color, borderTopWidth: "2px" }}>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.24em]" style={{ color: b.color }}>{b.name}</div>
-                <div className="mt-1 text-[13px] font-medium text-[#E6E6E6]">{b.price}</div>
-                <div className="mt-1 text-[11px] text-[#5A6E80]">{b.tools}</div>
-              </div>
-            ))}
-          </div>
-
           <div className="mt-6 text-[12px] text-[#3A4E60]">
-            Operator Bundle — the complete resilience layer — $29/mo. Individual resilience products also available standalone.
+            Pricing → <Link href="/pricing" className="text-[#B8782A] hover:text-[#D98A2B] transition">acmeagentsupply.com/pricing</Link>
           </div>
         </div>
       </main>
