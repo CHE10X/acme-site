@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Served by: curl -fsSL https://acmeagentsupply.com/install/triage | bash
-// Delegates to the public octriageunit installer in CHE10X/octriageunit.
+// Delegates to the public octriageunit installer in acmeagentsupply/triage.
 
 const INSTALL_SCRIPT = `#!/usr/bin/env bash
 # Triage — installer
@@ -16,7 +16,7 @@ const INSTALL_SCRIPT = `#!/usr/bin/env bash
 
 set -euo pipefail
 
-REPO="https://github.com/CHE10X/octriageunit.git"
+REPO="https://github.com/acmeagentsupply/triage.git"
 TMPDIR_BASE="\${TMPDIR:-/tmp}"
 WORK="\$(mktemp -d "\${TMPDIR_BASE}/triage-install.XXXXXX")"
 

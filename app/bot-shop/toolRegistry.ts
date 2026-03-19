@@ -59,7 +59,7 @@ function readOctriageSha(version: string): string {
 
 function octriageReleaseZip(version: string): string {
   if (version === "unknown") return "unknown";
-  return `https://github.com/CHE10X/octriageunit/releases/download/v1.0.0/octriageunit-v${version}-release.zip`;
+  return `https://github.com/acmeagentsupply/triage/releases/download/v1.0.0/octriageunit-v${version}-release.zip`;
 }
 
 export function getToolRegistry(): ToolRegistryEntry[] {
@@ -78,11 +78,11 @@ export function getToolRegistry(): ToolRegistryEntry[] {
       priceUsdMonthly: 0,
       free: true,
       installCommand:
-        "curl -fsSL https://raw.githubusercontent.com/CHE10X/octriageunit/main/install.sh | bash",
+        "curl -fsSL https://raw.githubusercontent.com/acmeagentsupply/triage/main/install.sh | bash",
       docsUrl: "/docs/quickstart/5-minute",
-      repoUrl: "https://github.com/CHE10X/octriageunit",
+      repoUrl: "https://github.com/acmeagentsupply/triage",
       canonicalSourceLockUrl:
-        "https://github.com/CHE10X/octriageunit/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
+        "https://github.com/acmeagentsupply/triage/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
       latestVersion: octriageVersion,
       releaseTag: "v1.0.0",
       releaseZipUrl: octriageReleaseZip(octriageVersion),
@@ -103,7 +103,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
       docsUrl: "/docs/radcheck/score-explained",
       repoUrl: "https://github.com/CHE10X/acme-site",
       canonicalSourceLockUrl:
-        "https://github.com/CHE10X/octriageunit/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
+        "https://github.com/acmeagentsupply/triage/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
       latestVersion: "current",
       releaseTag: "current",
       releaseZipUrl: "n/a",
@@ -124,7 +124,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
       docsUrl: "/docs/sentinel/overview",
       repoUrl: "https://github.com/CHE10X/acme-site",
       canonicalSourceLockUrl:
-        "https://github.com/CHE10X/octriageunit/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
+        "https://github.com/acmeagentsupply/triage/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
       latestVersion: "current",
       releaseTag: "current",
       releaseZipUrl: "n/a",

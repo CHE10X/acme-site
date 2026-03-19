@@ -201,7 +201,7 @@ export default function Home() {
               <div className="flex flex-wrap items-center gap-3">
                 <div className="text-[12px] uppercase tracking-[0.28em] text-[#4A9E6B]">Free · Open Source</div>
                 <a
-                  href="https://github.com/CHE10X/octriageunit"
+                  href="https://github.com/acmeagentsupply/triage"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded border border-[#3A4048] bg-[#2C3238] px-2 py-0.5 text-[11px] text-[#9AA3AD] transition hover:border-[#D98A2B] hover:text-[#E6E6E6]"
