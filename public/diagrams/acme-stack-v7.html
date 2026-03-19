@@ -750,10 +750,35 @@ function showPop(key, x, y) {
   pop.style.top = top + 'px';
 }
 
+// Map data-link values to popover keys
+const LINK_KEY = {
+  '/docs/recall': 'recall',
+  '/docs/recall/overview': 'recall',
+  '/docs/dispatch': 'dispatch',
+  '/docs/transmission/overview': 'transmission',
+  '/docs/radcheck': 'radcheck',
+  '/docs/radcheck/score-explained': 'radcheck',
+  '/docs/sentinel': 'sentinel',
+  '/docs/sentinel/overview': 'sentinel',
+  '/docs/watchdog': 'watchdog',
+  '/docs/watchdog/overview': 'watchdog',
+  '/docs/agent911': 'agent911',
+  '/docs/agent911/snapshot-explained': 'agent911',
+  '/docs/infrawatch': 'infrawatch',
+  '/docs/infrawatch/overview': 'infrawatch',
+  '/docs/lazarus': 'lazarus',
+  '/docs/lazarus/overview': 'lazarus',
+  '/docs/sphinxgate': 'sphinxgate',
+  '/docs/sphinxgate/overview': 'sphinxgate',
+  '/docs/triage/overview': 'triage',
+  'https://github.com/acmeagentsupply/triage': 'triage',
+};
+
 let hoverTimer = null;
 document.querySelectorAll('.card-group[data-link]').forEach(el => {
   el.style.cursor = 'pointer';
-  const key = el.id.replace('card-', '').replace('-small','');
+  const link = el.getAttribute('data-link');
+  const key = LINK_KEY[link] || '';
   // Click: show immediately
   el.addEventListener('click', (e) => {
     e.stopPropagation();
