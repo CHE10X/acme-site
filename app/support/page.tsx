@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Support — ACME Agent Supply Co.",
@@ -30,15 +29,18 @@ export default function SupportPage() {
           <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A6A78] mb-4">How it works</div>
           <div className="space-y-6 max-w-[60ch]">
             <div>
-              <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">Start with evidence</div>
+              <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">Email us</div>
               <p className="text-[15px] leading-6 text-[#9AA3AD]">
-                Every support interaction starts with a Triage bundle. It captures what&apos;s actually happening — no guessing, no screenshots, no &ldquo;it was working yesterday.&rdquo; Evidence first.
+                Tell us what product you&apos;re using, what you expected, and what happened instead. That&apos;s enough to start.{" "}
+                <a href="mailto:support@acmeagentsupply.com" className="text-[#B8782A] hover:text-[#D98A2B] transition-colors">
+                  support@acmeagentsupply.com
+                </a>
               </p>
             </div>
             <div>
               <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">We respond to everything</div>
               <p className="text-[15px] leading-6 text-[#9AA3AD]">
-                Email <a href="mailto:support@acmeagentsupply.com" className="text-[#B8782A] hover:text-[#D98A2B] transition-colors">support@acmeagentsupply.com</a> with your bundle and a short description of what you observed. We review every message.
+                We review every message. If we need more information, we&apos;ll ask.
               </p>
             </div>
             <div>
@@ -51,17 +53,11 @@ export default function SupportPage() {
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-8">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A6A78] mb-4">Self-service first</div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A6A78] mb-4">Before you write</div>
           <p className="text-[15px] leading-6 text-[#9AA3AD] max-w-[60ch]">
-            Most issues resolve before you need to contact anyone. Start here:
+            Our product docs cover most common questions. Worth a look first.
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href="/support/first-response"
-              className="inline-flex items-center rounded-lg bg-[#B8782A] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#A06820]"
-            >
-              First Response Guide
-            </Link>
+          <div className="mt-4">
             <a
               href="https://docs.acmeagentsupply.com"
               target="_blank"
