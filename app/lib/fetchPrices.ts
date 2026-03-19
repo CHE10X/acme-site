@@ -17,12 +17,13 @@ export const PRICE_FALLBACKS: PriceMap = {
   sentinel: "$5",
   "operator-kit": "$5",
   agent911: "$19",
-  sphinxgate: "$1",
-  driftguard: "$1",
-  transmission: "$1",
-  watchdog: "$1",
-  findmyagent: "$1",
-  lazarus: "$0",
+  sphinxgate: "TBD",       // No confirmed price — access control layer, sold separately
+  infrawatch: "Bundle",    // Included in Operator Bundle only — not sold standalone
+  // driftguard: REMOVED 2026-03-18 — renamed InfraWatch, bundled with Operator Bundle
+  transmission: "Early access", // Patent-pending — pricing TBD, not $1
+  watchdog: "$5",          // Confirmed core tier alongside Sentinel
+  // findmyagent: REMOVED 2026-03-18 — deprecated, folded into recall status --watch
+  lazarus: "$0",           // Included with Agent911
   free: "$0",
 };
 
