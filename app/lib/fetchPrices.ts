@@ -20,7 +20,7 @@ export const PRICE_FALLBACKS: PriceMap = {
   sphinxgate: "TBD",       // No confirmed price — access control layer, sold separately
   infrawatch: "Bundle",    // Included in Operator Bundle only — not sold standalone
   // driftguard: REMOVED 2026-03-18 — renamed InfraWatch, bundled with Operator Bundle
-  transmission: "Early access", // Patent-pending — pricing TBD, not $1
+  transmission: "",             // Coming soon — no price displayed
   watchdog: "$5",          // Confirmed core tier alongside Sentinel
   // findmyagent: REMOVED 2026-03-18 — deprecated, folded into recall status --watch
   lazarus: "$0",           // Included with Agent911
