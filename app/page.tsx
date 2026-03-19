@@ -88,7 +88,10 @@ export default function Home() {
             <div className="flex flex-col">
               <div className="mb-3 text-[13px] uppercase tracking-[0.28em] text-[#B8782A]">Mission Management Software for OpenClaw</div>
               <h1 className="text-[34px] font-semibold leading-tight tracking-tight text-[#E6E6E6] sm:text-[40px] lg:text-[44px]">
-                ACME stabilizes OpenClaw, then helps you coordinate and drive agent productivity towards outcomes.
+                ACME stabilizes OpenClaw<br />
+                then helps you coordinate<br />
+                and drive agent productivity<br />
+                towards outcomes.
               </h1>
               <p className="mt-5 text-[15px] font-medium tracking-wide text-[#5A6A78]">
                 Resilience.&nbsp; Cost Control.&nbsp; Outcomes.
