@@ -127,15 +127,6 @@ export default function DocsPage() {
             </div>
             <div className="space-y-2">
               <Link
-                href="/docs/findmyagent/overview"
-                className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
-              >
-                <span className="text-[#D98A2B]/60 transition-colors group-hover:text-[#D98A2B]">
-                  →
-                </span>
-                FindMyAgent — Agent Presence &amp; Operator Awareness
-              </Link>
-              <Link
                 href="/docs/lazarus/overview"
                 className="group flex items-center gap-3 text-[16px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
               >
