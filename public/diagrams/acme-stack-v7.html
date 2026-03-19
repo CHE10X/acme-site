@@ -155,6 +155,10 @@
           fill="#D98A2B">● live</text>
   </g>
 
+  <!-- Callsign — click target (invisible, sits over ghost) -->
+  <g class="card-group" data-link="callsign" style="cursor:pointer">
+    <rect x="548" y="56" width="194" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Callsign ghost -->
   <g opacity="0.14" filter="url(#ghost-blur)">
     <rect x="548" y="56" width="194" height="134" rx="6"
@@ -170,6 +174,10 @@
   <text x="645" y="144" font-family="Inter,-apple-system,sans-serif" font-size="11"
         fill="#3A4C2C" text-anchor="middle">Voice-native ops.</text>
 
+  <!-- Briefing Room — click target -->
+  <g class="card-group" data-link="briefing-room" style="cursor:pointer">
+    <rect x="756" y="56" width="194" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Briefing Room ghost -->
   <g opacity="0.14" filter="url(#ghost-blur)">
     <rect x="756" y="56" width="194" height="134" rx="6"
@@ -185,6 +193,10 @@
   <text x="853" y="144" font-family="Inter,-apple-system,sans-serif" font-size="11"
         fill="#344430" text-anchor="middle">Outcomes catalog.</text>
 
+  <!-- Scrum — click target -->
+  <g class="card-group" data-link="scrum" style="cursor:pointer">
+    <rect x="964" y="56" width="194" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Scrum ghost -->
   <g opacity="0.14" filter="url(#ghost-blur)">
     <rect x="964" y="56" width="194" height="134" rx="6"
@@ -211,6 +223,10 @@
   <text x="56" y="254" font-family="Inter,-apple-system,sans-serif" font-size="12"
         fill="#2E4050">Policy · Missions · Cognitive steering.</text>
 
+  <!-- Commander — click target -->
+  <g class="card-group" data-link="commander" style="cursor:pointer">
+    <rect x="340" y="214" width="290" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Commander ghost — more prominent, closer to shipping -->
   <g opacity="0.20" filter="url(#ghost-blur)">
     <rect x="340" y="214" width="290" height="134" rx="6"
@@ -229,6 +245,10 @@
   <text x="360" y="287" font-family="Inter,-apple-system,sans-serif" font-size="12"
         fill="#2A4458">Rules the stack follows.</text>
 
+  <!-- Quartermaster — click target -->
+  <g class="card-group" data-link="quartermaster" style="cursor:pointer">
+    <rect x="644" y="214" width="290" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Quartermaster ghost -->
   <g opacity="0.18" filter="url(#ghost-blur)">
     <rect x="644" y="214" width="290" height="134" rx="6"
@@ -247,6 +267,10 @@
   <text x="664" y="287" font-family="Inter,-apple-system,sans-serif" font-size="12"
         fill="#263E54">Stall detection.</text>
 
+  <!-- Hypnos — click target -->
+  <g class="card-group" data-link="hypnos" style="cursor:pointer">
+    <rect x="948" y="214" width="210" height="134" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <!-- Hypnos ghost -->
   <g opacity="0.14" filter="url(#ghost-blur)">
     <rect x="948" y="214" width="210" height="134" rx="6"
@@ -308,6 +332,10 @@
   <text x="56" y="482" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
         fill="#263848" letter-spacing="0.1em">L2 · Memory · identity.</text>
 
+  <!-- Telepath — click target -->
+  <g class="card-group" data-link="telepath" style="cursor:pointer">
+    <rect x="340" y="456" width="820" height="38" rx="6" fill="transparent" stroke="transparent"/>
+  </g>
   <g opacity="0.10" filter="url(#ghost-blur)">
     <rect x="340" y="456" width="820" height="38" rx="6"
           fill="#1A1E24" stroke="#283038" stroke-width="1"/>
@@ -702,6 +730,90 @@ const PRODUCTS = {
     cta: "/pricing",
     ctaLabel: "Learn More"
   },
+  callsign: {
+    tier: "Coming · Operator Surface",
+    tierColor: "#4A5C48",
+    name: "Callsign",
+    tag: "IN DEVELOPMENT",
+    desc: "Voice-native ops interface. Speak to your stack. The right agent responds in its assigned voice.",
+    command: "— not yet available",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Callsign early access",
+    ctaLabel: "Notify me",
+    ghost: true
+  },
+  'briefing-room': {
+    tier: "Coming · Operator Surface",
+    tierColor: "#4A5C48",
+    name: "Briefing Room",
+    tag: "IN DEVELOPMENT",
+    desc: "Outcomes catalog. Choose what you want done. Your agents handle the rest.",
+    command: "— not yet available",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Briefing Room early access",
+    ctaLabel: "Notify me",
+    ghost: true
+  },
+  scrum: {
+    tier: "Coming · Operator Surface",
+    tierColor: "#4A5C48",
+    name: "Scrum",
+    tag: "IN DEVELOPMENT",
+    desc: "Cognitive visibility across your agent team. See who's working, what's blocked, what's ready.",
+    command: "— not yet available",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Scrum early access",
+    ctaLabel: "Notify me",
+    ghost: true
+  },
+  commander: {
+    tier: "Coming · Governance & Control",
+    tierColor: "#3A5478",
+    name: "Commander",
+    tag: "COMING SOON",
+    desc: "Policy governance for your stack. The rules your agents follow — enforced automatically, not hoped for.",
+    command: "— not yet available",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Commander early access",
+    ctaLabel: "Notify me",
+    ghost: true
+  },
+  quartermaster: {
+    tier: "Coming · Governance & Control",
+    tierColor: "#3A5478",
+    name: "Quartermaster",
+    tag: "EARLY ACCESS",
+    desc: "10-agent management dashboard. Live project tracking, agent assignments, mission status — auto-refreshing. Built for operators who don't sit still.",
+    command: "— early access",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Quartermaster early access",
+    ctaLabel: "Join early access",
+    ghost: true
+  },
+  hypnos: {
+    tier: "Coming · Governance & Control",
+    tierColor: "#3A5478",
+    name: "Hypnos",
+    tag: "IN DEVELOPMENT",
+    desc: "Cognitive steering for agent memory and identity. Keeps agents coherent across long sessions and hard resets.",
+    command: "— not yet available",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Hypnos early access",
+    ctaLabel: "Notify me",
+    ghost: true
+  },
+  telepath: {
+    tier: "Coming · Cognitive Substrate",
+    tierColor: "#2E4258",
+    name: "Telepath",
+    tag: "RESEARCH",
+    desc: "Cognitive graph for long-term memory, agent identity, and reasoning lineage. The memory layer the whole stack will run on.",
+    command: "— research phase",
+    docs: null,
+    cta: "mailto:chip.ernst@gmail.com?subject=Telepath interest",
+    ctaLabel: "Register interest",
+    ghost: true
+  },
   triage: {
     tier: "Foundation · OSS · Free",
     tierColor: "#D98A2B",
@@ -733,9 +845,18 @@ function showPop(key, x, y) {
   popTag.textContent = d.tag;
   popDesc.textContent = d.desc;
   popCmd.textContent = d.command;
-  popDocs.href = d.docs;
+  popCmd.style.color = d.ghost ? '#4A5E70' : '#D98A2B';
+  if (d.docs) {
+    popDocs.href = d.docs;
+    popDocs.style.display = '';
+  } else {
+    popDocs.style.display = 'none';
+  }
   popCta.href = d.cta;
   popCta.textContent = d.ctaLabel;
+  popCta.style.background = d.ghost ? '#1E3050' : '#D98A2B';
+  popCta.style.borderColor = d.ghost ? '#3A5878' : '#D98A2B';
+  popCta.style.color = d.ghost ? '#9AB8D4' : '#0E1318';
   pop.classList.add('visible');
 
   // Position: prefer right of click, flip left if near edge
@@ -772,6 +893,13 @@ const LINK_KEY = {
   '/docs/sphinxgate/overview': 'sphinxgate',
   '/docs/triage/overview': 'triage',
   'https://github.com/acmeagentsupply/triage': 'triage',
+  'callsign': 'callsign',
+  'briefing-room': 'briefing-room',
+  'scrum': 'scrum',
+  'commander': 'commander',
+  'quartermaster': 'quartermaster',
+  'hypnos': 'hypnos',
+  'telepath': 'telepath',
 };
 
 let hoverTimer = null;

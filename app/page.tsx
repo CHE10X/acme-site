@@ -423,6 +423,25 @@ triage`}
           <p className="mt-8 text-[18px] font-semibold italic text-[#B8782A]">Stick with us</p>
         </section>
 
+        {/* ── Stay in the loop ── */}
+        <section className="rounded-[6px] border border-[#2A3848] bg-[#1A2028] p-6 md:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+            <div>
+              <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Stay in the loop</div>
+              <h2 className="mt-1 text-[20px] font-semibold text-[#E6E6E6]">Get updates on new releases</h2>
+              <p className="mt-2 text-[14px] text-[#5A6E80] max-w-sm">
+                Early access, release notes, and operator field updates. No noise.
+              </p>
+            </div>
+            <a
+              href="mailto:chip.ernst@gmail.com?subject=ACME%20release%20updates"
+              className="shrink-0 inline-flex items-center justify-center rounded-md border border-[#3A4858] px-6 py-3 text-[14px] font-medium text-[#C8D4E0] transition hover:border-[#D98A2B] hover:text-[#D98A2B]"
+            >
+              chip.ernst@gmail.com →
+            </a>
+          </div>
+        </section>
+
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Start Here
