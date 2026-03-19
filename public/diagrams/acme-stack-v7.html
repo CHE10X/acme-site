@@ -470,11 +470,299 @@
 
 </svg>
 </div>
+<style>
+  #acme-popover {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    background: #141A20;
+    border: 1px solid #3A4858;
+    border-radius: 10px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.72), 0 0 0 1px rgba(217,138,43,0.08);
+    width: 360px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow: hidden;
+  }
+  #acme-popover.visible { display: block; }
+  #pop-header {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid #232B34;
+    background: #0E1318;
+  }
+  #pop-tier {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  #pop-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #E6E6E6;
+    line-height: 1.2;
+  }
+  #pop-tag {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 9px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    letter-spacing: 0.12em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #1E2830;
+    color: #6A8AA0;
+    text-transform: uppercase;
+  }
+  #pop-body {
+    padding: 14px 18px 16px;
+  }
+  #pop-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #9AA3AD;
+    margin-bottom: 12px;
+  }
+  #pop-command {
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 11px;
+    color: #D98A2B;
+    background: #0E1318;
+    border: 1px solid #2A3440;
+    border-radius: 5px;
+    padding: 7px 12px;
+    margin-bottom: 14px;
+  }
+  #pop-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .pop-btn {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    border: 1px solid #2A3848;
+    color: #C8D4E0;
+    background: #1A2028;
+    transition: background 0.12s, border-color 0.12s;
+  }
+  .pop-btn:hover { background: #232D38; border-color: #4A6070; }
+  .pop-btn.primary {
+    background: #D98A2B;
+    border-color: #D98A2B;
+    color: #0E1318;
+  }
+  .pop-btn.primary:hover { background: #C47A22; border-color: #C47A22; }
+  #pop-close {
+    position: absolute;
+    top: 12px; right: 14px;
+    font-size: 11px;
+    color: #4A5E70;
+    cursor: pointer;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+  #pop-close:hover { color: #9AA3AD; }
+</style>
+
+<div id="acme-popover">
+  <button id="pop-close">✕ close</button>
+  <div id="pop-header">
+    <div id="pop-tier"></div>
+    <div id="pop-name"></div>
+    <div id="pop-tag"></div>
+  </div>
+  <div id="pop-body">
+    <div id="pop-desc"></div>
+    <div id="pop-command"></div>
+    <div id="pop-actions">
+      <a id="pop-docs" class="pop-btn" href="#" target="_blank">Docs →</a>
+      <a id="pop-cta" class="pop-btn primary" href="/pricing">Get Started</a>
+    </div>
+  </div>
+</div>
+
 <script>
-  document.querySelectorAll('.card-group[data-link]').forEach(el => {
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', () => { window.location.href = el.dataset.link; });
+const PRODUCTS = {
+  recall: {
+    tier: "Operator Surface · L5",
+    tierColor: "#D98A2B",
+    name: "Recall",
+    tag: "E-STOP",
+    desc: "Fleet control surface. Stall, freeze, quarantine, or lock down individual agents or the entire stack. The operator's hand on the system when something needs to stop — now.",
+    command: "recall status --watch",
+    docs: "/docs/recall/overview",
+    cta: "/pricing",
+    ctaLabel: "Add to Stack"
+  },
+  dispatch: {
+    tier: "Execution & Routing · L3",
+    tierColor: "#9AA3AD",
+    name: "Dispatch",
+    tag: "LIVE",
+    desc: "Autonomous task scheduler. Routes work to the right agents automatically, keeps the stack productive when you're not at the keyboard.",
+    command: "dispatch run",
+    docs: "/docs/dispatch",
+    cta: "/pricing",
+    ctaLabel: "Get Started"
+  },
+  transmission: {
+    tier: "Execution & Routing · L3",
+    tierColor: "#4A5E70",
+    name: "Transmission",
+    tag: "COMING SOON",
+    desc: "Task-aware model routing. Sends each task to the right model at the right cost — automatically. Fixes the economics of running a multi-agent stack.",
+    command: "— (coming soon)",
+    docs: "/docs/transmission/overview",
+    cta: "/pricing",
+    ctaLabel: "Learn More"
+  },
+  radcheck: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#4A9E6B",
+    name: "RadCheck",
+    tag: "FREE",
+    desc: "Reliability scoring 0–100. Reads your stack state and surfaces hidden risk before it becomes an incident. The baseline diagnostic every operator should run first.",
+    command: "radcheck",
+    docs: "/docs/radcheck/score-explained",
+    cta: "/docs/octriage/overview",
+    ctaLabel: "Run Free"
+  },
+  sentinel: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#4A9E6B",
+    name: "Sentinel",
+    tag: "ALWAYS ON",
+    desc: "Silent failure detection. Continuously monitors your running stack for compaction events, disk pressure, and failure patterns — without adding overhead.",
+    command: "sentinel",
+    docs: "/docs/sentinel/overview",
+    cta: "/pricing",
+    ctaLabel: "Add Protection"
+  },
+  watchdog: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#4A9E6B",
+    name: "Watchdog",
+    tag: "MONITORING",
+    desc: "Heartbeat supervision and liveness probes. Catches loops, double-runs, and gateway stalls that logs won't surface until it's too late.",
+    command: "watchdog",
+    docs: "/docs/watchdog/overview",
+    cta: "/pricing",
+    ctaLabel: "Add Protection"
+  },
+  agent911: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#C0392B",
+    name: "Agent911",
+    tag: "COCKPIT",
+    desc: "Recovery cockpit. Full stack health view, anomaly classification, and structured recovery guidance in one place. This is the tool you open at 2am when something broke.",
+    command: "agent911",
+    docs: "/docs/agent911/snapshot-explained",
+    cta: "/pricing",
+    ctaLabel: "Get Agent911"
+  },
+  infrawatch: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#4A9E6B",
+    name: "InfraWatch",
+    tag: "WATCHING",
+    desc: "Config drift detection for infrastructure. Watches launchd daemons, ingest chains, and routing tables — catches what changes under live load before it cascades.",
+    command: "— (bundle only)",
+    docs: "/docs/infrawatch/overview",
+    cta: "/pricing",
+    ctaLabel: "View Bundle"
+  },
+  lazarus: {
+    tier: "Reliability Foundation · L1",
+    tierColor: "#4A9E6B",
+    name: "Lazarus",
+    tag: "READINESS",
+    desc: "Backup readiness verification. Confirms your recovery is actually possible before an incident forces the test. Most operators discover their backup posture is wrong during recovery.",
+    command: "lazarus --simulate",
+    docs: "/docs/lazarus/overview",
+    cta: "/pricing",
+    ctaLabel: "Get Lazarus"
+  },
+  sphinxgate: {
+    tier: "Access Control · L1",
+    tierColor: "#6B88CC",
+    name: "SphinxGate",
+    tag: "L0 ACCESS",
+    desc: "Policy enforcement for model routing. Governs which models run on which workloads — lane discipline for your stack. Nothing passes without clearance.",
+    command: "sphinxgate",
+    docs: "/docs/sphinxgate/overview",
+    cta: "/pricing",
+    ctaLabel: "Learn More"
+  },
+  triage: {
+    tier: "Foundation · OSS · Free",
+    tierColor: "#D98A2B",
+    name: "triage",
+    tag: "OSS · ENTRY POINT",
+    desc: "First-response diagnostics. Reads directly from the filesystem — no gateway required. Works when OpenClaw doesn't. Run it before you touch anything else.",
+    command: "triage --self-test && triage",
+    docs: "/docs/triage/overview",
+    cta: "https://github.com/acmeagentsupply/triage",
+    ctaLabel: "View on GitHub"
+  }
+};
+
+const pop = document.getElementById('acme-popover');
+const popTier = document.getElementById('pop-tier');
+const popName = document.getElementById('pop-name');
+const popTag = document.getElementById('pop-tag');
+const popDesc = document.getElementById('pop-desc');
+const popCmd = document.getElementById('pop-command');
+const popDocs = document.getElementById('pop-docs');
+const popCta = document.getElementById('pop-cta');
+
+function showPop(key, x, y) {
+  const d = PRODUCTS[key];
+  if (!d) return;
+  popTier.textContent = d.tier;
+  popTier.style.color = d.tierColor;
+  popName.textContent = d.name;
+  popTag.textContent = d.tag;
+  popDesc.textContent = d.desc;
+  popCmd.textContent = d.command;
+  popDocs.href = d.docs;
+  popCta.href = d.cta;
+  popCta.textContent = d.ctaLabel;
+  pop.classList.add('visible');
+
+  // Position: prefer right of click, flip left if near edge
+  const pw = 360, ph = 320;
+  const vw = window.innerWidth, vh = window.innerHeight;
+  let left = x + 14;
+  let top = y - 60;
+  if (left + pw > vw - 12) left = x - pw - 14;
+  if (top + ph > vh - 12) top = vh - ph - 12;
+  if (top < 8) top = 8;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+}
+
+document.querySelectorAll('.card-group[data-link]').forEach(el => {
+  el.style.cursor = 'pointer';
+  const key = el.id.replace('card-', '').replace('-small','');
+  el.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPop(key, e.clientX, e.clientY);
   });
+});
+
+document.getElementById('pop-close').addEventListener('click', () => pop.classList.remove('visible'));
+document.addEventListener('click', (e) => {
+  if (!pop.contains(e.target)) pop.classList.remove('visible');
+});
 </script>
 </body>
 </html>
