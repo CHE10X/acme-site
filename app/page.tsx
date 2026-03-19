@@ -407,23 +407,20 @@ triage`}
         </section>
 
         {/* ── Where ACME is taking you ── */}
-        <section className="rounded-[6px] p-6 md:p-10" style={{ backgroundColor: "#2A1A06", border: "1px solid #B8782A" }}>
-          <div className="text-[11px] uppercase tracking-[0.36em] mb-4" style={{ color: "#D98A2B" }}>Where ACME is taking you</div>
-          <p className="text-[20px] font-semibold leading-snug max-w-3xl md:text-[24px]" style={{ color: "#F0D8A8" }}>
-            OpenClaw is new. It&apos;s moving fast. And we&apos;re still building — but we know exactly where we&apos;re going.
+        <section className="rounded-[6px] border border-[#2A3848] bg-[#1E2730] p-6 md:p-10">
+          <div className="text-[11px] uppercase tracking-[0.36em] text-[#B8782A] mb-4">Where we&apos;re going</div>
+          <p className="text-[20px] font-semibold leading-snug text-[#E6E6E6] max-w-3xl md:text-[24px]">
+            Five patents pending, all about one thing: giving operators like you real control over multiple agents
           </p>
-          <div className="mt-6 space-y-4 max-w-3xl text-[16px] leading-7" style={{ color: "#C4966A" }}>
+          <div className="mt-6 space-y-4 max-w-3xl text-[16px] leading-7 text-[#9AA3AD]">
             <p>
-              Five patent applications. All of them about one thing: giving operators like you real control over teams of agents.
+              Not just keeping them alive — leading them. Coordinating them across missions. Measuring what they produce, while optimizing token utilization as they deliver
             </p>
             <p>
-              Not just keeping them alive — <em>leading</em> them. Coordinating them across missions. Measuring what they produce. Routing work to the right agent at the right cost. Letting you step away, come back, and find that progress actually happened.
-            </p>
-            <p>
-              The floor is reliability. ACME gets you there. But the ceiling is something much bigger: a complete mission control layer for operators running agent teams at scale — voice, dispatch, coordination, governance.
+              The floor is reliability. ACME gets you there, and beyond, to something much bigger: a complete mission control layer for operators running agent teams with purpose — voice, dispatch, coordination, governance
             </p>
           </div>
-          <p className="mt-8 text-[18px] font-semibold italic" style={{ color: "#D98A2B" }}>Stick with us.</p>
+          <p className="mt-8 text-[18px] font-semibold italic text-[#B8782A]">Stick with us</p>
         </section>
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
