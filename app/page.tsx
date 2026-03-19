@@ -403,6 +403,26 @@ triage`}
           </div>
         </section>
 
+        {/* ── Where ACME is taking you ── */}
+        <section className="rounded-[6px] border border-[#2A3848] bg-[#1A2028] p-6 md:p-10" style={{ borderLeftColor: "#B8782A", borderLeftWidth: "3px" }}>
+          <div className="text-[11px] uppercase tracking-[0.36em] text-[#B8782A] mb-4">Where ACME is taking you</div>
+          <p className="text-[20px] font-semibold leading-snug text-[#E6E6E6] max-w-3xl md:text-[24px]">
+            OpenClaw is new. It&apos;s moving fast. And we&apos;re still building — but we know exactly where we&apos;re going.
+          </p>
+          <div className="mt-6 space-y-4 max-w-3xl text-[16px] leading-7 text-[#9AA3AD]">
+            <p>
+              Five patent applications. All of them about one thing: giving operators like you real control over teams of agents.
+            </p>
+            <p>
+              Not just keeping them alive — <em>leading</em> them. Coordinating them across missions. Measuring what they produce. Routing work to the right agent at the right cost. Letting you step away, come back, and find that progress actually happened.
+            </p>
+            <p>
+              The floor is reliability. ACME gets you there. But the ceiling is something much bigger: a complete mission control layer for operators running agent teams at scale — voice, dispatch, coordination, governance.
+            </p>
+          </div>
+          <p className="mt-8 text-[18px] font-semibold italic text-[#B8782A]">Stick with us.</p>
+        </section>
+
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
             Start Here
