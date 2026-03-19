@@ -36,10 +36,11 @@ export default function PlatformPage() {
             Memory Integrity
           </h2>
           <p className="mt-3 text-zinc-300">
-            <span className="font-mono text-amber-300">Elixir</span> and{" "}
-            <span className="font-mono text-amber-300">DriftGuard</span> keep
+            <span className="font-mono text-amber-300">Elixir</span> keeps
             memory state coherent across compaction pressure and runtime churn,
-            reducing drift and rehydration instability.
+            reducing drift and rehydration instability.{" "}
+            <span className="font-mono text-amber-300">InfraWatch</span> detects
+            infrastructure configuration drift in ingest chains, daemon configs, and routing.
           </p>
         </section>
 
