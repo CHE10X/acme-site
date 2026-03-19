@@ -52,13 +52,14 @@ export default function ProductsPage() {
         </div>
 
         {/* ── Separator between diagram and product table ── */}
-        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 mt-6">
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 mt-2">
           <span className="hazard-shimmer block h-[4px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.5)_0,rgba(217,138,43,0.5)_10px,rgba(21,28,36,0.5)_10px,rgba(21,28,36,0.5)_20px)] bg-[length:24px_24px]" />
         </div>
 
         {/* ── Product table ── */}
-        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 py-12">
-          <div className="mb-6 flex items-baseline justify-between gap-4">
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 py-6">
+          <div className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] p-5">
+          <div className="mb-5 flex items-baseline justify-between gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
               <h1 className="mt-1 text-[22px] font-semibold text-[#E6E6E6]">All Products</h1>
@@ -100,8 +101,9 @@ export default function ProductsPage() {
             ))}
           </div>
 
-          <div className="mt-6 text-[12px] text-[#3A4E60]">
+          <div className="mt-5 text-[12px] text-[#3A4E60]">
             Pricing → <Link href="/pricing" className="text-[#B8782A] hover:text-[#D98A2B] transition">acmeagentsupply.com/pricing</Link>
+          </div>
           </div>
         </div>
       </main>
