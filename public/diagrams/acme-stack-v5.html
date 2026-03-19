@@ -6,17 +6,16 @@
   <title>ACME Stack — v5</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; overflow: hidden; background: #1A2028; }
+    html, body { height: 100%; overflow: hidden; background: #1A2028; margin: 0; padding: 0; }
     body {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 0;
-      margin: 0;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-    .diagram-wrap { width: 100%; }
+    .diagram-wrap { width: 100%; height: 100%; }
+    svg { width: 100%; height: 100%; }
     svg .card-bg { transition: stroke 0.14s; }
     svg .card-group:hover .card-bg { stroke: #D98A2B !important; }
     svg .card-group[data-link] { cursor: pointer; }
@@ -31,7 +30,7 @@
 <svg viewBox="0 0 1400 1020"
      xmlns="http://www.w3.org/2000/svg"
      role="img"
-     style="width:100%;display:block;">
+     style="width:100%;height:100%;display:block;">
 
   <defs>
     <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
