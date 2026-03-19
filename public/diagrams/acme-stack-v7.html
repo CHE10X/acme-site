@@ -750,12 +750,22 @@ function showPop(key, x, y) {
   pop.style.top = top + 'px';
 }
 
+let hoverTimer = null;
 document.querySelectorAll('.card-group[data-link]').forEach(el => {
   el.style.cursor = 'pointer';
   const key = el.id.replace('card-', '').replace('-small','');
+  // Click: show immediately
   el.addEventListener('click', (e) => {
     e.stopPropagation();
+    if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
     showPop(key, e.clientX, e.clientY);
+  });
+  // Hover: show after short delay
+  el.addEventListener('mouseenter', (e) => {
+    hoverTimer = setTimeout(() => showPop(key, e.clientX, e.clientY), 320);
+  });
+  el.addEventListener('mouseleave', () => {
+    if (hoverTimer) { clearTimeout(hoverTimer); hoverTimer = null; }
   });
 });
 

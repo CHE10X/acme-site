@@ -39,13 +39,13 @@ export default function ProductsPage() {
       <main>
 
         {/* ── ACME Stack diagram hero ── */}
-        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 pt-8 pb-0">
-          <div className="border border-[#2E3640] rounded-[6px] bg-[#1A2028] overflow-hidden" style={{ height: "820px" }}>
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 pt-4 pb-0">
+          <div className="border border-[#2E3640] rounded-[6px] bg-[#1A2028] overflow-hidden relative" style={{ aspectRatio: "1400/776" }}>
             <iframe
               src="/diagrams/acme-stack-v7.html"
               title="ACME Reliability Stack — product family"
               scrolling="no"
-              style={{ width: "100%", height: "100%", border: "none", display: "block", overflow: "hidden" }}
+              style={{ width: "100%", height: "100%", border: "none", display: "block", overflow: "hidden", position: "absolute", top: 0, left: 0 }}
               loading="eager"
             />
           </div>
