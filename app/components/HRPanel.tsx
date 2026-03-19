@@ -137,8 +137,8 @@ export default function HRPanel() {
       {/* Expanded panel — absolutely anchored above the trigger bar, never shifts layout */}
       {expanded && (
         <div
-          className="absolute bottom-[calc(100%+8px)] left-0 right-0 overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-[#2A3848] bg-[#161A1E]/98 shadow-2xl shadow-black/70"
-          style={{ maxHeight: "480px" }}
+          className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-[#2A3848] shadow-2xl shadow-black/70"
+          style={{ maxHeight: "480px", backgroundColor: "rgba(22,26,30,0.99)" }}
         >
           {/* Panel header */}
           <div className="border-b border-[#2A3848] bg-[#111518] px-4 py-4">
@@ -180,7 +180,7 @@ export default function HRPanel() {
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`rounded-xl border border-[#2A3848] bg-[#1A1F24]/60 px-3 py-3 ${
+                  className={`rounded-xl border border-[#2A3848] px-3 py-3 ${
                     index === 0 ? "acme-feed-in" : ""
                   }`}
                 >
@@ -214,7 +214,8 @@ export default function HRPanel() {
       {!expanded && (
         <button
           onClick={handleExpand}
-          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-[#2A3848] bg-[#161A1E]/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-[#B8782A]/40 hover:bg-[#1A1F24]"
+          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-[#2A3848] px-4 py-3 shadow-xl shadow-black/50 transition duration-150"
+          style={{ backgroundColor: "rgba(22,26,30,0.96)" }}
         >
           {/* Pulse dot */}
           <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center live-pulse">
