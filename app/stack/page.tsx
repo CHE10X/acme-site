@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Product Stack — ACME Agent Supply",
+  title: "Product Stack — ACME Agent Supply Co.",
   description: "The ACME reliability stack — v1 launch products, v2 expansion, and the full vision. See what's live, what's coming, and how it all connects.",
 };
 
