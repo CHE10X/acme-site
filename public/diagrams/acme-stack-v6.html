@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME Stack — Full Vision</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #1A2028;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .diagram-wrap { width: 100%; }
+    svg .card-bg { transition: stroke 0.14s; }
+    svg .card-group:hover .card-bg { stroke: #D98A2B !important; }
+    svg .card-group[data-link] { cursor: pointer; }
+    @keyframes sigblink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .sig-blink { animation: sigblink 2.6s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="diagram-wrap">
+<!--
+  viewBox 1400 × 510.
+  At 1440px viewport width → rendered height ≈ 510px. Fits cleanly in 520px iframe.
+
+  Layer band layout (all 5 layers + triage foundation):
+    Header          y   0 –  48
+    L5 Operator     y  48 – 136   (ghosted — future products)
+    L4 Governance   y 136 – 210   (ghosted)
+    L3 Execution    y 210 – 280   (live: Dispatch, Transmission)
+    L2 Cognitive    y 280 – 320   (ghosted bar — Telepath)
+    L1 Reliability  y 320 – 432   (live: full product set)
+    Triage found.   y 432 – 498   (foundation bar)
+    Bottom strip    y 498 – 510
+-->
+<svg viewBox="0 0 1400 510"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="The ACME Stack — full architecture reference"
+     style="width:100%;display:block;">
+  <desc>The ACME Stack v6. Five layers: Operator Surface (L5), Governance and Control (L4), Execution and Routing (L3, live), Cognitive Substrate (L2), Reliability Foundation (L1, live). Triage is the full-width foundation below L1.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#252C32"/>
+      <stop offset="50%"  stop-color="#242A30"/>
+      <stop offset="100%" stop-color="#1F252B"/>
+    </linearGradient>
+    <linearGradient id="triageGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#26200C"/>
+      <stop offset="15%"  stop-color="#2E2412"/>
+      <stop offset="85%"  stop-color="#2E2412"/>
+      <stop offset="100%" stop-color="#26200C"/>
+    </linearGradient>
+    <filter id="oct-glow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.5 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="triage-glow" x="-2%" y="-40%" width="104%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.55 0 0 0  0.45 0.25 0 0 0  0 0 0 0 0  0 0 0 0.48 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ghost-blur" x="-5%" y="-10%" width="110%" height="120%">
+      <feGaussianBlur stdDeviation="1.8"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="510" fill="url(#bgGrad)"/>
+
+  <!-- ══════════════════════════════════════════
+       HEADER  y 0–48
+  ══════════════════════════════════════════ -->
+  <text x="56" y="18" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        font-weight="500" fill="#4A5E70" letter-spacing="0.16em">
+    ACME AGENT SUPPLY CO. · ARCHITECTURE REFERENCE
+  </text>
+  <text x="56" y="40" font-family="Inter,-apple-system,sans-serif" font-size="22"
+        font-weight="600" fill="#E0E8F0" letter-spacing="-0.01em">The ACME Stack</text>
+  <text x="430" y="40" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-style="italic" fill="#7A9AAD"> — Intent flows down. Results flow up.</text>
+  <text x="1344" y="40" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#D98A2B" letter-spacing="0.1em" text-anchor="end">v1 · LAUNCH</text>
+  <line x1="0" y1="48" x2="1400" y2="48" stroke="#2E363E" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════
+       AGENTS through-line (right column)
+       y 48–430
+  ══════════════════════════════════════════ -->
+  <rect x="1305" y="48" width="72" height="382" rx="4"
+        fill="#1C2028" stroke="#2A3440" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="1341" y1="48" x2="1341" y2="430" stroke="#2A3848" stroke-width="1" stroke-dasharray="2,6"/>
+  <text font-family="'JetBrains Mono','Fira Mono',monospace" font-size="8" fill="#3A5068"
+        letter-spacing="0.14em" text-anchor="middle"
+        transform="translate(1341,239) rotate(-90)">AGENTS · TRAVERSE ALL LAYERS</text>
+  <circle cx="1341" cy="92"  r="2.5" fill="#2A3848"/>
+  <circle cx="1341" cy="173" r="2.5" fill="#2A3848"/>
+  <circle cx="1341" cy="245" r="2.5" fill="#D98A2B" opacity="0.5"/>
+  <circle cx="1341" cy="300" r="2.5" fill="#2A3848"/>
+  <circle cx="1341" cy="376" r="2.5" fill="#4A9E6B" opacity="0.5"/>
+
+  <!-- Layer dividers -->
+  <line x1="0" y1="136" x2="1295" y2="136" stroke="#2A3038" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="0" y1="210" x2="1295" y2="210" stroke="#2A3038" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="0" y1="280" x2="1295" y2="280" stroke="#2A3038" stroke-width="1" stroke-dasharray="5,5"/>
+  <line x1="0" y1="320" x2="1295" y2="320" stroke="#3A4048" stroke-width="1"/>
+  <line x1="0" y1="432" x2="1295" y2="432" stroke="#3A4048" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════
+       L5 — OPERATOR SURFACE  y 48–136
+       Ghosted future products
+  ══════════════════════════════════════════ -->
+  <text x="56" y="68" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#354A58">Operator Surface</text>
+  <text x="56" y="82" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#2C3C48" letter-spacing="0.1em">L5</text>
+  <text x="56" y="96" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#2C3C44">The only layer humans touch.</text>
+
+  <!-- Recall — live, amber glow -->
+  <g class="card-group" id="card-recall-l5" data-link="/docs/recall" filter="url(#oct-glow)">
+    <rect class="card-bg" x="340" y="55" width="182" height="70" rx="5"
+          fill="#222E3C" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle class="sig-blink" cx="357" cy="73" r="3" fill="#D98A2B"/>
+    <text x="368" y="77" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="600" fill="#D98A2B">Recall</text>
+    <rect x="424" y="66" width="52" height="15" rx="3" fill="#2A2010"/>
+    <text x="450" y="77" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="8"
+          fill="#D98A2B" text-anchor="middle" letter-spacing="0.07em">E-STOP</text>
+    <text x="357" y="95" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#9AA3AD">Fleet control. Operator intervention.</text>
+    <text x="357" y="116" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#D98A2B">● live</text>
+  </g>
+
+  <!-- Ghost cards for future L5 -->
+  <g opacity="0.07" filter="url(#ghost-blur)">
+    <rect x="534" y="55" width="182" height="70" rx="5" fill="#1C2226" stroke="#2E3640" stroke-width="1"/>
+    <rect x="554" y="72" width="90" height="10" rx="2" fill="#304050"/>
+    <rect x="554" y="90" width="140" height="7" rx="2" fill="#283440"/>
+    <rect x="554" y="105" width="100" height="7" rx="2" fill="#263040"/>
+  </g>
+  <text x="625" y="94" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#283848" text-anchor="middle">Callsign</text>
+  <g opacity="0.07" filter="url(#ghost-blur)">
+    <rect x="728" y="55" width="182" height="70" rx="5" fill="#1C2226" stroke="#2E3640" stroke-width="1"/>
+    <rect x="748" y="72" width="110" height="10" rx="2" fill="#304050"/>
+    <rect x="748" y="90" width="150" height="7" rx="2" fill="#283440"/>
+    <rect x="748" y="105" width="120" height="7" rx="2" fill="#263040"/>
+  </g>
+  <text x="819" y="94" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#283848" text-anchor="middle">Briefing Room</text>
+  <g opacity="0.07" filter="url(#ghost-blur)">
+    <rect x="922" y="55" width="182" height="70" rx="5" fill="#1C2226" stroke="#2E3640" stroke-width="1"/>
+    <rect x="942" y="72" width="80" height="10" rx="2" fill="#304050"/>
+    <rect x="942" y="90" width="130" height="7" rx="2" fill="#283440"/>
+    <rect x="942" y="105" width="90" height="7" rx="2" fill="#263040"/>
+  </g>
+  <text x="1013" y="94" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#283848" text-anchor="middle">Scrum</text>
+
+  <!-- ══════════════════════════════════════════
+       L4 — GOVERNANCE & CONTROL  y 136–210
+       All ghosted — future
+  ══════════════════════════════════════════ -->
+  <text x="56" y="154" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#2E4250">Governance &amp; Control</text>
+  <text x="56" y="168" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#263848" letter-spacing="0.1em">L4</text>
+  <text x="56" y="182" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#263840">Policy · Missions · Cognitive steering.</text>
+
+  <g opacity="0.08" filter="url(#ghost-blur)">
+    <rect x="340" y="143" width="182" height="55" rx="5" fill="#1A1E24" stroke="#283038" stroke-width="1"/>
+    <rect x="356" y="158" width="100" height="10" rx="2" fill="#2C3840"/>
+    <rect x="356" y="176" width="148" height="7" rx="2" fill="#263240"/>
+    <rect x="534" y="143" width="182" height="55" rx="5" fill="#1A1E24" stroke="#283038" stroke-width="1"/>
+    <rect x="550" y="158" width="130" height="10" rx="2" fill="#2C3840"/>
+    <rect x="550" y="176" width="148" height="7" rx="2" fill="#263240"/>
+    <rect x="728" y="143" width="182" height="55" rx="5" fill="#1A1E24" stroke="#283038" stroke-width="1"/>
+    <rect x="744" y="158" width="88" height="10" rx="2" fill="#2C3840"/>
+    <rect x="744" y="176" width="148" height="7" rx="2" fill="#263240"/>
+  </g>
+  <text x="431" y="175" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#2A3C4C" text-anchor="middle">Commander</text>
+  <text x="625" y="175" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#2A3C4C" text-anchor="middle">Quartermaster</text>
+  <text x="819" y="175" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#2A3C4C" text-anchor="middle">Hypnos</text>
+
+  <!-- ══════════════════════════════════════════
+       L3 — EXECUTION & ROUTING  y 210–280
+       Live: Dispatch + Transmission
+  ══════════════════════════════════════════ -->
+  <text x="56" y="228" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#C8D4E0">Execution &amp; Routing</text>
+  <text x="56" y="242" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#5A6E80" letter-spacing="0.1em">L3</text>
+  <text x="56" y="256" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#9AA3AD">Work routes to the right model.</text>
+
+  <!-- Dispatch -->
+  <g class="card-group" id="card-dispatch" data-link="/docs/dispatch">
+    <rect class="card-bg" x="340" y="218" width="220" height="54" rx="5"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))"/>
+    <circle cx="358" cy="237" r="2.5" fill="#D98A2B"/>
+    <text x="368" y="241" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#E6E6E6">Dispatch</text>
+    <text x="358" y="258" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#9AA3AD">Task scheduler. Routes work to agents.</text>
+    <text x="358" y="264" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="0"
+          fill="#D98A2B">●</text>
+  </g>
+
+  <!-- Transmission -->
+  <g class="card-group" id="card-transmission" data-link="/docs/transmission/overview">
+    <rect class="card-bg" x="572" y="218" width="220" height="54" rx="5"
+          fill="#222830" stroke="#3A4048" stroke-width="1" stroke-dasharray="4 3"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.2))"/>
+    <circle cx="590" cy="237" r="2.5" fill="#4A5E70"/>
+    <text x="600" y="241" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#C8D4E0">Transmission</text>
+    <text x="590" y="258" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#9AA3AD">Model router. Economics layer.</text>
+    <text x="590" y="268" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#4A5E70">● coming soon</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       L2 — COGNITIVE SUBSTRATE  y 280–320
+       Ghosted — Telepath bar
+  ══════════════════════════════════════════ -->
+  <text x="56" y="296" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#2E4250">Cognitive Substrate</text>
+  <text x="56" y="310" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#263848" letter-spacing="0.1em">L2 · Memory · identity.</text>
+
+  <g opacity="0.08" filter="url(#ghost-blur)">
+    <rect x="340" y="285" width="700" height="28" rx="5" fill="#1A1E24" stroke="#283038" stroke-width="1"/>
+    <rect x="360" y="293" width="130" height="10" rx="2" fill="#2C3840"/>
+    <rect x="360" y="307" width="440" height="7" rx="2" fill="#263240"/>
+  </g>
+  <text x="690" y="302" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#283848" text-anchor="middle">Telepath — cognitive graph · long-term memory · agent identity</text>
+
+  <!-- ══════════════════════════════════════════
+       L1 — RELIABILITY FOUNDATION  y 320–432
+       Live: full product set
+  ══════════════════════════════════════════ -->
+  <text x="56" y="338" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        font-weight="600" fill="#C8D4E0">Reliability Foundation</text>
+  <text x="56" y="352" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#5A6E80" letter-spacing="0.1em">L1 · FOUNDATION</text>
+  <text x="56" y="366" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#9AA3AD">Always on. The floor everything rests on.</text>
+
+  <!-- Main product row: RadCheck · Sentinel · Watchdog · Agent911
+       x: 340  540  740  940   width: 186  each, gap 14 -->
+
+  <!-- RadCheck -->
+  <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
+    <rect class="card-bg" x="340" y="328" width="186" height="92" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle cx="357" cy="348" r="2.5" fill="#4A9E6B"/>
+    <text x="368" y="352" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#E6E6E6">RadCheck</text>
+    <rect x="474" y="341" width="44" height="15" rx="3" fill="#1E2A1E"/>
+    <text x="496" y="352" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="8"
+          fill="#4A9E6B" text-anchor="middle" letter-spacing="0.06em">FREE</text>
+    <text x="357" y="372" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Reliability scoring.</text>
+    <text x="357" y="388" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">0–100. Baseline scan.</text>
+    <text x="357" y="411" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#4A9E6B">● free tier</text>
+  </g>
+
+  <!-- Sentinel -->
+  <g class="card-group" id="card-sentinel" data-link="/docs/sentinel">
+    <rect class="card-bg" x="540" y="328" width="186" height="92" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle class="sig-blink" cx="557" cy="348" r="2.5" fill="#4A9E6B"/>
+    <text x="568" y="352" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#E6E6E6">Sentinel</text>
+    <text x="557" y="372" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Silent failure detection.</text>
+    <text x="557" y="388" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Always watching.</text>
+    <text x="557" y="411" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#4A9E6B">● always on</text>
+  </g>
+
+  <!-- Watchdog -->
+  <g class="card-group" id="card-watchdog" data-link="/docs/watchdog">
+    <rect class="card-bg" x="740" y="328" width="186" height="92" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle class="sig-blink" cx="757" cy="348" r="2.5" fill="#4A9E6B"/>
+    <text x="768" y="352" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#E6E6E6">Watchdog</text>
+    <text x="757" y="372" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Heartbeat supervision.</text>
+    <text x="757" y="388" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Liveness probes.</text>
+    <text x="757" y="411" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#4A9E6B">● monitoring</text>
+  </g>
+
+  <!-- Agent911 -->
+  <g class="card-group" id="card-agent911" data-link="/docs/agent911" filter="url(#oct-glow)">
+    <rect class="card-bg" x="940" y="328" width="186" height="92" rx="6"
+          fill="#222E3C" stroke="#C0392B" stroke-width="1.5"/>
+    <circle cx="957" cy="348" r="2.5" fill="#E05040"/>
+    <text x="968" y="352" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          font-weight="500" fill="#E6E6E6">Agent911</text>
+    <text x="957" y="372" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Recovery cockpit.</text>
+    <text x="957" y="388" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          fill="#9AA3AD">Read-only. 2am tool.</text>
+    <text x="957" y="411" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+          fill="#C0392B">● incident</text>
+  </g>
+
+  <!-- Compact secondary row: InfraWatch · Lazarus · SphinxGate
+       y=330+92+8=430 → squeeze into remaining space before triage
+       Actually let's put secondary row as small chips below main cards -->
+  <!-- InfraWatch chip -->
+  <g class="card-group" id="card-infrawatch" data-link="/docs/infrawatch">
+    <rect class="card-bg" x="340" y="424" width="182" height="0" rx="0"
+          fill="transparent" stroke="none"/>
+  </g>
+  <!-- Compact horizontal chip strip at y=422 -->
+  <g class="card-group" id="chip-infrawatch" data-link="/docs/infrawatch">
+    <rect class="card-bg" x="340" y="420" width="168" height="8" rx="3"
+          fill="#272D33" stroke="#343C44" stroke-width="0"/>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       TRIAGE — FULL-WIDTH FOUNDATION BAR  y 432–498
+  ══════════════════════════════════════════ -->
+  <g class="card-group" id="card-triage" data-link="https://github.com/acmeagentsupply/triage"
+     filter="url(#triage-glow)">
+    <rect class="card-bg" x="340" y="437" width="954" height="58" rx="6"
+          fill="url(#triageGrad)" stroke="#D98A2B" stroke-width="2"/>
+
+    <!-- Left: name + OSS tag -->
+    <circle class="sig-blink" cx="364" cy="466" r="4" fill="#D98A2B"/>
+    <text x="380" y="471" font-family="Inter,-apple-system,sans-serif" font-size="17"
+          font-weight="700" fill="#D98A2B" letter-spacing="-0.01em">triage</text>
+    <rect x="456" y="457" width="128" height="18" rx="3" fill="#241C08"/>
+    <text x="520" y="470" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="8.5"
+          fill="#D98A2B" text-anchor="middle" letter-spacing="0.1em">OSS · FOUNDATION</text>
+
+    <!-- Center: tagline -->
+    <text x="817" y="463" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#C09840" text-anchor="middle">First-response diagnostics. Works when the gateway doesn't.</text>
+    <text x="817" y="482" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#8A6020" text-anchor="middle">triage --self-test &amp;&amp; triage</text>
+
+    <!-- Right: CTA -->
+    <rect x="1166" y="449" width="116" height="32" rx="4" fill="#D98A2B"/>
+    <text x="1224" y="469" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          font-weight="700" fill="#18202A" text-anchor="middle">Run Triage →</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       BOTTOM STRIP  y 498–510
+  ══════════════════════════════════════════ -->
+  <line x1="0" y1="498" x2="1400" y2="498" stroke="#2E363E" stroke-width="1"/>
+  <text x="56" y="507" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+        fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 01A · v6</text>
+  <text x="700" y="507" font-family="Inter,-apple-system,sans-serif" font-size="10"
+        fill="#3A4E60" text-anchor="middle">The coordination infrastructure is the product.</text>
+
+</svg>
+</div>
+<script>
+  document.querySelectorAll('.card-group[data-link]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => { window.location.href = el.dataset.link; });
+  });
+</script>
+</body>
+</html>
