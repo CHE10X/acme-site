@@ -20,8 +20,6 @@ export default function OperatorsTalePage() {
           <h1 className={styles.title}>I Built This&hellip;Thing&hellip;With OpenClaw</h1>
         </header>
 
-        <p>I built this...thing...with OpenClaw. And I can imagine there are a lot of people like me out there.</p>
-
         <p>I know a little about coding. I've worked in tech companies my whole career — the last 10 or 15 years with venture-funded startups selling into the dev space and enterprise markets. I know what it takes to build good software. And I'm the kind of person who likes to know how things actually work. At least well enough to be competent, to be able to defend how these systems are operating, to see it firsthand. I don't like depending on too many technical resources if I can help it. Let's say I'm thrifty.</p>
 
         <p>So when OpenClaw came out, I recognized it as an inflection point. I thought back to when I was a kid getting my hands on a PC for the first time. And more recently, when ChatGPT launched — that same feeling: this is a pattern change in how we can work and leverage technology. You either get on board and learn it, or it passes you by. And that's the fear, right? If we don't embrace this and master it, maybe our careers won't have the same velocity. Maybe we get displaced. I think about my kids — if they don't learn how to use these tools, their careers will suffer too.</p>
