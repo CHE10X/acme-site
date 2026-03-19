@@ -18,7 +18,7 @@ const STACK_BLOCKS = [
   },
   {
     title: "Observe Layer",
-    stack: "FindMyAgent / RadCheck / Observe",
+    stack: "Watchdog / RadCheck / Observe",
     desc: "Aggregates signals across the runtime.",
   },
   {
@@ -222,7 +222,7 @@ protection_state: ACTIVE`}
             ))}
           </ol>
           <pre className="mt-4 overflow-x-auto rounded-md bg-[#161A1E] px-6 py-5 text-[16px] leading-7 text-[#E6E6E6]">
-{`curl https://openclaw.ai/install.sh | bash
+{`curl -fsSL https://acmeagentsupply.com/install/triage | bash
 
 octriage`}
           </pre>

@@ -31,13 +31,6 @@ const UTILITY_ROWS: UtilityRow[] = [
     stages: ["Diagnose", "Observe"],
   },
   {
-    utility: "FindMyAgent",
-    function: "Locates active agent sessions and runtime context.",
-    command: "findmyagent --list",
-    layer: "Observe",
-    stages: ["Observe"],
-  },
-  {
     utility: "Agent911",
     function: "Runs guided response and recovery workflows.",
     command: "agent911",
@@ -132,7 +125,10 @@ export default function BotShopPage() {
             Operator Utilities
           </h1>
           <p className="mt-3 text-[16px] text-[#9AA3AD]">
-            OpenClaw Tool Index - human and machine readable
+            Map your symptoms to the right tool in 30 seconds.
+          </p>
+          <p className="mt-2 text-[15px] text-[#9AA3AD]">
+            Machine-readable reference for operators and agents. Each entry maps a failure class to the tool that handles it.
           </p>
         </header>
 

@@ -42,19 +42,19 @@ export const OPERATOR_UTILITY_CARDS: UtilityCard[] = [
     docsHref: "/docs/sentinel/overview",
   },
   {
-    id: "findmyagent",
-    title: "FindMyAgent",
-    unitLabel: "OPERATOR BETA",
-    subtitle: "Know what your agents are doing - and what they are not.",
+    id: "watchdog",
+    title: "Watchdog",
+    unitLabel: "LIVENESS MONITOR",
+    subtitle: "Know when an agent goes silent before it becomes an incident.",
     description:
-      "Real-time presence, progress signals, and needs-attention flags for your agent fleet.",
-    flavor: "Included with Agent911 operator surface.",
+      "Watchdog supervises heartbeat and liveness signals across your agent fleet. When an agent stops responding, Watchdog flags it before the silence cascades.",
+    flavor: "Liveness confirmed. Or it isn't.",
     bullets: [
-      "live agent presence state",
-      "clear stalled / blocked signals",
-      "last activity + heartbeat age",
+      "heartbeat supervision across runtimes",
+      "dead-run detection",
+      "cron-safe cadence checks",
     ],
-    docsHref: "/docs/findmyagent/overview",
+    docsHref: "/docs/watchdog/overview",
   },
 ];
 

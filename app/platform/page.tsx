@@ -126,7 +126,7 @@ protection_state: ACTIVE`}
             Install
           </h2>
           <pre className="mt-4 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950/90 p-4 text-sm text-zinc-200">
-{`curl https://openclaw.ai/install.sh | bash`}
+{`curl -fsSL https://acmeagentsupply.com/install/triage | bash`}
           </pre>
           <Link
             href="/docs/octriage/overview"

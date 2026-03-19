@@ -22,10 +22,25 @@ export default function SupportPage() {
             signals needed for fast triage. Built for operators. Readable by
             humans and AI.
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+
+          {/* Contact path — P0 fix */}
+          <div className="mt-5 rounded-md border border-[#D98A2B]/40 bg-[#161A1E] px-5 py-4">
+            <div className="text-[13px] uppercase tracking-[0.28em] text-[#D98A2B]">Send Your Bundle Here</div>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <a
+                href="mailto:support@acmeagentsupply.com"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
+              >
+                support@acmeagentsupply.com
+              </a>
+              <span className="text-[14px] text-[#9AA3AD]">Attach your bundle zip. Include a short description of what you observed.</span>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             <Link
               href="/support/first-response"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
             >
               First Response
             </Link>
@@ -39,7 +54,7 @@ export default function SupportPage() {
               href="#support-contents"
               className="inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
             >
-              View What’s Collected
+              View What's Collected
             </a>
           </div>
           <div className="mt-3 text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">
@@ -90,7 +105,7 @@ export default function SupportPage() {
 
         {supportMode === "ai" ? (
           <>
-            {/* AI Mode — Support Protocol */}
+            {/* AI Mode - Support Protocol */}
             <section className="mt-8 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
               <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
                 Support Protocol
@@ -98,7 +113,7 @@ export default function SupportPage() {
               <div className="mt-4 space-y-6">
                 <div>
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
-                    Step 1 — Generate bundle
+                    Step 1 - Generate bundle
                   </div>
                   <div className="mt-2 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                     acme_support_bundle.py -zip
@@ -106,7 +121,7 @@ export default function SupportPage() {
                 </div>
                 <div>
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
-                    Step 2 — Review consent
+                    Step 2 - Review consent
                   </div>
                   <div className="mt-2 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[16px] text-[#D98A2B]">
                     acme_support_bundle.py -print-consent
@@ -114,7 +129,7 @@ export default function SupportPage() {
                 </div>
                 <div>
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
-                    Step 3 — First response
+                    Step 3 - First response
                   </div>
                   <p className="mt-2 text-[16px] text-[#E6E6E6]">
                     If the control plane is degraded, begin with the calm,
@@ -129,7 +144,7 @@ export default function SupportPage() {
                 </div>
                 <div>
                   <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">
-                    Step 4 — Send bundle
+                    Step 4 - Send bundle
                   </div>
                   <p className="mt-2 text-[16px] text-[#E6E6E6]">
                     Attach the generated zip when contacting support.
@@ -194,7 +209,7 @@ export default function SupportPage() {
                 acme_support_bundle.py -zip
               </div>
               <div className="mt-4 text-[16px] text-[#9AA3AD]">
-                We’ll review the evidence and respond with next steps.
+                We'll review the evidence and respond with next steps.
               </div>
             </section>
 

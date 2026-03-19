@@ -91,6 +91,32 @@ Returns:
 - **Disk pressure** — is your disk filling up?
 - **Session activity** — has the session been quiet too long?
 
+## What's Next?
+
+Sentinel is running. Here's how to get value from it.
+
+### Reading State
+
+Run `cat ~/.openclaw/sentinel/state.json` anytime to check current state. The three states are:
+
+- **NOMINAL** — all signals healthy. No action needed.
+- **SUSPECT** — one or more signals look off. Check the `alerts` array in state.json for specifics. Don't ignore SUSPECT — it's an early warning, not a false alarm.
+- **ACTIVE** — active issue detected. Gateway may be down or a critical alert has fired. Take action now.
+
+### When State is SUSPECT
+
+1. Note which signal triggered (gateway, heartbeat, disk, session activity).
+2. Run `octriage` to get a full system snapshot.
+3. If the signal clears on the next 5-minute cycle, monitor. If it persists, escalate.
+
+### Sentinel + Agent911
+
+Sentinel feeds its state into the Agent911 control plane. If you have Agent911 installed, its health view reflects Sentinel's current posture — you don't need to check both manually. Sentinel detects; Agent911 gives you the full picture and recovery options.
+
+For questions or to send a support bundle: [support@acmeagentsupply.com](mailto:support@acmeagentsupply.com)
+
+---
+
 ## Uninstall
 
 ```bash
