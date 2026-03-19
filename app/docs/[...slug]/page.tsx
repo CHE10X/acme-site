@@ -145,10 +145,10 @@ export default async function DocsArticlePage({
           {/* Back link */}
           <div className="mt-12 border-t border-[#3A4048] pt-6">
             <Link
-              href="/docs"
+              href="/products"
               className="text-[18px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]"
             >
-              ← Back to Docs
+              ← Back to Products
             </Link>
           </div>
         </section>
