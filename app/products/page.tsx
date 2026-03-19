@@ -39,7 +39,7 @@ export default function ProductsPage() {
       <main>
 
         {/* ── ACME Stack diagram hero ── */}
-        <div className="w-full border-b border-[#2E3640] bg-[#1A2028] overflow-hidden" style={{ height: "860px" }}>
+        <div className="w-full border-b border-[#2E3640] bg-[#1A2028] overflow-hidden" style={{ height: "820px" }}>
           <iframe
             src="/diagrams/acme-stack-v7.html"
             title="ACME Reliability Stack — product family"
