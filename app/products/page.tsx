@@ -44,31 +44,9 @@ export default function ProductsPage() {
           <InlineReliabilityStackSvg />
         </div>
 
-        {/* ── Product nav strip ── */}
-        <div className="border-b border-[#2E3640] bg-[#151C24] px-6 py-3">
-          <div className="flex flex-wrap items-center gap-x-0 gap-y-1 text-[13px] text-[#5A6A78]">
-            <Link href="/" className="hover:text-[#9AA3AD] transition-colors mr-4">Home</Link>
-            <span className="mr-4 text-[#2E3640]">›</span>
-            <Link href="/products" className="text-[#9AA3AD] hover:text-[#E6E6E6] transition-colors mr-4">Products</Link>
-            <span className="mr-4 text-[#2A3440]">·</span>
-
-            {PRODUCTS.filter(p => p.bundle === "Diagnostics").map((p) => (
-              <Link key={p.name} href={p.href} className="hover:text-[#9AA3AD] transition-colors mr-4">{p.name}</Link>
-            ))}
-            <span className="mr-4 text-[#2A3440]">·</span>
-
-            {PRODUCTS.filter(p => p.bundle === "Operator Bundle" || p.bundle === "Resilience").map((p) => (
-              <Link key={p.name} href={p.href} className="hover:text-[#9AA3AD] transition-colors mr-4">{p.name}</Link>
-            ))}
-            <span className="mr-4 text-[#2A3440]">·</span>
-
-            {PRODUCTS.filter(p => p.bundle === "Access Control").map((p) => (
-              <Link key={p.name} href={p.href} className="hover:text-[#9AA3AD] transition-colors mr-4">{p.name}</Link>
-            ))}
-            <span className="mr-4 text-[#2A3440]">·</span>
-
-            <Link href="/pricing" className="hover:text-[#9AA3AD] transition-colors">Pricing</Link>
-          </div>
+        {/* ── Separator between diagram and product table ── */}
+        <div className="w-full">
+          <span className="hazard-shimmer block h-[4px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.5)_0,rgba(217,138,43,0.5)_10px,rgba(21,28,36,0.5)_10px,rgba(21,28,36,0.5)_20px)] bg-[length:24px_24px]" />
         </div>
 
         {/* ── Tight product table ── */}
