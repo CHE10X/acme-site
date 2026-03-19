@@ -45,7 +45,7 @@ export default function SiteFooter({ showRefund }: SiteFooterProps) {
             <a href="https://docs.acmeagentsupply.com" target="_blank" rel="noopener noreferrer" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Docs</a>
             <Link href="/support" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Support</Link>
             <Link href="/bot-shop" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator Utilities</Link>
-            <Link href="/operators-tale" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator&apos;s Tale</Link>
+            <Link href="/operators-tale" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">About</Link>
           </nav>
 
           <nav aria-label="Legal footer navigation" className="space-y-2">
