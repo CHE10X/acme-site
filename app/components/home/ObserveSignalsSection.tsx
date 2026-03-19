@@ -20,7 +20,7 @@ export default function ObserveSignalsSection({
       </h2>
       <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[#9AA3AD]">
         Most operators don&apos;t know something is wrong until it&apos;s already wrong.
-        OpenClaw surfaces the signals that tell you earlier.
+        ACME surfaces the signals that tell you earlier.
       </p>
       <ul className="mt-5 grid gap-3 sm:grid-cols-2">
         {signals.map((signal) => (

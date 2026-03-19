@@ -338,7 +338,7 @@ triage`}
             When Something Breaks
           </h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[#9AA3AD]">
-            Most tools tell you something broke. OpenClaw tells you what to do about it — in order, with evidence, without guessing.
+            Most tools tell you something broke. ACME tells you what to do about it — in order, with evidence, without guessing.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {[
