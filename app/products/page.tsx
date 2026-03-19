@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import InlineReliabilityStackSvg from "@/app/components/docs/InlineReliabilityStackSvg";
 
 export const metadata: Metadata = {
   title: "Products — ACME Agent Supply Co.",
@@ -39,9 +38,15 @@ export default function ProductsPage() {
     <div className="min-h-screen bg-[#1A2028] text-[#E6E6E6]">
       <main>
 
-        {/* ── Full-width diagram hero ── */}
-        <div className="w-full border-b border-[#2E3640]">
-          <InlineReliabilityStackSvg />
+        {/* ── ACME Stack diagram hero ── */}
+        <div className="w-full border-b border-[#2E3640] bg-[#1A2028]">
+          <iframe
+            src="/diagrams/acme-stack-v1-r2.html"
+            title="The ACME Stack — product architecture"
+            className="w-full border-0"
+            style={{ height: "560px", display: "block" }}
+            loading="eager"
+          />
         </div>
 
         {/* ── Separator between diagram and product table ── */}
