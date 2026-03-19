@@ -55,7 +55,7 @@ export default async function PricingPage() {
 
         <section>
           <div className="grid gap-4 lg:grid-cols-3">
-            <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+            <article className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
               <div className="flex items-center justify-between gap-2">
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">Free Access</div>
                 <MaturityDots count={1} />
@@ -71,13 +71,13 @@ export default async function PricingPage() {
               />
               <Link
                 href="/docs/quickstart/5-minute"
-                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                className="mt-auto pt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
               >
                 Start Free
               </Link>
             </article>
 
-            <article className="rounded-[6px] border border-[#D98A2B]/55 bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+            <article className="flex flex-col rounded-[6px] border border-[#D98A2B]/55 bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
               <div className="flex items-center justify-between gap-2">
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#D98A2B]">Standard Issue</div>
                 <MaturityDots count={2} />
@@ -100,13 +100,13 @@ export default async function PricingPage() {
                 productKey="operator-kit"
                 priceLabel={`${prices["operator-kit"]} / runtime / month`}
                 fallbackUrl={getCheckoutPaymentLink("operator-kit")}
-                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-semibold text-[#1E2226] transition-colors hover:bg-[#C47A22]"
+                className="mt-auto pt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-semibold text-[#1E2226] transition-colors hover:bg-[#C47A22]"
               >
                 Subscribe
               </PricingCheckoutButton>
             </article>
 
-            <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
+            <article className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-6 shadow-[0_8px_22px_rgba(0,0,0,0.18)]">
               <div className="flex items-center justify-between gap-2">
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">Control Plane</div>
                 <MaturityDots count={3} />
@@ -128,7 +128,7 @@ export default async function PricingPage() {
                 productKey="agent911"
                 priceLabel={`${prices.agent911} / runtime / month`}
                 fallbackUrl={getCheckoutPaymentLink("agent911")}
-                className="mt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                className="mt-auto pt-5 inline-flex h-10 min-w-[172px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
               >
                 Subscribe
               </PricingCheckoutButton>
