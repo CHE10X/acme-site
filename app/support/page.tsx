@@ -1,98 +1,75 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Support — ACME Agent Supply Co.",
+  description: "How ACME handles support for its reliability products.",
+};
 
 export default function SupportPage() {
   return (
     <div className="min-h-screen bg-[#1E2226] text-[#E6E6E6]">
-      <main className="mx-auto max-w-[1100px] px-6 py-12">
+      <main className="mx-auto max-w-[1100px] px-6 py-12 space-y-6">
 
-        {/* Hero */}
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-[#B8782A]">ACME Product Support</div>
-          <h1 className="mt-2 text-[34px] font-semibold text-[#E6E6E6]">
-            Having a problem with an ACME product?
-          </h1>
-          <p className="mt-3 max-w-[60ch] text-[16px] leading-7 text-[#9AA3AD]">
-            We support our products: Triage, RadCheck, Sentinel, Watchdog, Lazarus, Agent911, and Recall. If something isn&apos;t working as expected, we want to know.
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-8">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#B8782A] mb-3">Support</div>
+          <h1 className="text-[34px] font-semibold text-[#E6E6E6]">How we handle support</h1>
+          <p className="mt-4 max-w-[60ch] text-[16px] leading-7 text-[#9AA3AD]">
+            ACME supports its own products. When something isn&apos;t working with Triage, RadCheck, Sentinel, Watchdog, Lazarus, Agent911, or Recall — we want to hear about it.
           </p>
-          <p className="mt-2 max-w-[60ch] text-[14px] leading-6 text-[#4A5E70]">
-            General OpenClaw troubleshooting is outside our scope — for that, the <a href="https://discord.com/invite/clawd" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#9AA3AD] transition-colors">OpenClaw community</a> is the right place.
+          <p className="mt-3 max-w-[60ch] text-[14px] leading-6 text-[#4A5E70]">
+            General OpenClaw troubleshooting is outside our scope. For that, the{" "}
+            <a href="https://discord.com/invite/clawd" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#9AA3AD] transition-colors">
+              OpenClaw community
+            </a>{" "}
+            is the right place.
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+        </section>
+
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-8">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A6A78] mb-4">How it works</div>
+          <div className="space-y-6 max-w-[60ch]">
+            <div>
+              <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">Start with evidence</div>
+              <p className="text-[15px] leading-6 text-[#9AA3AD]">
+                Every support interaction starts with a Triage bundle. It captures what&apos;s actually happening — no guessing, no screenshots, no &ldquo;it was working yesterday.&rdquo; Evidence first.
+              </p>
+            </div>
+            <div>
+              <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">We respond to everything</div>
+              <p className="text-[15px] leading-6 text-[#9AA3AD]">
+                Email <a href="mailto:support@acmeagentsupply.com" className="text-[#B8782A] hover:text-[#D98A2B] transition-colors">support@acmeagentsupply.com</a> with your bundle and a short description of what you observed. We review every message.
+              </p>
+            </div>
+            <div>
+              <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD] mb-2">Paying customers get priority</div>
+              <p className="text-[15px] leading-6 text-[#9AA3AD]">
+                If you&apos;re on a paid plan, include your license key. Paid customers go to the front of the queue.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-8">
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A6A78] mb-4">Self-service first</div>
+          <p className="text-[15px] leading-6 text-[#9AA3AD] max-w-[60ch]">
+            Most issues resolve before you need to contact anyone. Start here:
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href="/support/first-response"
-              className="inline-flex items-center gap-2 rounded-lg bg-[#B8782A] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#A06820]"
+              className="inline-flex items-center rounded-lg bg-[#B8782A] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#A06820]"
             >
               First Response Guide
             </Link>
-            <Link
-              href="/docs/support/when-things-feel-off"
-              className="inline-flex items-center gap-2 rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
+            <a
+              href="https://docs.acmeagentsupply.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
             >
-              Run Support Bundle
-            </Link>
-          </div>
-        </section>
-
-        {/* How to get help */}
-        <section className="mt-6 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">How to get help</div>
-          <div className="mt-4 space-y-5">
-            <div>
-              <div className="text-[13px] uppercase tracking-[0.22em] text-[#5A7080]">Step 1 — Generate a bundle</div>
-              <div className="mt-2 rounded-lg bg-[#161A1E] px-4 py-3 font-mono text-[15px] text-[#B8782A]">
-                acme_support_bundle.py -zip
-              </div>
-              <p className="mt-2 text-[14px] text-[#6A7A88]">Read-only. No system changes. Secrets redacted automatically.</p>
-            </div>
-            <div>
-              <div className="text-[13px] uppercase tracking-[0.22em] text-[#5A7080]">Step 2 — Email us</div>
-              <p className="mt-2 text-[15px] text-[#E6E6E6]">
-                Attach the zip and describe what you observed.{" "}
-                <a href="mailto:support@acmeagentsupply.com" className="text-[#B8782A] hover:text-[#A06820] transition">
-                  support@acmeagentsupply.com
-                </a>
-              </p>
-            </div>
-            <div>
-              <div className="text-[13px] uppercase tracking-[0.22em] text-[#5A7080]">Step 3 — We respond</div>
-              <p className="mt-2 text-[15px] text-[#9AA3AD]">
-                We review the bundle and reply with next steps. No guessing, no back-and-forth asking for screenshots.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* What's in the bundle */}
-        <section
-          id="support-contents"
-          className="mt-6 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6"
-        >
-          <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">What the bundle captures</div>
-          <ul className="mt-4 space-y-2 text-[15px] text-[#9AA3AD]">
-            <li>· Agent911 snapshot</li>
-            <li>· Recent ops events</li>
-            <li>· Routing and protection posture</li>
-            <li>· Compaction signals</li>
-            <li>· Redacted logs — secrets never included</li>
-          </ul>
-          <p className="mt-4 text-[13px] text-[#4A5E70]">
-            Observational only. No configuration changes are performed.
-          </p>
-        </section>
-
-        {/* Docs */}
-        <section className="mt-6 rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">Documentation</div>
-          <p className="mt-3 text-[15px] text-[#9AA3AD]">
-            Most issues are documented. Check the docs before opening a support ticket.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/docs" className="text-[15px] text-[#B8782A] hover:text-[#A06820] transition">
-              Docs →
-            </Link>
-            <Link href="/support/first-response" className="text-[15px] text-[#6A7A88] hover:text-[#9AA3AD] transition">
-              First Response Guide →
-            </Link>
+              Product Docs
+            </a>
           </div>
         </section>
 
