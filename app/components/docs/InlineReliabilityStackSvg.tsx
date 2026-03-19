@@ -6,7 +6,7 @@ export default function InlineReliabilityStackSvg() {
     process.cwd(),
     "public",
     "diagrams",
-    "operator-system-view-v5.html",
+    "operator-system-view-v6.html",
   );
   const assetMarkup = fs.readFileSync(assetPath, "utf8");
   const svgMatch = assetMarkup.match(/<svg[\s\S]*<\/svg>/i);
