@@ -129,8 +129,8 @@ export default async function DocsArticlePage({
               />
             </div>
           </div>
-          {/* Hazard stripe — full width, flush to bottom of card */}
-          <div className="h-[6px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.85)_0,rgba(217,138,43,0.85)_10px,rgba(30,34,38,0.6)_10px,rgba(30,34,38,0.6)_20px)] bg-[length:24px_24px]" />
+          {/* Hazard stripe — animated, full width, flush to bottom of card */}
+          <span className="hazard-shimmer block h-[6px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.85)_0,rgba(217,138,43,0.85)_10px,rgba(30,34,38,0.6)_10px,rgba(30,34,38,0.6)_20px)] bg-[length:24px_24px]" />
         </div>
 
         <section className="mt-6 rounded-2xl border border-[#3A4048] bg-[#242A30] px-6 py-6 shadow-[0_0_0_1px_rgba(217,138,43,0.05)]">

@@ -14,12 +14,12 @@ export default function SiteFooter({ showRefund }: SiteFooterProps) {
             Start here. Field guides and first-response doctrine.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href="/docs"
+            <a
+              href="https://docs.acmeagentsupply.com"
               className="inline-flex items-center rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
             >
               Open Docs
-            </Link>
+            </a>
             <Link
               href="/support/first-response"
               className="inline-flex items-center rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
@@ -40,7 +40,7 @@ export default function SiteFooter({ showRefund }: SiteFooterProps) {
           <nav aria-label="Primary footer navigation" className="space-y-2">
             <div className="text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">Primary</div>
             <Link href="/pricing" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Pricing</Link>
-            <Link href="/docs" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Docs</Link>
+            <a href="https://docs.acmeagentsupply.com" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Docs</a>
             <Link href="/support" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Support</Link>
             <Link href="/bot-shop" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator Utilities</Link>
             <Link href="/operators-tale" className="block rounded px-1 py-1 text-[15px] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]">Operator&apos;s Tale</Link>

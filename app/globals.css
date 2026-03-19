@@ -53,7 +53,7 @@ body {
 
 .hazard-shimmer {
   background-position: 0 0;
-  animation: hazard-shimmer 7.2s linear infinite;
+  animation: hazard-shimmer 10s linear infinite;
 }
 
 .hazard-stripe {
