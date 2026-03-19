@@ -98,7 +98,7 @@ export default function Home() {
               </p>
               <div className="mt-auto pt-6 flex flex-wrap gap-3">
                 <Link
-                  href="/docs/octriage/overview"
+                  href="/docs/triage/overview"
                   className="inline-flex items-center gap-2 rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
                 >
                   Get Started

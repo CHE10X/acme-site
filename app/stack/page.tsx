@@ -51,7 +51,7 @@ export default function StackPage() {
         <h2 className="text-[20px] font-semibold text-[#C8D4E0] mb-6">v1 — Live now</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { name: "Triage", desc: "First-response diagnostics. Free. Works when OpenClaw doesn't.", href: "/docs/octriage/overview", badge: "free" },
+            { name: "Triage", desc: "First-response diagnostics. Free. Works when OpenClaw doesn't.", href: "/docs/triage/overview", badge: "free" },
             { name: "RadCheck", desc: "Reliability scoring 0–100. Read-only.", href: "/docs/radcheck/score-explained", badge: "free" },
             { name: "Sentinel", desc: "Continuous silent failure detection.", href: "/docs/sentinel/overview", badge: "$5/mo" },
             { name: "Watchdog", desc: "Heartbeat and liveness monitoring.", href: "/docs/watchdog/overview", badge: "$5/mo" },

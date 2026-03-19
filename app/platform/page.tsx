@@ -130,7 +130,7 @@ protection_state: ACTIVE`}
 {`curl https://openclaw.ai/install.sh | bash`}
           </pre>
           <Link
-            href="/docs/octriage/overview"
+            href="/docs/triage/overview"
             className="mt-4 inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
           >
             Install Triage

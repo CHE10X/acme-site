@@ -75,7 +75,7 @@ export default async function PricingPage() {
                 lines={["Triage — works when OpenClaw doesn't", "RadCheck — reliability score 0–100"]}
               />
               <Link
-                href="/docs/octriage/overview"
+                href="/install"
                 className="mt-5 flex h-11 w-full items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
               >
                 Start Free

@@ -29,7 +29,7 @@ const templates: FeedTemplate[] = [
   { text: "It's looping on retries.", tool: "Watchdog", anchor: "/docs/watchdog/overview", unit: "Heartbeat Unit", kind: "CONTAINMENT LOG" },
   { text: "It ran fine yesterday. Today it's silent.", tool: "Sentinel", anchor: "/docs/sentinel/overview", unit: "Containment Unit", kind: "HUMAN REPORT" },
   { text: "Background lane ate the whole budget.", tool: "SphinxGate", anchor: "/docs/sphinxgate/overview", unit: "Gate Control", kind: "SYSTEM NOTE" },
-  { text: "Reliability score dropped 12 points overnight.", tool: "Triage", anchor: "/docs/octriage/overview", unit: "Diagnostics Unit", kind: "SYSTEM NOTE" },
+  { text: "Reliability score dropped 12 points overnight.", tool: "Triage", anchor: "/docs/triage/overview", unit: "Diagnostics Unit", kind: "SYSTEM NOTE" },
   { text: "Agent looks alive. It isn't doing anything.", tool: "Sentinel", anchor: "/docs/sentinel/overview", unit: "Containment Unit", kind: "HUMAN REPORT" },
 ];
 
