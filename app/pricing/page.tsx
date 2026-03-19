@@ -28,7 +28,7 @@ function MaturityDots({ count }: { count: 1 | 2 | 3 }) {
 
 function IncludesList({ title, lines }: { title: string; lines: string[] }) {
   return (
-    <div className="mt-5 rounded-md border border-[#3A4048] bg-[#1E2226] px-3 py-3">
+    <div className="mt-5 flex-1 rounded-md border border-[#3A4048] bg-[#1E2226] px-3 py-3">
       <div className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9AA3AD]">{title}</div>
       <ul className="mt-2 space-y-1 text-[14px] text-[#C7CDD4]">
         {lines.map((line) => (
@@ -76,7 +76,7 @@ export default async function PricingPage() {
               />
               <Link
                 href="/docs/octriage/overview"
-                className="mt-auto pt-5 flex h-10 w-full items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
               >
                 Start Free
               </Link>
@@ -105,7 +105,7 @@ export default async function PricingPage() {
                 productKey="agent911"
                 priceLabel={`${prices.agent911} / month`}
                 fallbackUrl={getCheckoutPaymentLink("agent911")}
-                className="mt-auto pt-5 flex h-10 w-full items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#C47A22]"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#C47A22]"
               >
                 Subscribe
               </PricingCheckoutButton>
@@ -137,7 +137,7 @@ export default async function PricingPage() {
                 productKey="operator-kit"
                 priceLabel={`${prices["operator-bundle"] ?? "$29"} / month`}
                 fallbackUrl={getCheckoutPaymentLink("operator-kit")}
-                className="mt-auto pt-5 flex h-10 w-full items-center justify-center rounded-lg border border-[#4A9E6B] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:bg-[#1E3A28]"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg border border-[#4A9E6B] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:bg-[#1E3A28]"
               >
                 Subscribe
               </PricingCheckoutButton>
