@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME Stack — Reliability Foundation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #1F252B;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .diagram-wrap { width: 100%; }
+    svg .card-bg { transition: stroke 0.14s; }
+    svg .card-group:hover .card-bg { stroke: #D98A2B !important; }
+    svg .card-group[data-link] { cursor: pointer; }
+    @keyframes sigblink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .sig-blink { animation: sigblink 2.6s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="diagram-wrap">
+<svg viewBox="0 0 1400 390"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="ACME Reliability Foundation — product family"
+     style="width:100%;display:block;">
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#252C32"/>
+      <stop offset="50%"  stop-color="#242A30"/>
+      <stop offset="100%" stop-color="#1F252B"/>
+    </linearGradient>
+    <linearGradient id="triageBarGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#28200E"/>
+      <stop offset="20%"  stop-color="#2E2412"/>
+      <stop offset="80%"  stop-color="#2E2412"/>
+      <stop offset="100%" stop-color="#28200E"/>
+    </linearGradient>
+    <filter id="oct-glow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.5 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="triage-glow" x="-2%" y="-30%" width="104%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.55 0 0 0  0.5 0.28 0 0 0  0 0 0 0 0  0 0 0 0.45 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="390" fill="url(#bgGrad)"/>
+
+  <!-- ══════════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════════ -->
+  <text x="56" y="28" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        font-weight="500" fill="#4A5E70" letter-spacing="0.16em">ACME AGENT SUPPLY CO. · ARCHITECTURE REFERENCE</text>
+  <text x="56" y="56" font-family="Inter,-apple-system,sans-serif" font-size="24"
+        font-weight="600" fill="#E0E8F0" letter-spacing="-0.01em">The ACME Stack</text>
+  <text x="56" y="76" font-family="Inter,-apple-system,sans-serif" font-size="14"
+        font-style="italic" fill="#7A9AAD">Intent flows down. Results flow up.</text>
+  <text x="1344" y="56" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#D98A2B" letter-spacing="0.1em" text-anchor="end">v1 · LAUNCH</text>
+  <line x1="0" y1="90" x2="1400" y2="90" stroke="#2E363E" stroke-width="1"/>
+
+  <!-- Layer label -->
+  <text x="56" y="112" font-family="Inter,-apple-system,sans-serif" font-size="14"
+        font-weight="600" fill="#C8D4E0">Reliability Foundation</text>
+  <text x="56" y="128" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#5A6E80" letter-spacing="0.1em">L1 · FOUNDATION</text>
+  <text x="56" y="144" font-family="Inter,-apple-system,sans-serif" font-size="13"
+        fill="#9AA3AD">Always on. The floor everything else rests on.</text>
+
+  <!-- ══════════════════════════════════════════════
+       MAIN PRODUCT ROW — 4 cards
+       x: 340, 582, 824, 1066   width: 228   gap: 14
+  ══════════════════════════════════════════════ -->
+
+  <!-- RadCheck -->
+  <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
+    <rect class="card-bg" x="340" y="100" width="228" height="106" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle cx="360" cy="124" r="3" fill="#4A9E6B"/>
+    <text x="372" y="129" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">RadCheck</text>
+    <text x="360" y="153" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Reliability scoring.</text>
+    <text x="360" y="171" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">0–100. Free.</text>
+    <text x="360" y="197" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● free tier</text>
+  </g>
+
+  <!-- Sentinel -->
+  <g class="card-group" id="card-sentinel" data-link="/docs/sentinel">
+    <rect class="card-bg" x="582" y="100" width="228" height="106" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle class="sig-blink" cx="602" cy="124" r="3" fill="#4A9E6B"/>
+    <text x="614" y="129" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Sentinel</text>
+    <text x="602" y="153" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Silent failure detection.</text>
+    <text x="602" y="171" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Always watching.</text>
+    <text x="602" y="197" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● always on</text>
+  </g>
+
+  <!-- Watchdog -->
+  <g class="card-group" id="card-watchdog" data-link="/docs/watchdog">
+    <rect class="card-bg" x="824" y="100" width="228" height="106" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle class="sig-blink" cx="844" cy="124" r="3" fill="#4A9E6B"/>
+    <text x="856" y="129" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Watchdog</text>
+    <text x="844" y="153" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Heartbeat supervision.</text>
+    <text x="844" y="171" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Liveness probes.</text>
+    <text x="844" y="197" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● monitoring</text>
+  </g>
+
+  <!-- Agent911 -->
+  <g class="card-group" id="card-agent911" data-link="/docs/agent911">
+    <rect class="card-bg" x="1066" y="100" width="228" height="106" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle cx="1086" cy="124" r="3" fill="#C0392B"/>
+    <text x="1098" y="129" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Agent911</text>
+    <text x="1086" y="153" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Recovery cockpit.</text>
+    <text x="1086" y="171" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Read-only. 2am tool.</text>
+    <text x="1086" y="197" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#C0392B">● incident</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════
+       COMPACT SUPPORTING ROW — 3 cards
+       y=218  height=52
+       x: 340, 654, 968   width: 300   gap: 14
+  ══════════════════════════════════════════════ -->
+
+  <!-- InfraWatch (formerly DriftGuard) -->
+  <g class="card-group" id="card-infrawatch" data-link="/docs/infrawatch">
+    <rect class="card-bg" x="340" y="218" width="300" height="52" rx="5"
+          fill="#272D33" stroke="#343C44" stroke-width="1"/>
+    <circle cx="358" cy="238" r="2.5" fill="#4A9E6B"/>
+    <text x="368" y="242" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          font-weight="500" fill="#C8D4E0">InfraWatch</text>
+    <text x="358" y="259" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#7A8EA0">Infrastructure drift detection.</text>
+  </g>
+
+  <!-- Lazarus -->
+  <g class="card-group" id="card-lazarus" data-link="/docs/lazarus">
+    <rect class="card-bg" x="654" y="218" width="300" height="52" rx="5"
+          fill="#272D33" stroke="#343C44" stroke-width="1"/>
+    <circle cx="672" cy="238" r="2.5" fill="#4A9E6B"/>
+    <text x="682" y="242" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          font-weight="500" fill="#C8D4E0">Lazarus</text>
+    <text x="672" y="259" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#7A8EA0">Backup readiness. Valid restore.</text>
+  </g>
+
+  <!-- SphinxGate -->
+  <g class="card-group" id="card-sphinxgate" data-link="/docs/sphinxgate">
+    <rect class="card-bg" x="968" y="218" width="326" height="52" rx="5"
+          fill="#272D33" stroke="#343C44" stroke-width="1"/>
+    <circle cx="986" cy="238" r="2.5" fill="#4A9E6B"/>
+    <text x="996" y="242" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          font-weight="500" fill="#C8D4E0">SphinxGate</text>
+    <text x="986" y="259" font-family="Inter,-apple-system,sans-serif" font-size="11"
+          fill="#7A8EA0">Policy &amp; routing control.</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════
+       TRIAGE — FULL-WIDTH FOUNDATION BAR
+       y=282  height=72
+  ══════════════════════════════════════════════ -->
+  <g class="card-group" id="card-triage" data-link="https://github.com/acmeagentsupply/triage"
+     filter="url(#triage-glow)">
+    <rect class="card-bg" x="340" y="282" width="954" height="72" rx="6"
+          fill="url(#triageBarGrad)" stroke="#D98A2B" stroke-width="1.8"/>
+
+    <!-- Left: name + tag -->
+    <circle class="sig-blink" cx="364" cy="318" r="4" fill="#D98A2B"/>
+    <text x="380" y="324" font-family="Inter,-apple-system,sans-serif" font-size="18"
+          font-weight="600" fill="#D98A2B">Triage</text>
+    <rect x="454" y="307" width="130" height="19" rx="3" fill="#241C08"/>
+    <text x="519" y="320" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#D98A2B" text-anchor="middle" letter-spacing="0.1em">OSS · FOUNDATION</text>
+
+    <!-- Center: tagline -->
+    <text x="817" y="313" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#C09840" text-anchor="middle">First-response diagnostics. Works when OpenClaw doesn't.</text>
+    <text x="817" y="334" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#8A6020" text-anchor="middle">triage --self-test &amp;&amp; triage</text>
+
+    <!-- Right: CTA -->
+    <rect x="1160" y="300" width="120" height="34" rx="4" fill="#D98A2B"/>
+    <text x="1220" y="322" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          font-weight="600" fill="#18202A" text-anchor="middle">Run Triage →</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════════
+       BOTTOM BAR
+  ══════════════════════════════════════════════ -->
+  <line x1="0" y1="368" x2="1400" y2="368" stroke="#2E363E" stroke-width="1"/>
+  <text x="56" y="382" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 01A · v1-r3</text>
+  <text x="700" y="382" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#3A4E60" text-anchor="middle">We shipped control before we shipped complexity.</text>
+
+</svg>
+</div>
+
+<script>
+  document.querySelectorAll('.card-group[data-link]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => { window.location.href = el.dataset.link; });
+  });
+</script>
+</body>
+</html>
