@@ -11,7 +11,7 @@ const BUNDLES = [
     tier: "Free",
     name: "Diagnostics",
     tools: ["Triage", "RadCheck"],
-    color: "#4A9E6B",
+    color: "#3D8A5C",
     desc: "Start here. Triage captures a read-only proof bundle in seconds. RadCheck scores your stack 0–100. You'll know exactly what's wrong — or that nothing is — before you touch anything.",
     cta: "Run Triage free",
     href: "/docs/triage/overview",
@@ -20,7 +20,7 @@ const BUNDLES = [
     tier: "$5 / mo",
     name: "Runtime",
     tools: ["Sentinel", "Watchdog"],
-    color: "#D98A2B",
+    color: "#B8782A",
     desc: "Sentinel watches for silent failures while your agents run. Watchdog tracks heartbeats and catches the loops, double-runs, and stalls that logs don't surface until it's too late.",
     cta: "Add runtime protection",
     href: "/docs/sentinel/overview",
@@ -29,7 +29,7 @@ const BUNDLES = [
     tier: "$19 / mo",
     name: "Incident Response",
     tools: ["Agent911", "Recall", "Lazarus"],
-    color: "#C0392B",
+    color: "#A83E32",
     desc: "When something breaks at 2am, you open Agent911. Recall gives you manual intervention. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
     cta: "See Incident Response",
     href: "/docs/agent911/snapshot-explained",
@@ -38,7 +38,7 @@ const BUNDLES = [
     tier: "$29 / mo",
     name: "Operator Bundle",
     tools: ["Sentinel", "InfraWatch", "Watchdog", "Lazarus", "Agent911", "Recall"],
-    color: "#7B68EE",
+    color: "#B8782A",
     desc: "The full resilience layer, fully wired. When something breaks, it doesn't wait for you to notice. Detection fires. Readiness confirms. Recovery runs. You get a report.",
     cta: "See the full layer",
     href: "/docs/operator-bundle/overview",
@@ -127,10 +127,10 @@ export default function Home() {
               </div>
               <div className="divide-y divide-[#2A3240]">
                 {[
-                  { state: "Know", line: "What's running. What's at risk. What changed overnight.", color: "#4A9E6B" },
-                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing goes silent.", color: "#D98A2B" },
-                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#C44A3A" },
-                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#6C8599" },
+                  { state: "Know", line: "What's running. What's at risk. What changed overnight.", color: "#3D8A5C" },
+                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing goes silent.", color: "#B8782A" },
+                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#A83E32" },
+                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#5A7080" },
                 ].map((item) => (
                   <div key={item.state} className="flex items-start gap-4 px-5 py-4">
                     <div

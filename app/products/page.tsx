@@ -25,11 +25,12 @@ const PRODUCTS = [
   { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission",     desc: "Task-aware model routing. Fix the economics." },
 ];
 
+// Muted palette — matches topology hex marker colors at ~88% opacity over dark bg
 const BUNDLE_COLOR: Record<string, string> = {
-  "Diagnostics":    "#4A9E6B",
-  "Operator Bundle":"#D98A2B",
-  "Resilience":     "#D98A2B",
-  "Access Control": "#6C8599",
+  "Diagnostics":    "#3D8A5C",
+  "Operator Bundle":"#B8782A",
+  "Resilience":     "#B8782A",
+  "Access Control": "#5A7080",
   "Coming Soon":    "#3A4048",
 };
 
@@ -52,7 +53,7 @@ export default function ProductsPage() {
             <span className="text-[#9AA3AD] font-medium mr-3">Products</span>
 
             {/* Diagnostics group */}
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#4A9E6B] mr-2">Diagnostics</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#3D8A5C] mr-2">Diagnostics</span>
             {PRODUCTS.filter(p => p.bundle === "Diagnostics").map((p) => (
               <Link key={p.name} href={p.href} className="text-[#6A7A88] hover:text-[#E6E6E6] transition mr-3">{p.name}</Link>
             ))}
@@ -61,7 +62,7 @@ export default function ProductsPage() {
             <span className="text-[#2A3440] mr-3">|</span>
 
             {/* Resilience group */}
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#D98A2B] mr-2">Resilience</span>
+            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#B8782A] mr-2">Resilience</span>
             {PRODUCTS.filter(p => p.bundle === "Operator Bundle" || p.bundle === "Resilience").map((p) => (
               <Link key={p.name} href={p.href} className="text-[#6A7A88] hover:text-[#E6E6E6] transition mr-3">{p.name}</Link>
             ))}
@@ -132,9 +133,9 @@ export default function ProductsPage() {
           {/* Bundle quick-reference */}
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {[
-              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                             color: "#4A9E6B" },
-              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#D98A2B" },
-              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                    color: "#6C8599" },
+              { name: "Diagnostics",     price: "Free",    tools: "Triage + RadCheck",                                             color: "#3D8A5C" },
+              { name: "Operator Bundle", price: "$29/mo",  tools: "Sentinel + InfraWatch + Watchdog + Lazarus + Agent911 + Recall", color: "#B8782A" },
+              { name: "Access Control",  price: "TBD",     tools: "SphinxGate",                                                    color: "#5A7080" },
             ].map((b) => (
               <div key={b.name} className="rounded-[6px] border border-[#2E3640] bg-[#1E2630] px-4 py-3"
                 style={{ borderTopColor: b.color, borderTopWidth: "2px" }}>

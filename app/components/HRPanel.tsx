@@ -133,18 +133,18 @@ export default function HRPanel() {
   const latest = items[0];
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9000]">
+    <div className="fixed bottom-6 right-6 z-[9000] w-[320px]">
       {/* Expanded panel — absolutely anchored above the trigger bar, never shifts layout */}
       {expanded && (
         <div
-          className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-zinc-700 bg-zinc-900/98 shadow-2xl shadow-black/70"
+          className="absolute bottom-[calc(100%+8px)] left-0 right-0 overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-[#2A3848] bg-[#161A1E]/98 shadow-2xl shadow-black/70"
           style={{ maxHeight: "480px" }}
         >
           {/* Panel header */}
-          <div className="border-b border-zinc-800 bg-zinc-950 px-4 py-4">
+          <div className="border-b border-[#2A3848] bg-[#111518] px-4 py-4">
             <div className="flex items-start justify-between gap-2">
               <div>
-                <div className="text-[11px] uppercase tracking-[0.36em] text-amber-400">
+                <div className="text-[11px] uppercase tracking-[0.36em]" style={{ color: "#B8782A" }}>
                   Human Resources
                 </div>
                 <div className="mt-0.5 text-sm font-semibold text-zinc-200">
@@ -180,7 +180,7 @@ export default function HRPanel() {
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`rounded-xl border border-zinc-800/80 bg-zinc-900/60 px-3 py-3 ${
+                  className={`rounded-xl border border-[#2A3848] bg-[#1A1F24]/60 px-3 py-3 ${
                     index === 0 ? "acme-feed-in" : ""
                   }`}
                 >
@@ -198,7 +198,7 @@ export default function HRPanel() {
                     Gear:{" "}
                     <a
                       href={item.anchor}
-                      className="text-amber-300 transition hover:text-amber-200"
+                      className="transition" style={{ color: "#B8782A" }}
                     >
                       {item.tool} →
                     </a>
@@ -214,7 +214,7 @@ export default function HRPanel() {
       {!expanded && (
         <button
           onClick={handleExpand}
-          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-amber-400/40 hover:bg-zinc-900"
+          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-[#2A3848] bg-[#161A1E]/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-[#B8782A]/40 hover:bg-[#1A1F24]"
         >
           {/* Pulse dot */}
           <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center live-pulse">
@@ -222,7 +222,7 @@ export default function HRPanel() {
           </span>
 
           <div className="flex flex-col items-start gap-0.5">
-            <div className="text-[10px] uppercase tracking-[0.36em] text-amber-400">
+            <div className="text-[10px] uppercase tracking-[0.36em]" style={{ color: "#B8782A" }}>
               Human Resources
             </div>
             {latest && (
