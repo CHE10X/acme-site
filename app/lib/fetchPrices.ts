@@ -14,16 +14,17 @@ export type PriceMap = Record<string, string>; // productKey → display string 
 
 /** Hardcoded fallback — used when Stripe is unconfigured or unreachable */
 export const PRICE_FALLBACKS: PriceMap = {
-  sentinel: "$5",
-  "operator-kit": "$5",
-  agent911: "$19",
-  sphinxgate: "TBD",       // No confirmed price — access control layer, sold separately
-  infrawatch: "Bundle",    // Included in Operator Bundle only — not sold standalone
-  // driftguard: REMOVED 2026-03-18 — renamed InfraWatch, bundled with Operator Bundle
-  transmission: "",             // Coming soon — no price displayed
-  watchdog: "$5",          // Confirmed core tier alongside Sentinel
-  // findmyagent: REMOVED 2026-03-18 — deprecated, folded into recall status --watch
-  lazarus: "$0",           // Included with Agent911
+  sentinel: "$5",           // ✅ confirmed — Stripe price_1T6wUr2YB5gO0VSavbJuWJfu
+  "operator-kit": "$29",    // updated to match Operator Bundle
+  agent911: "$19",          // ✅ confirmed
+  sphinxgate: "$1",         // ✅ confirmed — Stripe price_1T6wW72YB5gO0VSath6gWdwp
+  infrawatch: "Bundle",     // included in Operator Bundle only — SKU retired 2026-03-18
+  // driftguard: REMOVED — renamed InfraWatch
+  transmission: "",         // coming soon — no price
+  // watchdog: RETIRED 2026-03-18 — folds into Sentinel bundle; SKU prod_U58SANlEPHonBS archived
+  // lazarus: RETIRED standalone 2026-03-18 — free, included with Agent911; SKU prod_U56pnIIsyz4nxl archived
+  // findmyagent: REMOVED 2026-03-18 — deprecated
+  "operator-bundle": "$29", // ✅ confirmed — new price_1TCVKY2YB5gO0VSac5Hseo29
   free: "$0",
 };
 
