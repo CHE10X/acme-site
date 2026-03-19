@@ -133,12 +133,12 @@ export default function HRPanel() {
   const latest = items[0];
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9000] w-[320px]">
+    <div className="fixed bottom-6 right-6 z-[9000]" style={{ width: "360px" }}>
       {/* Expanded panel — absolutely anchored above the trigger bar, never shifts layout */}
       {expanded && (
         <div
-          className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-[#2A3848] shadow-2xl shadow-black/70"
-          style={{ maxHeight: "480px", backgroundColor: "rgba(22,26,30,0.99)" }}
+          className="absolute bottom-[calc(100%+8px)] right-0 overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-[#2A3848] shadow-2xl shadow-black/70"
+          style={{ width: "360px", maxHeight: "480px", backgroundColor: "rgba(22,26,30,0.99)" }}
         >
           {/* Panel header */}
           <div className="border-b border-[#2A3848] bg-[#111518] px-4 py-4">
@@ -214,8 +214,8 @@ export default function HRPanel() {
       {!expanded && (
         <button
           onClick={handleExpand}
-          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-[#2A3848] px-4 py-3 shadow-xl shadow-black/50 transition duration-150"
-          style={{ backgroundColor: "rgba(22,26,30,0.96)" }}
+          className="group flex items-center gap-3 rounded-2xl border border-[#2A3848] px-4 py-3 shadow-xl shadow-black/50 transition duration-150"
+          style={{ width: "360px", backgroundColor: "rgba(22,26,30,0.96)" }}
         >
           {/* Pulse dot */}
           <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center live-pulse">
