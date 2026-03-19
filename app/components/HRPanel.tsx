@@ -137,7 +137,7 @@ export default function HRPanel() {
       {/* Expanded panel — absolutely anchored above the trigger bar, never shifts layout */}
       {expanded && (
         <div
-          className="absolute bottom-[calc(100%+8px)] right-0 w-[380px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-zinc-700 bg-zinc-900/98 shadow-2xl shadow-black/70"
+          className="absolute bottom-[calc(100%+8px)] right-0 w-[320px] overflow-hidden rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl border border-zinc-700 bg-zinc-900/98 shadow-2xl shadow-black/70"
           style={{ maxHeight: "480px" }}
         >
           {/* Panel header */}
@@ -214,7 +214,7 @@ export default function HRPanel() {
       {!expanded && (
         <button
           onClick={handleExpand}
-          className="group flex w-[380px] items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-amber-400/40 hover:bg-zinc-900"
+          className="group flex w-[320px] items-center gap-3 rounded-2xl border border-zinc-700 bg-zinc-900/95 px-4 py-3 shadow-xl shadow-black/50 transition duration-150 hover:border-amber-400/40 hover:bg-zinc-900"
         >
           {/* Pulse dot */}
           <span className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center live-pulse">
