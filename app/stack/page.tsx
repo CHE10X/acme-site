@@ -38,7 +38,7 @@ export default function StackPage() {
       {/* Diagram — full width */}
       <div id="v1" className="w-full">
         <iframe
-          src="/diagrams/acme-stack-v1-r2.html"
+          src="/diagrams/operator-system-view-v6.html"
           title="ACME Product Stack — v1 Launch"
           className="w-full border-0"
           style={{ height: "820px", display: "block" }}
