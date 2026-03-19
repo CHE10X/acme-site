@@ -8,20 +8,20 @@ export const metadata: Metadata = {
 
 const PRODUCTS = [
   // Diagnostics
-  { name: "Triage",          bundle: "Diagnostics",     tier: "Free",    command: "triage",                href: "/docs/triage",           desc: "Read-only stack diagnostics. No gateway required." },
+  { name: "Triage",          bundle: "Diagnostics",     tier: "Free",    command: "triage",                href: "/docs/triage/overview",           desc: "Read-only stack diagnostics. No gateway required." },
   { name: "RadCheck",        bundle: "Diagnostics",     tier: "Free",    command: "radcheck",              href: "/docs/radcheck/score-explained", desc: "0–100 reliability score. Surfaces hidden risk." },
   // Operator Bundle — one resilience layer, sold as a unit
-  { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo",  command: "—",                     href: "/docs/operator-bundle",  desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
+  { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo",  command: "—",                     href: "/docs/operator-bundle/overview",  desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
   // Standalone resilience products (entry points into the bundle)
-  { name: "Sentinel",        bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel",         desc: "Always-on silent failure detection." },
-  { name: "Watchdog",        bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog",         desc: "Heartbeat and liveness monitoring." },
-  { name: "Lazarus",         bundle: "Resilience",      tier: "$19/mo",  command: "lazarus --simulate",    href: "/docs/lazarus",          desc: "Readiness scan. Confirms recovery is possible before it runs." },
+  { name: "Sentinel",        bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel/overview",         desc: "Always-on silent failure detection." },
+  { name: "Watchdog",        bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog/overview",         desc: "Heartbeat and liveness monitoring." },
+  { name: "Lazarus",         bundle: "Resilience",      tier: "$19/mo",  command: "lazarus --simulate",    href: "/docs/lazarus/overview",          desc: "Readiness scan. Confirms recovery is possible before it runs." },
   { name: "Agent911",        bundle: "Resilience",      tier: "$19/mo",  command: "agent911",              href: "/docs/agent911/snapshot-explained", desc: "Recovery cockpit. Open this at 2am." },
-  { name: "Recall",          bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall",           desc: "Manual fleet intervention. Ambient presence awareness." },
+  { name: "Recall",          bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall/overview",           desc: "Manual fleet intervention. Ambient presence awareness." },
   // Access Control — separate from resilience layer
-  { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate",       desc: "Policy enforcement. Governs what can run." },
+  { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate/overview",       desc: "Policy enforcement. Governs what can run." },
   // Coming soon
-  { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission",     desc: "Task-aware model routing. Fix the economics." },
+  { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission/overview",     desc: "Task-aware model routing. Fix the economics." },
 ];
 
 // Muted palette — matches topology hex marker colors at ~88% opacity over dark bg

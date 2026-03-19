@@ -150,35 +150,39 @@ export default async function PricingPage() {
             <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
               {/* Sentinel */}
-              <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5">
+              <article className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5">
                 <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD]">Detection</div>
                 <h4 className="mt-2 text-[20px] font-semibold text-[#E6E6E6]">Sentinel</h4>
                 <p className="mt-2 text-[14px] text-[#C7CDD4]">Continuous silent failure detection. The always-on layer.</p>
                 <PriceLine price={prices.sentinel} />
-                <PricingCheckoutButton
-                  productKey="sentinel"
-                  priceLabel={`${prices.sentinel} / month`}
-                  fallbackUrl={getCheckoutPaymentLink("sentinel")}
-                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
-                >
-                  Subscribe
-                </PricingCheckoutButton>
+                <div className="mt-auto">
+                  <PricingCheckoutButton
+                    productKey="sentinel"
+                    priceLabel={`${prices.sentinel} / month`}
+                    fallbackUrl={getCheckoutPaymentLink("sentinel")}
+                    className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                  >
+                    Subscribe
+                  </PricingCheckoutButton>
+                </div>
               </article>
 
               {/* SphinxGate */}
-              <article className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5">
+              <article className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#2C3238] p-5">
                 <div className="text-[13px] uppercase tracking-[0.2em] text-[#9AA3AD]">Access Control</div>
                 <h4 className="mt-2 text-[20px] font-semibold text-[#E6E6E6]">SphinxGate</h4>
                 <p className="mt-2 text-[14px] text-[#C7CDD4]">Policy enforcement for model routing. Lane discipline.</p>
                 <PriceLine price={prices.sphinxgate} />
-                <PricingCheckoutButton
-                  productKey="sphinxgate"
-                  priceLabel={`${prices.sphinxgate} / month`}
-                  fallbackUrl={getCheckoutPaymentLink("sphinxgate")}
-                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
-                >
-                  Add
-                </PricingCheckoutButton>
+                <div className="mt-auto">
+                  <PricingCheckoutButton
+                    productKey="sphinxgate"
+                    priceLabel={`${prices.sphinxgate} / month`}
+                    fallbackUrl={getCheckoutPaymentLink("sphinxgate")}
+                    className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                  >
+                    Add
+                  </PricingCheckoutButton>
+                </div>
               </article>
 
               {/* Transmission — coming soon */}

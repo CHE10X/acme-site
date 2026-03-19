@@ -79,9 +79,9 @@ export default function Home() {
             <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
               Field Supply Division
             </div>
-            <div className="ml-auto">
-              <HRInline />
-            </div>
+          </div>
+          <div className="flex justify-end mb-3">
+            <HRInline />
           </div>
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
