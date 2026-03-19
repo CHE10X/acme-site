@@ -65,10 +65,12 @@ export default async function DocsArticlePage({
   const { title, body } = parseFrontmatter(raw);
   const htmlContent = await marked(body, { async: true });
 
-  const breadcrumbs = slug.map((segment, i) => ({
+  // Drop trailing "overview" segment — it's redundant in the breadcrumb
+  const breadcrumbSlug = slug[slug.length - 1] === "overview" ? slug.slice(0, -1) : slug;
+  const breadcrumbs = breadcrumbSlug.map((segment, i) => ({
     label: segment.replace(/-/g, " "),
-    href: "/docs/" + slug.slice(0, i + 1).join("/"),
-    isLast: i === slug.length - 1,
+    href: "/docs/" + breadcrumbSlug.slice(0, i + 1).join("/"),
+    isLast: i === breadcrumbSlug.length - 1,
   }));
 
   return (
@@ -84,10 +86,10 @@ export default async function DocsArticlePage({
           </Link>
           <span className="text-[#3A4048]">/</span>
           <Link
-            href="/docs"
+            href="/products"
             className="text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]"
           >
-            Docs
+            Products
           </Link>
           {breadcrumbs.map((crumb) => (
             <span key={crumb.href} className="flex items-center gap-2">
