@@ -7,12 +7,15 @@ export default function SupportPage() {
 
         {/* Hero */}
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-6 py-6">
-          <div className="text-[10px] uppercase tracking-[0.4em] text-[#B8782A]">Support</div>
+          <div className="text-[10px] uppercase tracking-[0.4em] text-[#B8782A]">ACME Product Support</div>
           <h1 className="mt-2 text-[34px] font-semibold text-[#E6E6E6]">
-            When something feels off
+            Having a problem with an ACME product?
           </h1>
           <p className="mt-3 max-w-[60ch] text-[16px] leading-7 text-[#9AA3AD]">
-            Start with evidence. Run a support bundle, then send it with a short description of what you observed.
+            We support our products: Triage, RadCheck, Sentinel, Watchdog, Lazarus, Agent911, and Recall. If something isn&apos;t working as expected, we want to know.
+          </p>
+          <p className="mt-2 max-w-[60ch] text-[14px] leading-6 text-[#4A5E70]">
+            General OpenClaw troubleshooting is outside our scope — for that, the <a href="https://discord.com/invite/clawd" target="_blank" rel="noopener noreferrer" className="underline hover:text-[#9AA3AD] transition-colors">OpenClaw community</a> is the right place.
           </p>
           <div className="mt-5 flex flex-wrap items-center gap-3">
             <Link
