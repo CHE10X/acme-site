@@ -75,10 +75,10 @@ export default async function PricingPage() {
                 lines={["Triage — works when OpenClaw doesn't", "RadCheck — reliability score 0–100"]}
               />
               <Link
-                href="/install"
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:border-[#9AA3AD]"
+                href="/checkout?product=triage-radcheck-free"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#E6E6E6] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#D0D0D0]"
               >
-                Start Free
+                Get Started — Free
               </Link>
             </article>
 
@@ -137,7 +137,7 @@ export default async function PricingPage() {
                 productKey="operator-kit"
                 priceLabel={`${prices["operator-bundle"] ?? "$29"} / month`}
                 fallbackUrl={getCheckoutPaymentLink("operator-kit")}
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg border border-[#4A9E6B] px-4 text-[15px] font-medium text-[#E6E6E6] transition-colors hover:bg-[#1E3A28]"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#4A9E6B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#3D8A5C]"
               >
                 Subscribe
               </PricingCheckoutButton>
