@@ -34,15 +34,6 @@ const BUNDLES = [
     cta: "See Incident Response",
     href: "/docs/agent911/snapshot-explained",
   },
-  {
-    tier: "$29 / mo",
-    name: "Operator Bundle",
-    tools: ["Sentinel", "InfraWatch", "Watchdog", "Lazarus", "Agent911", "Recall"],
-    color: "#5A7080",
-    desc: "The full resilience layer, fully wired. When something breaks, it doesn't wait for you to notice. Detection fires. Readiness confirms. Recovery runs. You get a report.",
-    cta: "See the full layer",
-    href: "/docs/operator-bundle/overview",
-  },
 ];
 
 const OBSERVE_SIGNALS = [
