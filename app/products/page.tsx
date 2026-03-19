@@ -39,23 +39,25 @@ export default function ProductsPage() {
       <main>
 
         {/* ── ACME Stack diagram hero ── */}
-        <div className="w-full border-b border-[#2E3640] bg-[#1A2028] overflow-hidden" style={{ height: "820px" }}>
-          <iframe
-            src="/diagrams/acme-stack-v7.html"
-            title="ACME Reliability Stack — product family"
-            scrolling="no"
-            style={{ width: "100%", height: "100%", border: "none", display: "block", overflow: "hidden" }}
-            loading="eager"
-          />
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 pt-8 pb-0">
+          <div className="border border-[#2E3640] rounded-[6px] bg-[#1A2028] overflow-hidden" style={{ height: "820px" }}>
+            <iframe
+              src="/diagrams/acme-stack-v7.html"
+              title="ACME Reliability Stack — product family"
+              scrolling="no"
+              style={{ width: "100%", height: "100%", border: "none", display: "block", overflow: "hidden" }}
+              loading="eager"
+            />
+          </div>
         </div>
 
         {/* ── Separator between diagram and product table ── */}
-        <div className="w-full">
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 mt-6">
           <span className="hazard-shimmer block h-[4px] w-full bg-[repeating-linear-gradient(135deg,rgba(217,138,43,0.5)_0,rgba(217,138,43,0.5)_10px,rgba(21,28,36,0.5)_10px,rgba(21,28,36,0.5)_20px)] bg-[length:24px_24px]" />
         </div>
 
         {/* ── Product table ── */}
-        <div className="px-6 py-12">
+        <div className="mx-auto max-w-[1100px] px-4 sm:px-6 py-12">
           <div className="mb-6 flex items-baseline justify-between gap-4">
             <div>
               <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Product Reference</div>
