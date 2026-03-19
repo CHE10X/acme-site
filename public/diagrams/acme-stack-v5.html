@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME Stack — Reliability Foundation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #1A2028;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .diagram-wrap { width: 100%; }
+    svg .card-bg { transition: stroke 0.14s; }
+    svg .card-group:hover .card-bg { stroke: #D98A2B !important; }
+    svg .card-group[data-link] { cursor: pointer; }
+    @keyframes sigblink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .sig-blink { animation: sigblink 2.6s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="diagram-wrap">
+<svg viewBox="0 0 1400 490"
+     xmlns="http://www.w3.org/2000/svg"
+     role="img"
+     aria-label="ACME Reliability Stack — product family"
+     style="width:100%;display:block;">
+  <desc>ACME Reliability Stack v5. Detection layer (RadCheck, Sentinel, Watchdog, InfraWatch) above Recovery + Control layer (Lazarus, Agent911, Recall, SphinxGate), with triage as the full-width foundation below.</desc>
+
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#252C32"/>
+      <stop offset="50%"  stop-color="#242A30"/>
+      <stop offset="100%" stop-color="#1F252B"/>
+    </linearGradient>
+    <linearGradient id="triageBarGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#26200C"/>
+      <stop offset="15%"  stop-color="#2E2412"/>
+      <stop offset="85%"  stop-color="#2E2412"/>
+      <stop offset="100%" stop-color="#26200C"/>
+    </linearGradient>
+    <!-- Amber glow — used on triage bar and triage card -->
+    <filter id="oct-glow" x="-20%" y="-40%" width="140%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.5 0 0 0  0.5 0.3 0 0 0  0 0 0 0 0  0 0 0 0.5 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Triage foundation glow — wide, warm -->
+    <filter id="triage-glow" x="-2%" y="-40%" width="104%" height="180%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feColorMatrix type="matrix"
+        values="1 0.55 0 0 0  0.45 0.25 0 0 0  0 0 0 0 0  0 0 0 0.5 0"
+        in="blur" result="colored"/>
+      <feMerge><feMergeNode in="colored"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="490" fill="url(#bgGrad)"/>
+
+  <!-- ══════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════ -->
+  <text x="56" y="30" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        font-weight="500" fill="#4A5E70" letter-spacing="0.16em">
+    ACME AGENT SUPPLY CO. · ARCHITECTURE REFERENCE
+  </text>
+  <text x="56" y="60" font-family="Inter,-apple-system,sans-serif" font-size="26"
+        font-weight="600" fill="#E0E8F0" letter-spacing="-0.01em">The ACME Stack</text>
+  <text x="56" y="82" font-family="Inter,-apple-system,sans-serif" font-size="15"
+        font-style="italic" fill="#7A9AAD">Intent flows down. Results flow up.</text>
+  <text x="1344" y="60" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#D98A2B" letter-spacing="0.1em" text-anchor="end">v1 · LAUNCH</text>
+  <line x1="0" y1="96" x2="1400" y2="96" stroke="#2E363E" stroke-width="1"/>
+
+  <!-- ══════════════════════════════════════════
+       LAYER DIVIDER between row 1 and row 2
+  ══════════════════════════════════════════ -->
+  <line x1="340" y1="248" x2="1294" y2="248" stroke="#2A3038" stroke-width="1" stroke-dasharray="5,5"/>
+
+  <!-- ══════════════════════════════════════════
+       ROW 1 — DETECT + SCORE  (L1a)
+       Layer label: left column
+       Cards: RadCheck · Sentinel · Watchdog · InfraWatch
+       x: 340, 586, 832, 1048  widths vary to fill to 1294
+  ══════════════════════════════════════════ -->
+
+  <!-- Layer label — row 1 -->
+  <text x="56" y="128" font-family="Inter,-apple-system,sans-serif" font-size="14"
+        font-weight="600" fill="#C8D4E0">Detect &amp; Score</text>
+  <text x="56" y="146" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#5A6E80" letter-spacing="0.1em">L1 · DETECTION</text>
+  <text x="56" y="164" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#9AA3AD">Always on.</text>
+
+  <!-- RadCheck -->
+  <g class="card-group" id="card-radcheck" data-link="/docs/radcheck">
+    <rect class="card-bg" x="340" y="108" width="232" height="126" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))"/>
+    <circle cx="360" cy="132" r="3" fill="#4A9E6B"/>
+    <text x="372" y="137" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">RadCheck</text>
+    <rect x="488" y="122" width="70" height="18" rx="3" fill="#1E2A1E"/>
+    <text x="523" y="135" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#4A9E6B" text-anchor="middle" letter-spacing="0.06em">FREE</text>
+    <text x="360" y="161" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Reliability scoring.</text>
+    <text x="360" y="179" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">0–100. Baseline scan.</text>
+    <text x="360" y="224" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● free tier</text>
+  </g>
+
+  <!-- Sentinel -->
+  <g class="card-group" id="card-sentinel" data-link="/docs/sentinel">
+    <rect class="card-bg" x="586" y="108" width="232" height="126" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))"/>
+    <circle class="sig-blink" cx="606" cy="132" r="3" fill="#4A9E6B"/>
+    <text x="618" y="137" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Sentinel</text>
+    <text x="606" y="161" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Silent failure detection.</text>
+    <text x="606" y="179" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Compaction + disk pressure.</text>
+    <text x="606" y="224" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● always on</text>
+  </g>
+
+  <!-- Watchdog -->
+  <g class="card-group" id="card-watchdog" data-link="/docs/watchdog">
+    <rect class="card-bg" x="832" y="108" width="232" height="126" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))"/>
+    <circle class="sig-blink" cx="852" cy="132" r="3" fill="#4A9E6B"/>
+    <text x="864" y="137" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Watchdog</text>
+    <text x="852" y="161" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Heartbeat supervision.</text>
+    <text x="852" y="179" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Gateway restart on stall.</text>
+    <text x="852" y="224" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● monitoring</text>
+  </g>
+
+  <!-- InfraWatch -->
+  <g class="card-group" id="card-infrawatch" data-link="/docs/infrawatch">
+    <rect class="card-bg" x="1078" y="108" width="216" height="126" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3))"/>
+    <circle cx="1098" cy="132" r="3" fill="#4A9E6B"/>
+    <text x="1110" y="137" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">InfraWatch</text>
+    <text x="1098" y="161" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Config drift detection.</text>
+    <text x="1098" y="179" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">launchd · routes · services.</text>
+    <text x="1098" y="224" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#4A9E6B">● watching</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       ROW 2 — RECOVER + CONTROL  (L1b)
+       Cards: Lazarus · Agent911 · Recall · SphinxGate
+  ══════════════════════════════════════════ -->
+
+  <!-- Layer label — row 2 -->
+  <text x="56" y="276" font-family="Inter,-apple-system,sans-serif" font-size="14"
+        font-weight="600" fill="#C8D4E0">Recover &amp; Control</text>
+  <text x="56" y="294" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#5A6E80" letter-spacing="0.1em">L1 · RESPONSE</text>
+  <text x="56" y="312" font-family="Inter,-apple-system,sans-serif" font-size="12"
+        fill="#9AA3AD">Act on what's found.</text>
+
+  <!-- Lazarus -->
+  <g class="card-group" id="card-lazarus" data-link="/docs/lazarus">
+    <rect class="card-bg" x="340" y="258" width="232" height="110" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle cx="360" cy="280" r="3" fill="#C0392B"/>
+    <text x="372" y="285" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">Lazarus</text>
+    <text x="360" y="309" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Backup readiness check.</text>
+    <text x="360" y="327" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Scores recoverability 0–100.</text>
+    <text x="360" y="360" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#C0392B">lazarus</text>
+  </g>
+
+  <!-- Agent911 -->
+  <g class="card-group" id="card-agent911" data-link="/docs/agent911" filter="url(#oct-glow)">
+    <rect class="card-bg" x="586" y="258" width="232" height="110" rx="6"
+          fill="#222E3C" stroke="#C0392B" stroke-width="1.8"/>
+    <circle class="sig-blink" cx="606" cy="280" r="3.5" fill="#E05040"/>
+    <text x="620" y="285" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="600" fill="#E05040">Agent911</text>
+    <rect x="722" y="271" width="76" height="18" rx="3" fill="#2A1818"/>
+    <text x="760" y="284" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#E05040" text-anchor="middle" letter-spacing="0.06em">COCKPIT</text>
+    <text x="606" y="309" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Recovery cockpit. Read-only.</text>
+    <text x="606" y="327" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Full stack view in 8ms.</text>
+    <text x="606" y="360" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#E05040">agent911</text>
+  </g>
+
+  <!-- Recall -->
+  <g class="card-group" id="card-recall" data-link="/docs/recall" filter="url(#oct-glow)">
+    <rect class="card-bg" x="832" y="258" width="232" height="110" rx="6"
+          fill="#222E3C" stroke="#D98A2B" stroke-width="1.5"/>
+    <circle cx="852" cy="280" r="3.5" fill="#D98A2B"/>
+    <text x="866" y="285" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="600" fill="#D98A2B">Recall</text>
+    <rect x="948" y="271" width="60" height="18" rx="3" fill="#2A2010"/>
+    <text x="978" y="284" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#D98A2B" text-anchor="middle" letter-spacing="0.06em">E-STOP</text>
+    <text x="852" y="309" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Fleet control surface.</text>
+    <text x="852" y="327" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Manual intervention layer.</text>
+    <text x="852" y="360" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#D98A2B">recall stall</text>
+  </g>
+
+  <!-- SphinxGate -->
+  <g class="card-group" id="card-sphinxgate" data-link="/docs/sphinxgate">
+    <rect class="card-bg" x="1078" y="258" width="216" height="110" rx="6"
+          fill="#2C3238" stroke="#3A4048" stroke-width="1"
+          style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.25))"/>
+    <circle cx="1098" cy="280" r="3" fill="#6B88CC"/>
+    <text x="1110" y="285" font-family="Inter,-apple-system,sans-serif" font-size="16"
+          font-weight="500" fill="#E6E6E6">SphinxGate</text>
+    <rect x="1238" y="271" width="40" height="18" rx="3" fill="#181C2A"/>
+    <text x="1258" y="284" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#6B88CC" text-anchor="middle" letter-spacing="0.06em">L0</text>
+    <text x="1098" y="309" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Policy enforcement.</text>
+    <text x="1098" y="327" font-family="Inter,-apple-system,sans-serif" font-size="13"
+          fill="#9AA3AD">Model routing guardrails.</text>
+    <text x="1098" y="360" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="11"
+          fill="#6B88CC">access control</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       TRIAGE — FULL-WIDTH FOUNDATION BAR
+       Visually heavier than both rows above.
+       filter="url(#triage-glow)" gives it ground-floor presence.
+  ══════════════════════════════════════════ -->
+  <line x1="340" y1="382" x2="1294" y2="382" stroke="#3A2E18" stroke-width="1"/>
+
+  <g class="card-group" id="card-triage" data-link="https://github.com/acmeagentsupply/triage"
+     filter="url(#triage-glow)">
+    <rect class="card-bg" x="340" y="388" width="954" height="76" rx="6"
+          fill="url(#triageBarGrad)" stroke="#D98A2B" stroke-width="2"/>
+
+    <!-- Left: name + OSS tag -->
+    <circle class="sig-blink" cx="368" cy="426" r="4.5" fill="#D98A2B"/>
+    <text x="386" y="432" font-family="Inter,-apple-system,sans-serif" font-size="19"
+          font-weight="700" fill="#D98A2B" letter-spacing="-0.01em">triage</text>
+    <rect x="466" y="415" width="136" height="21" rx="4" fill="#241C08"/>
+    <text x="534" y="430" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="9"
+          fill="#D98A2B" text-anchor="middle" letter-spacing="0.1em">OSS · FOUNDATION</text>
+
+    <!-- Center: tagline -->
+    <text x="817" y="421" font-family="Inter,-apple-system,sans-serif" font-size="14"
+          fill="#C09840" text-anchor="middle">
+      First-response diagnostics. Works when the gateway doesn't.
+    </text>
+    <text x="817" y="442" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="12"
+          fill="#8A6020" text-anchor="middle">triage --self-test &amp;&amp; triage</text>
+
+    <!-- Right: CTA button -->
+    <rect x="1158" y="408" width="128" height="36" rx="5" fill="#D98A2B"/>
+    <text x="1222" y="431" font-family="Inter,-apple-system,sans-serif" font-size="12"
+          font-weight="700" fill="#18202A" text-anchor="middle">Run Triage →</text>
+  </g>
+
+  <!-- ══════════════════════════════════════════
+       BOTTOM BAR
+  ══════════════════════════════════════════ -->
+  <line x1="0" y1="474" x2="1400" y2="474" stroke="#2E363E" stroke-width="1"/>
+  <text x="56" y="486" font-family="'JetBrains Mono','Fira Mono',monospace" font-size="10"
+        fill="#3A4E60" letter-spacing="0.1em">ACME · FIELD SUPPLY DIVISION · SERIAL 01A · v5</text>
+  <text x="700" y="486" font-family="Inter,-apple-system,sans-serif" font-size="11"
+        fill="#3A4E60" text-anchor="middle">The floor everything else rests on.</text>
+
+</svg>
+</div>
+<script>
+  document.querySelectorAll('.card-group[data-link]').forEach(el => {
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', () => { window.location.href = el.dataset.link; });
+  });
+</script>
+</body>
+</html>
