@@ -256,7 +256,7 @@ export default function Home() {
                 style={{ transform: "rotate(5deg)", transformOrigin: "top center", maxWidth: "400px" }}
               >
                 <Image
-                  src="/images/triage-screenshot.png"
+                  src="/images/triage-output.png"
                   alt="Triage output showing system health, reliability score, and protection state"
                   width={400}
                   height={316}
