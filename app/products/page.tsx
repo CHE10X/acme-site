@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Products — ACME Agent Supply Co.",
-  description: "Reliability and diagnostic tools for AI agent operators.",
+  description: "Reliability and diagnostic software for AI agent operators.",
 };
 
 const PRODUCTS = [

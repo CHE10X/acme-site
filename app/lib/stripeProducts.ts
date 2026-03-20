@@ -204,7 +204,21 @@ export function getSuccessHref(productKey: string | null) {
   switch (productKey) {
     case "sentinel":
       return "/docs/sentinel/overview";
+    case "watchdog":
+      return "/docs/watchdog/overview";
+    case "agent911":
+      return "/docs/agent911/snapshot-explained";
+    case "lazarus":
+      return "/docs/lazarus/overview";
+    case "recall":
+      return "/docs/recall/overview";
+    case "operator-bundle":
+      return "/docs/operator-bundle/overview";
+    case "sphinxgate":
+      return "/docs/sphinxgate/overview";
+    case "transmission":
+      return "/docs/transmission/overview";
     default:
-      return "/docs/quickstart/5-minute";
+      return "/docs/triage/overview";
   }
 }

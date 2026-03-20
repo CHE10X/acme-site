@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Get Started Free — ACME Agent Supply Co.",
-  description: "Triage + RadCheck — free tools to diagnose and score your agent stack.",
+  description: "Triage + RadCheck — free software to diagnose and score your agent stack.",
 };
 
 export default function CheckoutFreePage() {
@@ -13,7 +13,7 @@ export default function CheckoutFreePage() {
         <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B] mb-2">Free Access</div>
         <h1 className="text-[28px] font-semibold text-[#E6E6E6]">Triage + RadCheck</h1>
         <p className="mt-3 text-[15px] text-[#9AA3AD]">
-          Two free tools. No payment required. Just install and run.
+          Free to install. No payment required. Just run.
         </p>
 
         <div className="mt-8 rounded-[6px] border border-[#2E3640] bg-[#242A30] p-6 space-y-4">
@@ -30,7 +30,7 @@ export default function CheckoutFreePage() {
         <div className="mt-8 rounded-[6px] border border-[#2E3640] bg-[#1A2028] p-5">
           <div className="text-[11px] uppercase tracking-[0.28em] text-[#5A6E80] mb-3">Terms of Use</div>
           <p className="text-[13px] leading-6 text-[#9AA3AD]">
-            These tools are provided free of charge for personal and commercial use under the{" "}
+            Triage and RadCheck are provided free of charge for personal and commercial use under the{" "}
             <Link href="/legal/terms-of-service" className="text-[#D98A2B] hover:text-[#C47A22] transition">
               ACME Agent Supply Co. Terms of Service
             </Link>

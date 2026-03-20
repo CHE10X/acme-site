@@ -95,7 +95,7 @@ export default function HRInline() {
               <div className="flex items-center gap-4">
                 <div className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
                   <span className="relative inline-flex h-2.5 w-2.5 items-center justify-center live-pulse">
-                    <span className="relative block h-[9px] w-[9px] rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.4)]" />
+                    <span className="relative block h-[9px] w-[9px] rounded-full bg-emerald-400 shadow-[0_0_14px_6px_rgba(52,211,153,0.75)]" />
                   </span>
                   LIVE
                 </div>
@@ -145,7 +145,7 @@ export default function HRInline() {
           className="group flex h-9 w-[200px] items-center gap-2 rounded-lg border border-zinc-700/60 bg-zinc-900/80 px-3 transition hover:border-amber-400/40 hover:bg-zinc-900"
         >
           <span className="relative inline-flex h-2 w-2 shrink-0 live-pulse">
-            <span className="relative block h-[7px] w-[7px] rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.32)]" />
+            <span className="relative block h-[7px] w-[7px] rounded-full bg-emerald-400 shadow-[0_0_12px_5px_rgba(52,211,153,0.7)]" />
           </span>
           <div className="flex min-w-0 flex-1 flex-col items-start">
             <div className="text-[9px] uppercase tracking-[0.3em] text-amber-400 leading-none">Human Resources</div>

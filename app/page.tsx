@@ -78,66 +78,44 @@ export default function Home() {
             <div className="text-[13px] uppercase tracking-[0.3em] text-[#9AA3AD]">
               Field Supply Division
             </div>
-          </div>
-          <div className="flex justify-end mb-3">
-            <HRInline />
+            <div className="ml-auto">
+              <HRInline />
+            </div>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
-            <div className="flex flex-col">
+          {/* Hero: headline + subline + CTA */}
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+            <div>
               <div className="mb-3 text-[13px] uppercase tracking-[0.28em] text-[#B8782A]">Mission Management Software for OpenClaw</div>
               <h1 className="text-[34px] font-semibold leading-tight tracking-tight text-[#E6E6E6] sm:text-[40px] lg:text-[44px]">
-                ACME stabilizes OpenClaw<br />
-                then helps you coordinate<br />
-                and drive agent productivity<br />
-                towards outcomes.
+                Stabilize. Coordinate. Results.
               </h1>
-              <p className="mt-5 text-[15px] font-medium tracking-wide text-[#5A6A78]">
-                Resilience.&nbsp; Cost Control.&nbsp; Outcomes.
+              <p className="mt-5 text-[20px] font-medium tracking-wide text-[#5A6A78] sm:text-[22px]">
+                Make it work (for you)
               </p>
-              <div className="mt-auto pt-6 flex flex-wrap gap-3">
-                <Link
-                  href="/docs/triage/overview"
-                  className="inline-flex items-center gap-2 rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
-                >
-                  Get Started
-                  <svg viewBox="0 0 16 16" className="h-4 w-4 fill-current shrink-0" aria-hidden="true">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-                  </svg>
-                </Link>
-                <a
-                  href="/products"
-                  className="inline-flex items-center rounded-md border border-[#3A4048] px-6 py-3 text-[15px] text-[#E6E6E6] transition hover:border-[#D98A2B] hover:bg-[#2C3238]"
-                >
-                  View the Stack
-                </a>
-              </div>
             </div>
+            <div className="shrink-0">
+              <Link
+                href="/docs/triage/overview"
+                className="inline-flex items-center justify-center gap-2 h-9 w-[200px] rounded-lg border border-[#D98A2B]/70 bg-[#D98A2B]/25 px-3 text-[12px] font-medium tracking-wide text-[#E8A040] transition hover:bg-[#D98A2B]/40 hover:border-[#E8A040]/90 hover:text-[#F0B050]"
+              >
+                Get Started
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 fill-current shrink-0" aria-hidden="true">
+                  <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+              </Link>
+            </div>
+          </div>
 
-            <aside className="rounded-[6px] border border-[#3A4048] bg-[#161A1E] overflow-hidden">
-              <div className="border-b border-[#3A4048] bg-[#1A2028] px-5 py-4">
-                <div className="text-[10px] uppercase tracking-[0.36em] text-[#5A6E80]">Operator Touch Surface</div>
-                <div className="mt-1 text-[15px] font-semibold text-[#E6E6E6]">Your command layer.</div>
-              </div>
-              <div className="divide-y divide-[#2A3240]">
-                {[
-                  { state: "Know", line: "What's running. What's at risk. What changed overnight.", color: "#3D8A5C" },
-                  { state: "Protect", line: "Guardrails on. Watchdog live. Nothing goes silent.", color: "#B8782A" },
-                  { state: "Recover", line: "Something broke. You have a playbook. Use it.", color: "#A83E32" },
-                  { state: "Lead", line: "Stack is stable. Now give your agents something real to do.", color: "#5A7080" },
-                ].map((item) => (
-                  <div key={item.state} className="flex items-start gap-4 px-5 py-4">
-                    <div
-                      className="mt-0.5 w-16 shrink-0 text-[11px] font-semibold uppercase tracking-[0.22em]"
-                      style={{ color: item.color }}
-                    >
-                      {item.state}
-                    </div>
-                    <div className="text-[14px] leading-6 text-[#9AA3AD]">{item.line}</div>
-                  </div>
-                ))}
-              </div>
-            </aside>
+          {/* Stack hint — landscape, top gap matches section padding so all four sides are equal */}
+          <div className="mt-6 md:mt-8 rounded-[6px] overflow-hidden border border-[#2E3848]" style={{ aspectRatio: "1100/200" }}>
+            <iframe
+              src="/diagrams/stack-hint.html"
+              title="The ACME Stack — click to view full product architecture"
+              scrolling="no"
+              style={{ width: "100%", height: "100%", border: "none", display: "block" }}
+              loading="eager"
+            />
           </div>
         </section>
 
@@ -216,10 +194,7 @@ export default function Home() {
                 Works when OpenClaw doesn&apos;t.
               </h2>
               <p className="mt-3 text-[16px] leading-7 text-[#9AA3AD]">
-                When your gateway is degraded, <code className="text-[#D98A2B]">openclaw doctor</code> can&apos;t answer — it&apos;s asking the sick system what&apos;s wrong. Triage reads directly from the filesystem. No gateway required. Run it when the system itself is the suspect.
-              </p>
-              <p className="mt-3 text-[15px] leading-6 text-[#9AA3AD]">
-                And it doesn&apos;t just confirm broken things. <code className="text-[#D98A2B]">protection_state AT_RISK</code> means Triage caught a risk condition before anything failed. That&apos;s the part worth seeing.
+                Reads directly from the filesystem. No gateway required. Run it when the system itself is the suspect — or when <code className="text-[#D98A2B]">protection_state AT_RISK</code> and nothing has broken yet.
               </p>
               <div className="mt-5 space-y-3">
                 {[
@@ -271,7 +246,7 @@ export default function Home() {
             When Something Breaks
           </h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[#9AA3AD]">
-            Most tools tell you something broke. ACME tells you what to do about it — in order, with evidence, without guessing.
+            ACME tells you what to do — in order, with evidence, without guessing.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             {[
@@ -353,12 +328,12 @@ export default function Home() {
                 Early access, release notes, and operator field updates. No noise.
               </p>
             </div>
-            <a
-              href="mailto:chip.ernst@gmail.com?subject=ACME%20release%20updates"
+            <Link
+              href="/contact"
               className="shrink-0 inline-flex items-center justify-center rounded-md border border-[#3A4858] px-6 py-3 text-[14px] font-medium text-[#C8D4E0] transition hover:border-[#D98A2B] hover:text-[#D98A2B]"
             >
-              chip.ernst@gmail.com →
-            </a>
+              Contact us →
+            </Link>
           </div>
         </section>
 

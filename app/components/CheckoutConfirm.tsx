@@ -16,7 +16,7 @@ type CheckoutConfirmProps = {
 };
 
 const TRUST_BULLETS = [
-  "You stay in control - tools run locally in your environment",
+  "You stay in control — runs locally in your environment",
   "No telemetry by default - evidence only when you choose to share",
   "Observational posture - no autonomous changes",
   "Cancel anytime - manage billing in Stripe's secure portal",

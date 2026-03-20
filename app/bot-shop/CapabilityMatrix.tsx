@@ -157,7 +157,7 @@ export default function CapabilityMatrix() {
           <thead className="bg-white/5 text-zinc-300">
             <tr>
               {[
-                "Tool",
+                "Product",
                 "Primary function",
                 "Mode",
                 "Outputs",
