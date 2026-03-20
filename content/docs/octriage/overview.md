@@ -3,7 +3,7 @@ title: triage (formerly OCTriage)
 redirect: /docs/triage/overview
 ---
 
-# triage
+# Triage
 
 > **Note:** OCTriage has been renamed to `triage`. This page will redirect. See the [triage documentation](/docs/triage/overview) for current content.
 

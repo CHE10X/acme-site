@@ -1,30 +1,14 @@
 ---
-title: triage
+title: Triage
 ---
 
-# triage
+# Triage
 
-`triage` is an open-source diagnostic tool for OpenClaw operators. Run it first — before any recovery action — to capture a deterministic, read-only proof bundle of system state.
+`triage` is an open-source diagnostic for OpenClaw operators. Run it first — before any recovery action — to capture a deterministic, read-only snapshot of system state.
 
 Your debugging tools run on the system that's broken. When the control plane is unhealthy, native diagnostics are the first to go dark. `triage` runs independently of the stack it's diagnosing.
 
-## Installation
-
-```bash
-curl -fsSL https://acmeagentsupply.com/install/triage | bash
-```
-
-Installs the `triage` command globally. MIT licensed. No Acme account required.
-
-## Usage
-
-```bash
-triage
-```
-
-Runs all collectors and outputs a proof bundle to `~/.openclaw/triage-bundles/`.
-
-## What It Checks
+## What It Reports
 
 | Collector | What It Captures |
 |-----------|-----------------|
@@ -38,29 +22,40 @@ Runs all collectors and outputs a proof bundle to `~/.openclaw/triage-bundles/`.
 
 All checks are **read-only**. No configuration changes. No system modifications.
 
-## Output
+## Usage
 
-`triage` emits a timestamped bundle directory:
-
-```
-~/.openclaw/triage-bundles/YYYY-MM-DD-HH-MM-SS/
-  gateway_status.txt
-  gateway_log_tail.txt
-  gateway_err_tail.txt
-  session_topology.json
-  disk_pressure.txt
-  binary_integrity.txt
-  openclaw_doctor.txt
-  compaction_status.txt
-  fleet_identity.txt
-  manifest.json
+```bash
+triage
 ```
 
-The bundle is your evidence record. Share it with support or Agent911 for automated diagnosis.
+Runs all collectors and writes a timestamped proof bundle to `~/.openclaw/triage-bundles/`. The bundle is your evidence record — share it with support or Agent911 for automated diagnosis.
+
+## Output Files
+
+Each run produces a bundle directory:
+
+- `gateway_status.txt`
+- `gateway_log_tail.txt`
+- `gateway_err_tail.txt`
+- `session_topology.json`
+- `disk_pressure.txt`
+- `binary_integrity.txt`
+- `openclaw_doctor.txt`
+- `compaction_status.txt`
+- `fleet_identity.txt`
+- `manifest.json`
 
 ## Operator Rule
 
 Run `triage` before you touch anything. Once you start changing the system, the state you needed to capture is gone.
+
+## Installation
+
+```bash
+curl -fsSL https://acmeagentsupply.com/install/triage | bash
+```
+
+Installs the `triage` command globally. MIT licensed. No Acme account required.
 
 ## Current Version
 
@@ -68,12 +63,12 @@ Run `triage` before you touch anything. Once you start changing the system, the 
 
 ---
 
-## Triage for Acme
+## Triage Pro
 
-The open-source edition is the foundation. **Triage for Acme** extends it with deep integrations into the Acme reliability stack:
+The open-source edition is the foundation. **Triage Pro** extends it with deep integrations into the Acme reliability stack:
 
-| Feature | OSS | Triage for Acme |
-|---------|-----|-----------------|
+| Feature | OSS | Triage Pro |
+|---------|-----|------------|
 | Gateway health | ✅ | ✅ |
 | Session topology | ✅ | ✅ |
 | Disk pressure | ✅ | ✅ |
@@ -89,4 +84,4 @@ The open-source edition is the foundation. **Triage for Acme** extends it with d
 
 `triage -watch` provides a continuously-refreshing live dashboard showing reliability score, 24h RadCheck trend, active agent count, and protection state. Requires an Acme account.
 
-Advanced monitoring and Acme stack integration — [contact us](https://acmeagentsupply.com/contact) to enable Triage for Acme.
+[Contact us](https://acmeagentsupply.com/contact) to enable Triage Pro.
