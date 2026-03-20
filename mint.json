@@ -2,8 +2,8 @@
   "$schema": "https://mintlify.com/schema.json",
   "name": "ACME Agent Supply",
   "logo": {
-    "dark": "/docs/logo/dark.svg",
-    "light": "/docs/logo/light.svg"
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
   },
   "favicon": "/docs/favicon.svg",
   "colors": {

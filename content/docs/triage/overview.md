@@ -64,7 +64,7 @@ Run `triage` before you touch anything. Once you start changing the system, the 
 
 ## Current Version
 
-`triage` v0.1.3 — see [release notes](https://github.com/CHE10X/octriageunit/releases).
+`triage` v0.1.3 — see [release notes](https://github.com/acmeagentsupply/triage/releases).
 
 ---
 

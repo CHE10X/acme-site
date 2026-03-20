@@ -41,32 +41,18 @@ export const OPERATOR_UTILITY_CARDS: UtilityCard[] = [
     ],
     docsHref: "/docs/sentinel/overview",
   },
-  {
-    id: "watchdog",
-    title: "Watchdog",
-    unitLabel: "LIVENESS MONITOR",
-    subtitle: "Know when an agent goes silent before it becomes an incident.",
-    description:
-      "Watchdog supervises heartbeat and liveness signals across your agent fleet. When an agent stops responding, Watchdog flags it before the silence cascades.",
-    flavor: "Liveness confirmed. Or it isn't.",
-    bullets: [
-      "heartbeat supervision across runtimes",
-      "dead-run detection",
-      "cron-safe cadence checks",
-    ],
-    docsHref: "/docs/watchdog/overview",
-  },
+
 ];
 
 export const FIELD_DEVELOPMENT_CARDS = [
   {
-    id: "driftguard",
-    title: "DriftGuard",
-    subtitle: "Monitoring long-horizon drift under live load.",
+    id: "infrawatch",
+    title: "InfraWatch",
+    subtitle: "Infrastructure config watching under live load.",
     bullets: [
-      "behavioral drift snapshots",
-      "policy deviation flags",
-      "run-to-run delta tracking",
+      "daemon config change detection",
+      "ingest chain integrity",
+      "routing drift alerts",
     ],
   },
   {

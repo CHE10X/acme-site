@@ -8,10 +8,10 @@ export type DocsEntry = {
 export const DOCS_ENTRIES: DocsEntry[] = [
   {
     slug: "octriage/overview",
-    title: "OCTriage Overview",
+    title: "Triage Overview",
     summary: "Operator entrypoint for immediate reliability diagnostics.",
     body: [
-      "OCTriage is the first install surface in OpenClaw.",
+      "Triage is the first install surface in OpenClaw.",
       "It reports reliability score, protection state, and evidence bundle status in one run.",
     ],
   },
@@ -110,7 +110,7 @@ export const DOCS_ENTRIES: DocsEntry[] = [
     title: "Support: When Things Feel Off",
     summary: "Evidence-first support workflow for degraded systems.",
     body: [
-      "Begin with OCTriage output and a proof bundle path.",
+      "Begin with Triage output and a proof bundle path.",
       "Attach ORP report context before requesting escalation support.",
     ],
   },

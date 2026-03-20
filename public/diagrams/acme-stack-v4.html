@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACME Reliability Stack — Product Family</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #1A2028; overflow: hidden; }
+    body { display: flex; justify-content: center; align-items: center; }
+    .wrap { width: 100%; }
+    svg { width: 100%; display: block; }
+    .card-group { cursor: pointer; }
+    .card-bg { transition: stroke 0.15s, filter 0.15s; }
+    .card-group:hover .card-bg { stroke: #E0B840 !important; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+    .dot-live { animation: pulse 2.8s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+<svg viewBox="0 0 1440 450" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="ACME Reliability Stack — product family diagram">
+  <desc>ACME Reliability Stack v4. Two rows of four products each (RadCheck, Sentinel, Watchdog, InfraWatch / Lazarus, Agent911, Recall, SphinxGate), with triage as the full-width foundation layer below.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#21282F"/>
+      <stop offset="100%" stop-color="#1A2028"/>
+    </linearGradient>
+    <linearGradient id="triageGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#2A2218"/>
+      <stop offset="50%"  stop-color="#2E2418"/>
+      <stop offset="100%" stop-color="#2A2218"/>
+    </linearGradient>
+    <filter id="triage-glow" x="-4%" y="-20%" width="108%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="b"/>
+      <feColorMatrix type="matrix" values="1 0.5 0 0 0 0.4 0.2 0 0 0 0 0 0 0 0 0 0 0 0.35 0" in="b" result="c"/>
+      <feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="450" fill="url(#bg)"/>
+
+  <!-- ─── HEADER ─── -->
+  <text x="720" y="28" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+        font-size="10" font-weight="500" fill="#3A5068"
+        letter-spacing="0.18em" text-anchor="middle">ACME AGENT SUPPLY CO. · RELIABILITY STACK</text>
+
+  <!-- ─── ROW LABELS ─── -->
+  <!-- Detect + Score label -->
+  <text x="40" y="74" font-family="'SF Mono','Menlo','Consolas',monospace"
+        font-size="9" fill="#3A5878" letter-spacing="0.14em">DETECT + SCORE</text>
+  <!-- Recover + Control label -->
+  <text x="40" y="218" font-family="'SF Mono','Menlo','Consolas',monospace"
+        font-size="9" fill="#3A5878" letter-spacing="0.14em">RECOVER + CONTROL</text>
+
+  <!-- ═══════════════════════════════════════
+       ROW 1 — Detect + Score
+       Cards: RadCheck · Sentinel · Watchdog · InfraWatch
+       x positions: 40, 369, 698, 1027  width: 313
+  ═══════════════════════════════════════ -->
+
+  <!-- RadCheck -->
+  <g class="card-group" data-link="/docs/radcheck/overview">
+    <rect class="card-bg" x="40" y="82" width="313" height="118" rx="7"
+          fill="#222E24" stroke="#3A6B44" stroke-width="1.5"/>
+    <circle class="dot-live" cx="62" cy="108" r="4" fill="#4A9E6B"/>
+    <text x="78" y="114" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#4A9E6B">RadCheck</text>
+    <rect x="190" y="99" width="56" height="18" rx="3" fill="#1E2E20"/>
+    <text x="218" y="112" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="8.5" fill="#4A9E6B" text-anchor="middle" letter-spacing="0.07em">FREE</text>
+    <text x="62" y="140" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Reliability scoring. 0–100.</text>
+    <text x="62" y="158" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Baseline before anything else.</text>
+    <text x="62" y="191" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#4A9E6B">radcheck</text>
+  </g>
+
+  <!-- Sentinel -->
+  <g class="card-group" data-link="/docs/sentinel/overview">
+    <rect class="card-bg" x="369" y="82" width="313" height="118" rx="7"
+          fill="#222E24" stroke="#3A6B44" stroke-width="1.5"/>
+    <circle class="dot-live" cx="391" cy="108" r="4" fill="#4A9E6B"/>
+    <text x="407" y="114" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">Sentinel</text>
+    <text x="391" y="140" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Continuous runtime monitor.</text>
+    <text x="391" y="158" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Silent failure detection.</text>
+    <text x="391" y="191" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#4A9E6B">● always on</text>
+  </g>
+
+  <!-- Watchdog -->
+  <g class="card-group" data-link="/docs/watchdog/overview">
+    <rect class="card-bg" x="698" y="82" width="313" height="118" rx="7"
+          fill="#222E24" stroke="#3A6B44" stroke-width="1.5"/>
+    <circle class="dot-live" cx="720" cy="108" r="4" fill="#4A9E6B"/>
+    <text x="736" y="114" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">Watchdog</text>
+    <text x="720" y="140" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Heartbeat + liveness probes.</text>
+    <text x="720" y="158" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Gateway restart on stall.</text>
+    <text x="720" y="191" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#4A9E6B">● monitoring</text>
+  </g>
+
+  <!-- InfraWatch -->
+  <g class="card-group" data-link="/docs/infrawatch/overview">
+    <rect class="card-bg" x="1027" y="82" width="373" height="118" rx="7"
+          fill="#222E24" stroke="#3A6B44" stroke-width="1.5"/>
+    <circle class="dot-live" cx="1049" cy="108" r="4" fill="#4A9E6B"/>
+    <text x="1065" y="114" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">InfraWatch</text>
+    <text x="1049" y="140" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">Config drift detection.</text>
+    <text x="1049" y="158" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8AA898">launchd · routes · services.</text>
+    <text x="1049" y="191" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#4A9E6B">● watching</text>
+  </g>
+
+
+  <!-- ═══════════════════════════════════════
+       ROW 2 — Recover + Control
+       Cards: Lazarus · Agent911 · Recall · SphinxGate
+  ═══════════════════════════════════════ -->
+
+  <!-- Lazarus -->
+  <g class="card-group" data-link="/docs/lazarus/overview">
+    <rect class="card-bg" x="40" y="226" width="313" height="118" rx="7"
+          fill="#2A2020" stroke="#6B3030" stroke-width="1.5"/>
+    <circle cx="62" cy="252" r="4" fill="#C05858"/>
+    <text x="78" y="258" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">Lazarus</text>
+    <text x="62" y="284" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89898">Backup readiness verification.</text>
+    <text x="62" y="302" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89898">Scores recoverability 0–100.</text>
+    <text x="62" y="335" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#C05858">lazarus</text>
+  </g>
+
+  <!-- Agent911 -->
+  <g class="card-group" data-link="/docs/agent911/overview">
+    <rect class="card-bg" x="369" y="226" width="313" height="118" rx="7"
+          fill="#2A2020" stroke="#C0392B" stroke-width="2"/>
+    <circle class="dot-live" cx="391" cy="252" r="4" fill="#E05040"/>
+    <text x="407" y="258" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E05040">Agent911</text>
+    <rect x="519" y="243" width="72" height="18" rx="3" fill="#2A1818"/>
+    <text x="555" y="256" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="8.5" fill="#E05040" text-anchor="middle" letter-spacing="0.06em">COCKPIT</text>
+    <text x="391" y="284" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89898">Recovery cockpit. Read-only.</text>
+    <text x="391" y="302" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89898">Full stack in 8ms.</text>
+    <text x="391" y="335" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#E05040">agent911</text>
+  </g>
+
+  <!-- Recall -->
+  <g class="card-group" data-link="/docs/recall/overview">
+    <rect class="card-bg" x="698" y="226" width="313" height="118" rx="7"
+          fill="#272218" stroke="#8A5A18" stroke-width="1.5"/>
+    <circle cx="720" cy="252" r="4" fill="#D98A2B"/>
+    <text x="736" y="258" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">Recall</text>
+    <rect x="816" y="243" width="62" height="18" rx="3" fill="#2A1E08"/>
+    <text x="847" y="256" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="8.5" fill="#D98A2B" text-anchor="middle" letter-spacing="0.06em">E-STOP</text>
+    <text x="720" y="284" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89880">Fleet control surface.</text>
+    <text x="720" y="302" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#A89880">Manual intervention layer.</text>
+    <text x="720" y="335" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#D98A2B">recall stall</text>
+  </g>
+
+  <!-- SphinxGate -->
+  <g class="card-group" data-link="/docs/sphinxgate/overview">
+    <rect class="card-bg" x="1027" y="226" width="373" height="118" rx="7"
+          fill="#20222A" stroke="#3A4880" stroke-width="1.5"/>
+    <circle cx="1049" cy="252" r="4" fill="#6B88CC"/>
+    <text x="1065" y="258" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="17" font-weight="600" fill="#E6E6E6">SphinxGate</text>
+    <rect x="1199" y="243" width="58" height="18" rx="3" fill="#181C2A"/>
+    <text x="1228" y="256" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="8.5" fill="#6B88CC" text-anchor="middle" letter-spacing="0.06em">L0</text>
+    <text x="1049" y="284" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8898B8">Policy enforcement.</text>
+    <text x="1049" y="302" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="13" fill="#8898B8">Model routing guardrails.</text>
+    <text x="1049" y="335" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11" fill="#6B88CC">access control</text>
+  </g>
+
+
+  <!-- ═══════════════════════════════════════
+       FOUNDATION — triage (full width)
+  ═══════════════════════════════════════ -->
+  <g class="card-group" id="triage-foundation" data-link="https://github.com/acmeagentsupply/triage"
+     filter="url(#triage-glow)">
+    <rect class="card-bg" x="40" y="362" width="1360" height="68" rx="7"
+          fill="url(#triageGrad)" stroke="#D98A2B" stroke-width="2"/>
+
+    <!-- Left: label + tag -->
+    <circle class="dot-live" cx="70" cy="396" r="4.5" fill="#D98A2B"/>
+    <text x="88" y="402" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="18" font-weight="700" fill="#D98A2B" letter-spacing="-0.01em">triage</text>
+    <rect x="162" y="385" width="130" height="20" rx="4" fill="#241C0C"/>
+    <text x="227" y="399" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="9" fill="#D98A2B" text-anchor="middle" letter-spacing="0.1em">OSS · FOUNDATION</text>
+
+    <!-- Center: tagline -->
+    <text x="720" y="394" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="14" fill="#C8A060" text-anchor="middle" letter-spacing="0.01em">
+          First-response diagnostics. Works when the gateway doesn't.
+    </text>
+    <text x="720" y="414" font-family="'SF Mono','Menlo','Consolas',monospace"
+          font-size="11.5" fill="#8A6830" text-anchor="middle">
+          triage --self-test &amp;&amp; triage
+    </text>
+
+    <!-- Right: CTA -->
+    <rect x="1240" y="378" width="144" height="36" rx="5" fill="#D98A2B"/>
+    <text x="1312" y="401" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+          font-size="12" font-weight="700" fill="#18202A" text-anchor="middle">Run Triage →</text>
+  </g>
+
+</svg>
+</div>
+<script>
+  document.querySelectorAll('.card-group[data-link]').forEach(el => {
+    el.addEventListener('click', () => { window.location.href = el.dataset.link; });
+  });
+</script>
+</body>
+</html>

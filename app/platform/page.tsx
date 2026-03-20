@@ -36,10 +36,11 @@ export default function PlatformPage() {
             Memory Integrity
           </h2>
           <p className="mt-3 text-zinc-300">
-            <span className="font-mono text-amber-300">Elixir</span> and{" "}
-            <span className="font-mono text-amber-300">DriftGuard</span> keep
+            <span className="font-mono text-amber-300">Elixir</span> keeps
             memory state coherent across compaction pressure and runtime churn,
-            reducing drift and rehydration instability.
+            reducing drift and rehydration instability.{" "}
+            <span className="font-mono text-amber-300">InfraWatch</span> detects
+            infrastructure configuration drift in ingest chains, daemon configs, and routing.
           </p>
         </section>
 
@@ -84,7 +85,7 @@ export default function PlatformPage() {
             Operator Surface
           </h2>
           <p className="mt-3 text-zinc-300">
-            Operators use OCTriage and <code>octriage -watch</code> for immediate
+            Operators use Triage and <code>octriage -watch</code> for immediate
             state visibility.
           </p>
           <pre className="mt-4 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-950/90 p-4 text-sm text-zinc-200">
@@ -129,10 +130,10 @@ protection_state: ACTIVE`}
 {`curl -fsSL https://acmeagentsupply.com/install/triage | bash`}
           </pre>
           <Link
-            href="/docs/octriage/overview"
+            href="/docs/triage/overview"
             className="mt-4 inline-flex items-center rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-black transition hover:bg-amber-400"
           >
-            Install OCTriage
+            Install Triage
           </Link>
         </section>
       </div>

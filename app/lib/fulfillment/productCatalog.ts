@@ -10,12 +10,12 @@ const FULFILLMENT_ACTIONS = {
   deliver_radcheck: "deliver_radcheck",
   deliver_sentinel: "deliver_sentinel",
   deliver_sphinxgate: "deliver_sphinxgate",
-  deliver_driftguard: "deliver_driftguard",
+  deliver_infrawatch: "deliver_infrawatch", // renamed from deliver_driftguard 2026-03-18
   deliver_operator_bundle: "deliver_operator_bundle",
   deliver_watchdog: "deliver_watchdog",
   deliver_transmission: "deliver_transmission",
   deliver_lazarus: "deliver_lazarus",
-  deliver_findmyagent: "deliver_findmyagent",
+  // deliver_findmyagent: DEPRECATED 2026-03-18 — folded into Recall watch mode
   deliver_agent911: "deliver_agent911",
   deliver_unknown: "deliver_unknown",
 };
@@ -36,36 +36,29 @@ export const PRODUCT_CATALOG: Record<string, ProductCatalogEntry> = {
     name: "SphinxGate",
     fulfillment: "deliver_sphinxgate",
   },
-  prod_U56nqUJd9LlJqQ: {
-    sku: "driftguard",
-    name: "DriftGuard",
-    fulfillment: "deliver_driftguard",
-  },
+  // prod_U56nqUJd9LlJqQ — InfraWatch standalone SKU retired 2026-03-18
+  // InfraWatch is a bundled component of the Operator Bundle. Not sold standalone.
+  // SKU archived in Stripe. Existing subscribers grandfathered into Operator Bundle.
+  // prod_U56nqUJd9LlJqQ: { sku: "infrawatch", ... }
   prod_U56ukpVLBM5p89: {
     sku: "operator_bundle",
     name: "Operator Bundle",
     fulfillment: "deliver_operator_bundle",
   },
-  prod_U58SANlEPHonBS: {
-    sku: "watchdog",
-    name: "Watchdog",
-    fulfillment: "deliver_watchdog",
-  },
+  // prod_U58SANlEPHonBS — Watchdog RETIRED 2026-03-18
+  // Folds into Sentinel / Operator Bundle. Not sold standalone.
+  // Stripe SKU archived (active: false).
   prod_U56w3PAVw4bT6Y: {
     sku: "transmission",
     name: "Transmission",
     fulfillment: "deliver_transmission",
   },
-  prod_U56pnIIsyz4nxl: {
-    sku: "lazarus",
-    name: "lazarus",
-    fulfillment: "deliver_lazarus",
-  },
-  prod_U56qHeY8Q5fKAy: {
-    sku: "findmyagent",
-    name: "FindMyAgent",
-    fulfillment: "deliver_findmyagent",
-  },
+  // prod_U56pnIIsyz4nxl — Lazarus standalone RETIRED 2026-03-18
+  // Free, included with Agent911. Not sold standalone.
+  // Stripe SKU archived (active: false).
+  // prod_U56qHeY8Q5fKAy: DEPRECATED 2026-03-18 — FindMyAgent folded into Recall watch mode
+  // Stripe SKU retired. Features: live presence, stalled/blocked signals, needs-attention flags
+  // now live in recall status --watch. See ACME_MASTER_DEPENDENCY_MAP.md.
   prod_U56lL9ZkNuz22d: {
     sku: "agent911",
     name: "Agent911",

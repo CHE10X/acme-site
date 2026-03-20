@@ -13,8 +13,12 @@ Sentinel is the always-on detection layer that watches your agent stack while it
 - Monitors for stalled or silent agent behavior during live operation
 - Tracks compaction acceleration and emits disk pressure advisories
 - Maintains a state machine that escalates through four protection levels
+- Emits events to the **Resilience Event Bus (REB)** — the shared event backbone consumed by Lazarus, Agent911, and Bonfire
 - Feeds real-time event context into Agent911 and Watchdog
-- Emits structured alerts that operators and downstream tools can consume
+
+> **Resilience layer position:** Sentinel is the runtime behavior watch surface in the Detection sublayer — alongside InfraWatch (infra config) and Watchdog (process liveness). Together they form the detection layer that triggers readiness and recovery.
+
+> **If running Sentinel standalone:** REB is installed and receiving Sentinel events. To consume those events — triggering readiness scans and recovery — add Lazarus and Agent911, or install the Operator Bundle.
 
 ## What Sentinel Does NOT Do
 

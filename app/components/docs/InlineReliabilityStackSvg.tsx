@@ -6,7 +6,7 @@ export default function InlineReliabilityStackSvg() {
     process.cwd(),
     "public",
     "diagrams",
-    "operator-system-view-v4.html",
+    "operator-system-view-v6.html", // v6: InfraWatch, REB, SphinxGate Layer 0 — 2026-03-18
   );
   const assetMarkup = fs.readFileSync(assetPath, "utf8");
   const svgMatch = assetMarkup.match(/<svg[\s\S]*<\/svg>/i);

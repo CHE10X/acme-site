@@ -11,26 +11,7 @@ ACME is a reliability stack for AI agent operators. The products aren't a bundle
 
 Agent reliability follows a loop. ACME tools map to each phase:
 
-```mermaid
-flowchart LR
-    classDef detect fill:#1B4D3E,stroke:#52B788,color:#d1fae5,rx:8
-    classDef triage fill:#312E81,stroke:#818CF8,color:#e0e7ff,rx:8
-    classDef recover fill:#7C2D12,stroke:#FB923C,color:#ffedd5,rx:8
-    classDef verify fill:#1E3A5F,stroke:#60A5FA,color:#dbeafe,rx:8
-
-    D["🔍 Detect\nRadCheck · Sentinel\nWatchdog · FindMyAgent"]
-    T["📋 Triage\ntriage · DriftGuard"]
-    R["🔧 Recover\nAgent911 · Recall"]
-    V["✅ Verify\nLazarus"]
-
-    D --> T --> R --> V
-    V -.->|"continuous loop"| D
-
-    class D detect
-    class T triage
-    class R recover
-    class V verify
-```
+![The ACME Reliability Loop — Detect → Triage → Recover → Verify, continuous loop via Transmission](/images/reliability-loop.svg)
 
 Every tool has a defined place in this loop. No tool overlaps with another in responsibility. Each handoff is explicit.
 

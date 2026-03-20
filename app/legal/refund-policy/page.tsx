@@ -4,8 +4,8 @@ import path from "path";
 import { marked } from "marked";
 
 export const metadata: Metadata = {
-  title: "Refund Policy — ACME Agent Supply Co.",
-  description: "Refund Policy for ACME Agent Supply Co. products and services.",
+  title: "Customer Service — ACME Agent Supply Co.",
+  description: "Get help, cancel anytime, or request a refund. ACME Agent Supply Co. customer service.",
 };
 
 export default function RefundPolicyPage() {
