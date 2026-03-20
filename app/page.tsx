@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import HRInline from "./components/HRInline";
 import ObserveSignalsSection from "./components/home/ObserveSignalsSection";
-import OperatorUtilityCards from "./components/home/OperatorUtilityCards";
 import OperatorTerrainSection from "./components/home/OperatorTerrainSection";
 import TransitionPanelSection from "./components/home/TransitionPanelSection";
 
@@ -12,7 +11,7 @@ const BUNDLES = [
     name: "Diagnostics",
     tools: ["Triage", "RadCheck"],
     color: "#3D8A5C",
-    desc: "Start here. Triage captures a read-only proof bundle in seconds. RadCheck scores your stack 0–100. You'll know exactly what's wrong — or that nothing is — before you touch anything.",
+    desc: "Start here. Triage diagnoses your stack. RadCheck scores it 0–100.",
     cta: "Run Triage free",
     href: "/docs/triage/overview",
   },
@@ -21,7 +20,7 @@ const BUNDLES = [
     name: "Runtime",
     tools: ["Sentinel", "Watchdog"],
     color: "#B8782A",
-    desc: "Sentinel watches for silent failures while your agents run. Watchdog tracks heartbeats and catches the loops, double-runs, and stalls that logs don't surface until it's too late.",
+    desc: "Sentinel watches for silent failures. Watchdog catches loops, stalls, and double-runs.",
     cta: "Add runtime protection",
     href: "/docs/sentinel/overview",
   },
@@ -30,7 +29,7 @@ const BUNDLES = [
     name: "Incident Response",
     tools: ["Agent911", "Recall", "Lazarus"],
     color: "#A83E32",
-    desc: "When something breaks at 2am, you open Agent911. Recall gives you manual intervention. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
+    desc: "When something breaks at 2am, you open Agent911. Recall and Lazarus are already there.",
     cta: "See Incident Response",
     href: "/docs/agent911/snapshot-explained",
   },
@@ -265,64 +264,6 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Start with Triage
-          </h2>
-          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            Triage is the platform entry point: system diagnostics,
-            reliability scoring, observe signals, and proof bundles.
-          </p>
-          <p className="mt-3 text-[16px] text-[#9AA3AD]">
-            Run Triage to understand system health in seconds.
-          </p>
-          <ol className="mt-4 grid gap-3 sm:grid-cols-3">
-            {[
-              "Install Triage",
-              "Run triage",
-              "View system reliability state",
-            ].map((step, index) => (
-              <li
-                key={step}
-                className="rounded-[6px] border border-[#3A4048] bg-[#2C3238] px-4 py-3 text-[16px] text-[#E6E6E6]"
-              >
-                {index + 1}. {step}
-              </li>
-            ))}
-          </ol>
-          <pre className="mt-4 overflow-x-auto rounded-md bg-[#161A1E] px-6 py-5 text-[16px] leading-7 text-[#E6E6E6]">
-{`curl https://openclaw.ai/install.sh | bash
-
-triage`}
-          </pre>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5">
-              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
-                Install in Minutes
-              </div>
-              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                Deterministic install with read-safe defaults and immediate
-                operator visibility.
-              </p>
-            </div>
-            <div className="rounded-md border border-[#3A4048] bg-[#2C3238] p-5">
-              <div className="text-[13px] uppercase tracking-[0.32em] text-[#9AA3AD]">
-                Evidence First
-              </div>
-              <p className="mt-2 text-[16px] leading-7 text-[#E6E6E6]">
-                Start every support event with Triage output, proof bundle
-                path, and ORP report context.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/docs/triage/overview"
-            className="mt-4 inline-flex items-center rounded-md bg-[#D98A2B] px-6 py-3 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
-          >
-            Install Triage
-          </Link>
-        </section>
-
         <ObserveSignalsSection signals={OBSERVE_SIGNALS} />
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
@@ -333,21 +274,21 @@ triage`}
             Most tools tell you something broke. ACME tells you what to do about it — in order, with evidence, without guessing.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            {[
+            [
               {
                 name: "ORP",
                 label: "Recovery Protocol",
-                desc: "Sequences recovery correctly every time. Evidence first, then diagnosis, then action. The order is mandatory because skipping steps is how recoveries fail.",
+                desc: "Sequences recovery correctly every time. Evidence first, then diagnosis, then action.",
               },
               {
                 name: "Agent911",
                 label: "Recovery Cockpit",
-                desc: "Your incident command surface. Health signals, anomaly classification, routing status — and structured guidance on what to do next. Open this at 2am.",
+                desc: "Your incident command surface at 2am. Health signals, anomaly classification, and structured guidance on what to do next.",
               },
               {
                 name: "Lazarus",
                 label: "Backup Readiness",
-                desc: "Verifies your backups actually work before an incident forces the test. Most operators discover their backup posture is wrong during recovery. Lazarus finds out first.",
+                desc: "Verifies your backups actually work before an incident forces the test. Lazarus finds out first.",
               },
             ].map((item) => (
               <div
@@ -368,23 +309,7 @@ triage`}
           </div>
         </section>
 
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Operator Utilities
-          </h2>
-          <p className="mt-3 text-[16px] leading-7 text-[#E6E6E6]">
-            Supporting utilities used in OpenClaw environments.
-          </p>
-          <div className="mt-4">
-            <OperatorUtilityCards />
-          </div>
-          <Link
-            href="/bot-shop"
-            className="mt-4 inline-flex items-center rounded-md border border-[#3A4048] px-6 py-3 text-[15px] text-[#E6E6E6] transition hover:border-[#D98A2B] hover:bg-[#2C3238]"
-          >
-            Explore Operator Utilities
-          </Link>
-        </section>
+
 
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
           <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
@@ -412,14 +337,9 @@ triage`}
           <p className="text-[20px] font-semibold leading-snug text-[#E6E6E6] max-w-3xl md:text-[24px]">
             Five patents pending, all about one thing: giving operators like you real control over multiple agents
           </p>
-          <div className="mt-6 space-y-4 max-w-3xl text-[16px] leading-7 text-[#9AA3AD]">
-            <p>
-              Not just keeping them alive — leading them. Coordinating them across missions. Measuring what they produce, while optimizing token utilization as they deliver
-            </p>
-            <p>
-              The floor is reliability. ACME gets you there, and beyond, to something much bigger: a complete mission control layer for operators running agent teams with purpose — voice, dispatch, coordination, governance
-            </p>
-          </div>
+          <p className="mt-6 max-w-3xl text-[16px] leading-7 text-[#9AA3AD]">
+            Not just keeping agents alive — leading them, coordinating them, measuring what they produce. The floor is reliability. ACME gets you there, and beyond.
+          </p>
           <p className="mt-8 text-[18px] font-semibold italic text-[#B8782A]">Stick with us</p>
         </section>
 
@@ -442,33 +362,7 @@ triage`}
           </div>
         </section>
 
-        <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] p-6 md:p-8">
-          <h2 className="text-[22px] font-semibold tracking-tight text-[#E6E6E6] md:text-[26px] lg:text-[30px]">
-            Start Here
-          </h2>
-          <p className="mt-3 text-[16px] leading-7 text-[#9AA3AD]">
-            Architecture references, install guides, and recovery workflows — everything you need to get running.
-          </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {[
-              { label: "Docs", href: "/docs" },
-              { label: "Install Guide", href: "/install" },
-              {
-                label: "Reliability Stack",
-                href: "/docs/architecture/reliability-stack",
-              },
-              { label: "Support", href: "/support" },
-            ].map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="inline-flex items-center rounded-md border border-[#3A4048] px-6 py-3 text-[15px] text-[#E6E6E6] transition hover:border-[#D98A2B] hover:bg-[#2C3238]"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-        </section>
+
       </div>
     </main>
   );

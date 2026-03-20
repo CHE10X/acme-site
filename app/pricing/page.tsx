@@ -26,14 +26,22 @@ function MaturityDots({ count }: { count: 1 | 2 | 3 }) {
   );
 }
 
-function IncludesList({ title, lines }: { title: string; lines: string[] }) {
+type IncludesLine = string | { label: string; href: string };
+
+function IncludesList({ title, lines }: { title: string; lines: IncludesLine[] }) {
   return (
     <div className="mt-5 flex-1 rounded-md border border-[#3A4048] bg-[#1E2226] px-3 py-3">
       <div className="font-mono text-[12px] uppercase tracking-[0.16em] text-[#9AA3AD]">{title}</div>
       <ul className="mt-2 space-y-1 text-[14px] text-[#C7CDD4]">
-        {lines.map((line) => (
-          <li key={line}>{line}</li>
-        ))}
+        {lines.map((line) =>
+          typeof line === "string" ? (
+            <li key={line}>{line}</li>
+          ) : (
+            <li key={line.label}>
+              <Link href={line.href} className="hover:text-[#D98A2B] transition-colors">{line.label}</Link>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );
@@ -72,14 +80,22 @@ export default async function PricingPage() {
               <PriceLine price="$0" sub="/ forever" />
               <IncludesList
                 title="Includes"
-                lines={["Triage — works when OpenClaw doesn't", "RadCheck — reliability score 0–100"]}
+                lines={[
+                  { label: "Triage — works when OpenClaw doesn't", href: "/docs/triage/overview" },
+                  { label: "RadCheck — reliability score 0–100", href: "/docs/radcheck/score-explained" },
+                ]}
               />
-              <Link
-                href="/checkout?product=triage-radcheck-free"
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#E6E6E6] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#D0D0D0]"
-              >
-                Get Started — Free
-              </Link>
+              <div className="mt-5 space-y-3">
+                <div className="rounded-md bg-[#161A1E] border border-[#2A3440] px-4 py-3 font-mono text-[13px] text-[#D98A2B] select-all">
+                  curl https://acmeagentsupply.com/install.sh | bash
+                </div>
+                <Link
+                  href="/install"
+                  className="flex h-11 w-full items-center justify-center rounded-lg bg-[#E6E6E6] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#D0D0D0]"
+                >
+                  Install Guide →
+                </Link>
+              </div>
             </article>
 
             {/* $19 — Agent911 */}
@@ -96,9 +112,9 @@ export default async function PricingPage() {
               <IncludesList
                 title="Includes"
                 lines={[
-                  "Agent911 — recovery cockpit, read-only",
-                  "Recall — manual fleet intervention",
-                  "Lazarus — recovery readiness verification (free)",
+                  { label: "Agent911 — recovery cockpit, read-only", href: "/docs/agent911/snapshot-explained" },
+                  { label: "Recall — manual fleet intervention", href: "/docs/recall/overview" },
+                  { label: "Lazarus — recovery readiness verification", href: "/docs/lazarus/overview" },
                 ]}
               />
               <PricingCheckoutButton
@@ -125,12 +141,12 @@ export default async function PricingPage() {
               <IncludesList
                 title="Includes everything, wired end-to-end"
                 lines={[
-                  "Sentinel — silent failure detection",
-                  "InfraWatch — infra config drift",
-                  "Watchdog — heartbeat + liveness",
-                  "Lazarus — recovery readiness",
-                  "Agent911 — recovery cockpit",
-                  "Recall — manual intervention",
+                  { label: "Sentinel — silent failure detection", href: "/docs/sentinel/overview" },
+                  { label: "InfraWatch — infra config drift", href: "/docs/infrawatch/overview" },
+                  { label: "Watchdog — heartbeat + liveness", href: "/docs/watchdog/overview" },
+                  { label: "Lazarus — recovery readiness", href: "/docs/lazarus/overview" },
+                  { label: "Agent911 — recovery cockpit", href: "/docs/agent911/snapshot-explained" },
+                  { label: "Recall — manual intervention", href: "/docs/recall/overview" },
                 ]}
               />
               <PricingCheckoutButton
