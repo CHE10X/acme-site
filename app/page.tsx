@@ -222,7 +222,7 @@ export default function Home() {
             <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4">
               <div
                 className="overflow-hidden rounded-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
-                style={{ transform: "perspective(900px) rotateY(-6deg)", transformOrigin: "left center", maxWidth: "400px", imageRendering: "crisp-edges" }}
+                style={{ transform: "rotate(5deg)", transformOrigin: "top center", maxWidth: "400px" }}
               >
                 <Image
                   src="/images/triage-output-v2.png"
