@@ -22,32 +22,32 @@ Your debugging tools run on the system that's broken. When the control plane is 
 
 All checks are **read-only**. No configuration changes. No system modifications.
 
-## Usage
+## Running Triage
+
+One command, no arguments required:
 
 ```bash
 triage
 ```
 
-Runs all collectors and writes a timestamped proof bundle to `~/.openclaw/triage-bundles/`. The bundle is your evidence record — share it with support or Agent911 for automated diagnosis.
+Triage runs all collectors in sequence and writes a timestamped proof bundle to `~/.openclaw/triage-bundles/`. The bundle is your evidence record — share it with support or open it in Agent911 for automated diagnosis.
 
-## Output Files
+**Run Triage before you touch anything.** Once you start changing the system, the state you needed to capture is gone.
 
-Each run produces a bundle directory:
+## What Gets Written
 
-- `gateway_status.txt`
-- `gateway_log_tail.txt`
-- `gateway_err_tail.txt`
-- `session_topology.json`
-- `disk_pressure.txt`
-- `binary_integrity.txt`
-- `openclaw_doctor.txt`
-- `compaction_status.txt`
-- `fleet_identity.txt`
-- `manifest.json`
+Each run produces a bundle directory containing:
 
-## Operator Rule
-
-Run `triage` before you touch anything. Once you start changing the system, the state you needed to capture is gone.
+- `gateway_status.txt` — gateway process and liveness state
+- `gateway_log_tail.txt` — last 200 lines of gateway log
+- `gateway_err_tail.txt` — last 200 lines of gateway error log
+- `session_topology.json` — agent counts, orphan sessions, session IDs
+- `disk_pressure.txt` — available space and inode usage
+- `binary_integrity.txt` — hash verification of installed binaries
+- `openclaw_doctor.txt` — full output of `openclaw doctor`
+- `compaction_status.txt` — memory compaction state
+- `fleet_identity.txt` — hostname, uptime, OpenClaw version
+- `manifest.json` — bundle metadata and collector checksums
 
 ## Installation
 
@@ -55,17 +55,13 @@ Run `triage` before you touch anything. Once you start changing the system, the 
 curl -fsSL https://acmeagentsupply.com/install/triage | bash
 ```
 
-Installs the `triage` command globally. MIT licensed. No Acme account required.
-
-## Current Version
-
-`triage` v0.1.3 — see [release notes](https://github.com/acmeagentsupply/triage/releases).
+Installs the `triage` command globally. MIT licensed. No Acme account required. Current version: `v0.1.3` — [release notes](https://github.com/acmeagentsupply/triage/releases).
 
 ---
 
 ## Triage Pro
 
-The open-source edition is the foundation. **Triage Pro** extends it with deep integrations into the Acme reliability stack:
+The open-source edition is the foundation. **Triage Pro** extends it with live monitoring and deep integration into the Acme reliability stack:
 
 | Feature | OSS | Triage Pro |
 |---------|-----|------------|
@@ -82,6 +78,6 @@ The open-source edition is the foundation. **Triage Pro** extends it with deep i
 | **RadCheck history trend** | ❌ | ✅ |
 | **Observe snapshot** | ❌ | ✅ |
 
-`triage -watch` provides a continuously-refreshing live dashboard showing reliability score, 24h RadCheck trend, active agent count, and protection state. Requires an Acme account.
+`triage -watch` provides a continuously-refreshing live dashboard: reliability score, 24h RadCheck trend, active agent count, and protection state. Requires an Acme account.
 
 [Contact us](https://acmeagentsupply.com/contact) to enable Triage Pro.
