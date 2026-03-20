@@ -222,10 +222,10 @@ export default function Home() {
             <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-4">
               <div
                 className="overflow-hidden rounded-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
-                style={{ maxWidth: "400px" }}
+                style={{ transform: "perspective(900px) rotateY(-6deg)", transformOrigin: "left center", maxWidth: "400px", imageRendering: "crisp-edges" }}
               >
                 <Image
-                  src="/images/triage-output.png"
+                  src="/images/triage-output-v2.png"
                   alt="Triage output showing system health, reliability score, and protection state"
                   width={1280}
                   height={900}
