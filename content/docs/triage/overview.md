@@ -4,9 +4,11 @@ title: Triage
 
 # Triage
 
-`triage` is an open-source diagnostic for OpenClaw operators. Run it first — before any recovery action — to capture a deterministic, read-only snapshot of system state.
+Open-source. Read-only. Runs when nothing else will.
 
-Your debugging tools run on the system that's broken. When the control plane is unhealthy, native diagnostics are the first to go dark. `triage` runs independently of the stack it's diagnosing.
+When your gateway is degraded, `openclaw doctor` can't answer — it's asking the sick system what's wrong. Triage reads directly from the filesystem. No gateway required.
+
+![Triage output showing system health, reliability score, and protection state](/images/triage-output-v2.png)
 
 ## What It Reports
 
@@ -20,48 +22,21 @@ Your debugging tools run on the system that's broken. When the control plane is 
 | Compaction status | Memory compaction state |
 | Fleet identity | Hostname, uptime, version |
 
-All checks are **read-only**. No configuration changes. No system modifications.
-
-## Running Triage
-
-One command, no arguments required:
+All checks are **read-only**. No configuration changes. No system modifications. One command:
 
 ```bash
 triage
 ```
 
-Triage runs all collectors in sequence and writes a timestamped proof bundle to `~/.openclaw/triage-bundles/`. The bundle is your evidence record — share it with support or open it in Agent911 for automated diagnosis.
+**Run it before you touch anything.** Once you start changing the system, the state you needed to capture is gone.
 
-**Run Triage before you touch anything.** Once you start changing the system, the state you needed to capture is gone.
-
-## What Gets Written
-
-Each run produces a bundle directory containing:
-
-- `gateway_status.txt` — gateway process and liveness state
-- `gateway_log_tail.txt` — last 200 lines of gateway log
-- `gateway_err_tail.txt` — last 200 lines of gateway error log
-- `session_topology.json` — agent counts, orphan sessions, session IDs
-- `disk_pressure.txt` — available space and inode usage
-- `binary_integrity.txt` — hash verification of installed binaries
-- `openclaw_doctor.txt` — full output of `openclaw doctor`
-- `compaction_status.txt` — memory compaction state
-- `fleet_identity.txt` — hostname, uptime, OpenClaw version
-- `manifest.json` — bundle metadata and collector checksums
-
-## Installation
-
-```bash
-curl -fsSL https://acmeagentsupply.com/install/triage | bash
-```
-
-Installs the `triage` command globally. MIT licensed. No Acme account required. Current version: `v0.1.3` — [release notes](https://github.com/acmeagentsupply/triage/releases).
+[Install Triage — free →](/install/triage)
 
 ---
 
 ## Triage Pro
 
-The open-source edition is the foundation. **Triage Pro** extends it with live monitoring and deep integration into the Acme reliability stack:
+The open-source edition is the foundation. **Triage Pro** adds live monitoring and deep integration with the Acme reliability stack:
 
 | Feature | OSS | Triage Pro |
 |---------|-----|------------|
@@ -77,7 +52,5 @@ The open-source edition is the foundation. **Triage Pro** extends it with live m
 | **Protection state** | ❌ | ✅ |
 | **RadCheck history trend** | ❌ | ✅ |
 | **Observe snapshot** | ❌ | ✅ |
-
-`triage -watch` provides a continuously-refreshing live dashboard: reliability score, 24h RadCheck trend, active agent count, and protection state. Requires an Acme account.
 
 [Contact us](https://acmeagentsupply.com/contact) to enable Triage Pro.
