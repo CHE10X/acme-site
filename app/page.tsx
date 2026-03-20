@@ -227,8 +227,8 @@ export default function Home() {
                 <Image
                   src="/images/triage-output.png"
                   alt="Triage output showing system health, reliability score, and protection state"
-                  width={400}
-                  height={316}
+                  width={1280}
+                  height={900}
                   className="w-full h-auto"
                 />
               </div>
