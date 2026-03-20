@@ -73,10 +73,13 @@ export default async function PricingPage() {
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#9AA3AD]">Free Access</div>
                 <MaturityDots count={1} />
               </div>
-              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Triage + RadCheck</h3>
-              <p className="mt-3 text-[15px] text-[#C7CDD4]">
-                Something feels wrong. You need to see what&apos;s happening before you touch anything.
-              </p>
+              {/* Fixed-height intro — keeps price at same Y across all cards */}
+              <div className="min-h-[96px]">
+                <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Triage + RadCheck</h3>
+                <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                  Something feels wrong. You need to see what&apos;s happening before you touch anything.
+                </p>
+              </div>
               <PriceLine price="$0" sub="/ forever" />
               <IncludesList
                 title="Includes"
@@ -85,10 +88,7 @@ export default async function PricingPage() {
                   { label: "RadCheck — reliability score 0–100", href: "/docs/radcheck/score-explained" },
                 ]}
               />
-              <div className="mt-5 space-y-3">
-                <div className="rounded-md bg-[#161A1E] border border-[#2A3440] px-4 py-3 font-mono text-[13px] text-[#D98A2B] select-all">
-                  curl https://acmeagentsupply.com/install.sh | bash
-                </div>
+              <div className="mt-auto pt-5">
                 <Link
                   href="/install"
                   className="flex h-11 w-full items-center justify-center rounded-lg bg-[#E6E6E6] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#D0D0D0]"
@@ -104,10 +104,12 @@ export default async function PricingPage() {
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#D98A2B]">Incident Response</div>
                 <MaturityDots count={2} />
               </div>
-              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Agent911</h3>
-              <p className="mt-3 text-[15px] text-[#C7CDD4]">
-                Something broke at 2am. You need a recovery cockpit, not a chatbot.
-              </p>
+              <div className="min-h-[96px]">
+                <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Agent911</h3>
+                <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                  Something broke at 2am. You need a recovery cockpit, not a chatbot.
+                </p>
+              </div>
               <PriceLine price={prices.agent911} />
               <IncludesList
                 title="Includes"
@@ -117,14 +119,16 @@ export default async function PricingPage() {
                   { label: "Lazarus — recovery readiness verification", href: "/docs/lazarus/overview" },
                 ]}
               />
-              <PricingCheckoutButton
-                productKey="agent911"
-                priceLabel={`${prices.agent911} / month`}
-                fallbackUrl={getCheckoutPaymentLink("agent911")}
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#C47A22]"
-              >
-                Subscribe
-              </PricingCheckoutButton>
+              <div className="mt-auto pt-5">
+                <PricingCheckoutButton
+                  productKey="agent911"
+                  priceLabel={`${prices.agent911} / month`}
+                  fallbackUrl={getCheckoutPaymentLink("agent911")}
+                  className="flex h-11 w-full items-center justify-center rounded-lg bg-[#D98A2B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#C47A22]"
+                >
+                  Subscribe
+                </PricingCheckoutButton>
+              </div>
             </article>
 
             {/* $29 — Operator Bundle */}
@@ -133,10 +137,12 @@ export default async function PricingPage() {
                 <div className="text-[13px] uppercase tracking-[0.22em] text-[#4A9E6B]">Full Resilience Layer</div>
                 <MaturityDots count={3} />
               </div>
-              <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Operator Bundle</h3>
-              <p className="mt-3 text-[15px] text-[#C7CDD4]">
-                The complete wired layer. Detection fires. Readiness confirms. Recovery runs. You get a report.
-              </p>
+              <div className="min-h-[96px]">
+                <h3 className="mt-3 text-[22px] font-semibold text-[#E6E6E6]">Operator Bundle</h3>
+                <p className="mt-3 text-[15px] text-[#C7CDD4]">
+                  The complete wired layer. Detection fires. Readiness confirms. Recovery runs. You get a report.
+                </p>
+              </div>
               <PriceLine price={prices["operator-bundle"] ?? "$29"} />
               <IncludesList
                 title="Includes everything, wired end-to-end"
@@ -149,14 +155,16 @@ export default async function PricingPage() {
                   { label: "Recall — manual intervention", href: "/docs/recall/overview" },
                 ]}
               />
-              <PricingCheckoutButton
-                productKey="operator-kit"
-                priceLabel={`${prices["operator-bundle"] ?? "$29"} / month`}
-                fallbackUrl={getCheckoutPaymentLink("operator-kit")}
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#4A9E6B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#3D8A5C]"
-              >
-                Subscribe
-              </PricingCheckoutButton>
+              <div className="mt-auto pt-5">
+                <PricingCheckoutButton
+                  productKey="operator-kit"
+                  priceLabel={`${prices["operator-bundle"] ?? "$29"} / month`}
+                  fallbackUrl={getCheckoutPaymentLink("operator-kit")}
+                  className="flex h-11 w-full items-center justify-center rounded-lg bg-[#4A9E6B] px-4 text-[15px] font-medium text-[#1E2226] transition-colors hover:bg-[#3D8A5C]"
+                >
+                  Subscribe
+                </PricingCheckoutButton>
+              </div>
             </article>
           </div>
 
