@@ -274,7 +274,7 @@ export default function Home() {
             Most tools tell you something broke. ACME tells you what to do about it — in order, with evidence, without guessing.
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
-            [
+            {[
               {
                 name: "ORP",
                 label: "Recovery Protocol",
