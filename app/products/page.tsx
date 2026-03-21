@@ -19,7 +19,7 @@ const PRODUCTS = [
   { name: "Agent911",        bundle: "Resilience",      tier: "$19/mo",  command: "agent911",              href: "/docs/agent911/snapshot-explained", desc: "Recovery cockpit. Open this at 2am." },
   { name: "Recall",          bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall/overview",           desc: "Manual fleet intervention. Ambient presence awareness." },
   // Access Control — separate from resilience layer
-  { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "sphinxgate",            href: "/docs/sphinxgate/overview",       desc: "Policy enforcement. Governs what can run." },
+  { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "—",                     href: "/docs/sphinxgate/overview",       desc: "Access control for model routing. Governs which models run on which workloads." },
   // Coming soon
   { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission/overview",     desc: "Task-aware model routing. Fix the economics." },
 ];

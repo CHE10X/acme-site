@@ -29,9 +29,18 @@ const BUNDLES = [
     name: "Incident Response",
     tools: ["Agent911", "Recall", "Lazarus"],
     color: "#A83E32",
-    desc: "When something breaks at 2am, you open Agent911. Recall and Lazarus are already there.",
+    desc: "When something breaks at 2am, you open Agent911. Recall gives you manual intervention. Lazarus confirms your backups actually restore. Everything you need to recover, in one place.",
     cta: "See Incident Response",
     href: "/docs/agent911/snapshot-explained",
+  },
+  {
+    tier: "$29 / mo",
+    name: "Operator Bundle",
+    tools: ["Sentinel", "InfraWatch", "Watchdog", "Lazarus", "Agent911", "Recall"],
+    color: "#7B68EE",
+    desc: "The full resilience layer, fully wired. Sentinel detects. InfraWatch watches config drift. Watchdog catches dead processes. Lazarus confirms recovery. Agent911 executes. You get a report.",
+    cta: "See the full layer",
+    href: "/docs/operator-bundle/overview",
   },
 ];
 
