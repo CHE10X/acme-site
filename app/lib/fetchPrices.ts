@@ -17,7 +17,7 @@ export const PRICE_FALLBACKS: PriceMap = {
   sentinel: "$5",           // ✅ confirmed — Stripe price_1T6wUr2YB5gO0VSavbJuWJfu
   "operator-kit": "$29",    // updated to match Operator Bundle
   agent911: "$19",          // ✅ confirmed
-  sphinxgate: "$1",         // ✅ confirmed — Stripe price_1T6wW72YB5gO0VSath6gWdwp
+  sphinxgate: "$5",         // ✅ updated 2026-03-20 — price bumped $1→$5 (Chip/Heike, 2026-03-19)
   infrawatch: "Bundle",     // included in Operator Bundle only — SKU retired 2026-03-18
   // driftguard: REMOVED — renamed InfraWatch
   transmission: "",         // coming soon — no price
