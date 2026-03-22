@@ -21,49 +21,54 @@ const FULFILLMENT_ACTIONS = {
 };
 
 export const PRODUCT_CATALOG: Record<string, ProductCatalogEntry> = {
-  prod_U56o242tOR07Rh: {
+  // -------------------------------------------------------------------------
+  // LIVE MODE product IDs (created 2026-03-22 via create_live_products.py)
+  // -------------------------------------------------------------------------
+  prod_UCBVIRy2OziiiV: {
     sku: "radcheck",
     name: "RadCheck",
     fulfillment: "deliver_radcheck",
   },
-  prod_U56iC7N5IX0Dn1: {
+  prod_UCBVKBPaII9cPK: {
     sku: "sentinel",
     name: "Sentinel",
     fulfillment: "deliver_sentinel",
   },
-  prod_U56j9B8PvmTAT7: {
+  prod_UCBVDpWZ7La0hh: {
     sku: "sphinxgate",
     name: "SphinxGate",
     fulfillment: "deliver_sphinxgate",
   },
-  // prod_U56nqUJd9LlJqQ — InfraWatch standalone SKU retired 2026-03-18
-  // InfraWatch is a bundled component of the Operator Bundle. Not sold standalone.
-  // SKU archived in Stripe. Existing subscribers grandfathered into Operator Bundle.
-  // prod_U56nqUJd9LlJqQ: { sku: "infrawatch", ... }
-  prod_U56ukpVLBM5p89: {
+  prod_UCBVdk6jyGIiT9: {
     sku: "operator_bundle",
     name: "Operator Bundle",
     fulfillment: "deliver_operator_bundle",
   },
-  // prod_U58SANlEPHonBS — Watchdog RETIRED 2026-03-18
-  // Folds into Sentinel / Operator Bundle. Not sold standalone.
-  // Stripe SKU archived (active: false).
-  prod_U56w3PAVw4bT6Y: {
+  prod_UCBV3xb9ySJr2Z: {
     sku: "transmission",
     name: "Transmission",
     fulfillment: "deliver_transmission",
   },
-  // prod_U56pnIIsyz4nxl — Lazarus standalone RETIRED 2026-03-18
-  // Free, included with Agent911. Not sold standalone.
-  // Stripe SKU archived (active: false).
-  // prod_U56qHeY8Q5fKAy: DEPRECATED 2026-03-18 — FindMyAgent folded into Recall watch mode
-  // Stripe SKU retired. Features: live presence, stalled/blocked signals, needs-attention flags
-  // now live in recall status --watch. See ACME_MASTER_DEPENDENCY_MAP.md.
-  prod_U56lL9ZkNuz22d: {
+  prod_UCBVzGGs3kxS5J: {
     sku: "agent911",
     name: "Agent911",
     fulfillment: "deliver_agent911",
   },
+  // -------------------------------------------------------------------------
+  // TEST MODE product IDs (sandbox only — kept for reference, not active in live)
+  // prod_U56o242tOR07Rh — radcheck (test)
+  // prod_U56iC7N5IX0Dn1 — sentinel (test)
+  // prod_U56j9B8PvmTAT7 — sphinxgate (test)
+  // prod_U56ukpVLBM5p89 — operator_bundle (test)
+  // prod_U56w3PAVw4bT6Y — transmission (test)
+  // prod_U56lL9ZkNuz22d — agent911 (test)
+  // -------------------------------------------------------------------------
+  // RETIRED SKUs (test mode, never in live):
+  // prod_U56nqUJd9LlJqQ — InfraWatch standalone — retired 2026-03-18, bundled
+  // prod_U58SANlEPHonBS — Watchdog standalone — retired 2026-03-18, bundled
+  // prod_U56pnIIsyz4nxl — Lazarus standalone — retired 2026-03-18, included with Agent911
+  // prod_U56qHeY8Q5fKAy — FindMyAgent — deprecated 2026-03-18, folded into recall watch
+  // -------------------------------------------------------------------------
 };
 
 export type ProductCatalogRecord = (typeof PRODUCT_CATALOG)[string] & {
