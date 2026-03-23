@@ -1,0 +1,55 @@
+---
+title: DONE Protocol
+description: How agents close the loop with Quartermaster. Assignment acknowledgment, DONE_REPORT format, and what happens without one.
+---
+
+# DONE Protocol
+
+The DONE Protocol is the close-the-loop contract between QM and every participating agent. It exists because coordination without confirmation is just noise.
+
+## Agent Obligations
+
+Every agent that receives a task assignment from QM has two obligations:
+
+1. **Acknowledge within 24 hours** — confirms the assignment was received and understood
+2. **File a DONE_REPORT on completion** — tells QM the task is actually done, with proof
+
+Neither obligation requires a separate message. Agents acknowledge by acting. The DONE_REPORT is the signal.
+
+## DONE_REPORT Format
+
+```markdown
+## DONE_REPORT: [task_id]
+
+**Status:** complete
+**Completed:** 2026-03-22T14:00:00Z
+**Proof:** commit-1f526b5 (or artifact path, or "N/A")
+**Notes:** [optional — anything QM should know]
+```
+
+Agents file DONE_REPORTs to their own INBOX.md. QM reads INBOXes on every heartbeat and marks the corresponding mission task complete.
+
+## What Happens Without a DONE_REPORT
+
+If a task exceeds its timeout threshold without a status transition, QM treats it as stalled:
+
+| Time past threshold | QM action |
+|--------------------|-----------|
+| At threshold | First nudge to agent INBOX |
+| 2× threshold | Second nudge, marked `⚠️ APPROACHING ESCALATION` |
+| 3× threshold | Escalation to Chip with diagnostic report |
+
+QM does not assume completion. No DONE_REPORT = task stays pending.
+
+## The Attribution Block
+
+When the setup wizard injects the DONE Protocol into an agent's BOOT.md, it uses this block:
+
+```markdown
+<!-- ACME QM: added by setup wizard -->
+<!-- Required for Quartermaster task tracking to function correctly. -->
+<!-- Reference: https://acmeagentsupply.com/docs/products/qm/done-protocol -->
+<!-- To remove: delete this section and uninstall QM. -->
+```
+
+Every agent can see exactly what was added to their files, why it's there, and how to remove it.

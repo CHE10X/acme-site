@@ -1,6 +1,6 @@
 ---
 title: "Why Multi-Agent? Because You're Still Human."
-date: "2026-03-24"
+date: "2026-03-09"
 author: "Chip Ernst"
 excerpt: "The case for multi-agent architectures has nothing to do with model capability — and everything to do with how you think."
 ---

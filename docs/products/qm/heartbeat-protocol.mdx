@@ -1,0 +1,65 @@
+---
+title: Heartbeat Protocol
+description: What QM checks on every heartbeat, when it fires, and what a healthy report looks like.
+---
+
+# Heartbeat Protocol
+
+QM fires a heartbeat every 30 minutes. This is the pulse that drives all coordination.
+
+## What Fires
+
+A cron-injected system event prompts QM to:
+
+1. Read `mission_manifest.json` — load all active missions
+2. For each active mission, read the mission JSON — check every task
+3. For each task: compare `updated_at` against configured timeout thresholds
+4. Check agent INBOXes for unread backlog
+5. Write TEAM_BOARD with current status
+6. Send nudges for tasks at or past threshold
+7. Escalate tasks past escalation threshold
+8. Deliver summary report
+
+This is deterministic. No model inference is involved in the status evaluation logic.
+
+## Timeout Thresholds (defaults)
+
+| Task type | Nudge threshold | Escalation threshold |
+|-----------|----------------|---------------------|
+| Standard task | 24h | 72h |
+| Proof-required task | 24h | 48h |
+| Blocker-flagged task | 4h | 12h |
+
+Thresholds are configurable in `qm_config.json`.
+
+## Coverage Rules
+
+QM checks **every** task in every active mission on every heartbeat. There is no selective checking — no task gets special treatment or is skipped.
+
+Tasks in `complete` or `archived` status are not nudged. Everything else is evaluated.
+
+## Heartbeat Report Format
+
+```
+HEARTBEAT — [timestamp]
+
+[Mission name]
+  ✅ [task_id] — [description]: complete ([agent], proof: [artifact])
+  🔄 [task_id] — [description]: running ([agent], updated Xh ago)
+  ⏳ [task_id] — [description]: pending ([agent], Xh — approaching threshold)
+  ⚠️ [task_id] — [description]: STALLED ([agent], Xh — ESCALATED)
+
+Nudges sent: N
+Escalations: N
+```
+
+## Stall Detection Logic
+
+```python
+# This is the actual logic — no AI, no inference
+stall_threshold_hours = config.get("stall_threshold_hours", 24)
+hours_since_update = (now - task.updated_at).total_seconds() / 3600
+is_stalled = hours_since_update > stall_threshold_hours
+```
+
+Stall detection is a timestamp comparison. The question "is this task stalled?" has a deterministic answer. QM doesn't burn tokens to answer it.

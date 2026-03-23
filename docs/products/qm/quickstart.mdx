@@ -1,0 +1,73 @@
+---
+title: Quartermaster Quickstart
+description: The Easy Button — get QM running and coordinating your agents in under 10 minutes.
+---
+
+# Quickstart — The Easy Button
+
+The Quartermaster setup wizard provisions everything QM needs to work: one INBOX per agent, pulse crons, a seeded mission manifest, and inter-agent config. When it's done, QM's first heartbeat will have actual content.
+
+## Prerequisites
+
+- OpenClaw running (gateway up)
+- At least one named agent in your OpenClaw config
+- `ACME_LICENSE_KEY` set in your environment
+
+## Install
+
+```bash
+curl -fsSL https://acmeagentsupply.com/install/qm | ACME_LICENSE_KEY=your_key bash
+```
+
+## Run the Setup Wizard
+
+```bash
+/qm setup
+```
+
+The wizard asks three questions:
+
+1. **Agent names** — List the agents QM should coordinate (e.g. `codex, heike, gerrit`)
+2. **Topology** — Same gateway or distributed instances?
+3. **First mission** — Name your first mission. QM seeds the manifest with it.
+
+### What It Provisions
+
+| File | Where | What |
+|------|-------|------|
+| `INBOX.md` | Per agent workspace | Async task dispatch channel |
+| `BOOT.md` (DONE protocol section) | Per agent workspace | Attribution-labeled, removable |
+| `mission_manifest.json` | `~/.openclaw/workspace/qm/missions/` | Ground truth QM reads |
+| `openclaw.json` patch | Global config | `agentToAgent` + `sessions.visibility` |
+| Pulse crons | OpenClaw cron scheduler | INBOX check per agent (15min workers, 30min reviewers) |
+| Day 1 test task | Seeded mission | Verifies DONE loop before real missions begin |
+
+Every modification QM makes to your files is labeled:
+
+```markdown
+<!-- ACME QM: added by setup wizard -->
+<!-- Required for Quartermaster task tracking to function correctly. -->
+<!-- Reference: https://acmeagentsupply.com/docs/products/qm/done-protocol -->
+<!-- To remove: delete this section and uninstall QM. -->
+```
+
+Nothing is changed silently.
+
+## Verify It's Working
+
+After setup, QM fires its first heartbeat within 30 minutes. You should see:
+
+- [ ] QM heartbeat fired
+- [ ] TEAM_BOARD written with mission status
+- [ ] Test task assigned to an agent
+- [ ] Agent responded with DONE_REPORT
+- [ ] You received a clean heartbeat report (not empty)
+
+If any of these are missing, see [troubleshooting](/docs/support/troubleshooting).
+
+## Next Steps
+
+→ [Reference Stack](/docs/products/qm/reference-stack) — full technical documentation of how QM works  
+→ [DONE Protocol](/docs/products/qm/done-protocol) — how agents close the loop  
+→ [Heartbeat Protocol](/docs/products/qm/heartbeat-protocol) — what QM checks and when  
+→ [Trust & Transparency](/docs/products/qm/trust) — exactly what QM touches and doesn't

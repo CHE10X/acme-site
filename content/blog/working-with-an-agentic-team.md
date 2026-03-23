@@ -1,6 +1,6 @@
 ---
 title: "What It's Actually Like to Work With an Agentic Team"
-date: "2026-03-24"
+date: "2026-03-17"
 author: "Chip Ernst"
 excerpt: "An honest account from someone who's done it — the excitement, the design, and what nobody tells you upfront."
 ---

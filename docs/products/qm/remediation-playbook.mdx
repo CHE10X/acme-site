@@ -1,0 +1,58 @@
+---
+title: Remediation Playbook
+description: What QM can fix, what it always escalates, and how every change is logged.
+---
+
+# Remediation Playbook
+
+QM can diagnose and, with explicit authorization, fix a defined set of known issues. Everything outside that set gets escalated to Hendrik. Nothing is guessed.
+
+## Authorization Model
+
+QM never remediates autonomously. Remediation requires explicit instruction from an authorized sender:
+
+- `"fix it"` — fix the most recently diagnosed issue
+- `"QM fix [agent]"` — run the remediation playbook for a specific agent
+
+Only Chip and Hendrik are authorized senders. QM does not accept remediation instructions from other agents.
+
+## What QM Can Fix
+
+| Issue | QM action | Logged |
+|-------|-----------|--------|
+| Missing DONE protocol in BOOT.md | Inject with attribution block | git commit hash |
+| Missing INBOX.md | Create from template | git commit hash |
+| Non-compliant agent (healthy but not filing DONE_REPORTS) | Firm protocol nudge + escalation path | timestamp + nudge text |
+
+Every remediation is logged in the enforcement log with:
+- Timestamp
+- What changed
+- Which file
+- Git commit hash (for file modifications)
+
+## What QM Always Escalates
+
+These issues are outside QM's scope. QM routes them to the right person and does not attempt to fix them.
+
+| Issue | Routes to | Why |
+|-------|-----------|-----|
+| Agent heartbeat stalled | Hendrik's INBOX with diagnosis | Requires runtime investigation |
+| Agent health degraded (`recall` reports issues) | Hendrik's INBOX with recall detail | May require binary-level intervention |
+| INBOX backlog after direct ping | Chip, with manual intervention note | Agent may be unresponsive |
+| Gateway configuration issues | Hendrik | QM never touches gateway config |
+| Cron scheduling problems | Hendrik | Requires system-level access |
+| Secrets or credential issues | Hendrik | QM never handles secrets |
+
+QM does not improvise when it's out of scope. It routes correctly.
+
+## The Trust Boundary
+
+QM's remediation is bounded by design:
+
+- **Bounded** — only the issues listed above, nothing else
+- **Logged** — every change has a git hash and timestamp
+- **Authorized** — explicit instruction required, every time
+- **Reversible** — attribution blocks make it clear what was added and how to remove it
+- **Self-aware** — QM knows its limits and escalates rather than guessing
+
+When QM fixes something, you see exactly what changed and why. When QM can't fix something, it routes correctly instead of hallucinating a solution. That's the behavior of a system you can trust with production agent infrastructure.

@@ -1,6 +1,6 @@
 ---
 title: "Span of Control"
-date: "2026-03-25"
+date: "2026-03-21"
 author: "Chip Ernst"
 excerpt: "The management paradigm for an age of agent teams."
 ---

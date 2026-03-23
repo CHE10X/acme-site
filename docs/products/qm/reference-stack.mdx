@@ -1,0 +1,288 @@
+---
+title: QM Reference Stack
+description: The exact infrastructure pattern Acme runs on its own agent fleet. Every file, every protocol, every config field.
+---
+
+# Reference Stack
+
+This is the exact pattern Acme runs on its own agent fleet. Not an abstraction — the real thing. If you want to understand what QM requires before committing to it, this is where to start.
+
+## Part 1 — How QM Works
+
+### 1.1 The Heartbeat Loop
+
+Every 30 minutes, QM fires a heartbeat. It reads mission state, checks every active task, and writes a status report. Here's exactly what it touches:
+
+**QM reads:**
+- `mission_manifest.json` — the single ground-truth file listing active missions
+- Mission JSON files — task status, assignee, last updated, blocker state
+- Agent INBOX files — nudge backlog, unread count
+
+**QM writes:**
+- Agent INBOX files — nudges for stalled tasks
+- `TEAM_BOARD.md` — current mission status snapshot
+- Enforcement log — every nudge, every escalation
+
+**QM never reads:**
+- Your memory files
+- Your secrets or credentials
+- Your gateway config
+- TEAM_BOARD.md as a source of decisions (it only writes to it)
+
+### 1.2 Mission Structure
+
+```
+Campaign
+  └── Mission (e.g. "Infra & Observability — 2026-03-17")
+        ├── Task t01 — assigned_agent: hendrik, status: complete
+        ├── Task t02 — assigned_agent: codex, status: running
+        └── Task t03 — assigned_agent: soren, status: pending
+```
+
+- **Campaign** — a strategic initiative. Multiple missions.
+- **Mission** — a bounded sprint with a defined set of tasks. Has a mission JSON file.
+- **Task** — the atomic unit. Has an assignee, status, dependencies, and optional proof requirement.
+
+The campaign level stays invisible in QM's dashboard — too much noise. Mission and task level is what QM reports and tracks.
+
+### 1.3 Task Lifecycle
+
+```
+pending → acknowledged → running → complete
+```
+
+| Transition | What triggers it |
+|------------|-----------------|
+| `pending` | Task created in mission JSON |
+| `acknowledged` | Assigned agent confirms receipt (optional but tracked) |
+| `running` | Agent marks task in-progress |
+| `complete` | Agent files DONE_REPORT, QM marks complete |
+
+If a transition doesn't happen within the configured timeout, QM sends a nudge. If the nudge doesn't result in movement, QM escalates.
+
+### 1.4 The DONE Protocol
+
+The DONE Protocol is how agents close the loop. Without it, QM can see a task is stalled but can't confirm it's actually done.
+
+**Agent obligations:**
+- Acknowledge task assignment within 24 hours
+- File a DONE_REPORT when the task is complete
+
+**DONE_REPORT format:**
+```markdown
+## DONE_REPORT: [task_id]
+
+**Status:** complete
+**Completed:** [timestamp]
+**Proof:** [commit hash / artifact / "N/A"]
+**Notes:** [anything QM should know]
+```
+
+QM reads DONE_REPORTS from INBOX and marks the mission task complete. No DONE_REPORT = task stays pending. QM will nudge.
+
+---
+
+## Part 2 — Infrastructure Requirements
+
+### 2.1 INBOX Files
+
+Every participating agent needs an INBOX.md. This is the async dispatch channel — QM drops task assignments here, agents check it on their pulse cron.
+
+**Standard location:** `~/.openclaw/workspace/[agent_name]/INBOX.md`
+
+**Format:**
+```markdown
+## [UNREAD] Task: [task_id] — [description]
+**From:** quartermaster | **Priority:** HIGH
+[full task brief]
+---
+```
+
+Agents mark items `[DONE]` when handled. QM reads INBOX on heartbeat to check nudge backlog.
+
+### 2.2 Agent Pulse Crons
+
+Each agent runs a pulse cron that fires their INBOX check on schedule.
+
+| Agent type | Recommended interval |
+|------------|---------------------|
+| Worker agents (codex, etc.) | Every 15 minutes |
+| Reviewer agents (soren, heike, gerrit) | Every 30 minutes |
+
+The cron injects a system event that prompts the agent to check their INBOX and act on any `[UNREAD]` items.
+
+### 2.3 Mission Manifest
+
+The mission manifest is the single file QM reads to know what missions are active. It exists to replace hallucination with ground truth.
+
+```json
+{
+  "_comment": "QM Mission Manifest — single source of truth for active missions.",
+  "updated_at": "2026-03-22T14:00:00Z",
+  "updated_by": "hendrik",
+  "missions": [
+    {
+      "id": "mission-2026-03-17-infra",
+      "file": "mission_2026_03_17_infra.json",
+      "status": "active",
+      "name": "Infrastructure & Observability — 2026-03-17"
+    }
+  ]
+}
+```
+
+To add a mission: add an entry. To retire a mission: set `status` to `"archived"`. QM will not read archived missions for dispatch decisions.
+
+### 2.4 Inter-Agent Communication Config
+
+QM coordinates agents through OpenClaw's agentToAgent system. Two config fields are required:
+
+```json
+{
+  "tools": {
+    "sessions": {
+      "visibility": "all"
+    },
+    "agentToAgent": {
+      "enabled": true,
+      "allowlist": ["qm", "hendrik", "chip"]
+    }
+  }
+}
+```
+
+- `visibility: "all"` — QM can see all sessions
+- `agentToAgent.enabled: true` — enables bilateral urgency pings
+- `allowlist` — which agents can send cross-session messages
+
+Without this config, QM can nudge via INBOX but can't directly interrupt a running session.
+
+---
+
+## Part 3 — What QM Touches in Your Environment
+
+### 3.1 Complete Modification List
+
+| File | What QM does |
+|------|-------------|
+| `[agent]/BOOT.md` | Injects DONE protocol section (attribution-labeled) |
+| `[agent]/INBOX.md` | Creates file if missing; writes nudges and task assignments |
+| `mission_manifest.json` | Creates on setup; reads on every heartbeat |
+| `mission_*.json` files | Reads on every heartbeat; writes status updates on DONE_REPORT |
+| `openclaw.json` | Patches `agentToAgent` + `sessions.visibility` config (setup wizard only) |
+| `TEAM_BOARD.md` | Overwrites on every heartbeat with current mission status |
+
+### 3.2 Attribution Block Standard
+
+Every section the wizard injects into your files includes this block:
+
+```markdown
+<!-- ACME QM: added by setup wizard -->
+<!-- Required for Quartermaster task tracking to function correctly. -->
+<!-- Reference: https://acmeagentsupply.com/docs/products/qm/done-protocol -->
+<!-- To remove: delete this section and uninstall QM. -->
+```
+
+Every modification is labeled. Nothing is changed silently.
+
+### 3.3 What QM Will Never Touch
+
+- Your secrets, API keys, or credentials
+- Your model assignments or provider config
+- Your gateway bind, port, or auth config
+- Your agent memory files
+- Any file not listed in Section 3.1
+- Anything in a subdirectory QM wasn't configured to manage
+
+---
+
+## Part 4 — Diagnostics and Remediation
+
+### 4.1 What QM Checks When a Task Stalls
+
+When a task exceeds its timeout without a status transition, QM runs a diagnostic sequence:
+
+1. `recall status` — agent health score, memory pressure, runtime state
+2. INBOX audit — unread count and age of the assignment nudge
+3. Session activity — last heartbeat timestamp vs. expected interval
+
+### 4.2 Remediation: What QM Can Fix (With Authorization)
+
+QM never remediates autonomously. "Fix it" or "QM fix [agent]" from an authorized sender triggers remediation.
+
+| Issue | QM action |
+|-------|-----------|
+| Missing DONE protocol in BOOT.md | Inject with attribution block + commit |
+| Missing INBOX.md | Create from template + commit |
+| Non-compliant agent (healthy, not filing DONE_REPORT) | Firm protocol nudge + escalation path |
+
+Every remediation is logged with timestamp, what changed, and a git commit hash.
+
+### 4.3 Remediation: What QM Always Escalates
+
+| Issue | QM routes to |
+|-------|-------------|
+| Agent heartbeat stalled | Hendrik's INBOX with diagnosis |
+| Agent health degraded | Hendrik's INBOX with recall detail |
+| INBOX backlog after direct ping | Chip, with manual intervention note |
+| Gateway config issues | Hendrik (QM never touches gateway) |
+| Cron scheduling problems | Hendrik |
+| Secrets or credential issues | Hendrik |
+
+QM does not guess when it's out of scope. It routes correctly.
+
+---
+
+## Part 5 — Verifying It Works
+
+### 5.1 Day 1 Checklist
+
+- [ ] QM fired its first heartbeat within 30 minutes of setup
+- [ ] `TEAM_BOARD.md` was written with mission status
+- [ ] Day 1 test task was assigned to an agent
+- [ ] Agent responded with a DONE_REPORT
+- [ ] You received a heartbeat report with actual content (not empty)
+
+### 5.2 Ongoing Health Signals
+
+A healthy QM heartbeat looks like this:
+
+```
+HEARTBEAT — 2026-03-22 14:00 ET
+
+Mission: Infra & Observability
+  ✅ t01 — bonfire-pipeline: complete (hendrik, proof: commit-1f526b5)
+  🔄 t02 — transmission-docs: running (soren, updated 2h ago)
+  ⏳ t03 — sphinx-review: pending (soren, 18h — approaching threshold)
+
+No escalations. 1 nudge sent (t03).
+```
+
+A degraded QM heartbeat looks like this:
+
+```
+HEARTBEAT — 2026-03-22 14:00 ET
+
+⚠️ STALL: t03 — sphinx-review (soren): 42h without update. Threshold: 24h.
+  recall status: DEGRADED (memory pressure 87%)
+  INBOX: 3 unread items, oldest 18h
+  Diagnosis: agent likely compaction-bound. Escalating to Hendrik.
+
+Escalation filed: hendrik/INBOX.md
+```
+
+### 5.3 Removing QM Cleanly
+
+1. Delete the DONE protocol section from each agent's BOOT.md (look for the attribution block)
+2. Delete each agent's INBOX.md (or keep it — QM won't write to it without the cron)
+3. Delete `mission_manifest.json` and mission JSON files from `~/.openclaw/workspace/qm/missions/`
+4. Revert the `agentToAgent` and `sessions.visibility` config fields in `openclaw.json`
+5. Remove the QM pulse crons from OpenClaw scheduler
+
+Git history shows every change QM made. Use it to verify nothing was missed.
+
+---
+
+## Appendices
+
+See [DONE Protocol](/docs/products/qm/done-protocol), [Heartbeat Protocol](/docs/products/qm/heartbeat-protocol), and [Remediation Playbook](/docs/products/qm/remediation-playbook) for full schema references.

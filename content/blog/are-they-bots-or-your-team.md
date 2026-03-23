@@ -1,6 +1,6 @@
 ---
 title: "Are They Bots, or Are They Your Team?"
-date: "2026-03-24"
+date: "2026-03-13"
 author: "Chip Ernst"
 excerpt: "How you think about your agents shapes how well you manage them."
 ---

@@ -1,0 +1,60 @@
+---
+title: Quartermaster Overview
+description: Mission orchestration for agent fleets. Coordination, visibility, no dropped balls.
+---
+
+# Quartermaster
+
+Quartermaster is ACME's mission orchestration layer. It tracks every task across your agent fleet, detects when things stall, and coordinates resolution — without burning tokens on questions that are timestamp comparisons.
+
+## What It Does
+
+Quartermaster runs on a heartbeat. Every 30 minutes it reads your mission state, checks every active task, and delivers a status report that tells you exactly what's moving and what isn't.
+
+- **Mission tracking** — Campaigns, missions, tasks. Structured state, not conversation.
+- **Stall detection** — Pure math: task age vs. configured timeout threshold. No AI inference.
+- **Agent coordination** — Assigns tasks to the right agent, nudges on stall, escalates when needed.
+- **Remediation** — With explicit authorization, QM can fix known issues. Every change is logged, labeled, and reversible.
+
+## What It Doesn't Do
+
+<Warning>
+Quartermaster is a control-plane agent, not a worker. It coordinates — it doesn't execute tasks itself.
+</Warning>
+
+- QM never accesses your gateway config, secrets, or credentials
+- QM never modifies files outside its defined scope (BOOT.md, INBOX.md, mission files)
+- QM never acts autonomously on remediation — explicit authorization required ("fix it" / "QM fix [agent]")
+- QM never gets gateway access. Full stop.
+
+## Where It Fits
+
+```
+Callsign / Scrum (voice/async interface)
+    ↓
+Commander (policy and governance)
+    ↓
+Quartermaster (mission orchestration)  ←── you are here
+    ↓
+Dispatch (execution scheduler)
+    ↓
+Telepath (cognitive graph)
+    ↓
+Your Agents
+```
+
+Quartermaster is a peer to Dispatch, not above it. Commander governs both. QM uses Dispatch as a task source.
+
+## The Token Principle
+
+QM's control logic is 100% deterministic. Stall detection is a timestamp comparison. Dependency ordering is graph traversal. Status reporting reads mission state and formats output. No AI reasoning for any of these.
+
+> "Tokens are for novel generation. Never for deterministic answers." — Chip Ernst
+
+This isn't a constraint — it's the design. QM's speed and cost profile are predictable because the control logic never calls a model.
+
+## Getting Started
+
+→ [Quickstart (Easy Button)](/docs/products/qm/quickstart)  
+→ [Reference Stack](/docs/products/qm/reference-stack)  
+→ [Trust & Transparency](/docs/products/qm/trust)
