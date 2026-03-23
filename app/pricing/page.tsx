@@ -209,19 +209,19 @@ export default async function PricingPage() {
                 </div>
               </article>
 
-              {/* Transmission — coming soon */}
-              <article className="rounded-[6px] border border-dashed border-[#3A4048] bg-[#222830] p-5 opacity-80">
-                <div className="text-[13px] uppercase tracking-[0.2em] text-[#4A5E70]">Coming Soon</div>
+              {/* Transmission — early access */}
+              <article className="rounded-[6px] border border-[#3A4048] bg-[#222830] p-5">
+                <div className="text-[13px] uppercase tracking-[0.2em] text-[#4A9E6B]">Early Access</div>
                 <h4 className="mt-2 text-[20px] font-semibold text-[#C8D4E0]">Transmission</h4>
                 <p className="mt-2 text-[14px] text-[#7A8EA0]">
                   Task-aware model routing. Right model, right cost, every time. Patent pending.
                 </p>
-                <div className="mt-4 text-[13px] font-mono text-[#4A5E70]">Pricing TBD</div>
+                <div className="mt-4 text-[13px] font-mono text-[#9AA3AD]">Pricing TBD</div>
                 <Link
                   href="/docs/transmission/overview"
-                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#5A6E80] transition-colors hover:border-[#4A5E70]"
+                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#C8D4E0] transition-colors hover:border-[#9AA3AD]"
                 >
-                  Learn more →
+                  Install →
                 </Link>
               </article>
 
