@@ -47,9 +47,9 @@ Always-on monitoring and guardrails. These surfaces detect runtime anomalies tha
 
 ## Orchestrate (Emerging)
 
-**Transmission** (future / optional)
+**Transmission** (early access)
 
-Standardized lane/workload patterns and routing templates that reduce fragility and improve predictability.
+Task-aware model routing — right model, right cost, every call. Reduces input token footprint 85–90% via ToolFilterAdapter. Circuit breaker prevents rate-limit walls. Patent pending.
 
 ## Key Truths (Launch Discipline)
 

@@ -2,12 +2,12 @@
 title: Transmission — Task-Aware Model Routing
 product: transmission
 tier: CORE
-status: launching-soon
+status: early-access
 ---
 
 # Transmission
 
-> **Status:** Phase 1 launching soon. Early access signups open — [get notified when it ships](#early-access).
+> **Status:** Early access. Phase 1 is built and smoke-tested. Install below.
 
 **The short version:** Your agent is using a $20-per-million-token model to answer a yes/no question. Transmission fixes that automatically.
 
@@ -125,19 +125,50 @@ Most operators find ACME because something broke or costs ran away. Transmission
 
 ---
 
-## Early Access
+## Install
 
-Transmission Phase 1 is in active development (~2 weeks to ship). Leave your email to be first on the launch list — you'll get access before public announcement.
+Phase 1 is available now. Two packages, same capabilities.
 
-[Early access form — coming shortly]
+**Python**
+
+```bash
+pip install acme-transmission
+```
+
+```python
+import acme_transmission as tx
+
+tx.configure(
+    license_key="YOUR_KEY",
+    gateway_url="https://gateway.acme.ai"
+)
+result = tx.route("Summarize this document", work_class="writing")
+```
+
+**Node / TypeScript**
+
+```bash
+npm install @acme/transmission
+```
+
+```typescript
+import tx from '@acme/transmission';
+
+tx.configure({
+  licenseKey: 'YOUR_KEY',
+  gatewayUrl: 'https://gateway.acme.ai'
+});
+
+const result = await tx.route('Summarize this document', { workClass: 'writing' });
+```
+
+License keys available at [acmeagentsupply.com/pricing](/pricing). Early access pricing TBD.
 
 ---
 
 ## Integration
 
 Transmission installs as a middleware hook into OpenClaw's dispatch layer. No public API changes required. OpenClaw handles routing internally.
-
-Full install guide and config reference will be published at launch.
 
 ---
 
