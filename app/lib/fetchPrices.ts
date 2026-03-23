@@ -20,7 +20,7 @@ export const PRICE_FALLBACKS: PriceMap = {
   sphinxgate: "$5",         // ✅ updated 2026-03-20 — price bumped $1→$5 (Chip/Heike, 2026-03-19)
   infrawatch: "Bundle",     // included in Operator Bundle only — SKU retired 2026-03-18
   // driftguard: REMOVED — renamed InfraWatch
-  transmission: "",         // coming soon — no price
+  transmission: "$19",      // beta — $19/mo. Requires TRANSMISSION_PRICE_ID env var in Vercel for live Stripe price.
   // watchdog: RETIRED 2026-03-18 — folds into Sentinel bundle; SKU prod_U58SANlEPHonBS archived
   // lazarus: RETIRED standalone 2026-03-18 — free, included with Agent911; SKU prod_U56pnIIsyz4nxl archived
   // findmyagent: REMOVED 2026-03-18 — deprecated

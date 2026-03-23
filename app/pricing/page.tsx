@@ -209,20 +209,27 @@ export default async function PricingPage() {
                 </div>
               </article>
 
-              {/* Transmission — coming soon */}
-              <article className="rounded-[6px] border border-dashed border-[#3A4048] bg-[#222830] p-5 opacity-80">
-                <div className="text-[13px] uppercase tracking-[0.2em] text-[#4A5E70]">Coming Soon</div>
-                <h4 className="mt-2 text-[20px] font-semibold text-[#C8D4E0]">Transmission</h4>
-                <p className="mt-2 text-[14px] text-[#7A8EA0]">
+              {/* Transmission — beta */}
+              <article className="flex flex-col rounded-[6px] border border-[#5A7A9E]/55 bg-[#2C3238] p-5">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-[13px] uppercase tracking-[0.2em] text-[#5A7A9E]">Routing</div>
+                  <span className="rounded-full bg-[#5A7A9E]/20 px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#7A9ABE]">Beta</span>
+                </div>
+                <h4 className="mt-2 text-[20px] font-semibold text-[#E6E6E6]">Transmission</h4>
+                <p className="mt-2 text-[14px] text-[#C7CDD4]">
                   Task-aware model routing. Right model, right cost, every time. Patent pending.
                 </p>
-                <div className="mt-4 text-[13px] font-mono text-[#4A5E70]">Pricing TBD</div>
-                <Link
-                  href="/docs/transmission/overview"
-                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#5A6E80] transition-colors hover:border-[#4A5E70]"
-                >
-                  Learn more →
-                </Link>
+                <PriceLine price={prices.transmission || "$19"} />
+                <div className="mt-auto">
+                  <PricingCheckoutButton
+                    productKey="transmission"
+                    priceLabel={`${prices.transmission || "$19"} / month`}
+                    fallbackUrl={getCheckoutPaymentLink("transmission")}
+                    className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#5A7A9E] px-4 text-[14px] font-medium text-[#7A9ABE] transition-colors hover:bg-[#2A3A4E]"
+                  >
+                    Subscribe
+                  </PricingCheckoutButton>
+                </div>
               </article>
 
               {/* Stack page link */}

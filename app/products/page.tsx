@@ -20,8 +20,8 @@ const PRODUCTS = [
   { name: "Recall",          bundle: "Resilience",      tier: "$19/mo",  command: "recall status --watch", href: "/docs/recall/overview",           desc: "Manual fleet intervention. Ambient presence awareness." },
   // Access Control — separate from resilience layer
   { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "—",                     href: "/docs/sphinxgate/overview",       desc: "Access control for model routing. Governs which models run on which workloads." },
-  // Coming soon
-  { name: "Transmission",    bundle: "Coming Soon",     tier: "—",       command: "—",                     href: "/docs/transmission/overview",     desc: "Task-aware model routing. Fix the economics." },
+  // Routing & Economics
+  { name: "Transmission",    bundle: "Routing",         tier: "$19/mo",  command: "pip install acme-transmission", href: "/docs/transmission/overview", desc: "Task-aware model routing. Right model, right cost, every time. Beta." },
 ];
 
 // Muted palette — matches topology hex marker colors at ~88% opacity over dark bg
@@ -30,7 +30,7 @@ const BUNDLE_COLOR: Record<string, string> = {
   "Operator Bundle":"#B8782A",
   "Resilience":     "#B8782A",
   "Access Control": "#5A7080",
-  "Coming Soon":    "#3A4048",
+  "Routing":        "#5A7A9E",
 };
 
 export default function ProductsPage() {
@@ -79,16 +79,12 @@ export default function ProductsPage() {
             {PRODUCTS.map((p, i) => (
               <div
                 key={p.name}
-                className={`grid grid-cols-[200px_160px_220px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 ${p.bundle === "Coming Soon" ? "opacity-50" : "hover:bg-[#1E2630]"}`}
+                className={`grid grid-cols-[200px_160px_220px_1fr] gap-0 border-b border-[#232B34] px-4 py-3 text-[13px] transition last:border-0 hover:bg-[#1E2630]`}
               >
                 <div className="flex items-center">
-                  {p.bundle !== "Coming Soon" ? (
-                    <Link href={p.href} className="font-medium text-[#E6E6E6] hover:text-[#D98A2B] transition">
-                      {p.name}
-                    </Link>
-                  ) : (
-                    <span className="font-medium text-[#5A6E80]">{p.name}</span>
-                  )}
+                  <Link href={p.href} className="font-medium text-[#E6E6E6] hover:text-[#D98A2B] transition">
+                    {p.name}
+                  </Link>
                 </div>
                 <div className="flex items-center">
                   <span className="text-[11px] font-medium" style={{ color: BUNDLE_COLOR[p.bundle] ?? "#9AA3AD" }}>
