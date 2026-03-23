@@ -12,6 +12,8 @@ const PRODUCTS = [
   { name: "RadCheck",        bundle: "Diagnostics",     tier: "Free",    command: "radcheck",              href: "/docs/radcheck/score-explained", desc: "0–100 reliability score. Surfaces hidden risk." },
   // Operator Bundle — one resilience layer, sold as a unit
   { name: "Operator Bundle", bundle: "Operator Bundle", tier: "$29/mo",  command: "—",                     href: "/docs/operator-bundle/overview",  desc: "The complete resilience layer. Detection → readiness → recovery, fully wired." },
+  // Observability backbone (part of Operator Bundle)
+  { name: "Bonfire",         bundle: "Observability",   tier: "Bundle",  command: "bonfire status",        href: "/products/bonfire",               desc: "Watches the thing you forgot to watch." },
   // Standalone resilience products (entry points into the bundle)
   { name: "Sentinel",        bundle: "Resilience",      tier: "$5/mo",   command: "sentinel",              href: "/docs/sentinel/overview",         desc: "Always-on silent failure detection." },
   { name: "Watchdog",        bundle: "Resilience",      tier: "$5/mo",   command: "watchdog",              href: "/docs/watchdog/overview",         desc: "Heartbeat and liveness monitoring." },
@@ -29,6 +31,7 @@ const BUNDLE_COLOR: Record<string, string> = {
   "Diagnostics":    "#3D8A5C",
   "Operator Bundle":"#B8782A",
   "Resilience":     "#B8782A",
+  "Observability":  "#4A6E8A",
   "Access Control": "#5A7080",
   "Routing":        "#5A7A9E",
 };
