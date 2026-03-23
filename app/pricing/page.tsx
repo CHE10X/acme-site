@@ -216,7 +216,7 @@ export default async function PricingPage() {
                 <p className="mt-2 text-[14px] text-[#7A8EA0]">
                   Task-aware model routing. Right model, right cost, every time. Patent pending.
                 </p>
-                <div className="mt-4 text-[13px] font-mono text-[#9AA3AD]">Pricing TBD</div>
+                <PriceLine price={prices.transmission ?? "$29"} />
                 <Link
                   href="/docs/transmission/overview"
                   className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#C8D4E0] transition-colors hover:border-[#9AA3AD]"
