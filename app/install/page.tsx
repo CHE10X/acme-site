@@ -39,10 +39,18 @@ export default function InstallPage() {
           <div className="mt-4 space-y-5">
             <div>
               <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
+                Step 0 — Download the installer
+              </div>
+              <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
+                curl -sSL https://raw.githubusercontent.com/CHE10X/acme-ops/main/scripts/install/acme_install.sh -o acme_install.sh && chmod +x acme_install.sh
+              </div>
+            </div>
+            <div>
+              <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
                 Step 1 — Preview (recommended)
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                acme_install.sh -dry-run
+                ./acme_install.sh -dry-run
               </div>
             </div>
             <div>
@@ -50,7 +58,7 @@ export default function InstallPage() {
                 Step 2 — Apply
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                acme_install.sh -apply
+                ./acme_install.sh -apply
               </div>
             </div>
             <div id="verify">
@@ -58,7 +66,7 @@ export default function InstallPage() {
                 Step 3 — Verify
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                acme_install.sh -verify
+                ./acme_install.sh -verify
               </div>
             </div>
           </div>
