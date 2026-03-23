@@ -1,0 +1,221 @@
+.page {
+  --bg: #1e2226;
+  --ink: #e6e6e6;
+  --ink-mid: #e6e6e6;
+  --label: #9aa3ad;
+  --accent: #d98a2b;
+  --rule: #3a4048;
+  --paper: #242a30;
+  --surface: #2c3238;
+  --link: #d98a2b;
+
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -1;
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 24px 112px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  border-radius: 6px;
+  margin-top: 36px;
+  margin-bottom: 36px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.classification {
+  display: inline-block;
+  margin-bottom: 36px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: 5px 10px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--label);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.titleBlock {
+  border-left: 3px solid var(--accent);
+  padding-left: 18px;
+  margin-bottom: 52px;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+.postDate {
+  color: var(--accent);
+}
+
+.postAuthor {
+  color: var(--label);
+}
+
+.postAuthor::before {
+  content: "·";
+  margin-right: 12px;
+  color: var(--rule);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(28px, 4.4vw, 38px);
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.content {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink-mid);
+}
+
+.content h2 {
+  margin: 44px 0 18px;
+  font-size: clamp(20px, 2.6vw, 24px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.content h3 {
+  margin: 36px 0 14px;
+  font-size: clamp(17px, 2.2vw, 20px);
+  line-height: 1.4;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.content p {
+  margin: 0 0 23px;
+}
+
+.content p:last-child {
+  margin-bottom: 0;
+}
+
+.content a {
+  color: var(--link);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(217, 138, 43, 0.35);
+  transition: border-color 0.2s ease;
+}
+
+.content a:hover {
+  border-bottom-color: var(--link);
+}
+
+.content strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.content ul,
+.content ol {
+  margin: 0 0 23px;
+  padding-left: 32px;
+}
+
+.content li {
+  margin-bottom: 8px;
+}
+
+.content code {
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  color: var(--accent);
+}
+
+.content pre {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 18px 20px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 0 0 23px;
+}
+
+.content pre code {
+  background: none;
+  padding: 0;
+  color: var(--ink-mid);
+}
+
+.content blockquote {
+  margin: 32px 0;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  padding: 18px 20px;
+  font-style: italic;
+}
+
+.content blockquote p {
+  margin: 0;
+}
+
+.content hr {
+  margin: 44px 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.postFooter {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid var(--rule);
+}
+
+.backLink {
+  display: inline-block;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  text-decoration: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  transition: opacity 0.2s ease;
+}
+
+.backLink:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 700px) {
+  .wrap {
+    padding: 56px 20px 88px;
+  }
+}
