@@ -44,7 +44,7 @@ export default function SiteHeader({
     { href: "/pricing", label: "Pricing" },
     { href: "/products", label: "Products" },
     { href: "https://docs.acmeagentsupply.com", label: "Docs" },
-
+    { href: "/blog", label: "Blog" },
     { href: "/bot-shop", label: "Operator Utilities" },
     { href: "/operators-tale", label: "About" },
     { href: "/legal/terms-of-service", label: "Legal: Terms of Service" },
@@ -72,6 +72,9 @@ export default function SiteHeader({
           <a href="https://docs.acmeagentsupply.com" target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Docs
           </a>
+          <Link href="/blog" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
+            Blog
+          </Link>
           <Link href="/bot-shop" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
             Operator Utilities
           </Link>

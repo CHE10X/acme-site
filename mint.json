@@ -82,6 +82,17 @@
       ]
     },
     {
+      "group": "Quartermaster",
+      "pages": [
+        "docs/products/qm/overview",
+        "docs/products/qm/quickstart",
+        "docs/products/qm/reference-stack",
+        "docs/products/qm/done-protocol",
+        "docs/products/qm/heartbeat-protocol",
+        "docs/products/qm/remediation-playbook"
+      ]
+    },
+    {
       "group": "Architecture",
       "pages": [
         "docs/architecture/reliability-stack"
