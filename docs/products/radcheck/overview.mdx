@@ -7,6 +7,16 @@ description: Read-only reliability scanning for AI agents
 
 RadCheck is ACME's free reliability scanner. It performs a read-only assessment of your agent environment and produces a 0-100 reliability score.
 
+## Install
+
+RadCheck is free. No account required.
+
+```bash
+curl -fsSL https://acmeagentsupply.com/install/radcheck | bash
+```
+
+**License:** [ACME Freeware License](/legal/radcheck-license) — free to use, not free to fork or redistribute.
+
 ## What RadCheck Does
 
 <Info>
@@ -23,7 +33,7 @@ RadCheck examines your agent system for reliability risk factors:
 ## Running RadCheck
 
 ```bash
-acme radcheck
+python3 ~/.openclaw/watchdog/radiation_check.py
 ```
 
 The scan typically completes in under 30 seconds. Output includes:
@@ -71,22 +81,6 @@ Think of it this way:
 - **Sentinel** = Continuous monitoring (like a heart monitor)
 
 Most operators start with RadCheck to understand their baseline, then add Sentinel for runtime protection.
-
-## CLI Reference
-
-```bash
-# Basic scan
-acme radcheck
-
-# JSON output (for CI/CD integration)
-acme radcheck --format json
-
-# Scan specific agent
-acme radcheck --agent my-agent-name
-
-# Verbose output with all checks
-acme radcheck --verbose
-```
 
 ## Next Steps
 
