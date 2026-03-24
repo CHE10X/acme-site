@@ -1,5 +1,3 @@
-
-
 export default function InstallPage() {
   return (
     <>
@@ -39,10 +37,13 @@ export default function InstallPage() {
           <div className="mt-4 space-y-5">
             <div>
               <div className="text-sm uppercase tracking-[0.28em] text-zinc-500">
-                Step 0 — Download the installer
+                Step 0 — Clone the installer repo
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                curl -sSL https://raw.githubusercontent.com/CHE10X/acme-ops/main/scripts/install/acme_install.sh -o acme_install.sh && chmod +x acme_install.sh
+                git clone https://github.com/CHE10X/acme-ops.git && cd acme-ops
+              </div>
+              <div className="mt-1 text-xs text-zinc-500">
+                The installer resolves product files from the repo — it must run from within the clone.
               </div>
             </div>
             <div>
@@ -50,7 +51,7 @@ export default function InstallPage() {
                 Step 1 — Preview (recommended)
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                ./acme_install.sh -dry-run
+                ./scripts/install/acme_install.sh --bundle all --dry-run
               </div>
             </div>
             <div>
@@ -58,7 +59,7 @@ export default function InstallPage() {
                 Step 2 — Apply
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                ./acme_install.sh -apply
+                ./scripts/install/acme_install.sh --bundle all --apply
               </div>
             </div>
             <div id="verify">
@@ -66,7 +67,7 @@ export default function InstallPage() {
                 Step 3 — Verify
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                ./acme_install.sh -verify
+                ./scripts/install/acme_install.sh --bundle all --verify
               </div>
             </div>
           </div>
@@ -82,8 +83,8 @@ export default function InstallPage() {
           </div>
           <ul className="mt-4 space-y-2 text-sm text-zinc-300">
             <li>• RadCheck (free)</li>
-            <li>• Lazarus Lite (free)</li>
-            <li>• Optional modules you select</li>
+            <li>• Sentinel stack (attach bridge + compaction guard)</li>
+            <li>• Agent911 control plane</li>
           </ul>
           <div className="mt-6 text-[11px] uppercase tracking-[0.32em] text-zinc-500">
             Notes
