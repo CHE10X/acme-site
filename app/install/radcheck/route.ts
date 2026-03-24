@@ -23,7 +23,7 @@ const INSTALL_SCRIPT = `#!/usr/bin/env bash
 
 set -euo pipefail
 
-REPO="https://github.com/CHE10X/acme-ops.git"
+REPO="https://github.com/acmeagentsupply/acme-ops.git"
 SCRIPTS_SRC="scripts/radiation"
 INSTALL_DIR="\${HOME}/.openclaw/watchdog"
 TMPDIR_BASE="\${TMPDIR:-/tmp}"
