@@ -40,7 +40,7 @@ export default function InstallPage() {
                 Step 0 — Clone the installer repo
               </div>
               <div className="mt-2 rounded-lg border border-zinc-800 bg-zinc-900/60 px-4 py-3 font-mono text-amber-200 text-sm">
-                git clone https://github.com/CHE10X/acme-ops.git && cd acme-ops
+                git clone https://github.com/acmeagentsupply/acme-ops.git && cd acme-ops
               </div>
               <div className="mt-1 text-xs text-zinc-500">
                 The installer resolves product files from the repo — it must run from within the clone.
