@@ -101,7 +101,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
       free: true,
       installCommand: "See docs: /docs/radcheck/score-explained",
       docsUrl: "/docs/radcheck/score-explained",
-      repoUrl: "https://github.com/CHE10X/acme-site",
+      repoUrl: "https://github.com/acmeagentsupply/acme-ops",
       canonicalSourceLockUrl:
         "https://github.com/acmeagentsupply/triage/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
       latestVersion: "current",
@@ -122,7 +122,7 @@ export function getToolRegistry(): ToolRegistryEntry[] {
       free: false,
       installCommand: "See docs: /docs/sentinel/overview",
       docsUrl: "/docs/sentinel/overview",
-      repoUrl: "https://github.com/CHE10X/acme-site",
+      repoUrl: "https://github.com/acmeagentsupply/acme-ops",
       canonicalSourceLockUrl:
         "https://github.com/acmeagentsupply/triage/blob/main/OPENCLAW_CANONICAL_SOURCE.md",
       latestVersion: "current",
