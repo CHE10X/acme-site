@@ -83,7 +83,7 @@ Agent911 v0.1 aggregates from 7 signal sources:
 | Sentinel | Runtime anomalies, stall detection |
 | Watchdog | Heartbeat / liveness probe results |
 | OCTriage | Incident classification, evidence bundles |
-| DriftGuard | Session-to-session behavioral delta |
+| InfraWatch | Session-to-session behavioral delta |
 | RadCheck | Baseline reliability score history |
 | Lazarus | Recovery readiness posture |
 | Native logs | Raw process/gateway logs (when available) |
@@ -122,10 +122,6 @@ Step 6: Confirm Watchdog liveness post-restart
 
 Playbooks are deterministic — same incident type, same playbook — which means **you can run them cold**, not just the person who knows the system by heart.
 
-## FindMyAgent (Included)
-
-Agent911 includes [FindMyAgent](/products/findmyagent/overview) — live presence and operator awareness for your agent fleet. See which agents are active, stalled, or haven't checked in.
-
 ## CLI Reference
 
 ```bash
@@ -160,8 +156,8 @@ See [Pricing](/pricing) for current rates.
   <Card title="Snapshot Explained" icon="chart-mixed" href="/products/agent911/snapshot-explained">
     Deep dive into what a snapshot contains and how to read it.
   </Card>
-  <Card title="FindMyAgent" icon="location-dot" href="/products/findmyagent/overview">
-    Agent presence and operator awareness, included with Agent911.
+  <Card title="Recall" icon="hand" href="/products/recall/overview">
+    Direct intervention when automated monitoring needs a human decision.
   </Card>
   <Card title="Sentinel" icon="shield" href="/products/sentinel/overview">
     The detection layer that feeds Agent911. Start here first.

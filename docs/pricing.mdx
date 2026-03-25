@@ -49,19 +49,12 @@ Protection and control for operators running production agents.
     
     [→ Docs](/products/sentinel/overview) · [→ Buy](https://acmeagentsupply.com/products/sentinel)
   </Card>
-  <Card title="Watchdog" icon="eye">
-    **Liveness Monitoring**
+  <Card title="InfraWatch" icon="arrow-right-arrow-left">
+    **Infrastructure Drift Detection**
     
-    Active heartbeat probes, stall detection, throughput monitoring. Confirms your agents are working, not just running.
+    Session-to-session behavioral analysis. Catches long-horizon degradation that point-in-time tools miss. Included with the Operator Bundle.
     
-    [→ Docs](/products/watchdog/overview) · [→ Buy](https://acmeagentsupply.com/products/watchdog)
-  </Card>
-  <Card title="DriftGuard" icon="arrow-right-arrow-left">
-    **Behavioral Drift Detection**
-    
-    Session-to-session behavioral analysis. Catches long-horizon degradation that point-in-time tools miss.
-    
-    [→ Docs](/products/driftguard/overview) · [→ Buy](https://acmeagentsupply.com/products/driftguard)
+    [→ Docs](/products/infrawatch/overview)
   </Card>
   <Card title="SphinxGate" icon="shield-check">
     **Routing Policy & Audit**
@@ -71,16 +64,16 @@ Protection and control for operators running production agents.
     [→ Docs](/products/sphinxgate/overview) · [→ Buy](https://acmeagentsupply.com/products/sphinxgate)
   </Card>
   <Card title="Transmission" icon="tower-broadcast">
-    **Signal Transport**
+    **Task-Aware Model Routing**
     
-    Reliable signal delivery across the ACME stack and to external channels. Dead letter handling, delivery receipts.
+    Routes each agent task to the right model automatically — matching complexity to cost. Reduces token spend 85–90% on high-volume workloads. Early access.
     
     [→ Docs](/products/transmission/overview) · [→ Buy](https://acmeagentsupply.com/products/transmission)
   </Card>
   <Card title="Agent911" icon="radar">
     **Control Plane**
     
-    Unified telemetry, guided recovery playbooks, proof bundles. Includes FindMyAgent for fleet visibility. The 2am cockpit.
+    Unified telemetry, guided recovery playbooks, proof bundles. The read-only cockpit that tells you what's wrong and what to do next.
     
     [→ Docs](/products/agent911/overview) · [→ Buy](https://acmeagentsupply.com/products/agent911)
   </Card>
@@ -93,7 +86,7 @@ Protection and control for operators running production agents.
 Everything. One purchase.
 
 <Card title="Operator Bundle" icon="box">
-  The full ACME reliability stack: Sentinel, Watchdog, DriftGuard, SphinxGate, Transmission, Agent911 (incl. FindMyAgent), plus all free tools.
+  The full ACME reliability stack: Sentinel, InfraWatch, Watchdog, SphinxGate, Agent911, plus all free tools. One install. Everything wired.
 
   Best for operators who want complete coverage without piecemeal decisions. Significant savings vs. individual product pricing.
 
@@ -123,13 +116,13 @@ When free tools keep revealing problems you can't prevent, that's when paid tool
 - Sentinel catches problems before users do
 - Agent911 tells you what to do when Sentinel fires
 
-Add **Watchdog** if you need active heartbeat probing on top of Sentinel's passive detection.
+Add **SphinxGate** for routing governance or **Transmission** if you're spending too much on model calls and want automatic cost optimization.
 
 ---
 
 ### Multi-model or compliance requirements?
 
-Add **SphinxGate** for routing governance and **Transmission** for signal delivery guarantees.
+**SphinxGate** enforces routing policy and produces an auditable decision log. **Transmission** routes each task to the right model automatically.
 
 ---
 

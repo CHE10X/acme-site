@@ -117,6 +117,22 @@ For questions or to send a support bundle: [support@acmeagentsupply.com](mailto:
 
 ---
 
+
+## Known Issues
+
+### launchd I/O Error on Fresh Installs (macOS)
+
+Some fresh installs fail at the launchd registration step with I/O error 5 (EIO). Symptoms: installer completes but Sentinel is not running as a background service.
+
+**Workaround:** Re-run the install with `sudo`, or switch to cron-based activation:
+
+```bash
+# Alternative: cron-based activation (no sudo required)
+(crontab -l 2>/dev/null; echo "*/5 * * * * $HOME/.openclaw/watchdog/acme-sentinel-watchdog.py >> $HOME/.openclaw/watchdog/sentinel.log 2>&1") | crontab -
+```
+
+This issue is under active investigation. Contact [support@acmeagentsupply.com](mailto:support@acmeagentsupply.com) if you hit it.
+
 ## Uninstall
 
 ```bash
