@@ -1,76 +1,96 @@
 ---
-title: 5-Minute Quickstart
-description: Get your first reliability score in under 5 minutes
+title: Get Started
+description: Find the right ACME tool for your situation and get running in minutes.
 ---
 
-# Quickstart
+# Get Started
 
-Get ACME running in observational mode. Nothing changes on your system — you just get visibility.
+ACME is a reliability stack for agent systems. The right starting point depends on what you're trying to solve.
 
-## Prerequisites
-
-- A running agent system (OpenClaw, LangChain, AutoGPT, or custom)
-- Shell access to the host machine
-- 5 minutes
-
-## Step 1: Install
-
-```bash
-curl -fsSL https://acmeagentsupply.com/install.sh | bash
-```
-
-This installs the ACME CLI tools. No daemons, no background processes yet.
-
-## Step 2: Run RadCheck
-
-```bash
-acme radcheck
-```
-
-RadCheck performs a read-only scan of your agent environment and produces a reliability score from 0-100.
-
-<Accordion title="What does RadCheck scan?">
-RadCheck examines:
-- **Stall risk** — patterns that indicate potential hangs
-- **Silence gaps** — periods of unexpected inactivity
-- **Compaction pressure** — context window utilization
-- **Hygiene** — configuration best practices
-
-Nothing is modified. It's purely observational.
-</Accordion>
-
-## Step 3: Interpret Your Score
-
-| Score Range | Status | What It Means |
-|-------------|--------|---------------|
-| 80-100 | 🟢 GREEN | Healthy. Low immediate risk. |
-| 60-79 | 🟡 YELLOW | Watch closely. Some risk factors present. |
-| 40-59 | 🟠 ORANGE | Attention needed. Reliability concerns. |
-| 0-39 | 🔴 RED | Critical. High risk of silent failure. |
-
-## Step 4: Start Sentinel (Optional)
-
-If you want continuous runtime protection:
-
-```bash
-acme sentinel start
-```
-
-Sentinel runs in the background, watching for stalls and silent failures. It doesn't take autonomous action — it alerts and provides context.
-
-## Next Steps
+## What are you dealing with?
 
 <CardGroup cols={2}>
-  <Card title="RadCheck Deep Dive" icon="magnifying-glass" href="/products/radcheck/score-explained">
-    Understand exactly what each score component means.
+  <Card title="My agent stalled or crashed" icon="triangle-exclamation" href="#i-need-to-diagnose-a-problem">
+    Start with Triage — free, read-only, no install friction.
   </Card>
-  <Card title="Sentinel Overview" icon="shield" href="/products/sentinel/overview">
-    Learn how runtime protection works.
+  <Card title="I want ongoing protection" icon="shield" href="#i-want-runtime-protection">
+    Sentinel watches your agent continuously and alerts on stalls and silent failures.
+  </Card>
+  <Card title="My agent is down and I need recovery" icon="rotate-right" href="#i-need-incident-recovery">
+    Agent911 handles incident response and recovery workflows.
+  </Card>
+  <Card title="I want to see everything" icon="layer-group" href="#operator-bundle">
+    The Operator Bundle includes the full reliability stack.
   </Card>
 </CardGroup>
 
-## Need Help?
+---
 
-- **Live Chat**: Click the widget in the bottom-right corner
+## I need to diagnose a problem
+
+**Start with ACME Triage.** Free, open source, zero commitment. It scans your agent environment and tells you exactly what's wrong.
+
+```bash
+curl -fsSL https://acmeagentsupply.com/install/triage | bash
+```
+
+Triage is your diagnostic starting point — it identifies the problem, then the ACME paid stack fixes it.
+
+<Accordion title="What does Triage examine?">
+- **Stall risk** — patterns that indicate potential hangs
+- **Silence gaps** — unexpected inactivity windows
+- **Compaction pressure** — context window saturation
+- **Configuration hygiene** — common reliability pitfalls
+
+Nothing is modified. Read-only.
+</Accordion>
+
+**Interpret your score:**
+
+| Score | Status | What It Means |
+|-------|--------|---------------|
+| 80–100 | 🟢 GREEN | Healthy. Low immediate risk. |
+| 60–79 | 🟡 YELLOW | Watch closely. Some risk factors present. |
+| 40–59 | 🟠 ORANGE | Attention needed. Act before it gets worse. |
+| 0–39 | 🔴 RED | Critical. High risk of silent failure. |
+
+→ [Triage documentation](/products/triage/overview)
+
+---
+
+## I want runtime protection
+
+**Sentinel** monitors your agent continuously — catching stalls, silent failures, and compaction events before they become incidents.
+
+```bash
+curl -fsSL https://acmeagentsupply.com/install/sentinel | bash
+```
+
+Sentinel runs as a background process. It alerts and provides context — it doesn't take autonomous action.
+
+→ [Sentinel documentation](/products/sentinel/overview)
+
+---
+
+## I need incident recovery
+
+**Agent911** handles recovery workflows when your agent is down or degraded.
+
+Contact [support@acmeagentsupply.com](mailto:support@acmeagentsupply.com) to provision access, or purchase via the [pricing page](/pricing).
+
+→ [Agent911 documentation](/products/agent911/overview)
+
+---
+
+## Operator Bundle
+
+Everything in one package: Sentinel + Agent911 + Recall + the full detection and recovery stack.
+
+**$29/mo** — [Get the Operator Bundle](/pricing)
+
+---
+
+## Need help?
+
 - **Email**: [support@acmeagentsupply.com](mailto:support@acmeagentsupply.com)
-- **GitHub Issues**: For bugs and feature requests
+- **Live Chat**: Click the widget in the bottom-right corner
