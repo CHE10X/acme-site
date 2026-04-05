@@ -78,7 +78,11 @@
       "group": "Governance",
       "pages": [
         "products/sphinxgate/overview",
-        "products/transmission/overview"
+        "products/transmission/overview",
+        "products/transmission/load-governor",
+        "products/transmission/cls",
+        "products/qm/v2",
+        "products/commander/overview"
       ]
     },
     {

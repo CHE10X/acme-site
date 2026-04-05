@@ -1,15 +1,15 @@
 ---
-title: Quartermaster Overview
+title: QuarterMaster Overview
 description: Mission orchestration for agent fleets. Coordination, visibility, no dropped balls.
 ---
 
-# Quartermaster
+# QuarterMaster
 
-Quartermaster is ACME's mission orchestration layer. It tracks every task across your agent fleet, detects when things stall, and coordinates resolution — without burning tokens on questions that are timestamp comparisons.
+QuarterMaster is ACME's mission orchestration layer. It tracks every task across your agent fleet, detects when things stall, and coordinates resolution — without burning tokens on questions that are timestamp comparisons.
 
 ## What It Does
 
-Quartermaster runs on a heartbeat. Every 30 minutes it reads your mission state, checks every active task, and delivers a status report that tells you exactly what's moving and what isn't.
+QuarterMaster runs on a heartbeat. Every 30 minutes it reads your mission state, checks every active task, and delivers a status report that tells you exactly what's moving and what isn't.
 
 - **Mission tracking** — Campaigns, missions, tasks. Structured state, not conversation.
 - **Stall detection** — Pure math: task age vs. configured timeout threshold. No AI inference.
@@ -19,7 +19,7 @@ Quartermaster runs on a heartbeat. Every 30 minutes it reads your mission state,
 ## What It Doesn't Do
 
 <Warning>
-Quartermaster is a control-plane agent, not a worker. It coordinates — it doesn't execute tasks itself.
+QuarterMaster is a control-plane agent, not a worker. It coordinates — it doesn't execute tasks itself.
 </Warning>
 
 - QM never accesses your gateway config, secrets, or credentials
@@ -34,7 +34,7 @@ Callsign / Scrum (voice/async interface)
     ↓
 Commander (policy and governance)
     ↓
-Quartermaster (mission orchestration)  ←── you are here
+QuarterMaster (mission orchestration)  ←── you are here
     ↓
 Dispatch (execution scheduler)
     ↓
@@ -43,7 +43,7 @@ Telepath (cognitive graph)
 Your Agents
 ```
 
-Quartermaster is a peer to Dispatch, not above it. Commander governs both. QM uses Dispatch as a task source.
+QuarterMaster is a peer to Dispatch, not above it. Commander governs both. QM uses Dispatch as a task source.
 
 ## The Token Principle
 
