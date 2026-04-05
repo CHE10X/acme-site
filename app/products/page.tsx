@@ -23,7 +23,7 @@ const PRODUCTS = [
   // Access Control — separate from resilience layer
   { name: "SphinxGate",      bundle: "Access Control",  tier: "—",       command: "—",                     href: "/docs/sphinxgate/overview",       desc: "Access control for model routing. Governs which models run on which workloads." },
   // Routing & Economics
-  { name: "Transmission",    bundle: "Routing",         tier: "$19/mo",  command: "pip install acme-transmission", href: "/docs/transmission/overview", desc: "Task-aware model routing. Right model, right cost, every time. Beta." },
+  { name: "Transmission",    bundle: "Routing",         tier: "$29/mo",  command: "pip install acme-transmission", href: "/docs/transmission/overview", desc: "Task-aware model routing. Right model, right cost, every time. Beta." },
 ];
 
 // Muted palette — matches topology hex marker colors at ~88% opacity over dark bg

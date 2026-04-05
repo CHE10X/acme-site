@@ -210,19 +210,23 @@ export default async function PricingPage() {
               </article>
 
               {/* Transmission — early access */}
-              <article className="rounded-[6px] border border-[#3A4048] bg-[#222830] p-5">
+              <article className="flex flex-col rounded-[6px] border border-[#3A4048] bg-[#222830] p-5">
                 <div className="text-[13px] uppercase tracking-[0.2em] text-[#4A9E6B]">Early Access</div>
                 <h4 className="mt-2 text-[20px] font-semibold text-[#C8D4E0]">Transmission</h4>
                 <p className="mt-2 text-[14px] text-[#7A8EA0]">
                   Task-aware model routing. Right model, right cost, every time. Patent pending.
                 </p>
                 <PriceLine price={prices.transmission ?? "$29"} />
-                <Link
-                  href="/docs/transmission/overview"
-                  className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#C8D4E0] transition-colors hover:border-[#9AA3AD]"
-                >
-                  Install →
-                </Link>
+                <div className="mt-auto">
+                  <PricingCheckoutButton
+                    productKey="transmission"
+                    priceLabel={`${prices.transmission ?? "$29"} / month`}
+                    fallbackUrl={getCheckoutPaymentLink("transmission")}
+                    className="mt-4 inline-flex h-9 min-w-[140px] items-center justify-center rounded-lg border border-[#3A4048] px-4 text-[14px] font-medium text-[#C8D4E0] transition-colors hover:border-[#9AA3AD]"
+                  >
+                    Get Started
+                  </PricingCheckoutButton>
+                </div>
               </article>
 
               {/* Stack page link */}
