@@ -80,7 +80,7 @@ export default function StackPage() {
       <div className="mx-auto max-w-5xl px-6 py-8 border-t border-[#2E363E]">
         <h2 className="text-[20px] font-semibold text-[#C8D4E0] mb-2">Coming in v2</h2>
         <p className="text-[14px] text-[#9AA3AD] mb-6">
-          Callsign, Transmission, Quartermaster, Commander, and the Briefing Room.
+          ReadyRoom, Transmission, Quartermaster, Commander, and the Briefing Room.
           The intelligence layer that runs on top of the reliability foundation.
         </p>
         <a

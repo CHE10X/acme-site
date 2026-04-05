@@ -74,7 +74,7 @@
 - [ ] Database migration trigger (when >100 customers)
 - [ ] GitHub repo access automation (deferred from license webhook v1)
 - [ ] Key rotation system for license signing
-- [ ] Callsign beta access gating
+- [ ] ReadyRoom beta access gating
 - [ ] Commander / Dispatch product pages
 
 ---
