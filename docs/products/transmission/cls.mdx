@@ -1,0 +1,102 @@
+---
+title: Context Load Score (CLS)
+description: Runtime session burden metric — know when an agent session is getting heavy before it becomes a problem.
+---
+
+# Context Load Score (CLS)
+
+The Context Load Score measures how operationally heavy a live agent session is. Not just how many tokens it contains, but what it's made of, how fast it's growing, and how dependent the agent has become on accumulated context.
+
+CLS is a runtime burden metric, not a size metric. An agent with 40k tokens of structured working memory and a clean tool call history may have a lower CLS than an agent with 25k tokens of sprawling chat history and 80 unresolved tool calls.
+
+## What CLS Measures
+
+CLS combines five dimensions into a single 0–100 score:
+
+| Dimension | What it captures |
+|-----------|----------------|
+| **Context volume** | Raw token estimate — how large is the session? |
+| **Composition** | What's the session made of? Tool call results, chat history, injected files, working memory — each carries different burden weight |
+| **Growth rate** | How fast is the session growing? A session growing 10k tokens per task cycle is a different risk profile than one that's stable |
+| **Tool call density** | High tool call count inflates context rapidly and increases rate limit exposure |
+| **Working memory dependency** | How much of the agent's operational state lives only in the session vs. in structured working files? Session-dependent state is fragile |
+
+## Score Ranges
+
+| Range | State | Meaning |
+|-------|-------|---------|
+| 0–40 | `healthy` | Normal operation, no action needed |
+| 41–64 | `elevated` | Session is accumulating weight; monitor |
+| 65–79 | `warn` | Consider compaction or session reset before the next heavy task |
+| 80–94 | `act` | Compaction recommended; Load Governor will prefer cheaper routing |
+| 95–100 | `critical` | High instability risk; session reset strongly advised |
+
+## How It's Used
+
+CLS feeds into the Load Governor as a pre-dispatch sensor. Before a call routes, the Load Governor reads the originating session's CLS:
+
+- **CLS < 65:** Normal routing proceeds
+- **CLS 65–79:** Load Governor prefers T1/T2 model tiers for this call
+- **CLS ≥ 80:** Load Governor may apply throttle; routing constrained to cheapest capable model
+- **CLS ≥ 95:** Load Governor flags session for recommended reset before next dispatch
+
+CLS also feeds QM v2's health projection engine. An agent whose session CLS is climbing toward the warn threshold will show `elevated` health state before any task formally stalls.
+
+## What CLS Does NOT Do
+
+<Warning>
+CLS does not judge agent quality. A high CLS score means the session is heavy — not that the agent is performing poorly. Many legitimate tasks produce heavy sessions. CLS is a risk signal, not a performance score.
+</Warning>
+
+- Does not terminate sessions
+- Does not block routing unilaterally (that's the Load Governor's call)
+- Does not attempt to measure task quality or output accuracy
+- Does not require exact token counts to be useful — estimates are sufficient for the scoring model
+
+## Where CLS Fits in the V3 Stack
+
+CLS is the sensing layer. The Load Governor acts on it. QM v2 incorporates it into health projections.
+
+```
+[Agent session] → [CLS Scanner] → score
+                                     ↓
+                             [Load Governor] → backpressure decision
+                                     ↓
+                             [QM v2 health engine] → health_state projection
+```
+
+In V3, CLS covers volume and composition. V3.1 will add session age and working memory dependency as additional CLS dimensions.
+
+## Installation
+
+CLS Scanner is an installable component. All paths resolve from `OPENCLAW_BASE`.
+
+```bash
+# Install
+npm install -g @acme/cls-scanner
+
+# Run a one-time assessment
+cls-scanner --agent <agent-id>
+
+# Start continuous monitoring (feeds Load Governor)
+cls-scanner --watch --agent <agent-id>
+```
+
+## Configuration
+
+```json
+{
+  "cls": {
+    "elevated_threshold": 65,
+    "warn_threshold": 80,
+    "critical_threshold": 95,
+    "scan_interval_minutes": 5,
+    "report_to_load_governor": true,
+    "report_to_qm": true
+  }
+}
+```
+
+→ [Load Governor](/docs/products/transmission/load-governor) — acts on CLS signals  
+→ [QuarterMaster v2](/docs/products/qm/v2) — incorporates CLS into health projections  
+→ [Transmission Overview](/docs/products/transmission/overview) — the full routing stack

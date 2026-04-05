@@ -1,0 +1,214 @@
+---
+title: "CLS Scanner"
+description: "Context Load Score sensor — measure runtime burden before it becomes instability"
+icon: "chart-mixed"
+---
+
+## What It Is
+
+**Context Load Score (CLS)** is a per-agent sensor that measures how operationally heavy your live agent sessions are right now. Not just size — runtime burden.
+
+CLS computes a 0-100 load score every 10-30 minutes and tells you:
+- How heavy the session is
+- What it's made of
+- How fast it's growing
+- Whether it's carrying risk patterns
+
+You see load **before** you see degradation.
+
+---
+
+## Why It Matters
+
+Agent sessions can grow dangerous without warning. CLS catches trouble early:
+
+<CardGroup cols={2}>
+  <Card title="Early Signal" icon="triangle-exclamation">
+    Know load before quality drops. CLS identifies heavy sessions before they collapse, stall, or hit rate limits.
+  </Card>
+
+  <Card title="Root Cause Clarity" icon="magnifying-glass">
+    Not just "big" — CLS breaks down what's driving load: tool outputs, duplicate content, injected files, churn rate.
+  </Card>
+
+  <Card title="Actionable Guidance" icon="map">
+    Each score includes recommended action: compact, split workload, reduce retries, pause background tasks.
+  </Card>
+
+  <Card title="Load Governor Input" icon="plug">
+    CLS feeds directly into ACME Load Governor as its primary sensor. Load Governor uses CLS to make dispatch decisions fleet-wide.
+  </Card>
+</CardGroup>
+
+---
+
+## Severity Bands
+
+CLS returns a total score (0-100) and a severity band:
+
+| Band | Score Range | Meaning |
+|------|-------------|---------|
+| **LIGHT** | 0-20 | Very low burden, safe |
+| **HEALTHY** | 21-40 | Normal operating range |
+| **ELEVATED** | 41-60 | Monitor; growth or composition needs attention |
+| **HEAVY** | 61-80 | Likely to cause degraded behavior soon |
+| **CRITICAL** | 81-100 | Immediate intervention recommended |
+
+---
+
+## Formula
+
+CLS combines five dimensions using a simple average:
+
+```
+CLS Total = average(Size, Composition, Churn, Risk, Dependency)
+          = (Size + Composition + Churn + Risk + Dependency) ÷ 5
+```
+
+Each subscore is 0-100. All five dimensions carry equal weight.
+
+### Size Score
+Measures absolute session mass: estimated tokens, line count, growth rate.
+
+**Thresholds:**
+- ≤ 25k tokens = 10
+- ≤ 75k tokens = 30
+- ≤ 125k tokens = 50
+- ≤ 175k tokens = 70
+- ≤ 200k tokens = 85
+- > 200k tokens = 95
+
+### Composition Score
+Measures whether the session is heavy for good reasons or bad reasons.
+
+**Penalty drivers:**
+- Tool/log output share too high
+- Duplicate content
+- Injected files dominate
+- Copied logs/transcripts
+
+### Churn Score
+Measures how violently the session is changing.
+
+**Inputs:**
+- Writes per hour
+- Large writes
+- Growth spikes
+- Repeated file-read bursts
+
+### Risk Score
+Detects known collapse patterns.
+
+**Risk flags:**
+- Repeated large tool outputs
+- Archive access during runtime
+- Resume-after-failure behavior
+- Repeated retry/fail cycles
+- Multi-file prompt aggregation
+
+### Dependency Score
+Measures how much the agent depends on session history instead of structured memory.
+
+**Signals:**
+- Important knowledge absent from working files but present in session
+- Repeated re-derivation of the same conclusions
+- Inability to continue after compaction
+
+---
+
+## Output Format
+
+CLS writes structured JSON to `cls_scores.ndjson` (one record per scan per agent):
+
+```json
+{
+  "agent_id": "hendrik",
+  "session_id": "abc123",
+  "timestamp": "2026-03-27T14:00:00Z",
+  "score_total": 84,
+  "severity": "CRITICAL",
+  "subscores": {
+    "size": 78,
+    "composition": 88,
+    "churn": 91,
+    "risk": 95,
+    "dependency": 62
+  },
+  "estimated_tokens": 410000,
+  "composition": {
+    "pct_system": 12,
+    "pct_injected_files": 21,
+    "pct_user": 8,
+    "pct_agent": 17,
+    "pct_tool_output": 28,
+    "pct_logs_transcripts": 9,
+    "pct_duplicate": 5
+  },
+  "risk_flags": [
+    "resume_after_failure",
+    "large_tool_output",
+    "multi_file_aggregation"
+  ],
+  "recommended_action": "compact and split workload"
+}
+```
+
+---
+
+## Recommended Actions by Severity
+
+| Severity | Action |
+|----------|--------|
+| **LIGHT** | No action |
+| **HEALTHY** | Monitor normally |
+| **ELEVATED** | Inspect composition, encourage promotion to working memory |
+| **HEAVY** | Compact soon, reduce work unit size, avoid multi-file loads |
+| **CRITICAL** | Compact immediately, abandon pending heavy task, clear retry/resume behavior, split work into micro-steps |
+
+---
+
+## How It Works
+
+CLS is file-based and log-based. No hooks into provider APIs. No model inference.
+
+**Inputs:**
+- Session file size (bytes)
+- Session line count
+- Estimated token count (chars ÷ 4 heuristic)
+- File timestamps
+- Text classification (grep patterns)
+- Growth rate (diff between scans)
+
+**Runs every:**
+- 10-30 minutes (hygiene scan loop)
+- On agent wake/start
+- After compaction
+- After rate-limit incident
+- Before declaring GREEN
+
+---
+
+## Integration
+
+CLS feeds **Load Governor** as its primary input sensor.
+
+Load Governor polls `cls_scores.ndjson` for records newer than last poll timestamp, reads `score_total` + `severity` per agent, and computes fleet-wide CLS pressure.
+
+Load Governor uses CLS to decide:
+- Whether to throttle dispatch for an agent
+- Whether to pause background/cron tasks
+- Whether to restrict to single-provider lanes
+
+---
+
+## Core Principle
+
+**Knowledge in files is an asset. Knowledge trapped in session is a liability.**
+
+CLS measures runtime burden, not intelligence. High CLS doesn't mean an agent is bad — it means the current session is carrying too much operational weight, or carrying it in the wrong form.
+
+---
+
+## Availability
+
+CLS Scanner is included with ACME Agent Supply Co. deployments. Runs as part of the hygiene scan layer. No additional infrastructure required.

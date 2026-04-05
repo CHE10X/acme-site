@@ -1,0 +1,115 @@
+---
+title: QuarterMaster v2
+description: Event-sourced mission control with live health projections and real-time push alerts.
+---
+
+# QuarterMaster v2
+
+QuarterMaster v2 is the V3 control plane. It replaces the v1 polling model with event-sourced state, adds a unified health projection engine, and emits real-time push events that power the Briefing Room's live status surface.
+
+If QM v1 told you what happened, QM v2 tells you what's happening — and what's about to.
+
+## What's New in V2
+
+| Capability | v1 | v2 |
+|-----------|----|----|
+| Mission state | File-based snapshots | SQLite event store — full audit trail, no silent drops |
+| Health visibility | Stall detection after the fact | Health projections ahead of stall |
+| Alerts | Log entries | Push events via WebSocket (`/events/stream`) |
+| Dispatch governance | Flat queue | Configurable priority tiers with hard ceilings |
+| Commander integration | None | Commander v2 reads QM health state to enforce policy |
+
+## Health Projections
+
+QM v2 tracks a unified `health_state` for every agent and every active mission:
+
+```
+healthy → elevated → degraded → stall → critical
+```
+
+Health state is computed continuously from a combination of signals: task age, dependency backlog depth, retry count, and session burden (where CLS data is available). The projection looks forward — QM raises `elevated` before a task is technically stalled, giving operators and Commander time to respond.
+
+<Note>
+Health state is the source of truth for the Briefing Room's status surface. Every push event carries the current health_state so the UI is always in sync.
+</Note>
+
+## Priority Tiers
+
+V2 introduces configurable execution priority at the QM dispatch gate. When the system is under load, tiers determine what runs:
+
+| Tier | Typical use | Default ceiling |
+|------|------------|-----------------|
+| `ops_head` | Incident response, operator-critical | No ceiling |
+| `active_mission` | Standard outcome delivery | 1 concurrent run/agent |
+| `standard` | Routine agent work | 1 concurrent run/agent |
+| `background` | Non-critical processing | 1 concurrent run/agent |
+| `cron` (scheduled tasks) | Periodic checks, maintenance | 1 — no override |
+
+Operators configure which agents belong to which tier. QM enforces the ceiling at the dispatch gate — a scheduled task never starves an active mission.
+
+## Push Events
+
+QM v2 streams live state via WebSocket at `/events/stream`. Five event types:
+
+| Event | When it fires |
+|-------|--------------|
+| `MISSION_STATE_CHANGE` | Any mission transitions state |
+| `HEALTH_UPDATE` | Agent or mission health_state changes |
+| `STORM_DETECTED` | Fleet-wide load exceeds STORM threshold |
+| `CRITICAL_ALERT` | Agent reaches critical health state |
+| `TASK_COMPLETE` | A task is marked done with proof delivered |
+
+These are the same events the Briefing Room UI consumes. No polling required.
+
+## Migration from v1
+
+QM v2 ships an automatic migration tool. If you have v1 state:
+
+```bash
+qm migrate --from v1 --to v2
+```
+
+The tool reads your existing mission files, imports active missions into the v2 event store, and validates that all active tasks are preserved. The migration is idempotent — safe to run multiple times.
+
+For fresh installs, QM v2 initializes cleanly with no v1 state required.
+
+## What Doesn't Change
+
+QM v2 is a subsurface upgrade. The operational model is unchanged:
+- Still runs on a heartbeat (configurable, default 30 minutes)
+- Still reads mission files for task definitions
+- Still delivers nudges to agent inboxes
+- Still requires explicit authorization for remediation actions
+- Still never touches gateway config, secrets, or credentials
+
+The control logic remains 100% deterministic. Health projections are math, not inference.
+
+## Configuration
+
+All paths resolve from `OPENCLAW_BASE` — no hardcoded directories.
+
+```json
+{
+  "qm": {
+    "version": "2",
+    "heartbeat_minutes": 30,
+    "event_store": "${OPENCLAW_BASE}/qm/events.db",
+    "push_events": true,
+    "priority_tiers": {
+      "ops_head": { "ceiling": null },
+      "active_mission": { "ceiling": 1 },
+      "standard": { "ceiling": 1 },
+      "background": { "ceiling": 1 },
+      "cron": { "ceiling": 1, "override": false }
+    }
+  }
+}
+```
+
+## Where It Fits
+
+QM v2 is the central nervous system of the V3 stack. Commander v2 reads QM health state to enforce policy. The Load Governor reads QM priority state to calibrate backpressure. The Briefing Room consumes QM push events to display live outcome status.
+
+→ [Commander v2](/docs/products/commander/overview) — policy enforcement built on QM health state  
+→ [Load Governor](/docs/products/transmission/load-governor) — backpressure and STORM detection  
+→ [QuarterMaster Overview](/docs/products/qm/overview) — start here if you're new to QM

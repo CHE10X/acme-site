@@ -1,0 +1,205 @@
+---
+title: "Load Governor (Transmission v4)"
+description: "Adaptive throughput controller. Your agents slow down gracefully before they break, not after."
+icon: "gauge-max"
+---
+
+## What It Does
+
+The Load Governor is the **Adaptive Throughput Controller** for Transmission v4. It sits above the Transmission v3 resolver stack, senses Context Load Score (CLS) and provider pressure, emits STORM alerts, and applies backpressure signals.
+
+You built your system in a weekend. **The Load Governor makes sure it slows down before it breaks — not after.**
+
+The Load Governor gives you:
+- **Provider pressure sensing** — 429 rate detection, consecutive failure tracking, active agent counting
+- **CLS fleet pressure monitoring** — consumes Context Load Score to detect session burden before degradation
+- **System Load State computation** — CLEAR → ELEVATED → PRESSURED → CRITICAL → STORM
+- **STORM alerting** — immediate push to Slack/Telegram when provider pressure crosses critical thresholds
+- **Backpressure signals** — agents read `backpressure_state.json` and self-throttle cooperatively
+
+## Why Operators Trust the Load Governor
+
+The Load Governor detects trouble **before collapse**, not after.
+
+When OpenAI starts returning 429s, the Load Governor sees it within 10 seconds. When session context load spikes across your fleet, the Load Governor sees it before agents start degrading. When active agent count climbs past safe thresholds, the Load Governor applies backpressure **before rate limits breach**.
+
+**Your agents slow down gracefully. They don't crash and burn.**
+
+## Phase 1 Scope
+
+Transmission v4 Phase 1 is **sensing + alert-and-recommend only**:
+- Reads CLS scores from `cls_scores.ndjson` (produced by CLS Scanner)
+- Reads provider error logs from `gateway.err.log`
+- Computes System Load State every 10 seconds
+- Writes `backpressure_state.json` with recommendations
+- Writes `transmission_load_state.json` for QM v2 consumption
+- Emits STORM alerts to Slack/Telegram (fallback: `transmission_load_alert.json`)
+
+Phase 1 does **NOT include**:
+- Credit throttling (Phase 2)
+- Automated containment (Phase 2, opt-in)
+- Hard enforcement gates (Phase 1 is cooperative — agents self-throttle)
+
+## System Load State Decision Table
+
+The Load Governor evaluates these conditions **in order**. First match wins.
+
+Thresholds must sustain for **60 seconds** before escalating (hysteresis). **Exception:** STORM triggers immediately if 429 rate > 0.50 OR 3+ consecutive failures.
+
+| State | Trigger Condition |
+|-------|------------------|
+| **STORM** | 429 rate > 0.50 in 5m window **OR** 3+ consecutive failures (immediate) |
+| **CRITICAL** | 429 rate > 0.30 in 5m window **OR** CLS fleet pressure > 40 **OR** active agents > 8 |
+| **PRESSURED** | 429 rate > 0.10 in 5m window **OR** CLS fleet pressure > 25 **OR** active agents > 5 |
+| **ELEVATED** | 429 rate > 0.05 in 5m window **OR** CLS fleet pressure > 15 |
+| **CLEAR** | None of the above |
+
+All thresholds are configurable in `transmission_v4_config.json`.
+
+### What the States Mean
+
+<CardGroup cols={2}>
+<Card title="CLEAR" icon="circle-check">
+Normal operations. No action required.
+</Card>
+
+<Card title="ELEVATED" icon="triangle-exclamation">
+Early warning. Log state, monitor trends. No throttling yet.
+</Card>
+
+<Card title="PRESSURED" icon="gauge-simple-high">
+Backpressure applied. Stop retries on failing providers. Collapse to single provider lane. Throttle background-tier tasks.
+</Card>
+
+<Card title="CRITICAL" icon="octagon-exclamation">
+Stop retries immediately. Compact HEAVY/CRITICAL sessions. Single provider lane required. Pause background and cron tiers. Alert operator (requires `critical_enabled: true` in config — default: off).
+</Card>
+
+<Card title="STORM" icon="bolt">
+Alert operator via Slack/Telegram. STORM backpressure signal written. Manual Recovery Mode steps displayed. Only ops-head tier tasks allowed.
+</Card>
+</CardGroup>
+
+## Intervention Sequence
+
+The Load Governor recommends actions **in priority order** per state:
+
+| State | Recommended Actions |
+|-------|---------------------|
+| **ELEVATED** | Log state. No action required. |
+| **PRESSURED** | 1. Stop retries on failing providers<br/>2. Collapse to single provider lane<br/>3. Write PRESSURED backpressure signal |
+| **CRITICAL** | 1. Stop retries immediately<br/>2. Compact HEAVY/CRITICAL sessions<br/>3. Require single provider lane<br/>4. Write CRITICAL backpressure signal<br/>5. Alert operator (opt-in: `critical_enabled: true`) |
+| **STORM** | 1. Alert operator (Slack/Telegram)<br/>2. Write STORM backpressure signal<br/>3. Display Recovery Mode steps |
+
+## Backpressure Signal Schema
+
+The Load Governor writes `backpressure_state.json` on every state change:
+
+```json
+{
+  "state": "PRESSURED",
+  "as_of": "2026-03-29T14:00:00Z",
+  "recommendations": ["stop_retries", "single_provider_lane"],
+  "sustained_since": "2026-03-29T13:59:00Z",
+  "provider_pressure": {
+    "429_rate_5m": 0.12,
+    "consecutive_failures": 1,
+    "affected_providers": ["openai"]
+  },
+  "cls_fleet_pressure": 18,
+  "active_agent_count": 3
+}
+```
+
+**Agent behavior on reading this file:**
+- **Phase 1 (cooperative):** Agents check the file and self-throttle if `state >= PRESSURED`
+- **Phase 2 (enforced):** Transmission gates provider calls against this signal
+
+## STORM Event Schema
+
+When the Load Governor enters STORM state, it emits a `TRANSMISSION_STORM_DETECTED` event:
+
+```json
+{
+  "event": "TRANSMISSION_STORM_DETECTED",
+  "timestamp": "2026-03-29T14:05:00Z",
+  "state": "STORM",
+  "trigger": "429_rate",
+  "trigger_value": 0.52,
+  "affected_providers": ["openai"],
+  "recommendations": ["stop_retries", "single_provider_lane", "compact_sessions"],
+  "recovery_mode_steps": "See docs/architecture/OPENCLAW_RECOVERY_MODE_SPEC.md"
+}
+```
+
+**Primary alert path:** Slack/Telegram message to configured operator channel.
+**Fallback:** Write to `transmission_load_alert.json` if message delivery fails.
+
+## CLS Integration
+
+The Load Governor consumes **Context Load Score (CLS)** as its primary session burden input.
+
+CLS is produced by the **CLS Scanner** (separate component, runs as part of hygiene scan loop). The Load Governor reads `cls_scores.ndjson` and computes fleet-wide CLS pressure from the latest scan results.
+
+**CLS → Load Governor feed:**
+- CLS Scanner writes `cls_scores.ndjson` (one JSON record per agent per scan)
+- Load Governor polls every 10-30 minutes (sync with CLS scan cadence)
+- Load Governor reads `score_total` and `severity` fields
+- Computes `cls_fleet_pressure` as aggregate burden metric
+- Feeds into System Load State decision table
+
+If CLS Scanner is not deployed, the Load Governor runs in **provider-pressure-only mode** for Phase 1.
+
+## Active Agent Count
+
+**Definition:** Agent currently executing a provider call — **NOT** "agent with open session file."
+
+**Measurement:** Count `runId` entries in `gateway.err.log` and `gateway.log` within the last 30 seconds that have a start event but no corresponding completion event.
+
+Active agent count is one of three pressure inputs (along with 429 rate and CLS fleet pressure).
+
+## Polling Cadence
+
+| Feed | Cadence |
+|------|---------|
+| Provider error rate (`gateway.err.log`) | Every 10 seconds |
+| CLS scores (`cls_scores.ndjson`) | Sync with CLS scan (10-30 min, or on-change) |
+| Active agent count (`gateway.log`) | Every 10 seconds |
+| State evaluation | Every 10 seconds |
+| State write (`transmission_load_state.json`) | On every state change |
+
+## Configuration
+
+All paths are resolved from a base directory defined in `transmission_v4_config.json`:
+
+```json
+{
+  "base_directory": "~/.openclaw",
+  "paths": {
+    "cls_scores": "${base}/watchdog/cls_scores.ndjson",
+    "gateway_error_log": "${base}/logs/gateway.err.log",
+    "backpressure_state": "${base}/watchdog/backpressure_state.json",
+    "load_state": "${base}/watchdog/transmission_load_state.json",
+    "alert_fallback": "${base}/watchdog/transmission_load_alert.json"
+  },
+  "qm_events_endpoint": "http://localhost:8090/qm/events"
+}
+```
+
+Set `base_directory` once. All paths resolve via `${base}` interpolation.
+
+## What's Next
+
+Phase 2 adds:
+- **Credit throttling** — Load Governor enforces credit ceilings per agent/mission
+- **Automated containment** — opt-in automatic session compaction when CRITICAL state sustained
+- **Hard enforcement gates** — Transmission blocks provider calls instead of relying on agent cooperation
+
+Phase 1 gives you **visibility and cooperative backpressure**. Phase 2 gives you **hard enforcement**.
+
+---
+
+**Version:** Transmission v4 Phase 1
+**Status:** Sensing + alert-and-recommend (cooperative backpressure)
+**What's Stable:** Backpressure signal schema, STORM event schema, System Load State thresholds
+**What's Coming:** Credit throttling (Phase 2), hard enforcement gates (Phase 2)

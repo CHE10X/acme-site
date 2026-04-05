@@ -1,0 +1,111 @@
+---
+title: Commander
+description: Policy enforcement and governance for multi-agent stacks. The layer that makes priority real.
+---
+
+# Commander
+
+Commander is ACME's policy enforcement layer. It sits above QuarterMaster and Dispatch, reads health state and load signals from across the stack, and applies deterministic policy to keep your agent fleet operating within the bounds you set.
+
+If QM v2 is the mission tracker and the Load Governor is the load sensor, Commander is the decision engine that acts on what they report.
+
+## What Commander Does
+
+Commander has four responsibilities:
+
+**1. Priority tier enforcement**  
+Commander gates task dispatch based on QM priority tiers. When the stack is under load, Commander ensures `ops_head` and `active_mission` work proceeds while `background` and scheduled tasks wait. Priority isn't a label — it's enforced.
+
+**2. Policy evaluation**  
+Operators configure policies: maximum concurrent agent count, model tier restrictions, off-hours execution limits, cost thresholds. Commander evaluates these policies continuously against live stack state and blocks dispatch when policy would be violated.
+
+**3. Load signal coordination**  
+Commander reads derived pressure signals from both QM v2 (health state) and the Load Governor (backpressure level). It combines these into a fleet-level picture and applies appropriate policy responses — throttling, tier-gating, or STORM escalation.
+
+**4. Audit trail**  
+Every Commander policy decision is logged. You can see exactly what was allowed, what was blocked, and why.
+
+## What Commander Does NOT Do
+
+<Warning>
+Commander enforces policy. It does not execute tasks, manage agent sessions, or make routing decisions for individual model calls. Those are QM's, Dispatch's, and Transmission's jobs respectively.
+</Warning>
+
+- Does not replace QuarterMaster — Commander reads QM state; it doesn't duplicate QM's mission tracking
+- Does not route model calls — that's Transmission
+- Does not access agent credentials or secrets
+- Does not autonomously change operator-configured policies
+
+## How Commander Sees the Stack
+
+Commander reads three signal sources:
+
+| Source | Signal | Commander uses it for |
+|--------|--------|----------------------|
+| QM v2 | `health_state` per agent and mission | Detecting degraded agents; blocking new task assignment to critical agents |
+| Load Governor | Backpressure level (nominal / elevated / throttle / STORM) | Adjusting dispatch gates during fleet load events |
+| QM v2 | Priority tier of pending tasks | Enforcing tier ordering at the dispatch gate |
+
+Commander does not read raw credit balances or session internals. It operates on derived signals — the minimum information needed to make a governance decision.
+
+## V2: The Policy Engine
+
+Commander v2 ships with V3. The V3 scope covers:
+
+- Priority tier dispatch gates (hard enforcement, not advisory)
+- Load Governor integration (policy tightens automatically when Load Governor enters throttle/STORM mode)
+- Unified governance coordinator: single Commander instance reads from CLS, Load Governor, and QM; replaces any prior per-product policy enforcement
+
+V3.1 will add Commander's learning loop — policy tuning based on observed outcomes. V3 ships deterministic policy only.
+
+## Configuration
+
+Policies are defined in `commander.json`, resolved from `OPENCLAW_BASE`:
+
+```json
+{
+  "commander": {
+    "version": "2",
+    "policies": {
+      "max_concurrent_agents": 10,
+      "ops_head_reserved_capacity": 2,
+      "block_background_during_storm": true,
+      "block_scheduled_during_storm": true,
+      "model_tier_cap": null
+    },
+    "dispatch_gates": {
+      "ops_head": { "requires_health": "any" },
+      "active_mission": { "requires_health": ["healthy", "elevated"] },
+      "standard": { "requires_health": ["healthy", "elevated"], "block_during": ["throttle", "storm"] },
+      "background": { "requires_health": ["healthy"], "block_during": ["elevated", "throttle", "storm"] },
+      "cron": { "requires_health": ["healthy"], "block_during": ["elevated", "throttle", "storm"] }
+    }
+  }
+}
+```
+
+Dispatch gate policies define which health states allow task dispatch for each tier, and which backpressure levels trigger automatic blocking. These are the rules Commander enforces — they do not require manual intervention.
+
+## The Governance Stack
+
+Commander is the top of the V3 governance layer:
+
+```
+Commander v2 (policy enforcement)
+    ↓ reads
+QM v2 health state + priority tiers
+    ↓ reads
+Load Governor backpressure level
+    ↓ reads
+CLS Scanner session burden scores
+```
+
+Each layer is independent and separately observable. Commander's audit log records which signal triggered which policy decision, so you can always trace a blocked dispatch back to its cause.
+
+## Where Commander Fits
+
+Commander is positioned between the operator interface (Briefing Room) and the execution layer (Dispatch). Operators set policies. Commander enforces them. Agents and operators don't interact with Commander directly — they see its effects: outcomes complete, the right work runs first, the stack doesn't collapse under load.
+
+→ [QuarterMaster v2](/docs/products/qm/v2) — the health and mission state Commander reads  
+→ [Load Governor](/docs/products/transmission/load-governor) — the load signals Commander acts on  
+→ [Dispatch](/docs/products/qm/overview) — the execution layer Commander gates

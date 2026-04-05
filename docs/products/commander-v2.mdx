@@ -1,0 +1,274 @@
+---
+title: "Commander v2"
+description: "Policy engine for agent fleets — your policies run at dispatch time, not just on paper"
+icon: "shield-halved"
+---
+
+## What It Is
+
+**Commander v2** is the policy engine that governs what your agents are allowed to do. It sits between your operator surfaces and the execution layer, evaluating every task dispatch against your policy rules before anything runs.
+
+Commander's answer is always binary: **ALLOW** or **BLOCK**. It never crashes Dispatch. If Commander is unavailable, Dispatch falls back to fail-open — your fleet keeps running.
+
+---
+
+## Stack Position
+
+```
+Operator (Callsign, Scrum)
+  ↓
+Commander ← policy enforcement, governance overlays
+  ↓
+QuarterMaster ← mission orchestration
+  ↓
+Dispatch ← execution scheduler
+  ↓
+Agents
+```
+
+Commander is evaluated at two gates: before a task is scheduled (task-level) and before it's assigned to a specific agent (agent-level). Both gates use the same policy engine.
+
+---
+
+## Why It Matters
+
+<CardGroup cols={2}>
+  <Card title="Policies That Run" icon="bolt">
+    Rules are enforced at dispatch time, not just documented. Commander blocks violations before they execute — not after an agent has already started work it shouldn't.
+  </Card>
+
+  <Card title="Scope-Based Rules" icon="crosshairs">
+    Policies match on agent type, agent ID, task category, task source, work class, priority, and more. Global rules, agent-specific rules, or task-type rules — all in one engine.
+  </Card>
+
+  <Card title="Dynamic Governance Overlays" icon="layers">
+    Commander v2 reads Telepath governance artifacts in real time. A Hypnos hold or QM stall artifact becomes an immediate policy overlay — no policy file edit required.
+  </Card>
+
+  <Card title="Fail-Open Safety" icon="circle-check">
+    Commander never crashes Dispatch. Any evaluation failure returns ALLOW and emits <code>COMMANDER_POLICY_UNAVAILABLE</code>. Your fleet stays up.
+  </Card>
+</CardGroup>
+
+---
+
+## How Policy Evaluation Works
+
+When Dispatch needs to dispatch a task, it calls:
+
+```python
+adapter.evaluate(task_envelope, agent_id) → PolicyDecision
+```
+
+Commander evaluates policies in **priority order** (lower integer = higher priority). First match wins.
+
+| Effect | Meaning |
+|--------|---------|
+| **BLOCK** | Task/agent combination rejected. Dispatch emits `DISPATCH_POLICY_REJECTED`. |
+| **ALLOW** | Explicit allow — stops further evaluation. No subsequent BLOCK can override. |
+
+**Default if no policy matches: ALLOW.** The system is open by default; you layer specific BLOCK rules on top.
+
+---
+
+## Policy Record Model
+
+Each policy rule is a structured record:
+
+```json
+{
+  "policy_id": "pol-001",
+  "name": "background-agents-no-analysis",
+  "enabled": true,
+  "priority": 100,
+  "scope": "agent_type",
+  "scope_value": "background",
+  "condition": {
+    "type": "task_work_class",
+    "operator": "not_in",
+    "values": ["analysis", "critique"]
+  },
+  "effect": "BLOCK",
+  "reason": "Background agents may not run analysis or critique tasks",
+  "blocker_id": "pol-001"
+}
+```
+
+### Scope Types
+
+| Scope | Matches On |
+|-------|-----------|
+| `global` | All tasks and agents |
+| `agent_id` | Specific agent identifier |
+| `agent_type` | background, ops, cognitive, dev |
+| `agent_role` | reviewer, executor, planner |
+| `task_category` | cognitive / scheduled / external / ops |
+| `task_type` | Specific task type string |
+| `work_class` | analysis / execution / communication / synthesis |
+| `source` | telepath / external / scheduler / recall / quartermaster |
+
+### Condition Types
+
+| Condition | Evaluates |
+|-----------|-----------|
+| `task_work_class` | `envelope["work_class"]` |
+| `task_category` | `envelope["task_category"]` |
+| `task_type` | `envelope["task_type"]` |
+| `task_source` | `envelope["source"]` |
+| `task_priority` | `envelope["priority"]` (critical/high/normal/low) |
+| `agent_type` | `candidate_agent["agent_type"]` |
+| `agent_role` | `candidate_agent["agent_role"]` |
+| `hypothesis_confidence` | `envelope["hypothesis_confidence"]` (float, nullable) |
+| `always` | Always matches — use for global BLOCK/ALLOW rules |
+
+**Condition operators:** `in`, `not_in`, `eq`, `neq`, `lt`, `lte`, `gt`, `gte`, `is_null`, `is_not_null`
+
+---
+
+## Governance Overlays (v2)
+
+Commander v2 reads governance artifacts from the Telepath graph and applies them as **dynamic overlays on top of your base policy file**. No file edit required — a Telepath artifact becomes an immediate policy enforcement action.
+
+| Artifact | Effect |
+|----------|--------|
+| `hypnos_hold` (global scope) | Block all new task assignments globally |
+| `hypnos_hold` (agent_subset scope) | Block assignments to the specified agents |
+| `hypnos_branch_pause` | Advisory only — de-prioritize, do not hard-block |
+| `qm_stall` | Flag agent for review; emit `COMMANDER_AGENT_FLAGGED` |
+
+**Base policy wins on conflict.** Overlays cannot override a BLOCK in your base policy file.
+
+**`hypnos_branch_pause` is advisory.** Branch pauses are not enforced at the workspace gate. Commander reads the signal and de-prioritizes; it does not hard-block assignments.
+
+### Overlay Schema
+
+```python
+PolicyOverlay(
+    source="hypnos",           # "hypnos" | "telepath" | "operator"
+    scope="global",            # "global" | "agent_id" | "branch"
+    effect="BLOCK",            # "BLOCK" | "DEPRIORITIZE" | "FLAG"
+    target="*",                # agent_id, branch_id, or "*"
+    reason="Hypnos global hold active",
+    expires_at=None,           # ISO-8601 or None
+    artifact_id="art-abc123"   # linked Telepath artifact_id
+)
+```
+
+When an overlay causes a BLOCK, `PolicyDecision.overlay_applied` carries the `artifact_id`. Dispatch ignores this field; it's for observability and audit.
+
+---
+
+## Multi-Node Governance (v2)
+
+Commander v2 supports node-scoped policy overlays. Node identity enters Commander exclusively via Telepath-sourced overlays — not the base policy file.
+
+**Example:** "Block all premium-tier model assignments on `node_id=low_budget_node`" — expressed as a Telepath governance artifact, applied as an overlay.
+
+Node-scoped overlays are evaluated before global overlays. Base policy is unchanged.
+
+---
+
+## Adaptive Flagging (Observational)
+
+Commander v2 tracks task outcomes per agent and task type:
+- Consecutive stalls (N≥3) for same agent → emit `COMMANDER_AGENT_STALL_PATTERN`
+- Consecutive failures (N≥3) for same task_type → emit `COMMANDER_TASK_TYPE_PATTERN`
+
+**Observational only.** Commander does not mutate policies. It emits events. QuarterMaster or the operator decides what to do.
+
+Outcome state is written to `~/.openclaw/commander/outcome_tracking.json`. The file is append-only and persists across policy reloads.
+
+---
+
+## Failure Mode
+
+**Commander never crashes Dispatch.**
+
+If Commander fails to evaluate policy, Dispatch receives ALLOW and Commander emits `COMMANDER_POLICY_UNAVAILABLE`. Your fleet keeps running. Fix Commander; don't restart Dispatch.
+
+If `policies.json` is missing at startup: load empty policy set (ALLOW all), log warning.
+If `policies.json` is malformed: keep last known good set, log error, do not crash.
+
+---
+
+## Observability Events
+
+Commander emits structured NDJSON events to `~/.openclaw/watchdog/ops_events.ndjson`:
+
+| Event | When |
+|-------|------|
+| `COMMANDER_POLICY_LOADED` | Startup or hot-reload — N policies loaded |
+| `COMMANDER_POLICY_BLOCKED` | `evaluate()` returns BLOCK — includes task_id, agent_id, policy_id, reason |
+| `COMMANDER_POLICY_ALLOWED` | Explicit ALLOW (not default fall-through) |
+| `COMMANDER_AGENT_FLAGGED` | Agent flagged via `qm_stall` artifact |
+| `COMMANDER_AGENT_STALL_PATTERN` | N≥3 consecutive stalls for same agent |
+| `COMMANDER_TASK_TYPE_PATTERN` | N≥3 consecutive failures for same task type |
+| `COMMANDER_OVERLAY_APPLIED` | A Telepath overlay affected a policy decision |
+| `COMMANDER_POLICY_UNAVAILABLE` | Commander degraded to fail-open |
+
+---
+
+## Policy Store
+
+Policies are loaded from a file-backed JSON store:
+
+```
+~/.openclaw/commander/policies.json
+```
+
+```json
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-03-30T00:00:00Z",
+  "policies": [
+    {
+      "policy_id": "pol-default-001",
+      "name": "allow-all",
+      "enabled": true,
+      "scope": "global",
+      "condition": {"type": "always"},
+      "effect": "ALLOW",
+      "priority": 9999,
+      "reason": "Default allow-all baseline"
+    }
+  ]
+}
+```
+
+Hot-reload supported: edit the file, call `reload_policies()`. No restart required.
+
+---
+
+## CLI
+
+```bash
+# Show active overlays, flagged agents, and pattern events
+commander status
+
+# List active Telepath-sourced overlays
+commander overlays
+
+# Manually clear a flagged agent
+commander clear-flag <agent_id>
+```
+
+---
+
+## Learning Loop (Coming in v3.1)
+
+Commander v3.1 will add a learning loop: monitoring agent performance, token usage, and tool latency to tune model selection and scheduling over time.
+
+**Not in v2.** Commander v2 is observational on outcomes — it flags patterns, it does not act on them.
+
+---
+
+## Availability
+
+Commander v2 ships with ACME QuarterMaster and Dispatch deployments. It wires directly into the `PolicyAdapter` interface in Dispatch v2 — no engine changes required. Commander v1 and v2 are drop-in replacements for each other at the adapter boundary.
+
+---
+
+**Version:** Commander v2
+**Status:** Policy enforcement + Telepath governance overlays + adaptive flagging
+**What's Stable:** Policy record schema, evaluation logic, overlay schema, CLI
+**What's Coming:** Learning loop (v3.1), cross-node policy distribution (v3)

@@ -1,0 +1,467 @@
+---
+title: "Connect Local OpenClaw to ACME Control Plane"
+description: "Wire your local OpenClaw installation to QM v2, Dispatch v3, and the INBOX watcher. Step-by-step setup with verification at each stage."
+icon: "plug"
+---
+
+## What You're Setting Up
+
+Three persistent services that run on your machine and connect your local agent workspace to the ACME control plane:
+
+| Service | Port | What it does |
+|---------|------|-------------|
+| **QM v2** | 8090 | Ingests events, tracks mission health, manages credits |
+| **Dispatch v3** | 8091 | Auto-dispatches tasks to agents on a 5-second scheduler loop |
+| **INBOX Watcher** | — | Detects `[UNREAD]` items in agent INBOXes and triggers agent wakes |
+
+Once connected, the loop is automatic:
+
+```
+You add a task to an agent's INBOX
+  ↓
+INBOX Watcher detects it (within 30s)
+  ↓
+QM v2 ingests the event, updates health state
+  ↓
+WakeState bridge transitions agent: IDLE → WAKING → ACTIVE
+  ↓
+Agent wakes and processes the task
+```
+
+---
+
+## Prerequisites
+
+- macOS (launchd required for persistent services)
+- Python 3.10+ (verify: `which python3` — note the path for plist files)
+- OpenClaw installed and gateway running
+- ACME workspace cloned at `~/.openclaw/workspace/`
+- `quartermaster_v2/` and `dispatch_v3/` modules present in workspace
+
+<Note>
+The plist examples below use `/Users/AGENT/` as the home directory. **Replace all instances with your actual home directory path.**
+
+```bash
+# Find your home directory:
+echo $HOME
+
+# Or use this one-liner after creating a plist to substitute automatically:
+sed -i '' "s|/Users/AGENT|$HOME|g" ~/Library/LaunchAgents/ai.openclaw.qm_v2.plist
+```
+</Note>
+
+Verify your workspace:
+```bash
+ls ~/.openclaw/workspace/quartermaster_v2/
+ls ~/.openclaw/workspace/dispatch_v3/
+```
+
+---
+
+## Step 1 — Apply Credit Engine Fix
+
+The credit engine requires a threading fix before QM v2 will run reliably.
+
+Edit `~/.openclaw/workspace/quartermaster_v2/state/credit_engine.py`:
+
+```python
+# Find this line:
+self._lock = threading.Lock()
+
+# Replace with:
+self._lock = threading.RLock()
+```
+
+Also set credit allowances to unlimited (dynamic allocation replaces fixed caps):
+
+```python
+DEFAULT_ALLOWANCES = {
+    "ops_head": float("inf"),
+    "active_mission": float("inf"),
+    "standard": float("inf"),
+    "background": float("inf"),
+    "cron": float("inf"),
+}
+```
+
+---
+
+## Step 2 — Start QM v2
+
+```bash
+pkill -9 -f "uvicorn.*quartermaster" 2>/dev/null || true
+
+cd ~/.openclaw/workspace && \
+  PYTHONPATH=. nohup python3 -m uvicorn \
+    quartermaster_v2.api.server:create_app \
+    --factory \
+    --host 127.0.0.1 \
+    --port 8090 \
+    >> ~/.openclaw/watchdog/qm_v2.log 2>&1 &
+```
+
+**Verify:**
+```bash
+curl -s http://127.0.0.1:8090/healthz
+```
+Expected: `{"ok":true,"service":"qm_v2"}`
+
+---
+
+## Step 3 — Register QM v2 as a launchd Service
+
+So QM v2 restarts automatically and survives reboots:
+
+```bash
+cat > ~/Library/LaunchAgents/ai.openclaw.qm_v2.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ai.openclaw.qm_v2</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>-m</string>
+        <string>uvicorn</string>
+        <string>quartermaster_v2.api.server:create_app</string>
+        <string>--factory</string>
+        <string>--host</string>
+        <string>127.0.0.1</string>
+        <string>--port</string>
+        <string>8090</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/AGENT/.openclaw/workspace</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/AGENT/.openclaw/workspace</string>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/qm_v2.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/qm_v2.log</string>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>
+EOF
+
+launchctl load ~/Library/LaunchAgents/ai.openclaw.qm_v2.plist
+```
+
+**Verify:**
+```bash
+launchctl list | grep qm_v2
+```
+Expected: a line with `ai.openclaw.qm_v2` (PID column may show `-` until first trigger)
+
+---
+
+## Step 4 — Register Dispatch v3 as a launchd Service
+
+```bash
+cat > ~/Library/LaunchAgents/ai.openclaw.dispatch_v3.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ai.openclaw.dispatch_v3</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>-m</string>
+        <string>uvicorn</string>
+        <string>dispatch_v3.server:create_app</string>
+        <string>--factory</string>
+        <string>--host</string>
+        <string>127.0.0.1</string>
+        <string>--port</string>
+        <string>8091</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/AGENT/.openclaw/workspace</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/AGENT/.openclaw/workspace</string>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/dispatch_v3.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/dispatch_v3.log</string>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>
+EOF
+
+launchctl load ~/Library/LaunchAgents/ai.openclaw.dispatch_v3.plist
+```
+
+**Verify:**
+```bash
+curl -s http://127.0.0.1:8091/healthz
+```
+Expected: `{"ok":true,"service":"dispatch_v3"}`
+
+Check scheduler is running:
+```bash
+curl -s http://127.0.0.1:8091/dispatch/v3/scheduler
+```
+Expected: `{"running":true,"poll_interval":5.0,...}`
+
+---
+
+## Step 5 — Register INBOX Watcher as a launchd Service
+
+The INBOX watcher polls all agent `INBOX.md` files every 30 seconds and triggers agent wakes when `[UNREAD]` items appear.
+
+```bash
+cat > ~/Library/LaunchAgents/ai.openclaw.inbox_watcher.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ai.openclaw.inbox_watcher</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>-m</string>
+        <string>quartermaster_v2.inbox_watcher</string>
+        <string>--interval</string>
+        <string>30</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/AGENT/.openclaw/workspace</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONPATH</key>
+        <string>/Users/AGENT/.openclaw/workspace</string>
+        <key>PATH</key>
+        <string>/Users/AGENT/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/inbox_watcher.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/AGENT/.openclaw/watchdog/inbox_watcher.log</string>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
+</dict>
+</plist>
+EOF
+
+launchctl load ~/Library/LaunchAgents/ai.openclaw.inbox_watcher.plist
+```
+
+**Verify:**
+```bash
+launchctl list | grep inbox_watcher
+```
+
+---
+
+## Step 6 — Test the Full Loop
+
+Add a test item to an agent INBOX:
+
+```bash
+cat >> ~/.openclaw/workspace/soren/INBOX.md << 'EOF'
+
+## [UNREAD] Control plane test | 2026-03-30
+Testing INBOX → QM → WakeState loop.
+EOF
+```
+
+Clear watcher state to force detection:
+```bash
+rm -f ~/.openclaw/qm/inbox_watcher_state.json
+```
+
+Run watcher once manually to confirm:
+```bash
+cd ~/.openclaw/workspace && \
+  PYTHONPATH=. python3 -m quartermaster_v2.inbox_watcher --once
+```
+
+Check WakeState transitions:
+```bash
+tail -5 ~/.openclaw/wakestate/audit_journal.jsonl
+```
+Expected: entries showing `IDLE → WAKING → ACTIVE` for the target agent.
+
+---
+
+## Step 7 — Enable Agent Task Claiming on Heartbeat
+
+Agents need to poll Dispatch v3 for tasks on every heartbeat. Add the following to the top of each agent's `HEARTBEAT.md` (before the INBOX check):
+
+```markdown
+## Dispatch Claim (every heartbeat — first)
+1. Run: `curl -s -X POST http://127.0.0.1:8091/dispatch/v3/claim/{your_agent_id}`
+2. If `claimed: true` → execute the task based on `task_type` and `payload`
+3. When done: `curl -s -X POST http://127.0.0.1:8091/dispatch/v3/finish/{task_id}?success=true`
+4. If `claimed: false` → no pending tasks, continue to INBOX check
+```
+
+Or use the agent handler CLI directly:
+
+```bash
+# Claim next task for an agent
+python3 -m dispatch_v3.agent_handler claim --agent <agent_id> --json
+# Returns: {"claimed": true, "task_id": "...", "task_type": "...", "payload": {...}}
+
+# Report task complete
+python3 -m dispatch_v3.agent_handler finish --agent <agent_id> --task-id <task_id> --json
+# Returns: {"finished": true}
+
+# List pending tasks
+python3 -m dispatch_v3.agent_handler tasks --agent <agent_id> --json
+```
+
+---
+
+## Step 8 — Test the Full End-to-End Loop
+
+Submit → auto-dispatch → agent wakes → agent claims → agent finishes:
+
+```bash
+# 1. Submit a task
+curl -s -X POST http://127.0.0.1:8091/dispatch/v3/submit \
+  -H "Content-Type: application/json" \
+  -d '{"agent_id":"soren","task_type":"inbox_check","payload":{"reason":"setup_test"}}'
+
+# 2. Dispatch v3 scheduler auto-dispatches within 5s
+#    (or trigger manually:)
+curl -s -X POST "http://127.0.0.1:8091/dispatch/v3/dispatch?agent_id=soren"
+
+# 3. Confirm agent was woken (targeted, not broadcast)
+tail -3 ~/.openclaw/wakestate/audit_journal.jsonl | grep soren
+# Expected: IDLE → WAKING → ACTIVE
+
+# 4. Claim the task
+python3 -m dispatch_v3.agent_handler claim --agent soren --json
+
+# 5. Finish the task
+python3 -m dispatch_v3.agent_handler finish --agent soren --task-id <task_id> --json
+
+# 6. Verify in QM
+curl -s "http://127.0.0.1:8090/qm/events/recent?limit=5"
+```
+
+---
+
+## You're Done When
+
+- [ ] `curl http://127.0.0.1:8090/healthz` returns `{"ok":true}`
+- [ ] `curl http://127.0.0.1:8091/healthz` returns `{"ok":true}`
+- [ ] `launchctl list | grep -E "qm_v2|dispatch_v3|inbox_watcher"` shows all three services
+- [ ] Adding `[UNREAD]` to an agent INBOX triggers a WakeState transition within 30 seconds
+- [ ] Submitting a task via `/dispatch/v3/submit` → agent wakes → agent claims → agent finishes
+- [ ] Agent's `HEARTBEAT.md` includes the Dispatch Claim step
+
+---
+
+## Troubleshooting
+
+**Service won't start:**
+```bash
+# Check logs
+tail -30 ~/.openclaw/watchdog/qm_v2.log
+tail -30 ~/.openclaw/watchdog/dispatch_v3.log
+tail -30 ~/.openclaw/watchdog/inbox_watcher.log
+```
+
+**Port already in use:**
+```bash
+lsof -i :8090   # find what's on 8090
+lsof -i :8091   # find what's on 8091
+```
+
+**INBOX watcher not detecting items:**
+```bash
+# Delete state file to reset detection
+rm ~/.openclaw/qm/inbox_watcher_state.json
+
+# Run once in foreground to see output
+cd ~/.openclaw/workspace && PYTHONPATH=. python3 -m quartermaster_v2.inbox_watcher --once
+```
+
+**WakeState not transitioning:**
+```bash
+# Check WakeState audit journal directly
+cat ~/.openclaw/wakestate/audit_journal.jsonl | tail -20
+
+# Manual wake test
+curl -s -X POST "http://127.0.0.1:8090/qm/wake/soren?task_id=test&reason=debug"
+```
+
+---
+
+## File & Port Reference
+
+### Ports
+
+| Port | Service |
+|------|---------|
+| 8090 | QM v2 |
+| 8091 | Dispatch v3 |
+| 18789 | OpenClaw Gateway (existing) |
+
+### Key Paths
+
+| What | Path |
+|------|------|
+| QM v2 events DB | `~/.openclaw/qm/state/events.db` |
+| Dispatch v3 tasks DB | `~/.openclaw/dispatch_v3/tasks.db` |
+| INBOX watcher state | `~/.openclaw/qm/inbox_watcher_state.json` |
+| WakeState audit log | `~/.openclaw/wakestate/audit_journal.jsonl` |
+| WakeState leases | `~/.openclaw/wakestate/lease_counter.json` |
+| QM v2 log | `~/.openclaw/watchdog/qm_v2.log` |
+| Dispatch v3 log | `~/.openclaw/watchdog/dispatch_v3.log` |
+| INBOX watcher log | `~/.openclaw/watchdog/inbox_watcher.log` |
+
+### Agent Handler CLI
+
+```bash
+# Located at:
+~/.openclaw/workspace/dispatch_v3/agent_handler.py
+
+# Run as:
+python3 -m dispatch_v3.agent_handler <claim|finish|tasks> --agent <id> --json
+```
+
+### launchd Plists
+
+```
+~/Library/LaunchAgents/
+├── ai.openclaw.qm_v2.plist
+├── ai.openclaw.dispatch_v3.plist
+└── ai.openclaw.inbox_watcher.plist
+```
+
+---
+
+**Version:** Dispatch v3 + QM v2 (full loop — INBOX watcher + targeted agent wake + task claim/finish)
+**Tested:** 2026-03-30 by Hendrik Homarus
+**Build log:** `docs/builds/DISPATCH_V3_QM_INTEGRATION_BUILD_LOG.md`

@@ -1,0 +1,164 @@
+---
+title: "How Mission Autonomy Works"
+description: "Tasks submit, agents execute, work completes — without you watching. Here's exactly how."
+icon: "circle-nodes"
+---
+
+## The Idea
+
+Mission Autonomy is how you stop babysitting your agent stack and start running operations at scale.
+
+You submit a task. Dispatch picks it up within 5 seconds, checks policy, verifies credits, and spawns the right agent automatically. The agent executes, calls completion, and the task closes in QuarterMaster. You check the result — you didn't have to watch it happen.
+
+That's the loop. Here's each step.
+
+---
+
+## The Execution Flow
+
+```
+You (or an agent) submit a task
+          ↓
+    Dispatch v3 receives it
+          ↓
+    Scheduler picks it up (within 5s)
+          ↓
+    Commander: policy check (ALLOW / BLOCK)
+          ↓
+    Credit check (sufficient / exhausted)
+          ↓
+    Executor spawns the agent
+          ↓
+    Agent executes the task payload
+          ↓
+    Agent calls /dispatch/v3/finish
+          ↓
+    Task marked complete in QM v2
+```
+
+Nothing in this loop requires you to be present. That's the point.
+
+---
+
+## Submitting a Task
+
+```bash
+curl -X POST http://127.0.0.1:8091/dispatch/v3/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "soren",
+    "task_type": "doc_write",
+    "priority": "high",
+    "mission_id": "mission-abc123",
+    "payload": {
+      "instruction": "Write the QuarterMaster v2 overview section",
+      "target": "docs/products/qm/overview.mdx"
+    }
+  }'
+```
+
+**Required fields:** `agent_id`, `task_type`, `payload`
+
+**Priority levels:** `ops_head` → `active_mission` → `high` → `normal` → `background` → `cron`
+
+**`mission_id`** (optional but recommended): links the task to a QuarterMaster mission for health tracking.
+
+---
+
+## Choosing an Agent
+
+You choose the agent explicitly. Dispatch does not auto-route by task type — that judgment belongs to you or the orchestrating agent (Prime/QM).
+
+**General agents** (your team):
+
+| Agent | Best for |
+|-------|---------|
+| `soren` | Product docs, specs, PM decisions |
+| `heike` | Marketing copy, tone, messaging |
+| `hendrik` | Architecture, ops, engineering |
+| `archer` | Design review, spec gating |
+| `gerrit` | Support docs, operator runbooks |
+
+**Coding agents** (spawnable on demand):
+
+| Agent | Model | Best for |
+|-------|-------|---------|
+| `sdg` | claude-sonnet-4-6 | Quick fixes, scripts, small tasks |
+| `codex` | gpt-5.3-codex-spark | Full-auto development, feature builds |
+| `claude-code` | claude-sonnet-4-6 | Complex development, multi-file tasks |
+
+**Coding agents are available but not auto-routed.** You must explicitly choose which one. This preserves human judgment on which tasks go to autonomous coding agents.
+
+---
+
+## What Happens When the Agent Runs
+
+The executor spawns the agent via `sessions_spawn`. The agent receives the task payload as its initial message and executes it. When done, it calls:
+
+```bash
+python3 -m dispatch_v3.agent_handler finish --agent <agent_id> --task-id <task_id> --json
+```
+
+Or via HTTP:
+
+```bash
+curl -X POST "http://127.0.0.1:8091/dispatch/v3/finish/<task_id>?success=true"
+```
+
+QuarterMaster records the completion event. The task closes.
+
+---
+
+## Checking Status
+
+```bash
+# Overall scheduler and task stats
+curl http://127.0.0.1:8091/dispatch/v3/stats
+
+# Scheduler health
+curl http://127.0.0.1:8091/dispatch/v3/scheduler
+
+# Active and recent tasks
+curl http://127.0.0.1:8091/dispatch/v3/tasks
+```
+
+---
+
+## Timeouts
+
+Default task timeout: **300 seconds**. Tasks that exceed this are expired by the scheduler and marked failed in QM.
+
+For long-running tasks (research, large builds), set an explicit timeout:
+
+```json
+{
+  "agent_id": "codex",
+  "task_type": "code",
+  "timeout_seconds": 900,
+  "payload": { ... }
+}
+```
+
+---
+
+## What Commander Does
+
+Every task passes through Commander's policy engine before it's dispatched. Commander checks the task envelope against your policy rules and returns ALLOW or BLOCK.
+
+If no policy matches, the default is ALLOW. You layer specific BLOCK rules on top.
+
+**Example:** Block background-tier agents from running analysis tasks. Block external-sourced tasks from running at all. Restrict expensive model tiers on specific node configurations.
+
+Commander never crashes Dispatch. If Commander is unavailable, Dispatch falls back to ALLOW and emits `COMMANDER_POLICY_UNAVAILABLE`.
+
+→ [Commander v2 docs](/docs/products/commander-v2) — policy rules, scope types, Telepath overlays
+
+---
+
+## What Credits Do
+
+Credits govern execution priority under load. When the fleet is under pressure, `ops_head` tasks run; `cron` tasks wait. When the fleet is quiet, all tiers run freely.
+
+Credits are invisible to you. You set task priority; QuarterMaster handles the rest.
+
+→ [QuarterMaster v2 docs](/docs/products/quartermaster-v2) — health projections, credit state events

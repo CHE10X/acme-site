@@ -1,0 +1,115 @@
+---
+title: Load Governor
+description: Real-time backpressure and STORM detection for agent fleets under load.
+---
+
+# Load Governor (Transmission v4)
+
+The Load Governor is Transmission's runtime safety layer. It sits above the model routing stack and watches the system for load conditions that routing alone can't handle — not "which model should handle this task?" but "should this task run right now at all?"
+
+When pressure builds, the Load Governor signals before the system breaks.
+
+## The Problem It Solves
+
+Model routing (Transmission v1–v3) optimizes individual calls. The Load Governor governs the system as a whole.
+
+A fleet of agents can saturate provider capacity in ways that individual routing decisions can't prevent:
+- Multiple agents routing to the same provider simultaneously
+- Background tasks consuming rate limit budget needed for active missions
+- Session context growth degrading model response quality before the call even routes
+- Provider-side pressure signals (latency spikes, 429s) that a single routing decision can't see
+
+The Load Governor aggregates these signals and applies backpressure at the fleet level, not the call level.
+
+## How It Works
+
+The Load Governor runs as a continuous sensing loop above the Transmission routing stack:
+
+```
+[Agent call] → [CLS sensor] → [Provider pressure sensor] → [Load Governor]
+                                                                  ↓
+                                                         [Route? Throttle? STORM?]
+                                                                  ↓
+                                                         [Transmission routing stack]
+```
+
+### Signal 1: Context Load Score (CLS)
+
+CLS measures session burden — how heavy the current agent session is, how fast it's growing, and how dependent the agent has become on accumulated context. A high CLS is a leading indicator of routing degradation and rate limit pressure.
+
+The Load Governor uses CLS as a pre-dispatch sensor: before a call routes, if the originating session's CLS exceeds the elevated threshold, the Load Governor may apply a routing constraint (prefer T1/T2 models) or a throttle (brief delay before dispatch).
+
+### Signal 2: Provider Pressure
+
+The Load Governor monitors provider response health: latency percentiles, 429 rate, and error rate per provider. When a provider shows signs of saturation, the Load Governor deprioritizes that provider in the routing pool — before calls start failing.
+
+### Response: Backpressure Levels
+
+| Level | Trigger | Response |
+|-------|---------|----------|
+| `nominal` | No pressure signals | Normal routing |
+| `elevated` | CLS above threshold OR provider latency rising | Prefer cheaper model tiers |
+| `throttle` | Multiple signals active | Brief dispatch delay; prefer T1 models |
+| `single-lane` | Severe pressure on primary provider | Route exclusively to secondary/tertiary providers |
+| `STORM` | Fleet-wide saturation detected | STORM_DETECTED push event; aggressive backpressure; QM notified |
+
+## STORM Detection
+
+STORM is the Load Governor's fleet-level emergency signal. It fires when:
+- Active agent count exceeds the configured STORM threshold AND
+- Provider pressure is elevated across multiple providers simultaneously
+
+When STORM fires:
+1. `STORM_DETECTED` push event emits via QM v2's event stream
+2. QM raises fleet health state to `critical`
+3. Load Governor enters single-lane mode
+4. Active missions continue; scheduled tasks are paused
+
+STORM is not a failure — it's an early warning. The goal is to detect saturation before it produces failures, not after.
+
+<Warning>
+STORM detection requires QM v2 push event infrastructure. STORM alerts will not surface in QM v1 deployments.
+</Warning>
+
+## What the Load Governor Does NOT Do
+
+- Does not make routing decisions for individual calls (that's Transmission v1–v3)
+- Does not terminate running agent sessions
+- Does not modify operator configuration
+- Does not apply enforcement during nominal operation — it intervenes only when signals indicate pressure
+
+## Configuration
+
+```json
+{
+  "load_governor": {
+    "enabled": true,
+    "cls_elevated_threshold": 65,
+    "cls_critical_threshold": 85,
+    "storm_agent_count_threshold": 8,
+    "provider_latency_warn_ms": 2000,
+    "provider_error_rate_warn": 0.05
+  }
+}
+```
+
+All thresholds are configurable. Defaults are calibrated for a fleet of 5–15 active agents.
+
+## Relationship to Transmission Routing
+
+The Load Governor and Transmission's routing stack are layered, not competing:
+
+| Layer | Governs | When it acts |
+|-------|---------|-------------|
+| Transmission v1–v3 | Which model handles this task | Every call |
+| Load Governor | Whether/how to dispatch right now | When pressure signals are active |
+
+In nominal conditions, the Load Governor is transparent — calls pass through and Transmission routing handles everything. Under load, the Load Governor constrains the routing space before Transmission resolves the specific model.
+
+## Observability
+
+Load Governor state is included in QM v2 push events. Every `HEALTH_UPDATE` event carries the current backpressure level. The Briefing Room surfaces STORM and critical alerts without requiring operators to monitor logs.
+
+→ [QuarterMaster v2](/docs/products/qm/v2) — push events and health state  
+→ [Context Load Score](/docs/products/transmission/cls) — the session burden signal  
+→ [Transmission Overview](/docs/products/transmission/overview) — the full routing stack

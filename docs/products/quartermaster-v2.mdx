@@ -1,0 +1,236 @@
+---
+title: "QuarterMaster v2"
+description: "Event-sourced control plane for mission orchestration. Your missions complete even under load."
+icon: "tower-control"
+---
+
+## What It Does
+
+QuarterMaster v2 (QM v2) is the mission control layer for multi-agent orchestration. It tracks mission progress, detects stalls, projects health, and generates next steps — all without burning tokens on deterministic state management.
+
+You built your system in a weekend. **QM v2 makes sure it stays up.**
+
+QM v2 gives you:
+- **Shadow orchestration** — reads your v1 state, computes health projections, doesn't interfere with active execution
+- **Real-time health projections** — unified `health_state` objects covering campaigns, missions, and tasks
+- **Stall detection** — timestamp math catches stalled tasks before they block mission progress
+- **WebSocket push events** — STORM alerts, health changes, and operator acknowledgments delivered in seconds
+- **Structured views** — at-risk, blocked, and stale entities with full hierarchy context
+
+## Why Operators Trust QM v2
+
+QM v2 is **algorithmic at its core.** Stall detection is timestamp math. Dependency ordering is graph traversal. Health projections are deterministic computations over structured state.
+
+**Zero tokens burned on answers you already have.**
+
+When the Load Governor detects STORM conditions or credit budgets near exhaustion, QM v2 recomputes health immediately — within seconds, not minutes. When an agent stalls, QM v2 flags it and surfaces the blockage. When missions risk running out of credit, QM v2 warns you before failure.
+
+## Phase 1 Scope
+
+QM v2 Phase 1 is **shadow orchestration only**:
+- Imports v1 `mission_manifest.json` into v2 state
+- Computes health projections for all entities
+- Emits real-time push events via WebSocket
+- Provides read-only REST API for operator UI
+- **Does NOT dispatch tasks** — Phase 2 wires in WakeAgent
+
+Phase 1 is the **observability layer**. You see what's at risk before it fails.
+
+## Key Concepts
+
+### Unified Health State
+
+Every entity (campaign, mission, task) exposes a single `health_state` object:
+
+```json
+{
+  "entity_id": "mission-abc123",
+  "entity_type": "mission",
+  "health_score": 72,
+  "health_severity": "orange",
+  "states": ["at_risk", "credit_pace_amber"],
+  "contributors": [
+    "2 tasks stalled > 4h",
+    "no agent activity in last 6h",
+    "credit burn 80% of budget with 40% of tasks remaining"
+  ],
+  "credit_pace": "burning fast — 80% consumed, 40% tasks remaining",
+  "hierarchy": {
+    "campaign_id": "campaign-xyz",
+    "mission_id": "mission-abc123",
+    "campaign_health": 68
+  },
+  "recomputed_at": "2026-03-29T14:00:00Z"
+}
+```
+
+**States are additive.** A mission can be `at_risk` + `blocked` + `credit_pace_amber` simultaneously. Dashboard views filter on these states.
+
+Credit pace is **human-readable** — "burning fast, 80% consumed" — not a normalized float.
+
+### Tiered Health Recompute
+
+Not all signals demand equal urgency:
+
+| Tier | Latency | Triggers |
+|------|---------|----------|
+| Immediate | Seconds | STORM, task FAILED |
+| High-frequency | < 60s | System Load State = CRITICAL |
+| Standard | ≤ 5 min | Task stalled, blocked dependency, credit amber |
+| Low-frequency | 30 min | Periodic sweep, credit pace check |
+
+STORM and FAILED states trigger recompute **within seconds**. Standard at-risk states recompute within 5 minutes.
+
+### WebSocket Push Events
+
+QM v2 emits five event types via `ws://localhost:<port>/events/stream`:
+
+<CodeGroup>
+```json STORM_DETECTED
+{
+  "event": "STORM_DETECTED",
+  "state": "STORM",
+  "timestamp": "2026-03-29T14:05:00Z",
+  "affected_providers": ["openai"],
+  "recommendations": ["stop_retries"]
+}
+```
+
+```json HEALTH_CHANGED
+{
+  "event": "HEALTH_CHANGED",
+  "entity_type": "mission",
+  "entity_id": "mission-abc123",
+  "old_severity": "green",
+  "new_severity": "orange",
+  "timestamp": "2026-03-29T14:05:00Z"
+}
+```
+
+```json TASK_STALLED
+{
+  "event": "TASK_STALLED",
+  "task_id": "task-def456",
+  "mission_id": "mission-abc123",
+  "stalled_at": "2026-03-29T14:05:00Z"
+}
+```
+
+```json CREDIT_STATE_UPDATE
+{
+  "event": "CREDIT_STATE_UPDATE",
+  "timestamp": "2026-03-29T14:05:00Z",
+  "agent_id": "hendrik",
+  "mission_id": "mission-abc123",
+  "payload": {
+    "allowance": 500,
+    "consumed": 480,
+    "pressure_level": "critical"
+  }
+}
+```
+
+```json OPERATOR_ACK
+{
+  "event": "OPERATOR_ACK",
+  "entity_type": "storm",
+  "entity_id": "fleet",
+  "actor": "operator",
+  "timestamp": "2026-03-29T14:06:00Z"
+}
+```
+</CodeGroup>
+
+**STORM_DETECTED fires immediately** when the Load Governor writes `transmission_load_alert.json`. QM v2 polls every 5 seconds and pushes within seconds of detection.
+
+**CREDIT_STATE_UPDATE** includes `agent_id`, `mission_id`, and `pressure_level` (nominal | elevated | pressure | critical | exhausted). Agents consume this event to self-throttle before hitting hard credit ceilings.
+
+### Operator Acknowledgment
+
+When you acknowledge a STORM or CRITICAL state, QM v2 writes back to the event store and pushes via WebSocket:
+
+**Endpoint:** `POST /events/{entity_type}/{entity_id}/acknowledge`
+
+```json
+{
+  "actor": "operator",
+  "state_at_ack": "STORM",
+  "action": "dismiss",
+  "note": "STORM cleared after provider recovery"
+}
+```
+
+**No optimistic dismissal.** The STORM banner stays until the write confirms.
+
+## REST API
+
+| Endpoint | Returns |
+|----------|---------|
+| `GET /health/fleet` | Fleet summary: total healthy/at-risk/blocked + Load Governor state |
+| `GET /health/{entity_type}/{entity_id}` | Single `health_state` object |
+| `GET /views/at-risk` | All entities where `states` contains `at_risk`, with hierarchy |
+| `GET /views/blocked` | All entities where `states` contains `blocked`, with hierarchy |
+| `GET /views/stale` | All entities where `states` contains `stale`, with hierarchy |
+| `GET /missions` | All missions with current `health_state` |
+| `GET /events/stream` | WebSocket upgrade for push events |
+
+**Fleet health summary** is a **first-class pre-computed read** — not a join-on-request. Fast by design.
+
+**Hierarchy context is required** in all view responses. You never see a flat list — always `{ campaign_id, mission_id, campaign_health }`.
+
+## Configuration
+
+QM v2 paths are resolved from a configurable base directory. Default: `~/.openclaw`.
+
+Override `base_path` in `~/.openclaw/qm/config.json`:
+
+```json
+{
+  "base_path": "~/.openclaw",
+  "paths": {
+    "cls_scores": "watchdog/cls_scores.ndjson",
+    "transmission_load_state": "watchdog/transmission_load_state.json",
+    "transmission_load_alert": "watchdog/transmission_load_alert.json",
+    "health_projections": "qm/state/health_projections.json",
+    "event_store": "qm/state/event_store.db",
+    "v1_mission_manifest": "quartermaster_v1/missions/mission_manifest.json"
+  }
+}
+```
+
+All paths resolve relative to `base_path`. Set it once; QM v2 resolves the rest.
+
+## Migration from QM v1
+
+Phase 1 is **shadow orchestration**. QM v1 remains authoritative:
+1. QM v2 reads `quartermaster_v1/missions/mission_manifest.json`
+2. Imports campaigns, missions, tasks into v2 state
+3. Tracks mapping in `migration_mappings.json`
+4. v2 produces health projections but does **not write back to v1**
+
+Phase 2 wires in WakeAgent dispatch and makes v2 authoritative.
+
+## Token Principle
+
+**QM v2 is algorithmic.** Stall detection = timestamp math. Dependency ordering = graph traversal. Health projection = deterministic computation over structured state.
+
+If the answer is deterministic, **QM v2 does not burn tokens to compute it.**
+
+Agents burn tokens on judgment, synthesis, and novel output. QM v2 burns tokens on nothing — it's pure orchestration logic.
+
+## What's Next
+
+Phase 2 adds:
+- **WakeAgent dispatch** — QM v2 becomes authoritative for task routing
+- **Credit enforcement** — QM v2 gates dispatch based on credit state
+- **Automated escalation** — QM v2 escalates blocked missions to operator surface
+- **Full Postgres** — Phase 1 uses SQLite; Phase 2 migrates to production DB
+
+Phase 1 gives you **visibility**. Phase 2 gives you **control**.
+
+---
+
+**Version:** QM v2 Phase 1
+**Status:** Shadow orchestration (read-only, observability layer)
+**What's Stable:** Event schema, health state schema, REST API contract
+**What's Coming:** WakeAgent dispatch (Phase 2), credit enforcement (Phase 2)

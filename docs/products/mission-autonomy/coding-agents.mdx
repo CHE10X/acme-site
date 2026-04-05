@@ -1,0 +1,151 @@
+---
+title: "Coding Agents"
+description: "SDG, Codex, and Claude Code — autonomous coding agents available for Dispatch routing. When to use each."
+icon: "code"
+---
+
+## What They Are
+
+Mission Autonomy includes three coding agents that Dispatch v3 can spawn automatically for development tasks. You submit a task with `agent_id` set to one of these agents; the executor spawns it, it does the work, it finishes.
+
+You don't have to be at a terminal. You don't have to watch it. You submit the task and check the result.
+
+---
+
+## The Three Coding Agents
+
+| Agent | Model | Character |
+|-------|-------|-----------|
+| **`sdg`** | claude-sonnet-4-6 | Fast, focused. Best for bounded tasks with a clear target. |
+| **`codex`** | gpt-5.3-codex-spark | Full-auto development. Handles complex multi-step builds with autonomy. |
+| **`claude-code`** | claude-sonnet-4-6 | Complex development with strong reasoning. Best for multi-file tasks requiring judgment. |
+
+---
+
+## When to Use Each
+
+### SDG — Quick fixes and scripts
+
+Use SDG when the task is small, well-defined, and you know exactly what you want:
+
+- Fix a bug at a specific location
+- Write a short utility script
+- Update a config value across a file
+- Add a test for an existing function
+
+```bash
+curl -X POST http://127.0.0.1:8091/dispatch/v3/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "sdg",
+    "task_type": "code",
+    "priority": "high",
+    "payload": {
+      "instruction": "Fix the KeyError on line 42 of src/parser.py — the key lookup needs a .get() with a default",
+      "files": ["src/parser.py"]
+    }
+  }'
+```
+
+### Codex — Full-auto development
+
+Use Codex when the task is larger and you want maximum autonomy. Codex handles multi-step builds, can explore the codebase, and keeps working until the task is done.
+
+- Build a new feature end-to-end
+- Refactor a module
+- Implement a spec from a brief
+- Add comprehensive test coverage
+
+```bash
+curl -X POST http://127.0.0.1:8091/dispatch/v3/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "codex",
+    "task_type": "code",
+    "priority": "active_mission",
+    "timeout_seconds": 600,
+    "payload": {
+      "instruction": "Implement the fleet health summary endpoint per QUARTERMASTER_V2_BUILDER_BRIEF.md §4.2. Write tests. Commit.",
+      "working_dir": "/Users/AGENT/.openclaw/workspace"
+    }
+  }'
+```
+
+### Claude Code — Complex development with judgment
+
+Use Claude Code when the task requires understanding context across multiple files and making design decisions. Best when you want strong reasoning alongside code output.
+
+- Multi-file refactors that need consistency
+- Tasks where the right approach isn't obvious
+- Integration work touching multiple components
+- Tasks where the spec is ambiguous and judgment is needed
+
+```bash
+curl -X POST http://127.0.0.1:8091/dispatch/v3/submit \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "claude-code",
+    "task_type": "code",
+    "priority": "active_mission",
+    "timeout_seconds": 900,
+    "payload": {
+      "instruction": "Refactor the Commander v2 policy engine to support compound scope conditions (AND logic). Preserve backward compat with existing policies. Update tests.",
+      "working_dir": "/Users/AGENT/.openclaw/workspace"
+    }
+  }'
+```
+
+---
+
+## Important: No Auto-Routing
+
+**Dispatch does not automatically choose which coding agent to use.** You set `agent_id` explicitly when submitting the task.
+
+This is intentional. The decision of whether a task goes to an autonomous coding agent — and which one — is a judgment call that belongs to you or an orchestrating agent. Dispatch executes that decision; it doesn't make it.
+
+---
+
+## Timeouts
+
+Coding tasks take longer than most. Set timeouts explicitly:
+
+| Task type | Suggested timeout |
+|-----------|-----------------|
+| Small fix (SDG) | 120s |
+| Script/utility (SDG) | 300s |
+| Feature build (Codex) | 600s |
+| Complex refactor (Claude Code) | 900s |
+
+Default is 300s if not specified. Tasks that exceed timeout are expired and marked failed.
+
+---
+
+## Tracking Coding Tasks
+
+Coding agent tasks flow through QuarterMaster like any other task. Link them to a mission for health tracking:
+
+```json
+{
+  "agent_id": "codex",
+  "task_type": "code",
+  "mission_id": "mission-dispatch-v3-build",
+  "payload": { ... }
+}
+```
+
+QM v2 tracks the task state, emits health events, and surfaces stalls if the coding agent goes quiet.
+
+---
+
+## Gateway Restart Required
+
+The coding agents (`sdg`, `codex`, `claude-code`) require gateway configuration. If they're not available after setup, restart the OpenClaw gateway:
+
+```bash
+openclaw gateway restart
+```
+
+Then verify:
+```bash
+curl -s http://127.0.0.1:8091/dispatch/v3/stats | grep -A5 "available_agents"
+```
