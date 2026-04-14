@@ -1,0 +1,167 @@
+---
+title: Dispatch v3
+description: The task execution layer for autonomous multi-agent workflows — submit work, enforce policy, and complete at machine speed.
+---
+
+# Dispatch v3
+
+Dispatch v3 is ACME's task execution scheduler. It sits between your agents and the work they need to do — accepting tasks, enforcing policy, managing load, and reporting completion without human relay.
+
+**If QM tracks missions, Dispatch executes them.**
+
+---
+
+## What Dispatch Does
+
+<CardGroup cols={2}>
+  <Card title="Task Submission" icon="inbox">
+    Any agent can submit a task for any other agent. Dispatch accepts the work, assigns it to a queue, and triggers execution when policy allows.
+  </Card>
+
+  <Card title="Policy Enforcement" icon="shield-check">
+    Commander v2 governs what Dispatch is allowed to run. Dispatch never executes against Commander's policy — it holds tasks until constraints are satisfied.
+  </Card>
+
+  <Card title="Load-Aware Scheduling" icon="gauge-high">
+    Dispatch reads Load Governor state before assigning tasks. Heavy agents don't receive new work until their CLS score recovers.
+  </Card>
+
+  <Card title="Completion Reporting" icon="circle-check">
+    When a task completes, Dispatch delivers proof to QM and optionally wakes the requesting agent with results. No polling, no human check-in.
+  </Card>
+</CardGroup>
+
+---
+
+## Task Lifecycle
+
+```
+submit → pending → eligible → assigned → running → completed
+                      ↓                              ↓
+                   blocked                         failed (→ retry)
+```
+
+| State | Meaning |
+|-------|---------|
+| `pending` | Accepted, waiting for eligibility check |
+| `blocked` | Commander policy or credit hold preventing execution |
+| `eligible` | Policy cleared, waiting for agent capacity |
+| `assigned` | Agent notified, execution starting |
+| `running` | Agent confirmed active on task |
+| `completed` | Done — proof delivered to QM |
+| `failed` | Execution error — retried up to `max_retries` |
+| `expired` | TTL exceeded before completion |
+
+---
+
+## Priority Tiers
+
+Dispatch respects QM v2 priority tiers at the dispatch gate:
+
+| Tier | Typical use |
+|------|------------|
+| `ops_head` | Incident response, operator-critical work |
+| `active_mission` | Standard outcome delivery |
+| `standard` | Routine agent work |
+| `background` | Non-critical processing |
+| `cron` | Periodic checks — never starves active missions |
+
+A `cron` task never preempts an `active_mission`. Dispatch enforces tier ceilings before assigning any work.
+
+---
+
+## How to Submit a Task
+
+From an agent session:
+
+```python
+# Via QM HTTP API
+import requests
+
+requests.post("http://127.0.0.1:8090/spawn", json={
+    "agent_id": "hendrik",
+    "task": "Review the output at /tmp/analysis.md and confirm accuracy",
+    "priority": "standard",
+    "timeout_seconds": 120,
+    "requester": "soren"
+})
+```
+
+From a subagent (at depth limit):
+
+```bash
+curl -X POST http://127.0.0.1:8090/spawn \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "hendrik",
+    "task": "Check your INBOX and process the new item",
+    "timeout_seconds": 120,
+    "requester": "soren"
+  }'
+```
+
+---
+
+## Spawn Patterns
+
+Dispatch supports four patterns for agent-to-agent task handoff. See [Agent Spawn Patterns](/docs/products/qm/agent-spawn) for the full guide.
+
+| Pattern | When to use |
+|---------|------------|
+| Direct spawn | Top-level agent to top-level agent, self-contained task |
+| INBOX drop | Context-heavy handoff, audit trail needed |
+| QM-mediated spawn | Subagent at depth limit |
+| Hybrid | Complex handoff — rich context + immediate wake |
+
+---
+
+## Retry and Expiry
+
+Tasks retry automatically on failure:
+
+- Default: up to 3 retries
+- TTL: configurable per task (`timeout_seconds`, default 300s)
+- Expired tasks do not retry — they're marked `expired` and logged
+
+QM receives failure events and updates mission health state accordingly.
+
+---
+
+## Dependencies
+
+Dispatch v3 requires:
+
+- **QM v2** — for priority tiers, health state, and completion reporting
+- **Commander v2** — for policy enforcement at the dispatch gate
+- **Load Governor** — for CLS-based backpressure (optional but recommended)
+
+---
+
+## Where It Fits
+
+```
+Operator / Agent → submits task → Dispatch v3
+                                      ↓
+                               Commander v2 (policy gate)
+                                      ↓
+                               Load Governor (CLS check)
+                                      ↓
+                               Target agent executes
+                                      ↓
+                               QM v2 (completion + health update)
+```
+
+<CardGroup cols={2}>
+  <Card title="Agent Spawn Patterns" href="/docs/products/qm/agent-spawn">
+    The four patterns for machine-speed agent handoffs
+  </Card>
+  <Card title="Quartermaster v2" href="/docs/products/qm/v2-overview">
+    Mission health, event sourcing, and push alerts
+  </Card>
+  <Card title="Commander v2" href="/docs/products/commander/overview">
+    Policy engine — governs what Dispatch is allowed to run
+  </Card>
+  <Card title="Load Governor" href="/docs/products/transmission/load-governor">
+    CLS-based backpressure for the fleet
+  </Card>
+</CardGroup>

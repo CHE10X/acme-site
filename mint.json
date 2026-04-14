@@ -78,7 +78,9 @@
       "group": "Governance",
       "pages": [
         "docs/products/sphinxgate/overview",
-        "docs/products/transmission/overview"
+        "docs/products/transmission/overview",
+        "docs/products/transmission/load-governor",
+        "docs/products/commander/overview"
       ]
     },
     {
@@ -86,11 +88,27 @@
       "pages": [
         "docs/products/qm/overview",
         "docs/products/qm/quickstart",
+        "docs/products/qm/v2-overview",
         "docs/products/qm/agent-spawn",
         "docs/products/qm/reference-stack",
         "docs/products/qm/done-protocol",
         "docs/products/qm/heartbeat-protocol",
         "docs/products/qm/remediation-playbook"
+      ]
+    },
+    {
+      "group": "Mission Autonomy",
+      "pages": [
+        "docs/products/dispatch/overview",
+        "docs/products/mission-autonomy/how-it-works",
+        "docs/products/mission-autonomy/coding-agents",
+        "docs/products/mission-autonomy/connect-local-openclaw"
+      ]
+    },
+    {
+      "group": "CLS Scanner",
+      "pages": [
+        "docs/products/cls-scanner/overview"
       ]
     },
     {
