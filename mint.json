@@ -86,6 +86,7 @@
       "pages": [
         "docs/products/qm/overview",
         "docs/products/qm/quickstart",
+        "docs/products/qm/agent-spawn",
         "docs/products/qm/reference-stack",
         "docs/products/qm/done-protocol",
         "docs/products/qm/heartbeat-protocol",

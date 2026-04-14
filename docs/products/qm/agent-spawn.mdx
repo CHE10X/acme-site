@@ -1,0 +1,169 @@
+---
+title: Agent Spawn Patterns
+description: How agents orchestrate each other at machine speed - three patterns for autonomous agent-to-agent execution.
+---
+
+# Agent Spawn Patterns
+
+With the spawn infrastructure live, agents can orchestrate each other without human relay. Agent A completes → spawns Agent B → Agent B completes → spawns Agent C. Continuous execution at machine speed.
+
+This is what Mission Autonomy actually means in practice.
+
+## The Three Patterns
+
+Choose based on your context and what you're handing off.
+
+### Pattern 1: Direct Spawn
+
+```
+Agent A → sessions_spawn(agent_id="agent_b", task="...") → Agent B runs
+```
+
+Best for: top-level agents handing off to other top-level agents. Fast and direct. The spawning agent defines the task inline.
+
+**When to use it:**
+- Simple handoffs with a clear, self-contained task
+- No rich context needed beyond what fits in the task string
+- You control the spawning agent's config
+
+**Limitation:** Subagents at depth limit cannot use `sessions_spawn` directly. Use Pattern 3 instead.
+
+---
+
+### Pattern 2: INBOX Drop + Watcher
+
+```
+Agent A writes to target/INBOX.md → fswatch detects change → watcher spawns Agent B
+```
+
+Best for: context-heavy handoffs where you want a persistent audit trail. The INBOX entry describes the task in full - Agent B reads it fresh when it wakes.
+
+**When to use it:**
+- Passing substantial context (specs, decisions, prior work)
+- You want the handoff logged and reviewable
+- The receiving agent needs to orient before acting
+
+**Behavior:** The INBOX watcher runs as a persistent service (`ai.openclaw.inbox_spawn_watcher`). It watches all team INBOX.md files via fswatch. 15-second debounce prevents rapid-fire spawns on burst writes.
+
+**Covered agents:** hendrik, soren, heike, archer, gwen, lensa, gerrit.
+
+---
+
+### Pattern 3: QM-Mediated Spawn
+
+```
+Subagent → POST http://127.0.0.1:8090/spawn → QM spawns target agent
+```
+
+Best for: subagents that have hit the depth limit and can't use `sessions_spawn` directly. QM runs at top level and can spawn anyone.
+
+```bash
+curl -X POST http://127.0.0.1:8090/spawn \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent_id": "hendrik",
+    "task": "Review the output at /tmp/analysis.md and confirm accuracy",
+    "timeout_seconds": 120,
+    "requester": "soren"
+  }'
+```
+
+**When to use it:**
+- You're running as a subagent and need to escalate or hand off
+- You need QM's allowlist enforcement on who can spawn whom
+- You want spawn events recorded in the QM event store
+
+---
+
+### Pattern 4: Hybrid (Recommended for Complex Handoffs)
+
+```
+Agent A writes context to target/INBOX.md
+Agent A → POST /spawn with task: "Check your INBOX and process the new item"
+```
+
+Best of both: rich context persisted in INBOX, immediate wake via QM spawn. The receiving agent arrives with full context already written.
+
+**When to use it:**
+- Complex multi-step handoffs (spec + task + prior decisions)
+- You want fast wake AND a readable audit trail
+- The receiving agent benefits from reading structured context before acting
+
+---
+
+## Spawn Architecture
+
+```
+┌──────────────────────────────────────────────────────────┐
+│                  SPAWN INFRASTRUCTURE                     │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  Top-level agents                                        │
+│  ┌──────────┐  sessions_spawn  ┌──────────┐             │
+│  │ Agent A  │ ───────────────▶ │ Agent B  │             │
+│  └──────────┘                  └──────────┘             │
+│                                                          │
+│  Subagents at depth limit                                │
+│  ┌──────────┐  POST /spawn  ┌──────────┐  spawns        │
+│  │Subagent A│ ────────────▶ │  QM v2   │ ──────▶ Agent B│
+│  └──────────┘               └──────────┘                │
+│                                                          │
+│  INBOX-triggered                                         │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │  INBOX Watcher (fswatch)                           │ │
+│  │  agent/INBOX.md changed → spawn that agent        │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+│  Dispatch-triggered                                      │
+│  ┌────────────────────────────────────────────────────┐ │
+│  │  Dispatch v3 Executor                              │ │
+│  │  Task assigned → auto-spawn agent → execute       │ │
+│  └────────────────────────────────────────────────────┘ │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+```
+
+## The Velocity Difference
+
+Here's what changes when handoffs run at machine speed vs. human relay:
+
+| Handoff type | Typical latency |
+|-------------|----------------|
+| Human relay (reads, decides, acts) | 15-45 minutes |
+| Overnight gap (humans sleep) | 8-12 hours |
+| INBOX watcher spawn | ~15 seconds |
+| Direct spawn | ~2 seconds |
+| QM-mediated spawn | ~3 seconds |
+
+A five-step workflow with human handoffs takes hours. The same workflow with machine-speed spawns takes minutes. That's not an incremental improvement - it's a different category of automation.
+
+## What This Requires
+
+**For spawning agents:**
+- `subagents.allowAgents` must list the target agent in `openclaw.json`
+- For coding agents (`sdg`, `codex`, `claude-code`) - must be explicitly listed
+
+**For INBOX watcher triggers:**
+- Write a valid `[UNREAD]` item to `workspace/{agent}/INBOX.md`
+- Watcher picks it up within 15 seconds
+
+**For QM-mediated spawns:**
+- QM v2 must be running (`http://127.0.0.1:8090`)
+- Target agent must be in QM's allowlist
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="QM Overview" href="/docs/products/qm/overview">
+    Mission health and event tracking for spawned work
+  </Card>
+  <Card title="QM Quickstart" href="/docs/products/qm/quickstart">
+    Get QM running and wire your first agent
+  </Card>
+  <Card title="Commander v2" href="/docs/products/commander/overview">
+    Policy engine — governs what’s allowed to spawn under load
+  </Card>
+  <Card title="Done Protocol" href="/docs/products/qm/done-protocol">
+    How agents report completion back to QM
+  </Card>
+</CardGroup>
