@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
 
-// Served by: curl -fsSL https://acmeagentsupply.com/install/sentinel | bash
+// Served by: curl -fsSL https://council10.com/install/sentinel | bash
 // Installs Sentinel + Watchdog persistent daemon (macOS launchd / Linux cron)
 // Usage:
-//   curl -fsSL https://acmeagentsupply.com/install/sentinel | bash
-//   curl -fsSL https://acmeagentsupply.com/install/sentinel | ACME_LICENSE_KEY=xxx bash
+//   curl -fsSL https://council10.com/install/sentinel | bash
+//   curl -fsSL https://council10.com/install/sentinel | ACME_LICENSE_KEY=xxx bash
 
 const INSTALL_SCRIPT = `#!/usr/bin/env bash
 # =============================================================================
 # Sentinel + Watchdog — Customer Install Script
-# ACME Agent Supply — https://acmeagentsupply.com
+# Council10 — https://council10.com
 #
 # What this does:
 #   1. Downloads the Watchdog heartbeat script
@@ -18,9 +18,9 @@ const INSTALL_SCRIPT = `#!/usr/bin/env bash
 #   4. Verifies it's running and prints status
 #
 # Usage:
-#   curl -fsSL https://acmeagentsupply.com/install/sentinel | bash
+#   curl -fsSL https://council10.com/install/sentinel | bash
 #   OR with license key:
-#   curl -fsSL https://acmeagentsupply.com/install/sentinel | ACME_LICENSE_KEY=xxx bash
+#   curl -fsSL https://council10.com/install/sentinel | ACME_LICENSE_KEY=xxx bash
 #
 # Supports: macOS 12+, Ubuntu/Debian 20.04+
 # Requires: bash, curl, openclaw (already installed)
@@ -31,7 +31,7 @@ set -euo pipefail
 # ── Config ────────────────────────────────────────────────────────────────────
 PRODUCT="Sentinel"
 VERSION="1.0.0"
-ACME_BASE="https://acmeagentsupply.com"
+ACME_BASE="https://council10.com"
 OC_DIR="\$HOME/.openclaw"
 WATCHDOG_DIR="\$OC_DIR/watchdog"
 SENTINEL_DIR="\$OC_DIR/sentinel"
@@ -64,7 +64,7 @@ fi
 
 # ── Header ────────────────────────────────────────────────────────────────────
 echo ""
-echo -e "\${BOLD}ACME Agent Supply — \${PRODUCT} Installer v\${VERSION}\${RESET}"
+echo -e "\${BOLD}Council10 — \${PRODUCT} Installer v\${VERSION}\${RESET}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -92,7 +92,7 @@ if [[ -n "\${ACME_LICENSE_KEY:-}" ]]; then
   elif [[ "\$HTTP_STATUS" == "000" ]]; then
     warn "Could not reach license server — proceeding (will validate on first run)"
   else
-    fail "Invalid license key (HTTP \$HTTP_STATUS). Check your key at acmeagentsupply.com/dashboard"
+    fail "Invalid license key (HTTP \$HTTP_STATUS). Check your key at council10.com/dashboard"
   fi
 fi
 

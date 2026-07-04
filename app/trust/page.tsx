@@ -1,5 +1,5 @@
 /**
- * Trust & Transparency — ACME Agent Supply Co.
+ * Trust & Transparency — Council10
  * PROJ-2026-013 / t14
  *
  * Design intent: minimal, factual, scannable.
@@ -12,9 +12,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Trust & Transparency — ACME Agent Supply Co.",
+  title: "Trust & Transparency — Council10",
   description:
-    "What ACME products touch in your environment, what they don't, and how to remove them. Every change is labeled, logged, and reversible.",
+    "What Council10 products touch in your environment, what they don't, and how to remove them. Every change is labeled, logged, and reversible.",
 };
 
 type TrustItem = {
@@ -32,7 +32,7 @@ const ITEMS: TrustItem[] = [
       "The setup wizard writes to four places: BOOT.md (per agent), INBOX.md (per agent), mission_manifest.json, and one openclaw.json config patch. Nothing else. No model assignments, no gateway config, no secrets. Every section the wizard adds carries an attribution block that identifies it, explains why it's there, links to the docs, and tells you how to remove it.",
     link: {
       label: "Full provisioning manifest",
-      href: "https://docs.acmeagentsupply.com/qm/reference-stack#what-the-wizard-touches",
+      href: "https://council10.com/docs/products/qm/reference-stack#what-the-wizard-touches",
       external: true,
     },
   },
@@ -43,7 +43,7 @@ const ITEMS: TrustItem[] = [
       "QM never acquires gateway access. It cannot touch your credentials, secrets, model router config, or agent workspaces outside the INBOX and DONE protocol scope. When a fix requires gateway access, QM escalates to a human instead of acting. That's a design constraint, not a capability gap.",
     link: {
       label: "Remediation playbook",
-      href: "https://docs.acmeagentsupply.com/qm/remediation-playbook",
+      href: "https://council10.com/docs/products/qm/remediation-playbook",
       external: true,
     },
   },
@@ -55,12 +55,12 @@ const ITEMS: TrustItem[] = [
   },
   {
     id: "04",
-    heading: "How to remove any ACME product cleanly",
+    heading: "How to remove any Council10 product cleanly",
     body:
       "Uninstall is documented, not assumed. For QM: delete the attributed sections in BOOT.md and INBOX.md per agent, revert the openclaw.json config patch, and remove the mission files. Git history shows every change QM made — use it to verify the revert is complete. For other products: each has a documented removal path in the Reference Stack.",
     link: {
       label: "Clean removal guide",
-      href: "https://docs.acmeagentsupply.com/qm/reference-stack#clean-removal",
+      href: "https://council10.com/docs/products/qm/reference-stack#clean-removal",
       external: true,
     },
   },
@@ -74,7 +74,7 @@ export default function TrustPage() {
         {/* Header */}
         <div className="mb-10">
           <div className="text-[10px] uppercase tracking-[0.4em] text-[#5A7080] mb-3">
-            ACME Agent Supply Co.
+            Council10
           </div>
           <h1 className="text-[26px] font-semibold text-[#E6E6E6] tracking-tight">
             Trust &amp; Transparency

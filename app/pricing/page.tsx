@@ -57,7 +57,7 @@ export default async function PricingPage() {
         {/* Header */}
         <div className="flex items-baseline justify-between gap-4 border-b border-[#2E3640] pb-6">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">ACME Agent Supply Co.</div>
+            <div className="text-[10px] uppercase tracking-[0.4em] text-[#D98A2B]">Council10</div>
             <h1 className="mt-1 text-[28px] font-semibold tracking-tight text-[#E6E6E6]">Pricing</h1>
           </div>
           <p className="hidden text-[14px] text-[#5A6E80] sm:block">Start free. Add protection as you need it.</p>
@@ -250,7 +250,7 @@ export default async function PricingPage() {
 
         {/* PLG funnel explainer */}
         <section className="rounded-[6px] border border-[#3A4048] bg-[#242A30] px-5 py-6 sm:px-6 sm:py-7">
-          <h2 className="text-[20px] font-semibold text-[#E6E6E6]">How operators adopt ACME</h2>
+          <h2 className="text-[20px] font-semibold text-[#E6E6E6]">How operators adopt Council10</h2>
           <p className="mt-3 max-w-[78ch] text-[15px] leading-7 text-[#C7CDD4]">
             Most operators start with Triage — free, no install friction, immediate value. From there the pattern is consistent:
             Sentinel catches what Triage surfaces, Agent911 handles what Sentinel escalates, and the Operator Bundle wires everything into one automatic layer.

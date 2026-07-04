@@ -8,8 +8,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.acmeagentsupply.com" }],
-      "destination": "https://acmeagentsupply.com/:path*",
+      "has": [{ "type": "host", "value": "www.council10.com" }],
+      "destination": "https://council10.com/:path*",
       "permanent": true
     },
     {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DM_Sans, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import fs from "node:fs";
 import path from "node:path";
@@ -6,10 +7,20 @@ import SiteFooter from "./components/SiteFooter";
 import SiteHeader from "./components/SiteHeader";
 import "./globals.css";
 
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
+
 export const metadata: Metadata = {
-  title: "ACME Agent Supply Co.",
+  title: "Council10",
   description:
-    "Agent field survival gear. Tools to keep your agents predictable when real workloads begin.",
+    "Council10 makes AI initiatives answer for themselves.",
 };
 
 export default function RootLayout({
@@ -36,7 +47,7 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="antialiased bg-[#1E2226]">
+      <body className={`${dmSans.variable} ${playfair.variable} antialiased`}>
         <SiteHeader />
         {children}
         <SiteFooter showRefund={refundPolicyExists} />

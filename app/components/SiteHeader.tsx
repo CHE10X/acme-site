@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -41,51 +42,60 @@ export default function SiteHeader({
   }, [open]);
 
   const navLinks = [
-    { href: "/pricing", label: "Pricing" },
-    { href: "/products", label: "Products" },
-    { href: "https://docs.acmeagentsupply.com", label: "Docs" },
-    { href: "/blog", label: "Blog" },
-    { href: "/bot-shop", label: "Operator Utilities" },
-    { href: "/operators-tale", label: "About" },
-    { href: "/legal/terms-of-service", label: "Legal: Terms of Service" },
-    { href: "/legal/privacy-policy", label: "Legal: Privacy Policy" },
-    { href: "/legal/refund-policy", label: "Refund Policy" },
+    { href: "/quartermaster", label: "QuarterMaster" },
+    { href: "/docs", label: "Docs" },
+    { href: "/contact", label: "Contact" },
+    { href: "/products/quartermaster", label: "Legacy QM" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#3A4048] bg-[#1E2226]/95 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-[rgba(26,24,20,0.12)] bg-[#f5f2ec]/95 backdrop-blur-sm">
+      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-4 sm:px-8 lg:px-12">
         <Link
           href="/"
-          className="text-[14px] font-semibold uppercase tracking-[0.2em] text-[#E6E6E6] transition-colors hover:text-[#D98A2B]"
+          className="transition-opacity hover:opacity-80"
+          aria-label="Council10 home"
         >
-          ACME
+          <Image
+            src="/site-brand/council10-logo-light-480-transparent.png"
+            alt="Council10"
+            width={1532}
+            height={336}
+            className="h-9 w-auto sm:h-10"
+            priority
+          />
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
-          <Link href="/pricing" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Pricing
+        <nav className="hidden items-center gap-7 sm:flex">
+          <Link
+            href="/quartermaster"
+            className="text-[13px] uppercase tracking-[0.12em] text-[#3d3a34] transition-colors hover:text-[#1a1814]"
+          >
+            QuarterMaster
           </Link>
-          <Link href="/products" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Products
-          </Link>
-          <a href="https://docs.acmeagentsupply.com" target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
+          <Link
+            href="/docs"
+            className="text-[13px] uppercase tracking-[0.12em] text-[#3d3a34] transition-colors hover:text-[#1a1814]"
+          >
             Docs
-          </a>
-          <Link href="/blog" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Blog
           </Link>
-          <Link href="/bot-shop" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            Operator Utilities
+          <Link
+            href="/contact"
+            className="text-[13px] uppercase tracking-[0.12em] text-[#3d3a34] transition-colors hover:text-[#1a1814]"
+          >
+            Contact
           </Link>
-          <Link href="/operators-tale" className="text-[14px] text-[#9AA3AD] transition-colors hover:text-[#E6E6E6]">
-            About
+          <Link
+            href="/contact"
+            className="inline-flex items-center rounded-[2px] border border-[rgba(26,24,20,0.14)] px-4 py-2 text-[12px] uppercase tracking-[0.12em] text-[#1a1814] transition hover:border-[rgba(26,24,20,0.28)]"
+          >
+            Talk to us
           </Link>
         </nav>
 
         <div className="relative sm:hidden">
           {enablePulseAccent ? (
-            <span className="pointer-events-none absolute inset-0 rounded-full border border-amber-400/30 animate-ping [animation-duration:3.5s]" />
+            <span className="pointer-events-none absolute inset-0 rounded-full border border-[#1d9e75]/25 animate-ping [animation-duration:3.5s]" />
           ) : null}
           <button
             ref={buttonRef}
@@ -93,7 +103,7 @@ export default function SiteHeader({
             aria-label="Open navigation menu"
             aria-expanded={open}
             onClick={() => setOpen((current) => !current)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#3A4048] bg-[#242A30] text-[#E6E6E6] transition-colors hover:border-[#9AA3AD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D98A2B]/60"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-[2px] border border-[rgba(26,24,20,0.14)] bg-[#ede9e0] text-[#1a1814] transition-colors hover:border-[rgba(26,24,20,0.28)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1d9e75]/45"
           >
             <span className="sr-only">Menu</span>
             <span className="flex items-center gap-1" aria-hidden>
@@ -106,34 +116,20 @@ export default function SiteHeader({
           {open ? (
             <div
               ref={panelRef}
-              className="absolute right-0 mt-2 w-72 rounded-xl border border-[#3A4048] bg-[#242A30] p-2 shadow-2xl"
+              className="absolute right-0 mt-2 w-72 rounded-[2px] border border-[rgba(26,24,20,0.14)] bg-[#f5f2ec] p-2 shadow-[0_24px_60px_rgba(26,24,20,0.12)]"
               role="menu"
             >
-              {navLinks.map((link) =>
-                link.href.startsWith("http") ? (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
-                    role="menuitem"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block rounded-lg px-3 py-2.5 text-[14px] text-[#E6E6E6] transition-colors hover:bg-[#2C3238] hover:text-[#D98A2B]"
-                    role="menuitem"
-                    onClick={() => setOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )
-              )}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block rounded-[2px] px-3 py-2.5 text-[13px] uppercase tracking-[0.1em] text-[#1a1814] transition-colors hover:bg-[#ede9e0] hover:text-[#1d9e75]"
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
           ) : null}
         </div>

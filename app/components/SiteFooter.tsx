@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type SiteFooterProps = {
@@ -6,57 +7,82 @@ type SiteFooterProps = {
 
 export default function SiteFooter({ showRefund }: SiteFooterProps) {
   return (
-    <footer className="border-t border-[#3A4048] bg-[#1E2226] px-4 py-10 sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <div className="rounded-2xl border border-[#3A4048] bg-[#242A30] p-4 sm:hidden">
-          <div className="text-[13px] uppercase tracking-[0.28em] text-[#9AA3AD]">Launch Docs</div>
-          <p className="mt-2 text-[18px] text-[#E6E6E6]">
-            Start here. Field guides and first-response doctrine.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <a
-              href="https://docs.acmeagentsupply.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-lg bg-[#D98A2B] px-4 py-2 text-[15px] font-medium text-[#1E2226] transition hover:bg-[#C47A22]"
-            >
-              Open Docs
-            </a>
-            <Link
-              href="/support/first-response"
-              className="inline-flex items-center rounded-lg border border-[#3A4048] px-4 py-2 text-[15px] text-[#E6E6E6] transition hover:border-[#9AA3AD]"
-            >
-              Start with Triage
+    <footer className="border-t border-[rgba(26,24,20,0.12)] bg-[#ede9e0] px-4 py-14 sm:px-6">
+      <div className="mx-auto max-w-[1200px]">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <div>
+            <Link href="/" aria-label="Council10 home" className="inline-block transition-opacity hover:opacity-80">
+              <Image
+                src="/site-brand/council10-wordmark-dark-960.png"
+                alt="Council10"
+                width={1160}
+                height={260}
+                className="h-10 w-auto"
+              />
             </Link>
-          </div>
-        </div>
-
-        <div className="mt-8 grid grid-cols-2 gap-6 sm:mt-0 lg:grid-cols-[1fr_auto_auto]">
-          <div className="col-span-2 sm:col-span-1">
-            <div className="text-[13px] uppercase tracking-[0.32em] text-[#D98A2B]">ACME Agent Supply Co.</div>
-            <p className="mt-2 text-[13px] text-[#5A6E80]">
-              Field supply for autonomous builders. Tools to keep your agents predictable when real workloads begin.
+            <p className="mt-4 max-w-[32rem] text-[0.98rem] leading-7 text-[#3d3a34]">
+              Council10 makes AI initiatives answer for themselves. QuarterMaster is the
+              governed execution layer for teams that need agent work to stay attributable,
+              controllable, and real.
             </p>
           </div>
 
-          <nav aria-label="Primary footer navigation" className="space-y-1">
-            <Link href="/pricing" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Pricing</Link>
-            <a href="https://docs.acmeagentsupply.com" target="_blank" rel="noopener noreferrer" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Docs</a>
-            <Link href="/support" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Support</Link>
-            <Link href="/bot-shop" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Operator Utilities</Link>
-            <Link href="/operators-tale" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">About</Link>
+          <nav aria-label="Primary footer navigation" className="space-y-3">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-[#7a7569]">
+              Navigate
+            </div>
+            <Link
+              href="/"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              Council10
+            </Link>
+            <Link
+              href="/quartermaster"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              QuarterMaster
+            </Link>
+            <Link
+              href="/docs"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              Docs
+            </Link>
+            <Link
+              href="/contact"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              Contact
+            </Link>
           </nav>
 
-          <nav aria-label="Legal footer navigation" className="space-y-1">
-            <Link href="/legal/terms-of-service" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Terms</Link>
-            <Link href="/legal/privacy-policy" className="block rounded px-1 py-0.5 text-[13px] text-[#9AA3AD] transition-colors hover:text-[#D98A2B]">Privacy</Link>
+          <nav aria-label="Legal footer navigation" className="space-y-3">
+            <div className="text-[11px] uppercase tracking-[0.18em] text-[#7a7569]">
+              Legal
+            </div>
+            <Link
+              href="/legal/terms-of-service"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              Terms
+            </Link>
+            <Link
+              href="/legal/privacy-policy"
+              className="block text-[13px] uppercase tracking-[0.12em] text-[#1a1814] transition-colors hover:text-[#1d9e75]"
+            >
+              Privacy
+            </Link>
           </nav>
         </div>
 
-        <div className="mt-8 border-t border-[#3A4048] pt-4 flex items-center justify-between gap-4 text-[13px] text-[#9AA3AD]">
-          <span>© 2026 ACME Agent Supply Co.</span>
+        <div className="mt-12 flex items-center justify-between gap-4 border-t border-[rgba(26,24,20,0.12)] pt-5 text-[12px] uppercase tracking-[0.1em] text-[#7a7569]">
+          <span>© 2026 Council10</span>
           {showRefund && (
-            <Link href="/legal/refund-policy" className="text-[#4A5E70] hover:text-[#9AA3AD] transition-colors">
+            <Link
+              href="/legal/refund-policy"
+              className="transition-colors hover:text-[#1a1814]"
+            >
               Customer Service
             </Link>
           )}

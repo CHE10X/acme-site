@@ -60,7 +60,7 @@ export default function QMUnderTheHood() {
           </span>
         </div>
         <Link
-          href="https://docs.acmeagentsupply.com/qm/reference-stack"
+          href="https://council10.com/docs/products/qm/reference-stack"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[11px] text-[#5A7080] hover:text-[#D98A2B] transition whitespace-nowrap"
@@ -92,7 +92,7 @@ export default function QMUnderTheHood() {
             Scope boundary, attribution standard, and clean removal — documented in full.
           </span>
           <Link
-            href="https://docs.acmeagentsupply.com/qm/reference-stack"
+            href="https://council10.com/docs/products/qm/reference-stack"
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 inline-flex items-center gap-1.5 rounded border border-[#3A4048] px-3 py-1.5 text-[11px] text-[#E6E6E6] hover:border-[#D98A2B] hover:text-[#D98A2B] transition"

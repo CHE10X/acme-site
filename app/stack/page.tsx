@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Product Stack — ACME Agent Supply Co.",
-  description: "The ACME reliability stack — v1 launch products, v2 expansion, and the full vision. See what's live, what's coming, and how it all connects.",
+  title: "Product Stack — Council10",
+  description: "The Council10 reliability stack — v1 launch products, v2 expansion, and the full vision. See what's live, what's coming, and how it all connects.",
 };
 
 export default function StackPage() {
@@ -11,7 +11,7 @@ export default function StackPage() {
       {/* Header */}
       <div className="mx-auto max-w-5xl px-6 py-12">
         <p className="text-[11px] uppercase tracking-[0.2em] text-[#5A6E80] mb-2">
-          ACME Agent Supply Co.
+          Council10
         </p>
         <h1 className="text-[32px] font-semibold text-[#E0E8F0] tracking-tight">
           The Product Stack
@@ -39,7 +39,7 @@ export default function StackPage() {
       <div id="v1" className="w-full">
         <iframe
           src="/diagrams/operator-system-view-v6.html"
-          title="ACME Product Stack — v1 Launch"
+          title="Council10 Product Stack — v1 Launch"
           className="w-full border-0"
           style={{ height: "820px", display: "block" }}
           loading="lazy"

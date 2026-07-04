@@ -1,24 +1,24 @@
 import { NextResponse } from 'next/server';
 
-// Served by: curl -fsSL https://acmeagentsupply.com/install/radcheck | bash
+// Served by: curl -fsSL https://council10.com/install/radcheck | bash
 // Direct install — no gate, no checkout. Same mechanic as Triage.
-// License: ACME Freeware License (https://acmeagentsupply.com/legal/radcheck-license)
+// License: ACME Freeware License (https://council10.com/legal/radcheck-license)
 // Free to use. Not free to fork or redistribute.
 
 const INSTALL_SCRIPT = `#!/usr/bin/env bash
 # =============================================================================
 # RadCheck — installer
-# ACME Agent Supply — https://acmeagentsupply.com
+# Council10 — https://council10.com
 #
 # Usage:
-#   curl -fsSL https://acmeagentsupply.com/install/radcheck | bash
+#   curl -fsSL https://council10.com/install/radcheck | bash
 #
 # Installs the RadCheck reliability scorer for OpenClaw operators.
 # Read-only. No agents started. No configurations modified. No telemetry.
 #
 # License: ACME Freeware License
 #   Free to use. Not free to fork or redistribute.
-#   https://acmeagentsupply.com/legal/radcheck-license
+#   https://council10.com/legal/radcheck-license
 # =============================================================================
 
 set -euo pipefail
@@ -39,7 +39,7 @@ info() { echo -e "\${BLUE}→\${RESET} \$*"; }
 
 # ── Header ────────────────────────────────────────────────────────────────────
 echo ""
-echo -e "\${BOLD}ACME Agent Supply — RadCheck Installer\${RESET}"
+echo -e "\${BOLD}Council10 — RadCheck Installer\${RESET}"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "  Freeware. Read-only. No configuration changes."
 echo ""
@@ -75,8 +75,8 @@ echo ""
 echo "  Run it:"
 echo -e "  \${BOLD}python3 ~/.openclaw/watchdog/radiation_check.py\${RESET}"
 echo ""
-echo "  Score guide:  https://acmeagentsupply.com/docs/radcheck/score-explained"
-echo "  License:      https://acmeagentsupply.com/legal/radcheck-license"
+echo "  Score guide:  https://council10.com/docs/radcheck/score-explained"
+echo "  License:      https://council10.com/legal/radcheck-license"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 `;
