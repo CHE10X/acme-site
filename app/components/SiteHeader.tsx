@@ -45,7 +45,6 @@ export default function SiteHeader({
     { href: "/quartermaster", label: "QuarterMaster" },
     { href: "/docs", label: "Docs" },
     { href: "/contact", label: "Contact" },
-    { href: "/products/quartermaster", label: "Legacy QM" },
   ];
 
   return (
